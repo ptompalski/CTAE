@@ -16,7 +16,7 @@ A tibble containing aboveground biomass values for tree components: wood, bark, 
 as well as the total tree aboveground biomass.
 }
 \description{
-Calculates tree-level aboveground biomass [kg] using methods presented in Lambert et al (2005) and Ung et al (2008).
+Calculates tree-level aboveground biomass [kg] using methods presented in Lambert et al. (2005) and Ung et al. (2008).
 }
 \examples{
 

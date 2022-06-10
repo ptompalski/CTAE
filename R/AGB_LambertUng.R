@@ -19,7 +19,7 @@
 #' 
 #' @export
 
-AGB_LambertUngDBH<-function(DBH, species=NA){
+AGB_LambertUngDBH <- function(DBH, species=NA){
   
   params <- parameters_LambertUng |> filter(model == "DBH")
   

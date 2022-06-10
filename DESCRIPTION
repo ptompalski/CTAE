@@ -1,11 +1,16 @@
 Package: CTAE
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Canadian tree allometric equations
 Version: 0.1.0
 Author: person("Piotr", "Tompalski", email = "piotr.tompalski@gmail.com", role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Implementation of several published models to calculate tree- and stand-level attributes
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 3.5.0)
+Imports:
+    dplyr,
+    tidyr,
+    stringr
 RoxygenNote: 7.2.0
