@@ -7,7 +7,7 @@
 #' @param jurisdiction A two-letter code depicting jurisdiction (e.g. "AB")
 #' @param ecozone ecozone number (1-15) 
 #' 
-#' @return A tibble containing aboveground biomass values. Column names correspond to variable names
+#' @return A list containing aboveground biomass values. Column names correspond to variable names
 #' used in Boudewyn et al. 2007: 
 #' \describe{
 #' \item{\code{b_m}}{Total stem wood biomass of merchantable-sized live trees (biomass includes stumps and tops), in metric tonnes per ha.}
@@ -127,9 +127,20 @@ V2B <- function(volume,
   #total foliage biomass
   b_foliage <- b_total * Pfoliage
   
-  r <- tibble(b_m, b_n, b_nm, b_s, 
-              # Pstemwood, Pbark, Pbranches, Pfoliage, 
-              b_total, b_bark, b_branches, b_foliage)
+  # r <- tibble(b_m, b_n, b_nm, b_s, 
+  #             # Pstemwood, Pbark, Pbranches, Pfoliage, 
+  #             b_total, b_bark, b_branches, b_foliage)
+  
+  r <- list(b_m = b_m, 
+            b_n = b_n, 
+            b_nm = b_nm, 
+            b_s = b_s, 
+            b_total = b_total, 
+            b_bark = b_bark, 
+            b_branches = b_branches, 
+            b_foliage = b_foliage
+    
+  )
   return(r)
 }
 

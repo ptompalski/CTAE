@@ -16,7 +16,7 @@ V2B(volume, species, jurisdiction, ecozone)
 \item{ecozone}{ecozone number (1-15)}
 }
 \value{
-A tibble containing aboveground biomass values. Column names correspond to variable names
+A list containing aboveground biomass values. Column names correspond to variable names
 used in Boudewyn et al. 2007: 
 \describe{
 \item{\code{b_m}}{Total stem wood biomass of merchantable-sized live trees (biomass includes stumps and tops), in metric tonnes per ha.}

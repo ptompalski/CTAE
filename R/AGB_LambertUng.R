@@ -3,7 +3,7 @@
 #' @description Calculates tree-level aboveground biomass [kg] using methods presented in Lambert et al. (2005) and Ung et al. (2008).
 #' @param DBH Tree DBH
 #' @param species Tree species code in the NFI standard (e.g. POPU.TRE) 
-#' @return A tibble containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown, 
+#' @return A list containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown, 
 #' as well as the total tree aboveground biomass.
 #' 
 #' @references
@@ -62,7 +62,7 @@ AGB_LambertUngDBH <- function(DBH, species=NA){
     Btotal = Ytotal
   )
   
-  R <- R |> as_tibble()
+  # R <- R |> as_tibble()
   
   return(R) 
 }
@@ -75,7 +75,7 @@ AGB_LambertUngDBH <- function(DBH, species=NA){
 #' @description Calculates tree-level aboveground biomass [kg] using methods presented in Lambert et al (2005) and Ung et al (2008).
 #' @inheritParams AGB_LambertUngDBH
 #' @param height Tree height 
-#' @return A tibble containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown, 
+#' @return A list containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown, 
 #' as well as the total tree aboveground biomass.
 #' 
 #' @references
@@ -136,7 +136,7 @@ AGB_LambertUngDBHHT<-function(DBH, height, species=NA){
     Btotal = Ytotal
   )
   
-  R <- R |> as_tibble()
+  # R <- R |> as_tibble()
   
   return(R) 
   

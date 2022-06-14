@@ -2,7 +2,7 @@ Package: CTAE
 Type: Package
 Title: Canadian tree allometric equations
 Version: 0.1.0
-Author: person("Piotr", "Tompalski", email = "piotr.tompalski@gmail.com", role = c("aut", "cre"))
+Author: person("Piotr", "Tompalski", email = "piotr.tompalski@nrcan-rncan.gc.ca", role = c("aut", "cre"))
 Description: Implementation of several published models to calculate tree- and stand-level attributes
 License: GPL-3
 Encoding: UTF-8
@@ -12,5 +12,6 @@ Depends:
 Imports:
     dplyr,
     tidyr,
-    stringr
+    stringr,
+    glue
 RoxygenNote: 7.2.0

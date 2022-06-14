@@ -41,3 +41,60 @@
 #' Boudewyn et al (2007). Model Based Volume-to-biomass Conversion for Forested and Vegetated Land in Canada. In Forestry. Pacific Forestry Centre. http://sbisrvntweb.uqac.ca/archivage/030078750.pdf
 "parameters_V2B"
 
+
+
+#' Model parameters required for tree volume equations for major Alberta tree species
+#' 
+#' A dataset containing parameters for the Huang et al 1994 tree volume models in Alberta
+#' 
+#' 
+#' @format A data frame with four variables:
+#' \describe{
+#'   \item{species}{Tree species code following the NFI standard (e.g. POPU.TRE)}
+#'   \item{parameter}{Name of model parameter}
+#'   \item{estimate}{Parameter estimate}
+#'   \item{NaturalSubregionNum}{Number for natural subregions of Alberta (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang et al. 1994)}
+#'   \item{NaturalSubregionCode}{Code for natural subregions of Alberta. 'Province' indicates provincial-level parameters (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang et al. 1994)}
+#' }
+#' 
+#' @references 
+#' Huang, S., Titus, S., Lakusta, S., & Held, R. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. In … to Alberta Environmental Protection, Land …. http://scholar.google.com/scholar?hl=en&btnG=Search&q=intitle:Ecologically+Based+Individual+Tree+Volume+Estimation+for+Major+Alberta+Tree+Species#0
+"parameters_HuangV"
+
+
+
+
+#' Natural regions and subregions of Alberta
+#' 
+#' A dataset containing a list of Alberta regions, subregions, and their codes.
+#' 
+#' 
+#' @format A data frame with four variables:
+#' \describe{
+#'   \item{NaturalRegion}{Natural region name}
+#'   \item{NaturalSubregion}{Natural subregion name}
+#'   \item{NaturalSubregionNum}{Subregion numeric code}
+#'   \item{NaturalSubregionCode}{Subregion text code}
+#' }
+#' @references
+#' https://open.alberta.ca/publications/0778545725
+"AlbertaNaturalRegSubreg"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
