@@ -22,7 +22,8 @@ Imports:
     dplyr,
     tidyr,
     stringr,
-    glue
+    glue,
+    rlang
 RoxygenNote: 7.2.0
 
 
