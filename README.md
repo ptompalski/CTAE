@@ -27,8 +27,8 @@ Ung, C.-H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass equation
 You can install the most recent version of the package by executing the code below:
 
 ``` r
-devtools::install_github("ptompalski/lidRmetrics")
-library(lidRmetrics)
+devtools::install_github("ptompalski/CTAE")
+library(CTAE)
 ```
 
 
