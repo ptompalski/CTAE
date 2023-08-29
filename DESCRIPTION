@@ -12,7 +12,8 @@ Author: Authors@R: c(
            email = "juha.metsaranta@NRCan-RNCan.gc.ca", 
            role = "aut")
    )
-Description: Implementation of several published models to calculate tree- and stand-level attributes
+Maintainer: Piotr Tompalski <piotr.tompalski@NRCan-RNCan.gc.ca>
+Description: Implementation of several published models to calculate tree- and forest stand-level attributes
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
