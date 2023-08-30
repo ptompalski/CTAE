@@ -1,3 +1,18 @@
+#' Model parameters required for total volume to merchantable volume conversion
+#' 
+#' A dataset containing parameters for the Boudewyn et al 2007 total volume to merchantable volume conversion models. An updated version
+#' of the parameters was downloaded from https://nfi.nfis.org/en/biomass_models.
+#' 
+#' 
+#'' @format A data frame consisting of model parameters. Table 14 in Boudewyn et al 2007.
+#' 
+#' @references 
+#' Boudewyn, P.A.; Song, X.; Magnussen, S.; Gillis, M.D. (2007). Model-based, volume-to-biomass conversion for forested and vegetated land in Canada. Natural Resources Canada, Canadian Forest Service, Pacific Forestry Centre, Victoria, BC. Information Report BC-X-411. 112 p.
+"params_Vtot2Vmerch"
+
+
+
+
 #' Model parameters required for Canadian national tree aboveground biomass equations
 #'
 #' A dataset containing the coefficients for the Lambert et al 2005 and Ung et al 2008 AGB models. 

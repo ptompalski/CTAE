@@ -172,15 +172,15 @@ V2Bgetparams <- function(genus,
   #get the parameters 
   B3 <- 
     V2B_params_t3 |> 
-    filter(juris_id == !!jurisdiction, 
+    dplyr::filter(juris_id == !!jurisdiction, 
            genus == !!genus,
            species == !!species,
            ecozone == !!ecozone )
   
   if(!is.na(variety)) {
-    B3 <- B3 |> filter(variety == !!variety)
+    B3 <- B3 |> dplyr::filter(variety == !!variety)
   } else {
-    B3 <- B3 |> filter(is.na(variety))
+    B3 <- B3 |> dplyr::filter(is.na(variety))
   }
   
   #must be one row 
@@ -189,37 +189,37 @@ V2Bgetparams <- function(genus,
   
   B4 <- V2B_params_t4 |>  
     
-    filter(juris_id == !!jurisdiction, 
+    dplyr::filter(juris_id == !!jurisdiction, 
            ecozone == !!ecozone,
            genus == !!genus,
            species == !!species
     )
   if(!is.na(variety)) {
-    B4 <- B4 |> filter(variety == !!variety)
+    B4 <- B4 |> dplyr::filter(variety == !!variety)
   } else {
-    B4 <- B4 |> filter(is.na(variety))
+    B4 <- B4 |> dplyr::filter(is.na(variety))
   }
   
   if(nrow(B4) != 1) stop("Error in parameter selection.")
   
   
   B5 <- V2B_params_t5 |>    #saplingfactor params
-    filter(juris_id == !!jurisdiction, 
+    dplyr::filter(juris_id == !!jurisdiction, 
            genus == !!genus,
            ecozone == !!ecozone )
   if(nrow(B5) != 1) stop("Error in parameter selection.")
   
   B6 <- V2B_params_t6 |>  
-    filter(juris_id == !!jurisdiction, 
+    dplyr::filter(juris_id == !!jurisdiction, 
            ecozone == !!ecozone,
            genus == !!genus,
            species == !!species
     )
   
   if(!is.na(variety)) {
-    B6 <- B6 |> filter(variety == !!variety)
+    B6 <- B6 |> dplyr::filter(variety == !!variety)
   } else {
-    B6 <- B6 |> filter(is.na(variety))
+    B6 <- B6 |> dplyr::filter(is.na(variety))
   }
   
   if(nrow(B6) != 1) stop("Error in parameter selection.")

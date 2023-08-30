@@ -10,7 +10,7 @@ A data frame with four variables:
   \item{species}{Tree species code following the NFI standard (e.g. POPU.TRE)}
   \item{parameter}{Name of model parameter}
   \item{estimate}{Parameter estimate}
-  \item{NaturalSubregionNum}{Number for natural subregions of Alberta (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang et al. 1994)}
+  \item{NaturalSubregionNum}{Number for natural subregions of Alberta (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang 1994)}
   \item{NaturalSubregionCode}{Code for natural subregions of Alberta. 'Province' indicates provincial-level parameters (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang et al. 1994)}
 }
 }
@@ -18,9 +18,9 @@ A data frame with four variables:
 parameters_HuangV
 }
 \description{
-A dataset containing parameters for the Huang et al 1994 tree volume models in Alberta
+A dataset containing parameters for the Huang 1994 tree volume models in Alberta
 }
 \references{
-Huang, S., Titus, S., Lakusta, S., & Held, R. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. In … to Alberta Environmental Protection, Land …. http://scholar.google.com/scholar?hl=en&btnG=Search&q=intitle:Ecologically+Based+Individual+Tree+Volume+Estimation+for+Major+Alberta+Tree+Species#0
+Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. Report 1 - Individual tree volume estimation procedures for Alberta: Methods of Formulation and Statistical Foundations. Alberta Environmental Protection, Land and Forest Service, Forest Management Division, Edmonton, AB.
 }
 \keyword{datasets}

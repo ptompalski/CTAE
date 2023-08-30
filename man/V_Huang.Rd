@@ -21,7 +21,7 @@ V_Huang(DBH, height, species, subregion = "Province")
 A list containing merchantable and total volume values [m3].
 }
 \description{
-Calculates tree-level merchantable and total volume using methods presented in Huang et al. (1994).
+Calculates tree-level merchantable and total volume using methods presented in Huang (1994).
 }
 \examples{
 V_Huang(20, 20, "PICE.GLA")
@@ -29,5 +29,5 @@ V_Huang(20, 20, "PICE.GLA", subregion = "CP")
 
 }
 \references{
-Huang, S., Titus, S., Lakusta, S., & Held, R. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. In … to Alberta Environmental Protection, Land …. http://scholar.google.com/scholar?hl=en&btnG=Search&q=intitle:Ecologically+Based+Individual+Tree+Volume+Estimation+for+Major+Alberta+Tree+Species#0
+Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. Report 1 - Individual tree volume estimation procedures for Alberta: Methods of Formulation and Statistical Foundations. Alberta Environmental Protection, Land and Forest Service, Forest Management Division, Edmonton, AB.
 }
