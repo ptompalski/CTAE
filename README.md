@@ -10,6 +10,8 @@ A collection of tools to calculate tree- or stand-level attributes developed for
 
 - Volume-to-biomass conversions models (Boudewyn et al. 2007)
 
+- Total volume to merchantable volume conversions models (Boudewyn et al. 2007)
+
 
 Updated model parameters for models developed by Boudewyn et al (2007) downloaded from https://nfi.nfis.org/en/biomass_models.
 

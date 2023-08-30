@@ -30,7 +30,7 @@ Vtot2Vmerch <- function(total_volume,
   
   
   #convert 'species' to: genus, species, variety
-  species <- str_split(species, "\\.")[[1]]
+  species <- stringr::str_split(species, "\\.")[[1]]
   
   if(length(species) >= 2) {
     genus <- species[1]

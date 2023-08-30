@@ -1,7 +1,7 @@
 Package: CTAE
 Type: Package
 Title: Canadian tree allometric equations
-Version: 0.1.0
+Version: 0.2.0
 Author: Authors@R: c(
     person(given = "Piotr", 
            family = "Tompalski",
