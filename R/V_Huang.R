@@ -1,6 +1,6 @@
-# HuangV_model_availability <- parameters_HuangV %>% group_by(species, NaturalSubregionCode) %>% 
-#   count() %>%
-#   mutate(NaturalSubregionCode = if_else(is.na(NaturalSubregionCode), "Province", NaturalSubregionCode) ) %>%
+# HuangV_model_availability <- parameters_HuangV |> group_by(species, NaturalSubregionCode) |> 
+#   count()  |> 
+#   mutate(NaturalSubregionCode = if_else(is.na(NaturalSubregionCode), "Province", NaturalSubregionCode) )  |> 
 #   select(-n)
 # 
 # usethis::use_data(HuangV_model_availability, internal = TRUE)
@@ -43,7 +43,7 @@ V_Huang <- function(DBH, height, species, subregion="Province") {
   
   #check if species is included in the coefficients table
   if (!(species %in% unique(parameters_HuangV$species))) {
-    stop(glue("No model parameters available for {species}"))
+    stop(glue::glue("No model parameters available for {species}"))
   }
   
   #check species, subregion, and species+subregion.
@@ -57,17 +57,17 @@ V_Huang <- function(DBH, height, species, subregion="Province") {
   
   
   #check species and region combination - e.g. there are no parameters for Provincial models for sofwood or hardwood groups  
-  isAvailable <- CTAE:::HuangV_model_availability |> filter(species == !!species, NaturalSubregionCode == subregion)
+  isAvailable <- CTAE:::HuangV_model_availability |> dplyr::filter(species == !!species, NaturalSubregionCode == subregion)
   
   if(nrow(isAvailable)==0) {
     
-    warning(glue("No model parameters available for {species} in {subregion}. Using Province-level parameters."))
+    warning(glue::glue("No model parameters available for {species} in {subregion}. Using Province-level parameters."))
     subregion <- "Province"
     
   }
   
   #get parameters----
-  params <- parameters_HuangV |> filter(NaturalSubregionCode == subregion, species == !!species)
+  params <- parameters_HuangV |> dplyr::filter(NaturalSubregionCode == subregion, species == !!species)
   
 
   #check if number of parameters is correct (need to be 8)

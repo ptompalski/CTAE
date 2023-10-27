@@ -5,7 +5,7 @@
 \alias{parameters_V2B}
 \title{Model parameters required for model based Volume-to-biomass conversion}
 \format{
-An object of class \code{list} of length 4.
+An object of class \code{list} of length 5.
 }
 \usage{
 parameters_V2B
@@ -21,7 +21,7 @@ of the parameters was downloaded from https://nfi.nfis.org/en/biomass_models.
   \item{V2B_params_t4}{Table 4 in Boudewyn et al. 2007 - Stem wood biomass model parameters for nonmerchantable-sized trees by jurisdiction, ecozone and lead species}
   \item{V2B_params_t5}{Table 5 in Boudewyn et al. 2007 - Stem wood biomass model parameters for sapling-sized trees by jurisdiction, ecozone and predominant genus}
   \item{V2B_params_t6}{Table 6 in Boudewyn et al. 2007 - Proportion model parameters by jurisdiction, ecozone and lead species}
-  
+  \item{V2B_params_t7}{Table 7 in Boudewyn et al. 2007 - Caps on proportion models by jurisdiction, ecozone and lead species}
 }
 }
 \references{

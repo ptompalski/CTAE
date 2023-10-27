@@ -91,6 +91,9 @@ V2B <- function(volume,
   
   
   #Sapling-sized tree stem wood biomass
+  # Not all species have sapling factor. Check whether the species in question has.
+  # If not assign zero to it.
+  if(!is.null(B5)){
   # saplingfactor (Eq3, based on a, b, and k parameters from Table 5))
   saplingfactor = B5$k + B5$a * b_nm ^ B5$b
   
@@ -99,7 +102,9 @@ V2B <- function(volume,
   
   b_snm = saplingfactor * b_nm
   b_s = b_snm - b_nm #stem wood biomass of live, sapling-sized trees
-  
+  } else {
+    b_s <- 0
+  }
   
   #Proportions of total tree biomass in stemwood, stem bark, branch and foliage for live trees of all sizes
   # Equations 4-7
@@ -161,6 +166,7 @@ V2Bgetparams <- function(genus,
   V2B_params_t4 <- parameters_V2B[[2]]
   V2B_params_t5 <- parameters_V2B[[3]]
   V2B_params_t6 <- parameters_V2B[[4]]
+  V2B_params_t7 <- parameters_V2B[[5]]
   
   
   #checks
@@ -203,11 +209,14 @@ V2Bgetparams <- function(genus,
   if(nrow(B4) != 1) stop("Error in parameter selection.")
   
   
-  B5 <- V2B_params_t5 |>    #saplingfactor params
+  B5 <- V2B_params_t5 |>    #saplingfactor params. Not available for all models.
     dplyr::filter(juris_id == !!jurisdiction, 
            genus == !!genus,
            ecozone == !!ecozone )
-  if(nrow(B5) != 1) stop("Error in parameter selection.")
+  if(nrow(B5) != 1) {
+    message("No parameter available for sapling tree model. Set to zero.")
+    B5 <- NULL
+  }
   
   B6 <- V2B_params_t6 |>  
     dplyr::filter(juris_id == !!jurisdiction, 
@@ -222,13 +231,26 @@ V2Bgetparams <- function(genus,
     B6 <- B6 |> dplyr::filter(is.na(variety))
   }
   
+  B7 <- V2B_params_t7 |> dplyr::filter(
+                                genus == !!genus,
+                                species == !!species,
+                                juris_id == jurisdiction,
+                                ecozone == !!ecozone
+                                )
+  if (!is.na(variety)) {
+    B7 <- dplyr::filter(B7, variety == !!variety)
+  } else {
+    B7 <- dplyr::filter(B7, is.na(variety))
+  }
+  
   if(nrow(B6) != 1) stop("Error in parameter selection.")
   
   B <- list(
     B3 = B3,
     B4 = B4,
     B5 = B5,
-    B6 = B6
+    B6 = B6,
+    B7 = B7
   )
   
   return(B)
