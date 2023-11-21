@@ -32,18 +32,16 @@
 #' AGB_prop(350, species = "PINU.CON",jurisdiction = "BC", ecozone=4)
 #' 
 #' # Using a data frame
-#' library(dplyr); library(tidyr)
+#' library(tidyverse)
 #' tb <- tibble(VOL = rnorm(150, 250, 60),
 #'              SPE = rep("PINU.CON", 150),
 #'              JUR = rep("BC", 150),
 #'              ECO = rep(4, 150))
-#' tb2 <- tb %>% 
-#'   rowwise() %>% 
-#'   mutate(AGB = list(AGB_prop(VOL,
-#'                              species = SPE,
-#'                              jurisdiction = JUR,
-#'                              ecozone = ECO)))
-#' tb3 <- tb2 %>% unnest_wider(AGB)
+#'              
+#' tb %>%
+#' mutate(
+#'   pmap_dfr(list(.$VOL, .$SPE, .$JUR, .$ECO), AGB_prop)
+#'   )
 #' 
 #' @export
 AGB_prop <- function (volume, species, jurisdiction, ecozone) 

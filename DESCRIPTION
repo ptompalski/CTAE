@@ -10,6 +10,10 @@ Author: Authors@R: c(
     person(given = "Juha", 
            family = "Metsaranta",
            email = "juha.metsaranta@NRCan-RNCan.gc.ca", 
+           role = "aut"),
+    person(given = "Vinicius", 
+           family = "Manvailer Goncalves",
+           email = "vinicius.manvailergoncalves@nrcan-rncan.gc.ca", 
            role = "aut")
    )
 Maintainer: Piotr Tompalski <piotr.tompalski@NRCan-RNCan.gc.ca>
