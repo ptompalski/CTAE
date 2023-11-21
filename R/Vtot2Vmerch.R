@@ -4,7 +4,7 @@
 #' @param volume Gross merchantable volume/ha (net in BC) of all live trees
 #' @param species Species code in the NFI standard (e.g. POPU.TRE) 
 #' @param jurisdiction A two-letter code depicting jurisdiction (e.g. "AB", "BC", etc)
-#' @param ecozone ecozone number (1-15) 
+#' @param ecozone ecozone number (1-15) following Canfi2001 - see table 2 of appendix 7 of Boudewyn et al (2007).
 #' 
 #' @return Merchantable volume 
 #' 
