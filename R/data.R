@@ -98,7 +98,20 @@
 
 
 
-
+#' Ecozones of Canada and respective codes
+#' 
+#' A dataset containing a list of Canada's ecozones and their codes.
+#' 
+#' 
+#' @format A data frame with three variables:
+#' \describe{
+#'   \item{EcozoneCode}{Ecozone code}
+#'   \item{EcozoneName}{Ecozone name}
+#'   \item{EcozoneNom}{Ecozone name in french}
+#' }
+#' @references
+#' https://open.canada.ca/data/en/dataset/7ad7ea01-eb23-4824-bccc-66adb7c5bdf8
+"CodesEcozones"
 
 
 
