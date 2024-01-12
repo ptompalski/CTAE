@@ -13,7 +13,7 @@ V2B(volume, species, jurisdiction, ecozone)
 
 \item{jurisdiction}{A two-letter code depicting jurisdiction (e.g. "AB")}
 
-\item{ecozone}{ecozone number (1-15)}
+\item{ecozone}{ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).}
 }
 \value{
 A list containing aboveground biomass values. Column names correspond to variable names

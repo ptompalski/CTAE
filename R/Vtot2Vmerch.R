@@ -1,7 +1,7 @@
 #' Total volume to gross (net in B.C.) merchantable volume conversion
 #'
 #' @description Total volume to gross (net in B.C.) merchantable volume conversion based on Appendix 6 in Boudewyn et al. 2007 (see references). 
-#' @param volume Gross merchantable volume/ha (net in BC) of all live trees
+#' @param total_volume Gross merchantable volume/ha (net in BC) of all live trees
 #' @param species Species code in the NFI standard (e.g. POPU.TRE) 
 #' @param jurisdiction A two-letter code depicting jurisdiction (e.g. "AB", "BC", etc)
 #' @param ecozone ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).

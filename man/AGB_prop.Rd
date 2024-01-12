@@ -5,16 +5,18 @@
 \title{Calculate AGB proportion of different tree organs using multinomial logit 
 proportion equations using tree volume as input}
 \usage{
-AGB_prop(volume, species, jurisdiction, ecozone)
+AGB_prop(value_input, value_type, species, jurisdiction, ecozone)
 }
 \arguments{
-\item{volume}{Gross merchantable volume/ha (net in BC) of all live trees}
+\item{value_input}{Gross merchantable volume/ha (net in BC) or Above ground biomass (stem wood + stem bark + branches + foliage as per Boudewyn et al (2007)) in tonnes/ha of all live trees}
+
+\item{value_type}{Specify whether using biomass or volume as input. Accepts partials 'vol' or 'bio'.}
 
 \item{species}{Species code in the NFI standard (e.g. POPU.TRE)}
 
 \item{jurisdiction}{A two-letter code depicting jurisdiction (e.g. "AB")}
 
-\item{ecozone}{ecozone number (1-15)}
+\item{ecozone}{ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).}
 }
 \value{
 A list containing aboveground biomass proportion (0-1) for the tree 
@@ -31,29 +33,28 @@ calibrate the equations parameters.
 \description{
 Calculates proportions of calculated aboveground biomass for 
 different tree organs using multinomial logit equations present in Boudewyn 
-et al (2007). It takes volume as main input but requires species, province 
+et al (2007). It takes volume (or alternatively biomass) as main input but requires species, province 
 jurisdiction and ecozone for properly fitting the logit model. This routine 
 is the same as the one used in V2B() but returns only the proportions and not
 the biomass values e.g. Pstemwood = 0.77, Pstembark = 0.099, Pbranches = 0.073,
 Pfoliage = 0.058. Proportion values always add up to 1.
 }
 \examples{
-# Using a single value
-AGB_prop(350, species = "PINU.CON",jurisdiction = "BC", ecozone=4)
+# Using a single value (volume)
+AGB_prop(350, value_type = "vol", species = "PINU.CON",jurisdiction = "BC", ecozone=4)
 
-# Using a data frame
-library(dplyr); library(tidyr)
+# Using a data frame and volume as example
+library(tidyverse)
 tb <- tibble(VOL = rnorm(150, 250, 60),
+             TYP = rep("vol"),
              SPE = rep("PINU.CON", 150),
              JUR = rep("BC", 150),
              ECO = rep(4, 150))
-tb2 <- tb \%>\% 
-  rowwise() \%>\% 
-  mutate(AGB = list(AGB_prop(VOL,
-                             species = SPE,
-                             jurisdiction = JUR,
-                             ecozone = ECO)))
-tb3 <- tb2 \%>\% unnest_wider(AGB)
+             
+tb \%>\%
+mutate(
+  pmap_dfr(list(.$VOL, .$TYP, .$SPE, .$JUR, .$ECO), AGB_prop)
+  )
 
 }
 \references{

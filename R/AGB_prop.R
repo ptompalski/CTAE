@@ -3,12 +3,13 @@
 #'
 #' @description Calculates proportions of calculated aboveground biomass for 
 #' different tree organs using multinomial logit equations present in Boudewyn 
-#' et al (2007). It takes volume as main input but requires species, province 
+#' et al (2007). It takes volume (or alternatively biomass) as main input but requires species, province 
 #' jurisdiction and ecozone for properly fitting the logit model. This routine 
 #' is the same as the one used in V2B() but returns only the proportions and not
 #' the biomass values e.g. Pstemwood = 0.77, Pstembark = 0.099, Pbranches = 0.073,
 #' Pfoliage = 0.058. Proportion values always add up to 1.
-#' @param volume Gross merchantable volume/ha (net in BC) of all live trees
+#' @param value_input Gross merchantable volume/ha (net in BC) or Above ground biomass (stem wood + stem bark + branches + foliage as per Boudewyn et al (2007)) in tonnes/ha of all live trees
+#' @param value_type Specify whether using biomass or volume as input. Accepts partials 'vol' or 'bio'.
 #' @param species Species code in the NFI standard (e.g. POPU.TRE)
 #' @param jurisdiction A two-letter code depicting jurisdiction (e.g. "AB")
 #' @param ecozone ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).
@@ -28,26 +29,28 @@
 #' Boudewyn et al (2007). Model Based Volume-to-biomass Conversion for Forested and Vegetated Land in Canada. In Forestry. Pacific Forestry Centre. http://sbisrvntweb.uqac.ca/archivage/030078750.pdf
 #' 
 #' @examples
-#' # Using a single value
-#' AGB_prop(350, species = "PINU.CON",jurisdiction = "BC", ecozone=4)
+#' # Using a single value (volume)
+#' AGB_prop(350, value_type = "vol", species = "PINU.CON",jurisdiction = "BC", ecozone=4)
 #' 
-#' # Using a data frame
+#' # Using a data frame and volume as example
 #' library(tidyverse)
 #' tb <- tibble(VOL = rnorm(150, 250, 60),
+#'              TYP = rep("vol"),
 #'              SPE = rep("PINU.CON", 150),
 #'              JUR = rep("BC", 150),
 #'              ECO = rep(4, 150))
 #'              
 #' tb %>%
 #' mutate(
-#'   pmap_dfr(list(.$VOL, .$SPE, .$JUR, .$ECO), AGB_prop)
+#'   pmap_dfr(list(.$VOL, .$TYP, .$SPE, .$JUR, .$ECO), AGB_prop)
 #'   )
 #' 
 #' @export
-AGB_prop <- function (volume, species, jurisdiction, ecozone) 
+AGB_prop <- function (value_input, value_type, species, jurisdiction, ecozone) 
   {
   # Checking input
-    if (!is.numeric(volume))         stop("'volume' must be type numeric")
+    if (!is.numeric(value_input))    stop("'value_input' must be type numeric")
+    if (!value_type %in% c("biomass", "volume", "bio", "vol"))    stop("Must specify what is the type of input. Either 'biomass' or 'volume'.")
     if (!is.character(species))      stop("'species' must be type character")
     if (!is.character(jurisdiction)) stop("'jurisdiction' must be type character")
     if (!is.numeric(ecozone))        stop("'ecozone' must be type numeric")
@@ -68,21 +71,30 @@ AGB_prop <- function (volume, species, jurisdiction, ecozone)
                       jurisdiction = jurisdiction,
                       ecozone = ecozone)
     # table 6 with parameters, table 7 with model range and respective caps to be applied.
-    B6 <- B$B6
-    B7 <- B$B7
-    # Get max and min
-    vol_max <- B7$vol_max
-    vol_min <- B7$vol_min
+
+    if(value_type %in% c("biomass", "bio")){
+      B6 <- B$B6bio 
+      B7 <- B$B7bio
+      value_max <- B7$biom_max
+      value_min <- B7$biom_min
+      } else if (value_type %in% c("volume", "vol")) {
+        B6 <- B$B6vol
+        B7 <- B$B7vol
+        value_max <- B7$vol_max
+        value_min <- B7$vol_min } else {
+          stop("Something wrong with value_type specified.") }
+    
+    
     # Apply equations
-    lvol <- log(volume + 5)
-    p_a <- exp(B6$a1 + B6$a2 * volume + B6$a3 * lvol)
-    p_b <- exp(B6$b1 + B6$b2 * volume + B6$b3 * lvol)
-    p_c <- exp(B6$c1 + B6$c2 * volume + B6$c3 * lvol)
+    lvalue <- log(value_input + 5)
+    p_a <- exp(B6$a1 + B6$a2 * value_input + B6$a3 * lvalue)
+    p_b <- exp(B6$b1 + B6$b2 * value_input + B6$b3 * lvalue)
+    p_c <- exp(B6$c1 + B6$c2 * value_input + B6$c3 * lvalue)
     p_abc <- 1 + p_a + p_b + p_c
     
     # Check whether volume is within modelled range. If not apply cap and warn.
-    cap_check <- ifelse((volume > vol_min & volume < vol_max), "good", ifelse(
-                      volume < vol_min, "below", "above"))
+    cap_check <- ifelse((value_input > value_min & value_input < value_max), "good", ifelse(
+                         value_input < value_min, "below", "above"))
     if(cap_check == "below"){
       Pstemwood = B7$p_sw_low
       Pbark =     B7$p_sb_low
@@ -104,8 +116,8 @@ AGB_prop <- function (volume, species, jurisdiction, ecozone)
               Pbranches = Pbranches,
               Pfoliage = Pfoliage)
     if(cap_check %in% c("below", "above")) {
-      warning(paste0("\nVolume outside model range. \nInput volume: ", volume,
-              ".", "\nModel range: ", round(vol_min, 2), " - ", round(vol_max, 2), 
+      warning(paste0("\n", stringr::str_to_title(value_type), " outside model range. \n", stringr::str_to_title(value_type), "value: ", value_input,
+              ".", "\nModel range: ", round(value_min, 2), " - ", round(value_max, 2), 
               "\nProportion was capped following publication instructions."))
               }
     return(p)
