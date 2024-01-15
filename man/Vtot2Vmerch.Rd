@@ -7,13 +7,13 @@
 Vtot2Vmerch(total_volume, species, jurisdiction, ecozone)
 }
 \arguments{
+\item{total_volume}{Gross merchantable volume/ha (net in BC) of all live trees}
+
 \item{species}{Species code in the NFI standard (e.g. POPU.TRE)}
 
 \item{jurisdiction}{A two-letter code depicting jurisdiction (e.g. "AB", "BC", etc)}
 
-\item{ecozone}{ecozone number (1-15)}
-
-\item{volume}{Gross merchantable volume/ha (net in BC) of all live trees}
+\item{ecozone}{ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).}
 }
 \value{
 Merchantable volume

@@ -2,7 +2,8 @@
 #'
 #' @description Implementation of the model-based, volume-to-biomass conversion equations by Boudewyn et al. (2007).
 #' Note - only scenarios 1 and 2 are currently implemented.
-#' @param volume Gross merchantable volume/ha (net in BC) of all live trees
+#' @param volume Gross merchantable volume/ha of all live trees
+#' Note - Originally, parameters for BC were for net merchantable volume (not gross). That has been updated in 2015 when new improved coefficients were made available. Therefore, BC input data should also use **gross** merchantable volume from now on.
 #' @param species Species code in the NFI standard (e.g. POPU.TRE) 
 #' @param jurisdiction A two-letter code depicting jurisdiction (e.g. "AB")
 #' @param ecozone ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).
@@ -44,6 +45,7 @@ V2B <- function(volume,
   
   
   
+  
   #convert 'species' to: genus, species, variety
   species <- stringr::str_split(species, "\\.")[[1]]
   
@@ -68,7 +70,7 @@ V2B <- function(volume,
   B3 <- B$B3
   B4 <- B$B4
   B5 <- B$B5
-  B6 <- B$B6
+  B6 <- B$B6vol
   
   
   
@@ -165,8 +167,11 @@ V2Bgetparams <- function(genus,
   V2B_params_t3 <- parameters_V2B[[1]]
   V2B_params_t4 <- parameters_V2B[[2]]
   V2B_params_t5 <- parameters_V2B[[3]]
-  V2B_params_t6 <- parameters_V2B[[4]]
-  V2B_params_t7 <- parameters_V2B[[5]]
+  V2B_params_t6_vol <- parameters_V2B[[4]]
+  V2B_params_t6_bio <- parameters_V2B[[5]]
+  V2B_params_t7_vol <- parameters_V2B[[6]]
+  V2B_params_t7_bio <- parameters_V2B[[7]]
+  
   
   
   #checks
@@ -218,7 +223,7 @@ V2Bgetparams <- function(genus,
     B5 <- NULL
   }
   
-  B6 <- V2B_params_t6 |>  
+  B6vol <- V2B_params_t6_vol |>  
     dplyr::filter(juris_id == !!jurisdiction, 
            ecozone == !!ecozone,
            genus == !!genus,
@@ -226,31 +231,59 @@ V2Bgetparams <- function(genus,
     )
   
   if(!is.na(variety)) {
-    B6 <- B6 |> dplyr::filter(variety == !!variety)
+    B6vol <- B6vol |> dplyr::filter(variety == !!variety)
   } else {
-    B6 <- B6 |> dplyr::filter(is.na(variety))
+    B6vol <- B6vol |> dplyr::filter(is.na(variety))
   }
   
-  B7 <- V2B_params_t7 |> dplyr::filter(
+  B6bio <- V2B_params_t6_bio |>  
+    dplyr::filter(juris_id == !!jurisdiction, 
+                  ecozone == !!ecozone,
+                  genus == !!genus,
+                  species == !!species
+    )
+  
+  if(!is.na(variety)) {
+    B6bio <- B6bio |> dplyr::filter(variety == !!variety)
+  } else {
+    B6bio <- B6bio |> dplyr::filter(is.na(variety))
+  }
+  
+  B7vol <- V2B_params_t7_vol |> dplyr::filter(
                                 genus == !!genus,
                                 species == !!species,
                                 juris_id == jurisdiction,
                                 ecozone == !!ecozone
                                 )
   if (!is.na(variety)) {
-    B7 <- dplyr::filter(B7, variety == !!variety)
+    B7vol <- dplyr::filter(B7vol, variety == !!variety)
   } else {
-    B7 <- dplyr::filter(B7, is.na(variety))
+    B7vol <- dplyr::filter(B7vol, is.na(variety))
   }
   
-  if(nrow(B6) != 1) stop("Error in parameter selection.")
+  B7bio <- V2B_params_t7_bio |> dplyr::filter(
+    genus == !!genus,
+    species == !!species,
+    juris_id == jurisdiction,
+    ecozone == !!ecozone
+  )
+  if (!is.na(variety)) {
+    B7bio <- dplyr::filter(B7bio, variety == !!variety)
+  } else {
+    B7bio <- dplyr::filter(B7bio, is.na(variety))
+  }
+  
+  if(nrow(B6vol) != 1) stop("Error in parameter selection.")
+  if(nrow(B6bio) != 1) stop("Error in parameter selection.")
   
   B <- list(
     B3 = B3,
     B4 = B4,
     B5 = B5,
-    B6 = B6,
-    B7 = B7
+    B6vol = B6vol,
+    B6bio = B6bio,
+    B7vol = B7vol,
+    B7bio = B7bio
   )
   
   return(B)

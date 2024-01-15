@@ -93,13 +93,13 @@ AGB_LambertUngDBH <- function(DBH, species=NA){
 #' @export
 
 
-AGB_LambertUngDBHHT<-function(DBH, height, species=NA){
+AGB_LambertUngDBHHT <- function(DBH, height, species=NA){
   
   params <- parameters_LambertUng |> dplyr::filter(model == "DBHHT")
   
   if (is.na(species)) {
     warning("No species provided. Using coefficients for all species.")
-    species <- "UNKNSPP"
+    species <- "UNKN.SPP"
   } 
   
   #species to capital letters
