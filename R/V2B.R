@@ -2,7 +2,8 @@
 #'
 #' @description Implementation of the model-based, volume-to-biomass conversion equations by Boudewyn et al. (2007).
 #' Note - only scenarios 1 and 2 are currently implemented.
-#' @param volume Gross merchantable volume/ha (net in BC) of all live trees
+#' @param volume Gross merchantable volume/ha of all live trees
+#' Note - Originally, parameters for BC were for net merchantable volume (not gross). That has been updated in 2015 when new improved coefficients were made available. Therefore, BC input data should also use **gross** merchantable volume from now on.
 #' @param species Species code in the NFI standard (e.g. POPU.TRE) 
 #' @param jurisdiction A two-letter code depicting jurisdiction (e.g. "AB")
 #' @param ecozone ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).
@@ -39,6 +40,7 @@ V2B <- function(volume,
   if(!is.character(species))      stop("'species' must be type character")
   if(!is.character(jurisdiction)) stop("'jurisdiction' must be type character")
   if(!is.numeric(ecozone))        stop("'ecozone' must be type numeric")
+  
   
   
   
