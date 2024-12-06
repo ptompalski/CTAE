@@ -7,7 +7,8 @@
 V2B(volume, species, jurisdiction, ecozone)
 }
 \arguments{
-\item{volume}{Gross merchantable volume/ha (net in BC) of all live trees}
+\item{volume}{Gross merchantable volume/ha of all live trees
+Note - Originally, parameters for BC were for net merchantable volume (not gross). That has been updated in 2015 when new improved coefficients were made available. Therefore, BC input data should also use **gross** merchantable volume from now on.}
 
 \item{species}{Species code in the NFI standard (e.g. POPU.TRE)}
 

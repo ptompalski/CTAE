@@ -56,20 +56,23 @@ V_Huang <- function(DBH, height, species, subregion="Province") {
   if (!(subregion %in% unique(parameters_HuangV$NaturalSubregionCode))) stop("Wrong subregion code. Subregion codes are listed in AlbertaNaturalRegSubreg dataset")
   
   
-  #check species and region combination - e.g. there are no parameters for Provincial models for sofwood or hardwood groups  
-  isAvailable <- CTAE:::HuangV_model_availability |> dplyr::filter(species == !!species, NaturalSubregionCode == subregion)
-  
-  if(nrow(isAvailable)==0) {
+  #check species and region combination - e.g. there are no parameters for Provincial models for sofwood or hardwood groups
+  if(subregion != "Province") {
+    isAvailable <- nrow(parameters_HuangV[parameters_HuangV$species==sp & parameters_HuangV$NaturalSubregionCode==subregion,]) > 0
     
-    warning(glue::glue("No model parameters available for {species} in {subregion}. Using Province-level parameters."))
-    subregion <- "Province"
     
+    if(!isAvailable) {
+      
+      warning(glue::glue("No model parameters available for {species} in {subregion}. Using Province-level parameters."))
+      subregion <- "Province"
+      
+    }
   }
   
   #get parameters----
   params <- parameters_HuangV |> dplyr::filter(NaturalSubregionCode == subregion, species == !!species)
   
-
+  
   #check if number of parameters is correct (need to be 8)
   if(nrow(params) != 8) stop("Error in parameter selection")
   
@@ -188,5 +191,7 @@ V_Huang <- function(DBH, height, species, subregion="Province") {
   
   return(r)
 }
+
+
 
 
