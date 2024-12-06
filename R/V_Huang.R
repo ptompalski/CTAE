@@ -58,7 +58,7 @@ V_Huang <- function(DBH, height, species, subregion="Province") {
   
   #check species and region combination - e.g. there are no parameters for Provincial models for sofwood or hardwood groups
   if(subregion != "Province") {
-    isAvailable <- nrow(parameters_HuangV[parameters_HuangV$species==sp & parameters_HuangV$NaturalSubregionCode==subregion,]) > 0
+    isAvailable <- nrow(parameters_HuangV[parameters_HuangV$species==species & parameters_HuangV$NaturalSubregionCode==subregion,]) > 0
     
     
     if(!isAvailable) {
