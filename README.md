@@ -19,6 +19,8 @@ developed for Canadian forests
 - Total volume to merchantable volume conversions models (Boudewyn et
   al. 2007)
 
+- Simple growth and yield model (H, BA, V) (Ung et al. 2009)
+
 Updated model parameters for models developed by Boudewyn et al (2007)
 downloaded from <https://nfi.nfis.org/en/biomass_models>.
 
@@ -42,6 +44,11 @@ Ung, C.-H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass
 equations: new parameter estimates that include British Columbia data.
 Canadian Journal of Forest Research, 38(5), 1123–1132.
 <https://doi.org/10.1139/X07-224>
+
+Ung, C.-H., Bernier, P.Y., Guo, X.J., Lambert, M.-C., 2009. A simple
+growth and yield model for assessing changes in standing volume across
+Canada’s forests. The Forestry Chronicle 85, 57–64.
+<https://doi.org/10.5558/tfc85057-1>
 
 ## Installation
 
