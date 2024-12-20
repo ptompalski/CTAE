@@ -3,6 +3,7 @@
 export(AGB_LambertUngDBH)
 export(AGB_LambertUngDBHHT)
 export(AGB_prop)
+export(Ung2009)
 export(V2B)
 export(V_Huang)
 export(Vtot2Vmerch)
