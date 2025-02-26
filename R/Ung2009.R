@@ -1,20 +1,35 @@
 #' Ung2009 Growth and Yield Model
 #'
-#' This function implements the model described in Ung et al. 2009. 
-#'
-#' The model predicts tree height (H), basal area (BA), and volume (V) based on 
-#' species, age, growth degree days (GDD), and precipitation (PREC).
+#' This function implements the models described in Ung et al. (2009).  
+#' Two models (Nat1 and Nat2) are available:
+#'   \itemize{
+#'     \item{\strong{Nat1:} A multi-equation system predicting tree height (H), basal area (BA), 
+#'           and volume (V) based on stand age, growth degree days (GDD), precipitation (PREC), 
+#'           and species-specific parameters.}
+#'     \item{\strong{Nat2:} A single equation that focuses on predicting stand volume (V) 
+#'           using age, GDD, and PREC.}
+#'   }
+#'  
+#' @details 
+#' In the Nat1 model, height and basal area are each modeled using age, GDD, and PREC in a 
+#' Chapman-Richards formulation, and volume is derived via an allometric equation. In contrast, 
+#' Nat2 is more streamlined, modeling volume directly as a function of these same variables 
+#' but without explicit height and basal area components.
 #'
 #' @param species Character. A valid species name as defined in the parameter table of the model.
-#' @param age Numeric. The age of the stand in years. Must be greater than 0.
+#' @param age Numeric vector. The age(s) of the stand in years. Must be greater than 0.
 #' @param GDD Numeric. Growth degree days.
 #' @param PREC Numeric. Precipitation.
+#' @param model Character. Which model(s) to use. One of \code{"Nat1"}, \code{"Nat2"}, or 
+#'   \code{"both"}. Defaults to \code{"both"}.
 #'
-#' @return A list containing:
-#' \describe{
-#'   \item{H}{Predicted tree height (m).}
-#'   \item{BA}{Predicted basal area (m²/ha).}
-#'   \item{V}{Predicted volume (m³/ha).}
+#' @return A tibble containing:
+#' \itemize{
+#'   \item{\code{age}} 
+#'   \item{\code{H}} (if \code{Nat1} is used): Predicted tree height (m).
+#'   \item{\code{BA}} (if \code{Nat1} is used): Predicted basal area (m²/ha).
+#'   \item{\code{V}} (if \code{Nat1} is used): Predicted volume (m³/ha).
+#'   \item{\code{V2}} (if \code{Nat2} is used): Predicted volume (m³/ha) based on the Nat2 model.
 #' }
 #'
 #' @references 
@@ -23,23 +38,51 @@
 #' The Forestry Chronicle, 85, 57–64. \doi{10.5558/tfc85057-1}.
 #'
 #' @examples
-#' # Example usage:
-#' Ung2009(
+#' # Example 1: Use both models (default), returning columns: age, H, BA, V, V2
+#' res_both <- Ung2009(
 #'   species = "ABIE.BAL",
 #'   age = 1:150,
 #'   GDD = 1500,
 #'   PREC = 800
 #' )
+#' res_both
+#'
+#' # Example 2: Use only the Nat1 model, returning columns: age, H, BA, V
+#' res_nat1 <- Ung2009(
+#'   species = "ABIE.BAL",
+#'   age = 1:150,
+#'   GDD = 1500,
+#'   PREC = 800,
+#'   model = "Nat1"
+#' )
+#' res_nat1
+#'
+#' # Example 3: Use only the Nat2 model, returning columns: age, V2
+#' res_nat2 <- Ung2009(
+#'   species = "ABIE.BAL",
+#'   age = 1:150,
+#'   GDD = 1500,
+#'   PREC = 800,
+#'   model = "Nat2"
+#' )
+#' res_nat2
 #'
 #' @export
-Ung2009 <- function(species, age, GDD, PREC) {
+Ung2009 <- function(species,
+                    age,
+                    GDD,
+                    PREC,
+                    model = c("both", "Nat1", "Nat2")) {
+  
+  model <- match.arg(model)
   
   # Validate inputs
-  if (age <= 0) stop("Age must be greater than 0.")
+  if (any(age <= 0)) stop("Age must be greater than 0.")
   if (!is.numeric(GDD) || !is.numeric(PREC)) stop("GDD and PREC must be numeric.")
   if (!is.character(species)) stop("Species must be a character string.")
   
-  P <- tribble(
+  # parameters for the Nat1 model
+  P <- tibble::tribble(
     ~Species,~h10,~h11,~h12,~h20,~h21,~h22,~g10,~g11,~g12,~g20,~g21,~g22,~v30,~v31,~v32,~CDh,~CDg,~CDv,
     "ABIE.BAL",3.8398,0,-0.0011,-48.245,0.0071,0.0202,5.6744,-0.0003,-0.0015,-159.3,0.0209,0.0699,-0.4283,0.8801,0.9799,1.0263,1.2987,1.0013,
     "ABIE.LAS",2.8996,-0.0003,0.0006,0,0,-0.0311,3.2673,0,0,128.5,-0.1014,0,-0.8345,1.0402,0.9469,1.0201,1.2211,1.0016,
@@ -68,27 +111,78 @@ Ung2009 <- function(species, age, GDD, PREC) {
     "TSUG.HET",2.4353,0.0003,0.0003,-17.9089,0,-0.0067,5.7049,-0.0004,0,-154.5,0.0292,0.0188,-0.7764,0.8928,1.0524,1.0153,1.0572,1.0012
   )
   
-  param <- P[P$Species==species,]
-  if (nrow(param) == 0) stop("Invalid species. Please provide a valid species name.")
-  
-  #height
-  lnH <- (param$h10 + (param$h11 * GDD) + (param$h12 * PREC))  + ((param$h20 + (param$h21 * GDD) + (param$h22 * PREC))/age)
-  H <- exp(lnH) * param$CDh
-  
-  #basal area
-  lnBA <- (param$g10 + (param$g11 * GDD) + (param$g12 * PREC))  + ((param$g20 + (param$g21 * GDD) + (param$g22 * PREC))/age)
-  BA <- exp(lnBA) * param$CDg
-  
-  #volume
-  lnV <- param$v30 + param$v31 * lnH + param$v32 * lnBA
-  V <- exp(lnV) * param$CDv 
-  
-  return(
-    list(
-      H=H,
-      BA=BA,
-      V=V
-    )
+  # parameters for the Nat2 model
+  P2 <- tibble::tribble(
+    ~Species,~v10,~v11,~v12,~v20,~v21,~v22,~Cd,
+    "ABIE.BAL",6.9831,0,-0.0011,-165.647,0.0254,0.0477,1.1042,
+    "ABIE.LAS",5.1561,0,0,269.199,-0.1994,0,1.3015,
+    "ACER.RUB",6.8511,0,-0.0012,-93.0483,0,0.051,1.0619,
+    "ACER.SAC",6.3001,0,-0.0007,-76.15,0,0.0441,1.0331,
+    "BETU.ALL",7.4254,0,-0.0017,-144.749,0,0.0937,1.0783,
+    "BETU.PAP",5.4297,0.0007,-0.0017,-79.2512,0,0.0387,1.0986,
+    "FAGU.GRA",5.3354,0,0,-18.0541,0,0,1.0491,
+    "LARI.LAR",0.3964,0.0023,-0.0013,0,-0.0096,0,1.2925,
+    "LARI.OCC",8.4027,-0.0011,0.001,-279.372,0.0944,0,1.0473,
+    "PICE.ENG",4.0283,0.0015,0,0,-0.1009,0.0815,1.1507,
+    "PICE.GLA",4.3751,0.0013,-0.0016,0,-0.0319,0.0413,1.0923,
+    "PICE.MAR",4.6774,0.0005,-0.0005,-60.224,0.0118,-0.0236,1.1481,
+    "PICE.RUB",8.2368,-0.0009,0,-163.794,0.0452,0,1.0446,
+    "PINU.BAN",5.3141,0.0007,-0.0012,-139.856,0.0214,0.0417,1.1136,
+    "PINU.CON",4.1498,0.0007,0.0012,0,-0.0257,0,1.0818,
+    "PINU.RES",7.8984,0,-0.0019,0,-0.0457,0.075,1.1238,
+    "PINU.STR",11.8506,-0.0022,0,-596.185,0.2028,0,1.1342,
+    "POPU.BAL",6.2604,0,0,0,-0.0216,0,1.0094,
+    "POPU.GRA",9.5598,0,-0.0028,-219.535,0,0.1366,1.1075,
+    "POPU.TRE",6.7296,0,-0.0005,-86.6405,0.0135,0,1.0333,
+    "PSEU.MEN",4.2494,0,0.0022,-44.9884,0.0337,-0.0913,1.086,
+    "QUER.RUB",5.824,0,0,-58.3159,0,0,1.1044,
+    "THUJ.OCC",2.8399,0.0012,0,0,-0.0236,0,1.0548,
+    "TSUG.CAN",4.6304,0,0.001,0,0,-0.0263,1.0566,
+    "TSUG.HET",6.8699,0,0.0003,-143.964,0.0294,0,1.0154
   )
+  
+  # Look up species parameters
+  param <- P[P$Species == species,]
+  param2 <- P2[P2$Species == species,]
+  if (nrow(param) == 0 || nrow(param2) == 0) {
+    stop("Invalid species. Please provide a valid species name.")
+  }
+  
+  # Initialize columns for the output tibble
+  # We'll create them only if needed
+  out <- tibble::tibble(age = age)
+  
+  #----------------
+  #   Nat1 model
+  #----------------
+  if (model %in% c("Nat1","both")) {
+    lnH <- (param$h10 + (param$h11 * GDD) + (param$h12 * PREC)) + 
+      ((param$h20 + (param$h21 * GDD) + (param$h22 * PREC)) / age)
+    H <- exp(lnH) * param$CDh
+    
+    lnBA <- (param$g10 + (param$g11 * GDD) + (param$g12 * PREC)) + 
+      ((param$g20 + (param$g21 * GDD) + (param$g22 * PREC)) / age)
+    BA <- exp(lnBA) * param$CDg
+    
+    lnV <- param$v30 + param$v31 * lnH + param$v32 * lnBA
+    V  <- exp(lnV) * param$CDv
+    
+    out$H  <- H
+    out$BA <- BA
+    out$V  <- V
+  }
+  
+  #----------------
+  #   Nat2 model
+  #----------------
+  if (model %in% c("Nat2","both")) {
+    lnV2 <- (param2$v10 + (param2$v11 * GDD) + (param2$v12 * PREC)) +
+      ((param2$v20 + (param2$v21 * GDD) + (param2$v22 * PREC)) / age)
+    V2 <- exp(lnV2) * param2$Cd
+    
+    out$V2 <- V2
+  }
+  
+  return(out)
 }
 

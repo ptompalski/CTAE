@@ -4,40 +4,76 @@
 \alias{Ung2009}
 \title{Ung2009 Growth and Yield Model}
 \usage{
-Ung2009(species, age, GDD, PREC)
+Ung2009(species, age, GDD, PREC, model = c("both", "Nat1", "Nat2"))
 }
 \arguments{
 \item{species}{Character. A valid species name as defined in the parameter table of the model.}
 
-\item{age}{Numeric. The age of the stand in years. Must be greater than 0.}
+\item{age}{Numeric vector. The age(s) of the stand in years. Must be greater than 0.}
 
 \item{GDD}{Numeric. Growth degree days.}
 
 \item{PREC}{Numeric. Precipitation.}
+
+\item{model}{Character. Which model(s) to use. One of \code{"Nat1"}, \code{"Nat2"}, or 
+\code{"both"}. Defaults to \code{"both"}.}
 }
 \value{
-A list containing:
-\describe{
-  \item{H}{Predicted tree height (m).}
-  \item{BA}{Predicted basal area (m²/ha).}
-  \item{V}{Predicted volume (m³/ha).}
+A tibble containing:
+\itemize{
+  \item{\code{age}} 
+  \item{\code{H}} (if \code{Nat1} is used): Predicted tree height (m).
+  \item{\code{BA}} (if \code{Nat1} is used): Predicted basal area (m²/ha).
+  \item{\code{V}} (if \code{Nat1} is used): Predicted volume (m³/ha).
+  \item{\code{V2}} (if \code{Nat2} is used): Predicted volume (m³/ha) based on the Nat2 model.
 }
 }
 \description{
-This function implements the model described in Ung et al. 2009.
+This function implements the models described in Ung et al. (2009).  
+Two models (Nat1 and Nat2) are available:
+  \itemize{
+    \item{\strong{Nat1:} A multi-equation system predicting tree height (H), basal area (BA), 
+          and volume (V) based on stand age, growth degree days (GDD), precipitation (PREC), 
+          and species-specific parameters.}
+    \item{\strong{Nat2:} A single equation that focuses on predicting stand volume (V) 
+          using age, GDD, and PREC.}
+  }
 }
 \details{
-The model predicts tree height (H), basal area (BA), and volume (V) based on 
-species, age, growth degree days (GDD), and precipitation (PREC).
+In the Nat1 model, height and basal area are each modeled using age, GDD, and PREC in a 
+Chapman-Richards formulation, and volume is derived via an allometric equation. In contrast, 
+Nat2 is more streamlined, modeling volume directly as a function of these same variables 
+but without explicit height and basal area components.
 }
 \examples{
-# Example usage:
-Ung2009(
+# Example 1: Use both models (default), returning columns: age, H, BA, V, V2
+res_both <- Ung2009(
   species = "ABIE.BAL",
   age = 1:150,
   GDD = 1500,
   PREC = 800
 )
+res_both
+
+# Example 2: Use only the Nat1 model, returning columns: age, H, BA, V
+res_nat1 <- Ung2009(
+  species = "ABIE.BAL",
+  age = 1:150,
+  GDD = 1500,
+  PREC = 800,
+  model = "Nat1"
+)
+res_nat1
+
+# Example 3: Use only the Nat2 model, returning columns: age, V2
+res_nat2 <- Ung2009(
+  species = "ABIE.BAL",
+  age = 1:150,
+  GDD = 1500,
+  PREC = 800,
+  model = "Nat2"
+)
+res_nat2
 
 }
 \references{
