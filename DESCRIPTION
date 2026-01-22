@@ -18,7 +18,7 @@ Author: Authors@R: c(
    )
 Maintainer: Piotr Tompalski <piotr.tompalski@NRCan-RNCan.gc.ca>
 Description: Implementation of several published models to calculate tree- and forest stand-level attributes
-License: GPL-3
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -29,4 +29,4 @@ Imports:
     stringr,
     glue,
     rlang
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

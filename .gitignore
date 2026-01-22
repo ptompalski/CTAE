@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+biomass_equations
+volume_models
+_packageSetup.R
