@@ -2,14 +2,14 @@
 % Please edit documentation in R/V_Ung_national.R
 \name{vol_national_dbh}
 \alias{vol_national_dbh}
-\title{Canadian national taper models (DBH only)}
+\title{Canadian national taper model (DBH only)}
 \usage{
 vol_national_dbh(DBH, species, jurisdiction, params = NULL, merchcrit = NULL)
 }
 \arguments{
 \item{DBH}{Numeric vector of DBH (cm).}
 
-\item{species}{Character. Species code (e.g., "ABIE.BAL").}
+\item{species}{Character. Species code (e.g., "PICE.GLA").}
 
 \item{jurisdiction}{Character. Jurisdiction code (e.g., "BC", "ON").}
 
@@ -20,30 +20,8 @@ vol_national_dbh(DBH, species, jurisdiction, params = NULL, merchcrit = NULL)
 `merchcrit` included with the package.}
 }
 \value{
-A data frame with one row per input DBH and columns:
-\describe{
-  \item{vol_merchantable}{Merchantable stem volume}
-  \item{vol_total}{Total stem volume}
-}
+A tibble with columns `vol_merchantable` and `vol_total`.
 }
 \description{
-Canadian national taper models (DBH only)
-}
-\examples{
-vol_national_dbh(
-  DBH = 20,
-  species = "PICE.GLA",
-  jurisdiction = "AB"
-)
-
-# Vectorized over DBH
-vol_national_dbh(
-  DBH = c(15, 25, 35),
-  species = "PSEU.MEN",
-  jurisdiction = "BC"
-)
-
-}
-\references{
-Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models. Forestry Chronicle 89, 211–224. https://doi.org/10.5558/tfc2013-040
+Canadian national taper model (DBH only)
 }
