@@ -14,7 +14,7 @@ AGB_LambertUngDBHHT(DBH, height, species = NA)
 \item{species}{Tree species code in the NFI standard (e.g. POPU.TRE)}
 }
 \value{
-A list containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown, 
+A list containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown,
 as well as the total tree aboveground biomass.
 }
 \description{
@@ -24,7 +24,7 @@ Calculates tree-level aboveground biomass [kg] using methods presented in Lamber
 
 AGB_LambertUngDBHHT(20, 17)
 AGB_LambertUngDBHHT(20, 17, species="PINU.CON")
-AGB_LambertUngDBHHT(DBH = runif(5, 10, 30), height=runif(5, 10, 30), species="PINU.CON") 
+AGB_LambertUngDBHHT(DBH = runif(5, 10, 30), height=runif(5, 10, 30), species="PINU.CON")
 
 }
 \references{

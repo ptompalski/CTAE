@@ -12,7 +12,7 @@ AGB_LambertUngDBH(DBH, species = NA)
 \item{species}{Tree species code in the NFI standard (e.g. POPU.TRE)}
 }
 \value{
-A list containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown, 
+A list containing aboveground biomass values for tree components: wood, bark, stem, foliage, branches, crown,
 as well as the total tree aboveground biomass.
 }
 \description{
