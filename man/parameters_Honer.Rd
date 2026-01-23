@@ -22,10 +22,6 @@ A tibble with 21 rows and 11 variables:
   \item{r3}{Quadratic coefficient for the merchantable volume adjustment.}
 }
 }
-\source{
-Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada.
-Environ. Can., Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf. Rep. M-X-140.
-}
 \usage{
 parameters_Honer
 }
@@ -37,6 +33,10 @@ volume from diameter at breast height (DBH) and total height.
 \details{
 The parameters are derived from Honer (1983) and are intended for use
 with functions implementing the Honer volume formulation (\code{vol_honer_dbh_ht()}).
+}
+\references{
+Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada.
+Environ. Can., Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf. Rep. M-X-140.
 }
 \seealso{
 \code{\link{vol_honer_dbh_ht}}

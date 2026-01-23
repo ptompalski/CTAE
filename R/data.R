@@ -55,7 +55,7 @@
 #'   \item{r3}{Quadratic coefficient for the merchantable volume adjustment.}
 #' }
 #'
-#' @source
+#' @references
 #' Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada.
 #' Environ. Can., Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf. Rep. M-X-140.
 #'
@@ -72,9 +72,9 @@
 #'
 #' @format A data frame containing species/species-group parameter sets required
 #'   by the Kozak (1988) taper implementation in this package.
-#' @source Kozak, A. (1988). A variable-exponent taper equation. *Canadian Journal
+#' @references Kozak, A. (1988). A variable-exponent taper equation. *Canadian Journal
 #'   of Forest Research*, 18, 1363–1368.
-#' @keywords datasets
+
 "parameters_Kozak88"
 
 #' Kozak (1994) BEC-zone taper model parameters (BC)
@@ -85,9 +85,8 @@
 #'
 #' @format A data frame containing species- and BEC-zone-specific parameter sets
 #'   required by the Kozak BC taper implementation in this package.
-#' @source Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
+#' @references Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
 #'   Species*. Province of British Columbia, Ministry of Forests (report).
-#' @keywords datasets
 "parameters_Kozak94"
 
 

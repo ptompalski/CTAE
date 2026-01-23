@@ -8,10 +8,6 @@
 A data frame containing species- and BEC-zone-specific parameter sets
   required by the Kozak BC taper implementation in this package.
 }
-\source{
-Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
-  Species*. Province of British Columbia, Ministry of Forests (report).
-}
 \usage{
 parameters_Kozak94
 }
@@ -19,5 +15,9 @@ parameters_Kozak94
 Model parameter table for the BC Ministry of Forests taper equations developed
 by BEC zone and species (commonly referenced as the "Kozak 1994/1995" BC taper
 parameters in inventory applications).
+}
+\references{
+Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
+  Species*. Province of British Columbia, Ministry of Forests (report).
 }
 \keyword{datasets}

@@ -8,15 +8,15 @@
 A data frame containing species/species-group parameter sets required
   by the Kozak (1988) taper implementation in this package.
 }
-\source{
-Kozak, A. (1988). A variable-exponent taper equation. *Canadian Journal
-  of Forest Research*, 18, 1363–1368.
-}
 \usage{
 parameters_Kozak88
 }
 \description{
 Model parameter table for the Kozak (1988) variable-exponent taper equation,
 used to predict inside-bark diameter along the stem (and derived volumes).
+}
+\references{
+Kozak, A. (1988). A variable-exponent taper equation. *Canadian Journal
+  of Forest Research*, 18, 1363–1368.
 }
 \keyword{datasets}
