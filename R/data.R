@@ -29,6 +29,45 @@
 "parameters_NationalTaperModelsDBHHT"
 
 
+#' Honer et al. (1983) merchantable volume model parameters
+#'
+#' Model parameter table used by the Honer et al. metric timber/volume equations
+#' for commercial tree species of central and eastern Canada.
+#'
+#' @format A data frame containing species- and (optionally) group-specific model
+#'   parameters required by the Honer volume implementation in this package.
+#' @source Honer, T.G., Kerr, H.F., and Alemdag, I.S. (1983). *Metric timber tables
+#'   for the commercial tree species of central and eastern Canada*. Canadian
+#'   Forestry Service, Information Report M-X-140.
+#' @keywords datasets
+"parameters_Honer"
+
+#' Kozak (1988) variable-exponent taper model parameters
+#'
+#' Model parameter table for the Kozak (1988) variable-exponent taper equation,
+#' used to predict inside-bark diameter along the stem (and derived volumes).
+#'
+#' @format A data frame containing species/species-group parameter sets required
+#'   by the Kozak (1988) taper implementation in this package.
+#' @source Kozak, A. (1988). A variable-exponent taper equation. *Canadian Journal
+#'   of Forest Research*, 18, 1363–1368.
+#' @keywords datasets
+"parameters_Kozak88"
+
+#' Kozak (1994) BEC-zone taper model parameters (BC)
+#'
+#' Model parameter table for the BC Ministry of Forests taper equations developed
+#' by BEC zone and species (commonly referenced as the "Kozak 1994/1995" BC taper
+#' parameters in inventory applications).
+#'
+#' @format A data frame containing species- and BEC-zone-specific parameter sets
+#'   required by the Kozak BC taper implementation in this package.
+#' @source Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
+#'   Species*. Province of British Columbia, Ministry of Forests (report).
+#' @keywords datasets
+"parameters_Kozak94"
+
+
 #' Model parameters required for total volume to merchantable volume conversion
 #'
 #' A dataset containing parameters for the Boudewyn et al 2007 total volume to merchantable volume conversion models. An updated version

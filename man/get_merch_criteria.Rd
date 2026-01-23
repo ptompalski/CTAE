@@ -34,7 +34,8 @@ Rules:
 Stump height is returned in metres (converted from centimetres).
 }
 \examples{
+get_merch_criteria("ON")
 get_merch_criteria("PEI")             # standardized to "PE"
-get_merch_criteria("BC", "picegla")   # standardized to "PICE.GLA" (depending on your helper)
+get_merch_criteria("BC", "picegla")   # standardized to "PICE.GLA"
 
 }
