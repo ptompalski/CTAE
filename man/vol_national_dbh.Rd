@@ -25,3 +25,6 @@ A tibble with columns `vol_merchantable` and `vol_total`.
 \description{
 Canadian national taper model (DBH only)
 }
+\references{
+Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models. Forestry Chronicle 89, 211–224. https://doi.org/10.5558/tfc2013-040
+}

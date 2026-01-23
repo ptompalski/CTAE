@@ -7,6 +7,8 @@
 #'   `merchcrit` included with the package.
 #'
 #' @return A tibble with columns `vol_merchantable` and `vol_total`.
+#' @references
+#' Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models. Forestry Chronicle 89, 211–224. https://doi.org/10.5558/tfc2013-040
 #' @export
 vol_national_dbh <- function(
   DBH,
@@ -134,6 +136,8 @@ vol_national_dbh <- function(
 #' @param merchcrit Data frame of merchantability criteria. If NULL, uses
 #'   `CTAE::merchcrit`.
 #'
+#' @references
+#' Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models. Forestry Chronicle 89, 211–224. https://doi.org/10.5558/tfc2013-040
 #' @return A data frame with columns: vol_merchantable, vol_total
 #' @export
 vol_national_dbh_ht <- function(
