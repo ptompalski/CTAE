@@ -2,56 +2,57 @@
 % Please edit documentation in R/get_volume_params.R
 \name{get_volume_params}
 \alias{get_volume_params}
-\title{Get volume model parameters for a specific model and context}
+\title{Get volume-model parameters from the CTAE registry}
 \usage{
 get_volume_params(
-  params,
-  model = c("national_dbh", "national_dbh_ht", "kozak88", "kozak94", "honer"),
+  model_id,
   species,
   province = NA_character_,
-  subregion = "ALL"
+  subregion = "ALL",
+  strict = FALSE
 )
 }
 \arguments{
-\item{params}{A data.frame/tibble of model parameters.}
+\item{model_id}{A single model id from \code{volume_model_registry()$model_id},
+e.g. \code{"national_ung_dbh"} or \code{"regional_kozak88"}.}
 
-\item{model}{Model identifier. One of:
-`"national_dbh"`, `"national_dbh_ht"`, `"kozak88"`, `"kozak94"`, `"honer"`.}
+\item{species}{Species code (e.g., \code{"POPU.TRE"}). Required for all current models.}
 
-\item{species}{Species code (e.g., "POPUTRE").}
+\item{province}{Province/jurisdiction code (e.g., \code{"BC"}, \code{"AB"}).
+Used for regional models when the parameter table includes a \code{Province} column.}
 
-\item{province}{Province/jurisdiction code (e.g., "AB", "BC").
-Used by regional models; ignored by national models except for returning context.}
+\item{subregion}{Subregion identifier (e.g., \code{"ALL"} or a BEC zone).
+Used for regional models when the parameter table includes a \code{Subregion} column.}
 
-\item{subregion}{Subregion identifier used by regional models (e.g., "ALL" or BEC zone).
-For `"kozak94"`, this is typically the BEC zone. Default `"ALL"`.}
+\item{strict}{Logical. If \code{TRUE}, throw an error when no matching parameters
+are found. If \code{FALSE} (default), returns an empty tibble.}
 }
 \value{
 A tibble containing the filtered parameter rows for the requested model.
-  If no rows match, returns an empty tibble with the same columns as `params`.
+  If no rows match and \code{strict = FALSE}, returns an empty tibble with the
+  same columns as the underlying parameter table.
 }
 \description{
-Centralized parameter filtering for the legacy tree volume models included in CTAE.
-This function does *not* compute volumes—it only returns the subset of rows needed
-by a given model family.
+Retrieves the parameter table for a given volume model using
+\code{\link{volume_model_registry}} and the parameter objects bundled with the
+CTAE package (e.g., \code{parameters_NationalTaperModelsDBH}).
 }
 \details{
-Supported `model` values correspond to the engines present in your pasted code:
-* `"national_dbh"`: Ung et al. national taper model (DBH-only) -> `NationalDBH()`
-* `"national_dbh_ht"`: Ung et al. national taper model (DBH + HT) -> `NationalDBHHT()`
-* `"kozak88"`: Kozak 1988 taper (regional) -> `EstimateKozakVolume88()`
-* `"kozak94"`: Kozak 1994 taper (BC / BEC) -> `EstimateKozakVolume94()`
-* `"honer"`: Honer volume model (regional) -> `EstimateHonerVolume()`
+The function then applies **context filters** (when relevant / available in the
+parameter table), typically by \code{species}, and for regional models also by
+\code{province} and \code{subregion}.
 
-The function assumes your parameter table uses the same column conventions as
-the legacy CSVs (e.g., `Province`, `Species`, `Subregion`, `ModelName`,
-`ParName`, `ParVal`, and for national models: coefficient columns like `b0`, `b1`, etc.).
+This function does **not** refactor or run any volume engines; it only returns
+the parameter rows needed for a given model/context.
 }
 \examples{
-# natdbh <- read.csv("NationalDBH.csv")
-# get_volume_params(natdbh, "national_dbh", species = "POPUTRE", province = "AB")
-#
-# reg <- read.csv("RegionalDBHHT.csv")
-# get_volume_params(reg, "kozak88", species = "POPUTRE", province = "AB", subregion = "ALL")
+# National DBH-only (Ung et al.)
+# get_volume_params("national_ung_dbh", species = "POPU.TRE")
+
+# Regional Kozak 88 (requires province/subregion in most parameter tables)
+# get_volume_params("regional_kozak88", species = "POPU.TRE", province = "AB", subregion = "ALL")
+
+# BC Kozak 94 (BEC zone as subregion)
+# get_volume_params("regional_kozak94", species = "PSEU.MEN", province = "BC", subregion = "SBS")
 
 }

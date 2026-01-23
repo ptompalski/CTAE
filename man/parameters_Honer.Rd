@@ -3,21 +3,42 @@
 \docType{data}
 \name{parameters_Honer}
 \alias{parameters_Honer}
-\title{Honer et al. (1983) merchantable volume model parameters}
+\title{Honer (1983) Volume Equation Parameters for Canadian Tree Species}
 \format{
-A data frame containing species- and (optionally) group-specific model
-  parameters required by the Honer volume implementation in this package.
+A tibble with 21 rows and 11 variables:
+\describe{
+  \item{Species}{Species code (e.g., \code{"PINU.STR"}).}
+  \item{Species name}{Common English species name.}
+  \item{b2}{Diameter inside-bark coefficient used in taper and stump
+    calculations.}
+  \item{b3}{Intercept term for stump diameter equation.}
+  \item{b4}{Linear coefficient for stump diameter equation.}
+  \item{b5}{Logarithmic height-dependent coefficient for stump diameter
+    equation.}
+  \item{c2}{Height-related coefficient in the total volume equation.}
+  \item{c1}{Intercept term in the total volume equation.}
+  \item{r1}{Intercept term for the merchantable-to-total volume ratio.}
+  \item{r2}{Linear coefficient for the merchantable volume adjustment.}
+  \item{r3}{Quadratic coefficient for the merchantable volume adjustment.}
+}
 }
 \source{
-Honer, T.G., Kerr, H.F., and Alemdag, I.S. (1983). *Metric timber tables
-  for the commercial tree species of central and eastern Canada*. Canadian
-  Forestry Service, Information Report M-X-140.
+Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada.
+Environ. Can., Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf. Rep. M-X-140.
 }
 \usage{
 parameters_Honer
 }
 \description{
-Model parameter table used by the Honer et al. metric timber/volume equations
-for commercial tree species of central and eastern Canada.
+A species-level parameter table for the Honer (1983) individual-tree
+volume equations, used to estimate total, merchantable, tip, and stump
+volume from diameter at breast height (DBH) and total height.
+}
+\details{
+The parameters are derived from Honer (1983) and are intended for use
+with functions implementing the Honer volume formulation (\code{vol_honer_dbh_ht()}).
+}
+\seealso{
+\code{\link{vol_honer_dbh_ht}}
 }
 \keyword{datasets}
