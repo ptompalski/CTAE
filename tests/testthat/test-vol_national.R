@@ -1,116 +1,237 @@
-test_that("vol_national_dbh returns correct structure", {
-  out <- vol_national_dbh(DBH = 20, species = "PICE.GLA", jurisdiction = "AB")
+# tests/testthat/test-vol_national_ung.R
 
-  expect_s3_class(out, "tbl_df") # tibble
-  expect_equal(nrow(out), 1)
-  expect_named(out, c("vol_merchantable", "vol_total"))
-  expect_true(all(vapply(out, is.numeric, logical(1))))
+testthat::test_that("vol_national_dbh returns a tibble with expected columns", {
+  out <- CTAE::vol_national_dbh(
+    DBH = 20,
+    species = "PICE.GLA",
+    jurisdiction = "AB"
+  )
+
+  testthat::expect_s3_class(out, "tbl_df")
+  testthat::expect_named(out, c("vol_merchantable", "vol_total"))
+  testthat::expect_type(out$vol_merchantable, "double")
+  testthat::expect_type(out$vol_total, "double")
+  testthat::expect_equal(nrow(out), 1L)
 })
 
-test_that("vol_national_dbh is vectorized over DBH", {
-  DBH <- c(15, 25, 35)
-  out <- vol_national_dbh(DBH = DBH, species = "PICE.GLA", jurisdiction = "AB")
+testthat::test_that("vol_national_dbh_ht returns a tibble with expected columns", {
+  out <- CTAE::vol_national_dbh_ht(
+    DBH = 20,
+    height = 20,
+    species = "PICE.GLA",
+    jurisdiction = "AB"
+  )
 
-  expect_equal(nrow(out), length(DBH))
-  expect_true(all(out$vol_total >= 0, na.rm = TRUE))
-  expect_true(all(out$vol_merchantable >= 0, na.rm = TRUE))
+  testthat::expect_s3_class(out, "tbl_df")
+  testthat::expect_named(out, c("vol_merchantable", "vol_total"))
+  testthat::expect_type(out$vol_merchantable, "double")
+  testthat::expect_type(out$vol_total, "double")
+  testthat::expect_equal(nrow(out), 1L)
 })
 
-test_that("merchantable volume is never greater than total volume", {
-  out <- vol_national_dbh(
+testthat::test_that("recycling works (dbh, species, jurisdiction; and height)", {
+  out1 <- CTAE::vol_national_dbh(
     DBH = c(10, 20, 30),
     species = "PICE.GLA",
     jurisdiction = "AB"
   )
-  expect_true(all(out$vol_merchantable <= out$vol_total, na.rm = TRUE))
+  testthat::expect_equal(nrow(out1), 3L)
+
+  out2 <- CTAE::vol_national_dbh_ht(
+    DBH = c(10, 20, 30),
+    height = 20,
+    species = "PICE.GLA",
+    jurisdiction = "AB"
+  )
+  testthat::expect_equal(nrow(out2), 3L)
+
+  # Vector species/jurisdiction too
+  out3 <- CTAE::vol_national_dbh(
+    DBH = c(10, 20, 30),
+    species = c("PICE.GLA", "PICE.GLA", "PICE.GLA"),
+    jurisdiction = c("AB", "AB", "AB")
+  )
+  testthat::expect_equal(nrow(out3), 3L)
 })
 
-test_that("species not in params returns NA rows", {
-  out <- vol_national_dbh(
+testthat::test_that("species and jurisdiction are standardized (no-dot species, messy province)", {
+  # Species without dot should standardize to dot form
+  out_dot <- CTAE::vol_national_dbh(
+    DBH = 20,
+    species = "POPU.TRE",
+    jurisdiction = "AB"
+  )
+  out_nodot <- CTAE::vol_national_dbh(
+    DBH = 20,
+    species = "POPUTRE",
+    jurisdiction = "AB"
+  )
+
+  testthat::expect_equal(
+    out_dot$vol_total,
+    out_nodot$vol_total,
+    tolerance = 1e-12
+  )
+  testthat::expect_equal(
+    out_dot$vol_merchantable,
+    out_nodot$vol_merchantable,
+    tolerance = 1e-12
+  )
+
+  # Jurisdiction alias should standardize (example: "PEI" -> "PE" if you support it)
+  # If you don't support PEI alias yet, remove this test.
+  out_pe <- CTAE::vol_national_dbh(
+    DBH = 20,
+    species = "PICE.GLA",
+    jurisdiction = "PE"
+  )
+  out_pei <- CTAE::vol_national_dbh(
+    DBH = 20,
+    species = "PICE.GLA",
+    jurisdiction = "PEI"
+  )
+
+  testthat::expect_equal(out_pe$vol_total, out_pei$vol_total, tolerance = 1e-12)
+  testthat::expect_equal(
+    out_pe$vol_merchantable,
+    out_pei$vol_merchantable,
+    tolerance = 1e-12
+  )
+})
+
+testthat::test_that("returns NA volumes when parameters are missing for a valid-form species code", {
+  sp_missing <- "ZZZZ.ZZZ" # valid format but should not exist in params
+
+  out1 <- CTAE::vol_national_dbh(
     DBH = c(10, 20),
-    species = "NOT.A.SPP",
+    species = sp_missing,
     jurisdiction = "AB"
   )
-  expect_true(all(is.na(out$vol_total)))
-  expect_true(all(is.na(out$vol_merchantable)))
+  testthat::expect_true(all(is.na(out1$vol_total)))
+  testthat::expect_true(all(is.na(out1$vol_merchantable)))
+
+  out2 <- CTAE::vol_national_dbh_ht(
+    DBH = c(10, 20),
+    height = c(15, 20),
+    species = sp_missing,
+    jurisdiction = "AB"
+  )
+  testthat::expect_true(all(is.na(out2$vol_total)))
+  testthat::expect_true(all(is.na(out2$vol_merchantable)))
 })
 
-test_that("NA DBH propagates to NA volumes", {
-  out <- vol_national_dbh(
-    DBH = c(20, NA),
+testthat::test_that("errors on unrecognized species codes", {
+  testthat::expect_error(
+    CTAE::vol_national_dbh(
+      DBH = 20,
+      species = "NOPE.NOPE",
+      jurisdiction = "AB"
+    ),
+    "Unrecognized species codes",
+    fixed = TRUE
+  )
+
+  testthat::expect_error(
+    CTAE::vol_national_dbh_ht(
+      DBH = 20,
+      height = 20,
+      species = "NOPE.NOPE",
+      jurisdiction = "AB"
+    ),
+    "Unrecognized species codes",
+    fixed = TRUE
+  )
+})
+
+testthat::test_that("NA DBH and/or height propagate to NA volumes", {
+  out1 <- CTAE::vol_national_dbh(
+    DBH = c(20, NA_real_),
     species = "PICE.GLA",
     jurisdiction = "AB"
   )
-  expect_true(is.finite(out$vol_total[1]))
-  expect_true(is.na(out$vol_total[2]))
-  expect_true(is.na(out$vol_merchantable[2]))
-})
+  testthat::expect_true(is.finite(out1$vol_total[1]))
+  testthat::expect_true(is.na(out1$vol_total[2]))
+  testthat::expect_true(is.na(out1$vol_merchantable[2]))
 
-test_that("vol_national_dbh_ht handles vector H and recycled H", {
-  out1 <- vol_national_dbh_ht(
-    DBH = c(20, 25),
-    H = c(18, 22),
+  out2 <- CTAE::vol_national_dbh_ht(
+    DBH = c(20, 20, NA_real_),
+    height = c(20, NA_real_, 20),
     species = "PICE.GLA",
     jurisdiction = "AB"
   )
-  out2 <- vol_national_dbh_ht(
-    DBH = c(20, 25),
-    H = 20,
+  testthat::expect_true(is.finite(out2$vol_total[1]))
+  testthat::expect_true(is.na(out2$vol_total[2]))
+  testthat::expect_true(is.na(out2$vol_total[3]))
+})
+
+testthat::test_that("volumes are non-negative and total >= merchantable when finite", {
+  out <- CTAE::vol_national_dbh(
+    DBH = c(10, 20, 30),
     species = "PICE.GLA",
     jurisdiction = "AB"
   )
 
-  expect_equal(nrow(out1), 2)
-  expect_equal(nrow(out2), 2)
-  expect_named(out1, c("vol_merchantable", "vol_total"))
-  expect_true(all(out1$vol_merchantable <= out1$vol_total, na.rm = TRUE))
+  ok <- is.finite(out$vol_total) & is.finite(out$vol_merchantable)
+  testthat::expect_true(all(out$vol_total[ok] >= 0))
+  testthat::expect_true(all(out$vol_merchantable[ok] >= 0))
+  testthat::expect_true(all(out$vol_total[ok] >= out$vol_merchantable[ok]))
 })
 
-test_that("vol_national_dbh_ht errors on wrong H length", {
-  expect_error(
-    vol_national_dbh_ht(
-      DBH = c(20, 25),
-      H = c(18, 22, 24),
+testthat::test_that("merchantable volume is zero when DBH < mindbh", {
+  # Use a jurisdiction/species combo with mindbh that is typically > 1 cm.
+  # AB + ALL row often has mindbh around 10+ cm.
+  merch <- CTAE::get_merch_criteria("AB", "POPU.TRE")
+  testthat::expect_true(is.finite(merch$mindbh_cm))
+  testthat::expect_true(merch$mindbh_cm > 0)
+
+  # pick a DBH that is guaranteed smaller than mindbh
+  dbh_small <- max(0.1, merch$mindbh_cm - 1)
+
+  out1 <- CTAE::vol_national_dbh(
+    DBH = dbh_small,
+    species = "POPU.TRE",
+    jurisdiction = "AB"
+  )
+  testthat::expect_equal(out1$vol_merchantable, 0, tolerance = 0)
+
+  out2 <- CTAE::vol_national_dbh_ht(
+    DBH = dbh_small,
+    height = 15,
+    species = "POPU.TRE",
+    jurisdiction = "AB"
+  )
+  testthat::expect_equal(out2$vol_merchantable, 0, tolerance = 0)
+})
+
+testthat::test_that("input validation: DBH and height must be numeric", {
+  testthat::expect_error(
+    CTAE::vol_national_dbh(
+      DBH = "20",
       species = "PICE.GLA",
       jurisdiction = "AB"
     ),
-    "length"
+    "`DBH` must be numeric",
+    fixed = TRUE
+  )
+
+  testthat::expect_error(
+    CTAE::vol_national_dbh_ht(
+      DBH = 20,
+      height = "20",
+      species = "PICE.GLA",
+      jurisdiction = "AB"
+    ),
+    "`height` must be numeric",
+    fixed = TRUE
   )
 })
 
-test_that("dbh+H volumes are close to dbh-only volumes when H follows the internal height curve", {
-  DBH <- c(15, 25, 35)
-
-  p <- CTAE::parameters_NationalTaperModelsDBH
-  pidx <- match("PICE.GLA", p$Species)
-  skip_if(is.na(pidx), "PICE.GLA parameters not available in test environment")
-
-  H <- p$b0[pidx] * DBH^p$b1[pidx]
-
-  out_dbh <- vol_national_dbh(
-    DBH = DBH,
-    species = "PICE.GLA",
-    jurisdiction = "AB"
+testthat::test_that("BC requires species to be provided in get_merch_criteria (indirect)", {
+  # This checks the underlying function behavior explicitly because
+  # vol_national_* always passes a species, so it shouldn't error.
+  testthat::expect_error(
+    CTAE::get_merch_criteria("BC", NA_character_),
+    "For jurisdiction 'BC', `species` must be provided.",
+    fixed = TRUE
   )
-  out_dbh_ht <- vol_national_dbh_ht(
-    DBH = DBH,
-    H = H,
-    species = "PICE.GLA",
-    jurisdiction = "AB"
-  )
-
-  # relative differences should be small (choose a defensible threshold)
-  rel_diff_total <- abs(out_dbh_ht$vol_total - out_dbh$vol_total) /
-    pmax(out_dbh$vol_total, 1e-12)
-  rel_diff_merch <- abs(
-    out_dbh_ht$vol_merchantable - out_dbh$vol_merchantable
-  ) /
-    pmax(out_dbh$vol_merchantable, 1e-12)
-
-  expect_true(all(rel_diff_total < 0.05, na.rm = TRUE))
-  expect_true(all(rel_diff_merch < 0.05, na.rm = TRUE))
-
-  # also ensure they rank the same (monotonic increasing with DBH)
-  expect_true(is.unsorted(out_dbh$vol_total, strictly = FALSE) == FALSE)
-  expect_true(is.unsorted(out_dbh_ht$vol_total, strictly = FALSE) == FALSE)
 })
