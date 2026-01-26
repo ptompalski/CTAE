@@ -59,11 +59,11 @@ vol_honer83 <- function(DBH, height, species) {
   )
 
   # ---- get params per species (wide format) ----
-  # get_volume_params("regional_honer", species=..., strict=TRUE) returns ONE row
+  # get_volume_params("regional_honer83", species=..., strict=TRUE) returns ONE row
   params_tbl <- purrr::map_dfr(
     unique(df$Species),
     function(sp) {
-      p <- get_volume_params("regional_honer", species = sp, strict = TRUE)
+      p <- get_volume_params("regional_honer83", species = sp, strict = TRUE)
       # ensure join key exists/consistent
       if (!"Species" %in% names(p)) {
         p$Species <- sp

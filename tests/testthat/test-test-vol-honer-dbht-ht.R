@@ -1,5 +1,5 @@
-testthat::test_that("vol_honer_dbh_ht returns expected structure and types", {
-  out <- vol_honer_dbh_ht(
+testthat::test_that("vol_honer83 returns expected structure and types", {
+  out <- vol_honer83(
     DBH = c(22, 30, 18),
     height = c(18, 24, 15),
     species = c("PICE.GLA", "ABIE.BAL", "PINU.BAN")
@@ -12,15 +12,15 @@ testthat::test_that("vol_honer_dbh_ht returns expected structure and types", {
   testthat::expect_type(out$vol_merchantable, "double")
 })
 
-testthat::test_that("vol_honer_dbh_ht is vectorized and recycles inputs", {
-  out1 <- vol_honer_dbh_ht(
+testthat::test_that("vol_honer83 is vectorized and recycles inputs", {
+  out1 <- vol_honer83(
     DBH = c(20, 25, 30),
     height = c(18, 21, 24),
     species = "PICE.GLA"
   )
   testthat::expect_equal(nrow(out1), 3)
 
-  out2 <- vol_honer_dbh_ht(
+  out2 <- vol_honer83(
     DBH = 30,
     height = c(20, 22),
     species = c("PICE.GLA", "PICE.GLA")
@@ -29,7 +29,7 @@ testthat::test_that("vol_honer_dbh_ht is vectorized and recycles inputs", {
 })
 
 testthat::test_that("merchantable volume is non-negative and is zero below minimum DBH", {
-  out <- vol_honer_dbh_ht(
+  out <- vol_honer83(
     DBH = c(8.9, 9.0, 12),
     height = c(15, 15, 15),
     species = c("PICE.GLA", "PICE.GLA", "PICE.GLA")
@@ -46,7 +46,7 @@ testthat::test_that("merchantable volume is non-negative and is zero below minim
 })
 
 testthat::test_that("invalid DBH/height yield NA volumes (but do not error)", {
-  out <- vol_honer_dbh_ht(
+  out <- vol_honer83(
     DBH = c(30, NA, -5, 25),
     height = c(22, 20, 18, 0),
     species = c("PICE.GLA", "PICE.GLA", "PICE.GLA", "PICE.GLA")
@@ -65,8 +65,8 @@ testthat::test_that("invalid DBH/height yield NA volumes (but do not error)", {
 testthat::test_that("species codes are standardized internally", {
   # This assumes standardize_species_code normalizes common variants.
   # Example: lowercase / whitespace / hyphenation. Adjust to match your helper’s behavior.
-  out_a <- vol_honer_dbh_ht(DBH = 30, height = 22, species = "PICE.GLA")
-  out_b <- vol_honer_dbh_ht(DBH = 30, height = 22, species = "pice.gla")
+  out_a <- vol_honer83(DBH = 30, height = 22, species = "PICE.GLA")
+  out_b <- vol_honer83(DBH = 30, height = 22, species = "pice.gla")
 
   testthat::expect_equal(out_a$vol_total, out_b$vol_total, tolerance = 1e-12)
   testthat::expect_equal(
@@ -94,7 +94,7 @@ testthat::test_that("works in tidyverse pipe with list-column + unnest", {
   )
 
   out <- trees %>%
-    dplyr::mutate(vol = vol_honer_dbh_ht(dbh, ht, species)) %>%
+    dplyr::mutate(vol = vol_honer83(dbh, ht, species)) %>%
     tidyr::unnest(vol)
 
   testthat::expect_equal(nrow(out), 4)
