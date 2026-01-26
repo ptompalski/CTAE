@@ -226,12 +226,25 @@ testthat::test_that("input validation: DBH and height must be numeric", {
   )
 })
 
-testthat::test_that("BC requires species to be provided in get_merch_criteria (indirect)", {
-  # This checks the underlying function behavior explicitly because
-  # vol_national_* always passes a species, so it shouldn't error.
-  testthat::expect_error(
+testthat::test_that("BC missing species in get_merch_criteria falls back to ALL (indirect)", {
+  warns <- character(0)
+
+  out <- withCallingHandlers(
     CTAE::get_merch_criteria("BC", NA_character_),
-    "For jurisdiction 'BC', `species` must be provided.",
-    fixed = TRUE
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    }
   )
+
+  testthat::expect_s3_class(out, "tbl_df")
+  testthat::expect_equal(out$jurisdiction, "BC")
+  testthat::expect_equal(out$species, "ALL")
+
+  # Two warnings are expected: species fallback + BEC fallback
+  testthat::expect_true(any(grepl(
+    "species.*not provided|Species='ALL'",
+    warns
+  )))
+  testthat::expect_true(any(grepl("BEC_zone missing|UNKNOWN", warns)))
 })

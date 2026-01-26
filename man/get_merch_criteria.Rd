@@ -2,19 +2,28 @@
 % Please edit documentation in R/get_merch_criteria.R
 \name{get_merch_criteria}
 \alias{get_merch_criteria}
-\title{Get merchantability criteria for a jurisdiction/species}
+\title{Get merchantability criteria for a jurisdiction/species (BEC-aware for BC)}
 \usage{
-get_merch_criteria(jurisdiction, species = NA_character_)
+get_merch_criteria(
+  jurisdiction,
+  species = NA_character_,
+  BEC_zone = NA_character_,
+  verbose = TRUE
+)
 }
 \arguments{
-\item{jurisdiction}{Province/Teritory code (e.g., `"BC"`, `"AB"`).}
+\item{jurisdiction}{Province/Territory code (e.g., `"BC"`, `"AB"`).}
 
-\item{species}{Species code. Required for `"BC"`.}
+\item{species}{Species code. Optional for `"BC"`; if missing, falls back to `"ALL"` with a warning.}
+
+\item{BEC_zone}{Optional BEC zone code (e.g., `"CWH"`, `"ICH"`). If missing for `"BC"`,
+conservative criteria are taken from `BEC_group == "UNKNOWN"`.}
+
+\item{verbose}{If TRUE, warns when BC falls back to genus-level, UNKNOWN BEC, or ALL.}
 }
 \value{
 A one-row tibble with columns:
   `jurisdiction`, `species`, `stumpht_m`, `topdbh_cm`, `mindbh_cm`.
-  If no match is found, returns one-row tibble with `NA` values.
 }
 \description{
 Convenience helper to fetch CBM-style merchantability criteria (stump height,
@@ -22,20 +31,29 @@ top diameter, and minimum DBH) from the internal `merchcrit` lookup table.
 }
 \details{
 Before lookup, inputs are standardized using internal helpers:
-* `standardize_prov_code()` for `jurisdiction`
+* `standardize_jurisdiction_code()` for `jurisdiction`
 * `standardize_species_code()` for `species` (keeps `"ALL"` as-is)
 
 Rules:
-* For British Columbia (`"BC"`), `species` is required and criteria are looked up
-  using (Province + Species). If no exact match is found, the function falls back
-  to a BC-wide row if present (e.g., `Species == "ALL"` or `NA`).
-* For other jurisdictions, criteria are jurisdiction-level (Province) only.
+* For British Columbia (`"BC"`), `species` is OPTIONAL:
+  - If `species` is missing, the function falls back to `Species == "ALL"` and warns.
+  - If `BEC_zone` is provided and can be mapped, criteria are looked up using
+    (Province + Species + BEC_group).
+  - If `BEC_zone` is missing/unknown, criteria fall back to a conservative BC
+    BEC-independent layer using `BEC_group == "UNKNOWN"` (species-specific if present,
+    otherwise `Species == "ALL"`).
+  - If no exact species match is found, the function falls back to genus-level rules
+    (e.g., `PICE.GLA` -> `PICE.SPP`) and then to `Species == "ALL"`.
+* For other jurisdictions, criteria are jurisdiction-level (Province) only and
+  species/BEC are ignored.
 
 Stump height is returned in metres (converted from centimetres).
 }
 \examples{
 get_merch_criteria("ON")
-get_merch_criteria("PEI")             # standardized to "PE"
-get_merch_criteria("BC", "picegla")   # standardized to "PICE.GLA"
+get_merch_criteria("PEI")                        # standardized to "PE"
+get_merch_criteria("BC", "PSEU.MEN", "CWH")       # BEC-aware
+get_merch_criteria("BC", "PICE.GLA", "CWH")       # genus fallback to PICE.SPP if present
+get_merch_criteria("BC")                          # falls back to BC ALL + UNKNOWN (warns)
 
 }

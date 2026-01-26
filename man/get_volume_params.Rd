@@ -21,7 +21,7 @@ e.g. \code{"national_ung_dbh"} or \code{"regional_kozak88"}.}
 \item{province}{Province/jurisdiction code (e.g., \code{"BC"}, \code{"AB"}).
 Used for regional models when the parameter table includes a \code{Province} column.}
 
-\item{subregion}{Subregion identifier (e.g., \code{"ALL"} or a BEC zone).
+\item{subregion}{Subregion identifier (BEC zone in BC).
 Used for regional models when the parameter table includes a \code{Subregion} column.}
 
 \item{strict}{Logical. If \code{TRUE}, throw an error when no matching parameters

@@ -4,16 +4,74 @@ library(tidyverse)
 
 
 # data - merchantability  criteria ####
-# based on a csv file provided by Juha Metsaranta.
-merchcrit = read.csv("data-raw/MerchCrit.csv")
 
-merchcrit <- merchcrit %>%
-  mutate(
-    Province = standardize_province_code(Province),
-    Species = standardize_species_code(Species)
-  )
+merchcrit <- tibble::tribble(
+  ~Province , ~Species    , ~BEC_group     , ~StumpHT , ~TopDBH , ~MinDBH ,
+  # --- Non-BC stays as-is, BEC_group = NA ---
+  "NL"      , "ALL"       , NA_character_  ,       15 ,  7.6    ,  9.0    ,
+  "NS"      , "ALL"       , NA_character_  ,       15 ,  7.0    ,  9.0    ,
+  "PE"      , "ALL"       , NA_character_  ,       15 ,  8.0    ,  9.0    ,
+  "NB"      , "ALL"       , NA_character_  ,       15 ,  8.0    ,  9.1    ,
+  "QC"      , "ALL"       , NA_character_  ,       15 ,  9.0    ,  9.0    ,
+  "ON"      , "ALL"       , NA_character_  ,       30 ,  7.0    ,  9.0    ,
+  "MB"      , "ALL"       , NA_character_  ,       30 ,  7.6    ,  9.1    ,
+  "SK"      , "ALL"       , NA_character_  ,       30 ,  7.0    ,  7.0    ,
+  "AB"      , "ALL"       , NA_character_  ,       30 ,  7.0    , 13.0    ,
+  "YT"      , "ALL"       , NA_character_  ,       30 , 10.0    , 15.0    ,
+  "NT"      , "ALL"       , NA_character_  ,       30 , 10.2    , 10.2    ,
+
+  # --- BC: now BEC-aware ---
+  # Coast wet (e.g., CWH/MH typical mature coastal utilization)
+  "BC"      , "THUJ.PLI"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,
+  "BC"      , "TSUG.HET"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,
+  "BC"      , "PSEU.MEN"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,
+  "BC"      , "ABIE.AMA"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,
+  "BC"      , "PICE.SPP"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,
+
+  # Coast dry / transition (CDF etc.)
+  "BC"      , "ALNU.RUB"  , "Coast_dry"    ,       30 , 10.0    , 12.5    ,
+  "BC"      , "PICE.SPP"  , "Coast_dry"    ,       30 , 10.0    , 17.5    ,
+  "BC"      , "TSUG.HET"  , "Coast_dry"    ,       30 , 10.0    , 17.5    ,
+  "BC"      , "PSEU.MEN"  , "Coast_dry"    ,       30 , 10.0    , 17.5    ,
+  "BC"      , "ABIE.AMA"  , "Coast_dry"    ,       30 , 10.0    , 17.5    ,
+
+  # Interior (default interior conifer)
+  "BC"      , "PICE.SPP"  , "Interior_wet" ,       30 , 10.0    , 17.5    ,
+  "BC"      , "PICE.SPP"  , "Interior_dry" ,       30 , 10.0    , 17.5    ,
+  "BC"      , "PINU.CON"  , "Interior_dry" ,       30 , 10.0    , 12.5    ,
+
+  # --- BC: BEC-independent conservative fallback layer ---
+  # Use when BEC_zone is missing/unknown (conservative: TopDBH=15, MinDBH=17.5)
+  "BC"      , "THUJ.PLI"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    ,
+  "BC"      , "TSUG.HET"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    ,
+  "BC"      , "PSEU.MEN"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    ,
+  "BC"      , "ABIE.AMA"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    ,
+  "BC"      , "PICE.SPP"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    ,
+  # Broadleaf already in table; keep MinDBH as you had, but apply conservative TopDBH
+  "BC"      , "ALNU.RUB"  , "UNKNOWN"      ,       30 , 15.0    , 12.5    ,
+
+  # --- BC: additional conifers, BEC-independent conservative ---
+  "BC"      , "ABIE.LAS"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    , # Subalpine fir
+  "BC"      , "LARI.OCC"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    , # Western larch
+  "BC"      , "PINU.PON"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    , # Ponderosa pine
+  "BC"      , "PINU.MON"  , "UNKNOWN"      ,       30 , 15.0    , 17.5    , # Western white pine
+  "BC"      , "CHAM.NOOT" , "UNKNOWN"      ,       30 , 15.0    , 17.5    , # Yellow cedar
+
+  # Catch-all: species unknown AND BEC unknown
+  "BC"      , "ALL"       , "UNKNOWN"      ,       30 , 15.0    , 17.5
+)
+
 usethis::use_data(merchcrit, overwrite = T)
 
+# old version, updated above:
+# based on a csv file provided by Juha Metsaranta.
+# merchcrit = read.csv("data-raw/MerchCrit.csv")
+
+# merchcrit <- merchcrit %>%
+#   mutate(
+#     Province = standardize_province_code(Province),
+#     Species = standardize_species_code(Species)
+#   )
 
 # data - model parameters for the Canadian national taper models (Ung et al 2013) ####
 # original csv files with model parameters provided by Juha Metsaranta.

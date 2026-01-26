@@ -206,12 +206,4 @@ out <- out |>
   tidyr::fill(species, .direction = "down")
 
 
-write_csv(out, "data-raw/kozak1994_parameters.csv")
-
-# img <- pdf_render_page(pdf_file, page = 19, dpi = 200) |> image_read()
-# img <- image_rotate(img, -90) |>
-#   image_crop(geometry = "90%x90%+80+160") |>
-#   image_convert(colorspace = "gray") |>
-#   image_contrast(sharpen = 1)
-
-# txt <- ocr(img, engine = eng)
+write_csv(out, "data-raw/kozak1994_parameters.csv") # open in e.g. excel and edit there

@@ -16,7 +16,7 @@
 #' @param species Species code (e.g., \code{"POPU.TRE"}). Required for all current models.
 #' @param province Province/jurisdiction code (e.g., \code{"BC"}, \code{"AB"}).
 #'   Used for regional models when the parameter table includes a \code{Province} column.
-#' @param subregion Subregion identifier (e.g., \code{"ALL"} or a BEC zone).
+#' @param subregion Subregion identifier (BEC zone in BC).
 #'   Used for regional models when the parameter table includes a \code{Subregion} column.
 #' @param strict Logical. If \code{TRUE}, throw an error when no matching parameters
 #'   are found. If \code{FALSE} (default), returns an empty tibble.
