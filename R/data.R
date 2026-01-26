@@ -77,14 +77,44 @@
 
 "parameters_Kozak88"
 
-#' Kozak (1994) BEC-zone taper model parameters (BC)
+#' Kozak (1994) taper model parameters for British Columbia
 #'
-#' Model parameter table for the BC Ministry of Forests taper equations developed
-#' by BEC zone and species (commonly referenced as the "Kozak 1994/1995" BC taper
-#' parameters in inventory applications).
+#' A dataset containing parameter estimates for the variable-exponent taper
+#' models developed by Kozak (1994) for British Columbia tree species groups.
+#' Parameters are provided by species group and Biogeoclimatic Ecosystem
+#' Classification (BEC) zone.
 #'
-#' @format A data frame containing species- and BEC-zone-specific parameter sets
-#'   required by the Kozak BC taper implementation in this package.
+#' The Kozak (1994) models were developed using operational forest inventory
+#' data and in some cases employ species groups rather than individual tree species.
+#' This is the case for the "Spruce" group represents all spruce species combined,
+#' consistent with inventory practice in British Columbia at the time.
+#'
+#' The parameters correspond to the variable-exponent taper equation described
+#' in Kozak (1994). A multiplicative log-bias correction factor is provided for
+#' back-transformation from log scale where applicable.
+#'
+#' @format A tibble with 73 rows and 14 columns:
+#' \describe{
+#'   \item{species}{Species group code used by the model (e.g., pooled genus-level groups).}
+#'   \item{bec_zone}{Biogeoclimatic Ecosystem Classification (BEC) zone for which the parameters apply.}
+#'   \item{a0}{Model parameter \eqn{a_0}.}
+#'   \item{a1}{Model parameter \eqn{a_1}.}
+#'   \item{a2}{Model parameter \eqn{a_2}.}
+#'   \item{b0}{Model parameter \eqn{b_0}.}
+#'   \item{b1}{Model parameter \eqn{b_1}.}
+#'   \item{b2}{Model parameter \eqn{b_2}.}
+#'   \item{b3}{Model parameter \eqn{b_3}.}
+#'   \item{b4}{Model parameter \eqn{b_4}.}
+#'   \item{b5}{Model parameter \eqn{b_5}.}
+#'   \item{b6}{Model parameter \eqn{b_6}.}
+#'   \item{log_bias_factor}{Multiplicative correction factor applied when
+#'     back-transforming predictions from the log scale.}
+#'   \item{bias_signf}{Indicator of whether the bias correction factor was
+#'     statistically significant in the original analysis (1 = significant,
+#'     0 = not significant).}
+#' }
+#'
+#'
 #' @references Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
 #'   Species*. Province of British Columbia, Ministry of Forests (report).
 "parameters_Kozak94"

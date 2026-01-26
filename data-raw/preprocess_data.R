@@ -49,8 +49,17 @@ regdbhht <- regdbhht %>%
 # regdbhht %>% group_by(ModelName) %>% count()
 # parameters_Honer <- regdbhht %>% filter(ModelName == "Honer") # incomplete - replaced by the parameters entered manually
 parameters_Kozak88 <- regdbhht %>% filter(ModelName == "Kozak88")
-parameters_Kozak94 <- regdbhht %>% filter(ModelName == "Kozak94")
-
+# parameters_Kozak94 <- regdbhht %>% filter(ModelName == "Kozak94")
 
 usethis::use_data(parameters_Kozak88, overwrite = T)
+
+# data - Kozak 1994 models for BC
+parameters_Kozak94 <- readxl::read_excel("data-raw/kozak1994_parameters.xlsx")
+parameters_Kozak94 <-
+  parameters_Kozak94 %>%
+  mutate(
+    bec_zone = bec_zone %>%
+      str_remove_all("\\s*\\([^)]*\\)")
+  ) %>%
+  select(-source_page, -species_name, -species_code_bc, -n_sample)
 usethis::use_data(parameters_Kozak94, overwrite = T)
