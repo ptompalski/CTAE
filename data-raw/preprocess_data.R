@@ -61,5 +61,6 @@ parameters_Kozak94 <-
     bec_zone = bec_zone %>%
       str_remove_all("\\s*\\([^)]*\\)")
   ) %>%
-  select(-source_page, -species_name, -species_code_bc, -n_sample)
+  select(-source_page, -species_name, -species_code_bc, -n_sample) %>%
+  rename(Species = species, Subregion = bec_zone)
 usethis::use_data(parameters_Kozak94, overwrite = T)
