@@ -16,14 +16,14 @@
 #'
 #' @examples
 #' # Single tree
-#' vol_honer_dbh_ht(
+#' vol_honer83(
 #'   DBH = 30,
 #'   height = 22,
 #'   species = "PICE.GLA"
 #' )
 #'
 #' # Multiple trees, mixed species
-#' vol_honer_dbh_ht(
+#' vol_honer83(
 #'   DBH = c(25, 32, 18),
 #'   height = c(20, 24, 15),
 #'   species = c("PICE.GLA", "ABIE.BAL", "PINU.BAN")
@@ -36,9 +36,9 @@
 #'   ht  = c(18, 24, 15, 27),
 #'   species = c("PICE.GLA", "PICE.GLA", "ABIE.BAL", "PINU.BAN")
 #' )
-#' trees %>% mutate(vol=vol_honer_dbh_ht(dbh, ht, species)) %>% unnest(vol)
+#' trees %>% mutate(vol=vol_honer83(dbh, ht, species)) %>% unnest(vol)
 
-vol_honer_dbh_ht <- function(DBH, height, species) {
+vol_honer83 <- function(DBH, height, species) {
   # ---- internal constants (match original Honer implementation intent) ----
   stumpht <- 0.3048 # m  (1 ft)
   topdbh <- 10 # cm (merchantable top diameter; commonly 10 cm)

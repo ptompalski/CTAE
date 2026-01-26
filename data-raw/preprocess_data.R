@@ -122,3 +122,11 @@ parameters_Kozak94 <-
   select(-source_page, -species_name, -species_code_bc, -n_sample) %>%
   rename(Species = species, Subregion = bec_zone)
 usethis::use_data(parameters_Kozak94, overwrite = T)
+
+
+# data - Huang 1994 models for AB
+# parameters_HuangV <- parameters_HuangV %>% rename(Species = species)
+# parameters_HuangV <- parameters_HuangV %>% mutate(Subregion = NaturalSubregionCode)
+# write.csv(parameters_HuangV, "data-raw/parameters_HuangV.csv", row.names=F)
+parameters_HuangV <- read.csv("data-raw/parameters_HuangV.csv")
+usethis::use_data(parameters_HuangV, overwrite = T)
