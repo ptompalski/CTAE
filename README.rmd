@@ -33,18 +33,14 @@ CTAE is an R package that brings together a collection of published allometric m
 CTAE currently includes allometric models to:
 
 - Estimate tree-level volume (total and merchantable)
-
 - Estimate aboveground biomass (AGB)
-
 - Convert volume to biomass
-
 - Convert total volume to merchantable volume
-
 - Apply simple growth models to estimate changes in attributes over time
 
 
 
-## Models included so far
+## Included models
 
 ### Aboveground biomass
 - Canadian national tree aboveground biomass equations (Lambert et al. 2005, Ung et al. 2008).
@@ -65,13 +61,8 @@ CTAE currently includes allometric models to:
 ### Other
 
 - National volume-to-biomass conversions models (Boudewyn et al. 2007)
-
 - National total volume to merchantable volume conversions models (Boudewyn et al. 2007)
-
 - National growth and yield model (H, BA, V) (Ung et al. 2009)
-
-
-
 
 
 ## Installation 

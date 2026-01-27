@@ -15,16 +15,12 @@ jurisdiction-appropriate assumptions (e.g. merchantability rules).
 CTAE currently includes allometric models to:
 
 - Estimate tree-level volume (total and merchantable)
-
 - Estimate aboveground biomass (AGB)
-
 - Convert volume to biomass
-
 - Convert total volume to merchantable volume
-
 - Apply simple growth models to estimate changes in attributes over time
 
-## Models included so far
+## Included models
 
 ### Aboveground biomass
 
@@ -47,10 +43,8 @@ CTAE currently includes allometric models to:
 ### Other
 
 - National volume-to-biomass conversions models (Boudewyn et al. 2007)
-
 - National total volume to merchantable volume conversions models
   (Boudewyn et al. 2007)
-
 - National growth and yield model (H, BA, V) (Ung et al. 2009)
 
 ## Installation
