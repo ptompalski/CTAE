@@ -27,7 +27,7 @@
 #' }
 #'
 #' @source
-#' Zakrzewski, W. T., et al. (2013). \emph{A Comparison of Tree Stem Taper Models
+#' Zakrzewski, W. T., Penner, M. (2013). \emph{A Comparison of Tree Stem Taper Models
 #' for Use in Ontario}. Ontario Forest Research Institute, Report 176.
 "parameters_Zakrzewski2013"
 
@@ -141,8 +141,7 @@
 #' }
 #'
 #'
-#' @references Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
-#'   Species*. Province of British Columbia, Ministry of Forests (report).
+#' @references Kozak, A. (1994). Development of Taper Equations by BEC Zones and Species. Province of British Columbia, Ministry of Forests (report).
 "parameters_Kozak94"
 
 
