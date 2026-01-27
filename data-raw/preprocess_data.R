@@ -13,14 +13,39 @@ merchcrit <- tibble::tribble(
   "PE"      , "ALL"       , NA_character_  ,       15 ,  8.0    ,  9.0    ,
   "NB"      , "ALL"       , NA_character_  ,       15 ,  8.0    ,  9.1    ,
   "QC"      , "ALL"       , NA_character_  ,       15 ,  9.0    ,  9.0    ,
-  "ON"      , "ALL"       , NA_character_  ,       30 ,  7.0    ,  9.0    ,
+
   "MB"      , "ALL"       , NA_character_  ,       30 ,  7.6    ,  9.1    ,
   "SK"      , "ALL"       , NA_character_  ,       30 ,  7.0    ,  7.0    ,
   "AB"      , "ALL"       , NA_character_  ,       30 ,  7.0    , 13.0    ,
   "YT"      , "ALL"       , NA_character_  ,       30 , 10.0    , 15.0    ,
   "NT"      , "ALL"       , NA_character_  ,       30 , 10.2    , 10.2    ,
 
-  # --- BC: now BEC-aware ---
+  # --- Ontario (ON): ----
+  "ON"      , "ALL"       , NA_character_  ,       30 , 13.1    ,  9.0    , #conservative for unknown species,
+  # Ontario (ON): species-group upper diameter limits (DOB) from Scaling Manual Table 3
+  # Note: these values map to TopDBH (minimum top diameter outside bark)
+  "ON"      , "POPU.SPP"  , NA_character_  ,       30 , 13.1    ,  9.0    , # Poplar group
+  "ON"      , "BETU.PAP"  , NA_character_  ,       30 , 13.1    ,  9.0    , # White birch (explicit exception)
+  "ON"      , "PINU.STR"  , NA_character_  ,       30 , 13.1    ,  9.0    , # White pine
+  "ON"      , "PINU.RES"  , NA_character_  ,       30 , 13.1    ,  9.0    , # Red pine
+  "ON"      , "TSUG.CAN"  , NA_character_  ,       30 , 13.1    ,  9.0    , # Hemlock (eastern hemlock)
+
+  # Conifers (except white/red pine + hemlock): use genus-level conifer fallbacks
+  "ON"      , "PICE.SPP"  , NA_character_  ,       30 ,  9.1    ,  9.0    ,
+  "ON"      , "ABIE.SPP"  , NA_character_  ,       30 ,  9.1    ,  9.0    ,
+  "ON"      , "LARI.SPP"  , NA_character_  ,       30 ,  9.1    ,  9.0    ,
+  "ON"      , "THUJ.SPP"  , NA_character_  ,       30 ,  9.1    ,  9.0    ,
+  "ON"      , "PINU.SPP"  , NA_character_  ,       30 ,  9.1    ,  9.0    ,
+
+  # Hardwoods (except poplar/white birch): genus-level hardwood fallbacks
+  "ON"      , "ACER.SPP"  , NA_character_  ,       30 , 17.1    ,  9.0    ,
+  "ON"      , "FAGU.SPP"  , NA_character_  ,       30 , 17.1    ,  9.0    ,
+  "ON"      , "QUER.SPP"  , NA_character_  ,       30 , 17.1    ,  9.0    ,
+  "ON"      , "FRAX.SPP"  , NA_character_  ,       30 , 17.1    ,  9.0    ,
+  "ON"      , "ULMU.SPP"  , NA_character_  ,       30 , 17.1    ,  9.0    ,
+  "ON"      , "BETU.SPP"  , NA_character_  ,       30 , 17.1    ,  9.0    , # overrides for birches EXCEPT BETU.PAP (handled above)
+
+  # --- BC: BEC-specific. BEC zones are grouped ---
   # Coast wet (e.g., CWH/MH typical mature coastal utilization)
   "BC"      , "THUJ.PLI"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,
   "BC"      , "TSUG.HET"  , "Coast_wet"    ,       30 , 15.0    , 17.5    ,

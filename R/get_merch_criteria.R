@@ -119,16 +119,49 @@ get_merch_criteria <- function(
     return(NA_character_)
   }
 
-  # ---- Non-BC: jurisdiction-only lookup (ignore species/BEC) ----
+  # ---- Non-BC: jurisdiction lookup, but allow optional species/genus overrides ----
   if (!is_bc) {
-    hits <- merchcrit[
-      merchcrit$Province == jurisdiction_std & merchcrit$Species == "ALL",
-      ,
-      drop = FALSE
-    ]
+    # If a province has no species-specific rows, keep the legacy behavior (Province + ALL).
+    has_species_rows <- any(
+      merchcrit$Province == jurisdiction_std &
+        !is.na(merchcrit$Species) &
+        merchcrit$Species != "ALL",
+      na.rm = TRUE
+    )
+
+    spp <- species_to_spp(species_std)
+    candidates <- if (!is.na(species_std) && nzchar(species_std)) {
+      unique(stats::na.omit(c(species_std, spp, "ALL")))
+    } else {
+      "ALL"
+    }
+
+    if (!has_species_rows) {
+      candidates <- "ALL"
+    }
+
+    hits <- merchcrit[0, , drop = FALSE]
+    hit_cand <- NA_character_
+
+    for (cand in candidates) {
+      tmp <- merchcrit[
+        merchcrit$Province == jurisdiction_std & merchcrit$Species == cand,
+        ,
+        drop = FALSE
+      ]
+      if (nrow(tmp) > 0) {
+        hits <- tmp
+        hit_cand <- cand
+        break
+      }
+    }
+
+    # Legacy-friendly fallback: if ALL not present, take first Province row
     if (nrow(hits) == 0) {
       hits <- merchcrit[merchcrit$Province == jurisdiction_std, , drop = FALSE]
+      hit_cand <- NA_character_
     }
+
     if (nrow(hits) == 0) {
       stop(
         sprintf(
@@ -139,13 +172,59 @@ get_merch_criteria <- function(
       )
     }
 
-    hits <- hits[1, , drop = FALSE]
+    # enforce uniqueness (we're not using BEC_group outside BC, so this should be 1 row)
+    if (nrow(hits) > 1) {
+      stop(
+        sprintf(
+          "Multiple merchantability rows found for '%s' (match='%s'). Make `merchcrit` unique.",
+          jurisdiction_std,
+          ifelse(is.na(hit_cand), "<province-only>", hit_cand)
+        ),
+        call. = FALSE
+      )
+    }
+
+    # Optional warning if we fell back (genus / ALL) in a province that supports species rows
+    if (
+      isTRUE(verbose) &&
+        has_species_rows &&
+        !is.na(species_std) &&
+        nzchar(species_std)
+    ) {
+      if (!is.na(spp) && identical(hit_cand, spp)) {
+        warning(
+          sprintf(
+            "No exact species match for '%s' in %s; using genus-level fallback '%s'.",
+            species_std,
+            jurisdiction_std,
+            spp
+          ),
+          call. = FALSE
+        )
+      } else if (identical(hit_cand, "ALL")) {
+        warning(
+          sprintf(
+            "No species/genus match for '%s' in %s; using fallback Species='ALL'.",
+            species_std,
+            jurisdiction_std
+          ),
+          call. = FALSE
+        )
+      }
+    }
+
+    hit <- hits[1, , drop = FALSE]
+
     return(tibble::tibble(
       jurisdiction = jurisdiction_std,
-      species = "ALL",
-      stumpht_m = as.numeric(hits$StumpHT) / 100,
-      topdbh_cm = as.numeric(hits$TopDBH),
-      mindbh_cm = as.numeric(hits$MinDBH)
+      species = if (!is.na(species_std) && nzchar(species_std)) {
+        species_std
+      } else {
+        "ALL"
+      },
+      stumpht_m = as.numeric(hit$StumpHT) / 100,
+      topdbh_cm = as.numeric(hit$TopDBH),
+      mindbh_cm = as.numeric(hit$MinDBH)
     ))
   }
 

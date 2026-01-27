@@ -11,6 +11,6 @@ A data frame consisting of merchantability criteria.
 merchcrit
 }
 \description{
-A dataset containing merchantability criteria, by jurisdiction, and species (in BC)
+A dataset containing merchantability criteria, by jurisdiction, and species
 }
 \keyword{datasets}

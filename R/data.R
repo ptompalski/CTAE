@@ -1,6 +1,6 @@
 #' Merchantability criteria
 #'
-#' A dataset containing merchantability criteria, by jurisdiction, and species (in BC)
+#' A dataset containing merchantability criteria, by jurisdiction, and species
 #'
 #'
 #' @format A data frame consisting of merchantability criteria.
