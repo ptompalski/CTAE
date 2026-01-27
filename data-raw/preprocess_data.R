@@ -136,7 +136,7 @@ parameters_Kozak88 <- regdbhht %>% filter(ModelName == "Kozak88")
 
 usethis::use_data(parameters_Kozak88, overwrite = T)
 
-# data - Kozak 1994 models for BC
+# data - Kozak 1994 models for BC ####
 parameters_Kozak94 <- readxl::read_excel("data-raw/kozak1994_parameters.xlsx")
 parameters_Kozak94 <-
   parameters_Kozak94 %>%
@@ -149,9 +149,52 @@ parameters_Kozak94 <-
 usethis::use_data(parameters_Kozak94, overwrite = T)
 
 
-# data - Huang 1994 models for AB
+# data - Huang 1994 models for AB ####
 # parameters_HuangV <- parameters_HuangV %>% rename(Species = species)
 # parameters_HuangV <- parameters_HuangV %>% mutate(Subregion = NaturalSubregionCode)
 # write.csv(parameters_HuangV, "data-raw/parameters_HuangV.csv", row.names=F)
 parameters_HuangV <- read.csv("data-raw/parameters_HuangV.csv")
 usethis::use_data(parameters_HuangV, overwrite = T)
+
+
+# data - Zakrzewski 2013 model for ON ####
+
+# translating species to NFI codes
+ON_species_dict <- read.csv("data-raw/ON_species_dict.csv")
+
+CanadianTreeSpecies <- read.csv(
+  'https://raw.githubusercontent.com/ptompalski/CanadianTreeSpecies/refs/heads/main/data-raw/CanadianTreeSpeciesData.csv'
+)
+CanadianTreeSpecies_ON <- CanadianTreeSpecies %>%
+  select(on_code, NFI_code) %>%
+  filter(!is.na(on_code)) %>%
+  distinct()
+# CanadianTreeSpecies_ON
+
+ON_vol_coef <- read_csv(
+  "data-raw/ON_Vol_Coef.csv",
+  show_col_types = FALSE,
+  trim_ws = TRUE
+)
+
+parameters_Zakrzewski2013 <-
+  ON_vol_coef %>%
+  left_join(ON_species_dict, by = join_by(tree_spec == Spp_num)) %>%
+  relocate(Spp_alpha) %>%
+  mutate(Spp_alpha = toupper(Spp_alpha)) %>%
+  left_join(CanadianTreeSpecies_ON, by = join_by(Spp_alpha == on_code)) %>%
+
+  # two codes missing, entering them manually
+  mutate(
+    NFI_code = case_when(
+      is.na(NFI_code) & Spp_alpha == "YB" ~ "BETU.ALL",
+      is.na(NFI_code) & is.na(Spp_alpha) ~ "UNKN.SPP",
+      TRUE ~ NFI_code
+    )
+  ) %>%
+
+  relocate(NFI_code) %>%
+  rename(Species = NFI_code) %>%
+  select(-Spp_alpha, -tree_spec)
+
+usethis::use_data(parameters_Zakrzewski2013, overwrite = T)

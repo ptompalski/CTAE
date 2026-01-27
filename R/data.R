@@ -6,6 +6,32 @@
 #' @format A data frame consisting of merchantability criteria.
 "merchcrit"
 
+#' Zakrzewski et al. (2013) taper/volume model parameters for Ontario
+#'
+#' Species-level coefficients for the mathematically tractable stem taper model
+#' evaluated by Zakrzewski et al. (2013) for use in Ontario. The table provides
+#' taper parameters (\code{beta}, \code{gamma}), bark-factor parameters
+#' (\code{delta}, \code{nu} for conifers; \code{chi} for hardwoods), and a
+#' species-dependent slenderness/shape parameter (\code{rho}) used in the
+#' \eqn{s(H/DBH)} formulation.
+#'
+#' @format A tibble with 24 rows:
+#' \describe{
+#'   \item{Species}{NFI species code (e.g., \code{"ABIE.BAL"}).}
+#'   \item{delta}{Conifer bark-factor parameter \eqn{\delta}; 0 for hardwoods.}
+#'   \item{nu}{Conifer bark-factor parameter \eqn{\eta} (stored as \code{nu}); 0 for hardwoods.}
+#'   \item{rho}{Species parameter controlling the \eqn{s(H/DBH)} function form.}
+#'   \item{beta}{Taper parameter \eqn{\beta}.}
+#'   \item{gamma}{Taper parameter \eqn{\gamma}.}
+#'   \item{chi}{Hardwood bark-factor parameter \eqn{\chi}; 0 for conifers.}
+#' }
+#'
+#' @source
+#' Zakrzewski, W. T., et al. (2013). \emph{A Comparison of Tree Stem Taper Models
+#' for Use in Ontario}. Ontario Forest Research Institute, Report 176.
+"parameters_Zakrzewski2013"
+
+
 #' Model parameters required for calculating volume using the taper model based on DBH
 #'
 #' A dataset containing parameters for the Ung et al 2013 models.
