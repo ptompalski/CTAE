@@ -36,7 +36,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
 
   species_std <- standardize_species_code(species)
 
-  # ---- constants (as in the provided script) ----
+  # ---- constants ----
   BH <- 1.3
   cons <- 0.00007854
 
@@ -58,13 +58,13 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
 
   # ---- internal: identify deciduous vs conifer from parameter availability ----
   # Deciduous if chi > 0 (hardwood bark model). Conifer otherwise (chi == 0).
-  zak_is_deciduous <- function(p) {
-    is.finite(p$chi) && p$chi > 0
+  zak_is_deciduous_chi <- function(chi) {
+    is.finite(chi) && chi > 0
   }
 
   # ---- internal: compute s(H/DBH) using Table 1 mapping (conifers) ----
   # Deciduous handled outside (s = 2).
-  zak_compute_s_conifer <- function(HDR, rho, species_nfi) {
+  zak_compute_s_conifer_1 <- function(HDR, rho, species_nfi) {
     if (!is.finite(HDR) || HDR <= 0) {
       return(NA_real_)
     }
@@ -72,14 +72,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       return(NA_real_)
     }
 
-    # Table 1 mapping (conifers) from the user's pasted snippet
-    # Bf ABIE.BAL: 2 + rho ln(HDR)
-    # Cw THUJ.OCC: 1 + rho HDR
-    # Pj PINU.BAN: 2 + rho ln(HDR)
-    # Pr PINU.RES: 2 + rho ln(HDR)
-    # Pw PINU.STR: 1 + rho exp(HDR)
-    # Sb PICE.MAR: 2 + rho ln(HDR)
-    # Sw PICE.GLA: 1 + HDR^rho
+    # Table 1 mapping (conifers)
     s_form <- dplyr::case_when(
       species_nfi %in%
         c("ABIE.BAL", "PINU.BAN", "PINU.RES", "PICE.MAR") ~ "2 + rho*log(HDR)",
@@ -89,7 +82,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       TRUE ~ NA_character_
     )
 
-    # Fallback (legacy default in provided script)
+    # Fallback (legacy default)
     if (is.na(s_form)) {
       s <- 1 + HDR^1.31
     } else if (s_form == "2 + rho*log(HDR)") {
@@ -115,28 +108,25 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     s
   }
 
-  # ---- internal: bark fraction and inside-bark diameter at BH ----
-  zak_bark_fraction <- function(H, p) {
-    barkf <- rep(NA_real_, length(H))
-
-    if (zak_is_deciduous(p)) {
+  # ---- internal: bark fraction (scalar) ----
+  zak_bark_fraction_1 <- function(H, delta, nu, chi) {
+    if (zak_is_deciduous_chi(chi)) {
       # hardwoods: barkf = 1 - exp(1 - (H/1.3)^chi)
-      barkf <- 1 - exp(1 - (H / BH)^p$chi)
+      barkf <- 1 - exp(1 - (H / BH)^chi)
     } else {
       # conifers: barkf = delta + nu*(1.3/H)
-      barkf <- p$delta + p$nu * (BH / H)
+      barkf <- delta + nu * (BH / H)
     }
-
     # cap > 1 as in the provided script
-    barkf[barkf > 1] <- 0.984
-
+    if (is.finite(barkf) && barkf > 1) {
+      barkf <- 0.984
+    }
     barkf
   }
 
-  # ---- internal: section volume from B to U (m) using closed-form TT * K ----
-  zak_section_volume <- function(H, B, U, a2, B2, G2, dib_cm) {
-    U2 <- U
-    U2[U2 > H] <- H[U2 > H]
+  # ---- internal: section volume (scalar) from B to U (m) using closed-form TT * K ----
+  zak_section_volume_1 <- function(H, B, U, a2, B2, G2, dib_cm) {
+    U2 <- if (U > H) H else U
     B2m <- B
 
     H2 <- H * H
@@ -150,8 +140,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     K <- cons * dib_cm^2 * Bl2
 
     TT <- {
-      (-1 /
-        12 *
+      (-1 / 12) *
         (12 *
           H4 *
           a2^3 *
@@ -179,8 +168,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
           12 * H2 * G2 * a2 * U2^2 +
           6 * H2 * U2^2) /
         H3 +
-        1 /
-          12 *
+        (1 / 12) *
           (-12 *
             H3 *
             B2 *
@@ -206,14 +194,14 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
             3 * G2 * B2m^4 -
             12 * B2m * H3 -
             12 * H3 * G2 * B2m) /
-          H^3)
+          H^3
     }
 
     TT * K
   }
 
-  # ---- internal: merchantable height solver for a top diameter ----
-  zak_merch_height <- function(H, topdbh_cm, a2, B2, G2, dib_cm) {
+  # ---- internal: merchantable height solver for a top diameter (scalar) ----
+  zak_merch_height_1 <- function(H, topdbh_cm, a2, B2, G2, dib_cm) {
     ca_h <- cons * topdbh_cm^2
     z0 <- 1 - BH / H
 
@@ -258,7 +246,9 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       27 * t48 * t30 * t56 +
       4 * t35 * t5
 
-    t60[t60 < 0.001] <- 0.001
+    if (!is.finite(t60) || t60 < 0.001) {
+      t60 <- 0.001
+    }
 
     t62 <- sqrt(ca_h * t60)
     t69 <- ((9 *
@@ -320,11 +310,11 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     H * (1 - r)
   }
 
-  # ---- cache merch criteria once per species ----
+  # ---- cache merch criteria once per species (vectorized match) ----
   mc_cache <- purrr::map_dfr(
     unique(species_std),
-    ~ get_merch_criteria("ON", .x) %>%
-      dplyr::slice(1) %>%
+    ~ get_merch_criteria("ON", .x) |>
+      dplyr::slice(1) |>
       dplyr::mutate(.species_key = .x)
   )
 
@@ -336,6 +326,49 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       paste(miss_mc, collapse = ", ")
     ))
   }
+
+  mc_idx <- match(species_std, mc_cache$.species_key)
+  if (anyNA(mc_idx)) {
+    i_bad <- which(is.na(mc_idx))[1]
+    abort_i(i_bad, "No merchantability criteria found for this species in ON.")
+  }
+
+  stumpht_vec <- mc_cache$stumpht_m[mc_idx]
+  topdbh_vec <- mc_cache$topdbh_cm[mc_idx]
+  mindbh_vec <- mc_cache$mindbh_cm[mc_idx]
+
+  # ---- cache zakrzewski parameters once per species (vectorized match) ----
+  param_cache <- purrr::map_dfr(
+    unique(species_std),
+    ~ get_volume_params(
+      model_id = "regional_zakrzewski2013",
+      species = .x
+    ) |>
+      dplyr::slice(1) |>
+      dplyr::mutate(.species_key = .x)
+  )
+
+  need_p <- c(".species_key", "delta", "nu", "rho", "beta", "gamma", "chi")
+  miss_p <- setdiff(need_p, names(param_cache))
+  if (length(miss_p) > 0) {
+    rlang::abort(paste0(
+      "get_volume_params() missing columns for Zakrzewski2013: ",
+      paste(miss_p, collapse = ", ")
+    ))
+  }
+
+  p_idx <- match(species_std, param_cache$.species_key)
+  if (anyNA(p_idx)) {
+    i_bad <- which(is.na(p_idx))[1]
+    abort_i(i_bad, "No Zakrzewski2013 parameters found for this species.")
+  }
+
+  delta_vec <- param_cache$delta[p_idx]
+  nu_vec <- param_cache$nu[p_idx]
+  rho_vec <- param_cache$rho[p_idx]
+  beta_vec <- param_cache$beta[p_idx]
+  gamma_vec <- param_cache$gamma[p_idx]
+  chi_vec <- param_cache$chi[p_idx]
 
   # ---- outputs ----
   vol_total <- numeric(n)
@@ -358,18 +391,10 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       H <- BH
     }
 
-    # merch criteria
-    mc <- mc_cache %>%
-      dplyr::filter(.species_key == species_std[i]) %>%
-      dplyr::slice(1)
-
-    if (nrow(mc) == 0) {
-      abort_i(i, "No merchantability criteria found for this species in ON.")
-    }
-
-    stumpht <- mc$stumpht_m[[1]]
-    topdbh <- mc$topdbh_cm[[1]]
-    mindbh <- mc$mindbh_cm[[1]]
+    # merch criteria (already matched)
+    stumpht <- stumpht_vec[i]
+    topdbh <- topdbh_vec[i]
+    mindbh <- mindbh_vec[i]
 
     if (!is.finite(stumpht) || stumpht < 0) {
       abort_i(i, "Invalid stumpht_m in merch criteria.")
@@ -387,46 +412,34 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       next
     }
 
-    # parameters
-    p <- get_volume_params(
-      model_id = "regional_zakrzewski2013",
-      species = species_std[i]
-    )
+    # parameters (already matched)
+    delta <- delta_vec[i]
+    nu <- nu_vec[i]
+    rho <- rho_vec[i]
+    beta <- beta_vec[i]
+    gamma <- gamma_vec[i]
+    chi <- chi_vec[i]
 
-    if (nrow(p) == 0) {
-      abort_i(i, "No Zakrzewski2013 parameters found for this species.")
+    if (!is.finite(delta)) {
+      abort_i(i, "Parameter 'delta' is not finite (NA/Inf).")
     }
-    if (nrow(p) > 1) {
-      abort_i(
-        i,
-        "Multiple Zakrzewski2013 parameter rows returned; expected exactly one."
-      )
+    if (!is.finite(nu)) {
+      abort_i(i, "Parameter 'nu' is not finite (NA/Inf).")
+    }
+    if (!is.finite(rho)) {
+      abort_i(i, "Parameter 'rho' is not finite (NA/Inf).")
+    }
+    if (!is.finite(beta)) {
+      abort_i(i, "Parameter 'beta' is not finite (NA/Inf).")
+    }
+    if (!is.finite(gamma)) {
+      abort_i(i, "Parameter 'gamma' is not finite (NA/Inf).")
+    }
+    if (!is.finite(chi)) {
+      abort_i(i, "Parameter 'chi' is not finite (NA/Inf).")
     }
 
-    need_p <- c("delta", "nu", "rho", "beta", "gamma", "chi")
-    miss_p <- setdiff(need_p, names(p))
-    if (length(miss_p) > 0) {
-      abort_i(
-        i,
-        paste0("Missing parameter columns: ", paste(miss_p, collapse = ", "))
-      )
-    }
-
-    p1 <- list(
-      delta = p$delta[[1]],
-      nu = p$nu[[1]],
-      rho = p$rho[[1]],
-      beta = p$beta[[1]],
-      gamma = p$gamma[[1]],
-      chi = p$chi[[1]]
-    )
-
-    for (nm in names(p1)) {
-      if (!is.finite(p1[[nm]])) {
-        abort_i(i, paste0("Parameter '", nm, "' is not finite (NA/Inf)."))
-      }
-    }
-    if (p1$gamma == 0) {
+    if (gamma == 0) {
       abort_i(
         i,
         "gamma must be non-zero (division by gamma occurs in merch-height solver)."
@@ -439,12 +452,12 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Invalid HDR (H/DBH).")
     }
 
-    if (zak_is_deciduous(p1)) {
+    if (zak_is_deciduous_chi(chi)) {
       s <- 2
     } else {
-      s <- zak_compute_s_conifer(
+      s <- zak_compute_s_conifer_1(
         HDR = HDR,
-        rho = p1$rho,
+        rho = rho,
         species_nfi = species_std[i]
       )
     }
@@ -452,8 +465,8 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Computed 's' is invalid (non-finite/<=0).")
     }
 
-    # bark fraction + DIB at BH
-    barkf <- zak_bark_fraction(H, p1)
+    # bark fraction + DIB at BH (scalar helper)
+    barkf <- zak_bark_fraction_1(H = H, delta = delta, nu = nu, chi = chi)
     if (!is.finite(barkf) || barkf <= 0) {
       abort_i(i, "Computed bark fraction is invalid (non-finite/<=0).")
     }
@@ -464,13 +477,13 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     }
 
     # total volume
-    v_total <- zak_section_volume(
+    v_total <- zak_section_volume_1(
       H = H,
       B = 0,
       U = H,
       a2 = s,
-      B2 = p1$beta,
-      G2 = p1$gamma,
+      B2 = beta,
+      G2 = gamma,
       dib_cm = dib
     )
     if (!is.finite(v_total) || v_total < 0) {
@@ -480,12 +493,12 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     # merchantable volume
     v_merch <- 0
     if (dib > topdbh && H > 2) {
-      merchht <- zak_merch_height(
+      merchht <- zak_merch_height_1(
         H = H,
         topdbh_cm = topdbh,
         a2 = s,
-        B2 = p1$beta,
-        G2 = p1$gamma,
+        B2 = beta,
+        G2 = gamma,
         dib_cm = dib
       )
 
@@ -502,13 +515,13 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       if (merchht < stumpht) {
         v_merch <- 0
       } else {
-        v_merch <- zak_section_volume(
+        v_merch <- zak_section_volume_1(
           H = H,
           B = stumpht,
           U = merchht,
           a2 = s,
-          B2 = p1$beta,
-          G2 = p1$gamma,
+          B2 = beta,
+          G2 = gamma,
           dib_cm = dib
         )
         if (!is.finite(v_merch) || v_merch < 0) {
