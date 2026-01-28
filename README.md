@@ -35,6 +35,7 @@ CTAE currently includes allometric models to:
   species (Huang 1994)
 - British Columbia - Kozak 1994 Taper Equations
 - Ontario - Zakrzewski et al. (2013) taper/volume model for Ontario
+- Honer et al. 1983 (central and eastern Canada)
 
 #### National models
 
