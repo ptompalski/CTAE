@@ -14,7 +14,9 @@ Author: Authors@R: c(
     person(given = "Vinicius", 
            family = "Manvailer Goncalves",
            email = "vinicius.manvailergoncalves@nrcan-rncan.gc.ca", 
-           role = "aut")
+           role = "aut"),
+    person("Margaret", "Penner", role = "ctb",
+       comment = "Original R implementation of Zakrzewski & Penner (2013) taper model")
    )
 Maintainer: Piotr Tompalski <piotr.tompalski@NRCan-RNCan.gc.ca>
 Description: Implementation of several published models to calculate tree- and forest stand-level attributes
@@ -28,7 +30,8 @@ Imports:
     tidyr,
     stringr,
     glue,
-    rlang
+    rlang,
+    purrr
 RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 3.0.0)
