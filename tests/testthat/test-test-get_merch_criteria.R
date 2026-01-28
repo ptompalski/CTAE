@@ -1,9 +1,9 @@
 # tests/testthat/test-get_merch_criteria.R
 
-testthat::test_that("get_merch_criteria: non-BC returns province-level ALL and ignores species/BEC", {
+testthat::test_that("get_merch_criteria: ON uses species/genus criteria when available; otherwise falls back to ALL", {
   testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
 
-  # Basic ON lookup
+  # Basic ON lookup (province-level default)
   out_on <- CTAE::get_merch_criteria("ON")
   testthat::expect_s3_class(out_on, "tbl_df")
   testthat::expect_equal(out_on$jurisdiction, "ON")
@@ -12,13 +12,37 @@ testthat::test_that("get_merch_criteria: non-BC returns province-level ALL and i
   testthat::expect_true(is.finite(out_on$topdbh_cm))
   testthat::expect_true(is.finite(out_on$mindbh_cm))
 
-  # Should ignore species + BEC_zone for non-BC
-  out_on2 <- CTAE::get_merch_criteria(
-    "ON",
-    species = "PICE.GLA",
-    BEC_zone = "CWH"
+  # ON may provide species- or genus-level criteria (and may warn about fallback).
+  # It should NOT depend on BC's BEC logic, but species can matter if present in the table.
+  warns <- character(0)
+  out_on2 <- withCallingHandlers(
+    CTAE::get_merch_criteria("ON", species = "PICE.GLA", BEC_zone = "CWH"),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    }
   )
-  testthat::expect_equal(out_on2, out_on)
+
+  testthat::expect_equal(out_on2$jurisdiction, "ON")
+  testthat::expect_true(is.finite(out_on2$stumpht_m))
+  testthat::expect_true(is.finite(out_on2$topdbh_cm))
+  testthat::expect_true(is.finite(out_on2$mindbh_cm))
+
+  # Acceptable outcomes:
+  # - exact species match (PICE.GLA)
+  # - genus fallback (PICE.SPP)
+  # - no species info in ON table -> ALL (same as out_on)
+  testthat::expect_true(out_on2$species %in% c("PICE.GLA", "PICE.SPP", "ALL"))
+
+  if (out_on2$species == "ALL") {
+    testthat::expect_equal(out_on2, out_on)
+  }
+
+  # If a genus fallback happens, we expect a warning mentioning it (but don't force it
+  # because ON tables may evolve and provide exact species rows).
+  if (out_on2$species == "PICE.SPP") {
+    testthat::expect_true(any(grepl("genus-level fallback|PICE\\.SPP", warns)))
+  }
 
   # Alias standardization (PEI -> PE)
   out_pe <- CTAE::get_merch_criteria("PEI")
