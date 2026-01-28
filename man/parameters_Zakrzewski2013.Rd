@@ -17,7 +17,7 @@ A tibble with 24 rows:
 }
 }
 \source{
-Zakrzewski, W. T., et al. (2013). \emph{A Comparison of Tree Stem Taper Models
+Zakrzewski, W. T., Penner, M. (2013). \emph{A Comparison of Tree Stem Taper Models
 for Use in Ontario}. Ontario Forest Research Institute, Report 176.
 }
 \usage{

@@ -46,7 +46,6 @@ in Kozak (1994). A multiplicative log-bias correction factor is provided for
 back-transformation from log scale where applicable.
 }
 \references{
-Kozak, A. (1994). *Development of Taper Equations by BEC Zones and
-  Species*. Province of British Columbia, Ministry of Forests (report).
+Kozak, A. (1994). Development of Taper Equations by BEC Zones and Species. Province of British Columbia, Ministry of Forests (report).
 }
 \keyword{datasets}

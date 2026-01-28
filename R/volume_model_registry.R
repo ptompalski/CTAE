@@ -15,7 +15,8 @@ volume_model_registry <- function() {
       "regional_kozak88",
       "regional_kozak94",
       "regional_honer83",
-      "regional_huang94"
+      "regional_huang94",
+      "regional_zakrzewski2013"
     ),
 
     label = c(
@@ -24,7 +25,8 @@ volume_model_registry <- function() {
       "Kozak 1988 taper (regional; DBH + height)",
       "Kozak 1994 taper (BC; BEC zones; DBH + height)",
       "Honer 1983 model (regional; DBH + height)",
-      "Huang 1994 model (AB; subregions; DBH + height"
+      "Huang 1994 model (AB; subregions; DBH + height)",
+      "Zakrzewski 2013 model for ON (DBH + height)"
     ),
 
     # function names to run the models
@@ -34,16 +36,18 @@ volume_model_registry <- function() {
       "vol_kozak88_dbh_ht",
       "vol_kozak94",
       "vol_honer83",
-      "vol_huang94"
+      "vol_huang94",
+      "vol_zakrzewski2013"
     ),
 
     # What inputs are required?
-    requires_ht = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE),
+    requires_ht = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
 
     # Geographic scope: used for ranking + selection
     scope = c(
       "national",
       "national",
+      "regional",
       "regional",
       "regional",
       "regional",
@@ -68,7 +72,7 @@ volume_model_registry <- function() {
 
     # Rank: higher is preferred in "auto" mode.
     # Suggested preference: regional > national; and if ht is available prefer ht models.
-    rank = c(10, 20, 80, 90, 70, 90),
+    rank = c(10, 20, 80, 90, 70, 90, 90),
 
     # Key to request params from get_volume_params()
     params_key = c(
@@ -77,7 +81,8 @@ volume_model_registry <- function() {
       "parameters_Kozak88",
       "parameters_Kozak94",
       "parameters_Honer",
-      "parameters_HuangV"
+      "parameters_HuangV",
+      "parameters_Zakrzewski2013"
     )
   )
 }
