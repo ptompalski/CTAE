@@ -23,6 +23,12 @@ A tibble with volumes (m^3): total and merchantable.
 \description{
 Estimate tree volume using Zakrzewski (2013) taper model (Ontario)
 }
+\note{
+Implementation is based on an original R script provided by
+Margaret Penner, refactored for CTAE
+(vectorized inputs, standardized species codes, and merchantability
+criteria via \code{\link{get_merch_criteria}}).
+}
 \examples{
 # Single tree
 vol_zakrzewski2013(

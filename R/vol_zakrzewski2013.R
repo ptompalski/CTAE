@@ -7,6 +7,12 @@
 #'
 #' @return A tibble with volumes (m^3): total and merchantable.
 #'
+#' @note
+#' Implementation is based on an original R script provided by
+#' Margaret Penner, refactored for CTAE
+#' (vectorized inputs, standardized species codes, and merchantability
+#' criteria via \code{\link{get_merch_criteria}}).
+#'
 #' @source
 #' Zakrzewski, W. T., Penner, M. (2013). \emph{A Comparison of Tree Stem Taper Models
 #' for Use in Ontario}. Ontario Forest Research Institute, Report 176.
@@ -34,13 +40,17 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     rlang::abort("DBH, height, and species must have the same length.")
   }
 
+  # Standardize to CTAE/NFI species codes (e.g., "PICE.MAR")
   species_std <- standardize_species_code(species)
 
   # ---- constants ----
+  # BH: breast height in meters (where DBH is measured)
+  # cons: pi / 40000, used to convert diameter^2 (cm^2) * length (m) into volume (m^3)
   BH <- 1.3
   cons <- 0.00007854
 
   # ---- internal: structured abort with context ----
+  # Provides per-row context when failing.
   abort_i <- function(i, msg) {
     rlang::abort(paste0(
       "vol_zakrzewski2013() failed for row ",
@@ -57,13 +67,21 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
   }
 
   # ---- internal: identify deciduous vs conifer from parameter availability ----
-  # Deciduous if chi > 0 (hardwood bark model). Conifer otherwise (chi == 0).
+  # Hardwood vs conifer are infered from parameters:
+  #   - chi > 0  => hardwood bark model is defined (deciduous)
+  #   - chi == 0 => conifer bark model is used
   zak_is_deciduous_chi <- function(chi) {
     is.finite(chi) && chi > 0
   }
 
   # ---- internal: compute s(H/DBH) using Table 1 mapping (conifers) ----
-  # Deciduous handled outside (s = 2).
+  # The Zakrzewski taper uses a species-specific "s" term expressed as a function of HDR,
+  # where HDR = H / DBH (here H in m, DBH in cm).
+  #
+  # Table 1 in Zakrzewski & Penner (2013) lists different s-formulas for conifers.
+  # For hardwoods s = 2.
+  #
+  # Note: the clamp (1..3 => reset to {1.2, 2}) is taken directly from the provided script.
   zak_compute_s_conifer_1 <- function(HDR, rho, species_nfi) {
     if (!is.finite(HDR) || HDR <= 0) {
       return(NA_real_)
@@ -72,7 +90,9 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       return(NA_real_)
     }
 
-    # Table 1 mapping (conifers)
+    # Table 1 mapping (conifers) from the paper.
+    # If a species is not in the mapping, we fall back to the default
+    # s = 1 + HDR^1.31 (also in the provided script).
     s_form <- dplyr::case_when(
       species_nfi %in%
         c("ABIE.BAL", "PINU.BAN", "PINU.RES", "PICE.MAR") ~ "2 + rho*log(HDR)",
@@ -82,8 +102,8 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       TRUE ~ NA_character_
     )
 
-    # Fallback (legacy default)
     if (is.na(s_form)) {
+      # default (used when no explicit s-form is available)
       s <- 1 + HDR^1.31
     } else if (s_form == "2 + rho*log(HDR)") {
       s <- 2 + rho * log(HDR)
@@ -97,7 +117,8 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       s <- NA_real_
     }
 
-    # Clamp (present in the original script)
+    # Clamp s into a safe range (present in the original script)
+    # Note: the legacy script sets s>3 to 2 (not to 3).
     if (is.finite(s) && s > 3) {
       s <- 2
     }
@@ -109,14 +130,22 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
   }
 
   # ---- internal: bark fraction (scalar) ----
+  # The model estimates a bark fraction used to convert DBH outside bark (DOB)
+  # to diameter inside bark (DIB) at breast height.
+  #
+  # Conifers: barkf = delta + nu*(BH/H)
+  # Hardwoods: barkf = 1 - exp(1 - (H/BH)^chi)
+  #
+  # The original script caps bark fractions > 1 to 0.984 (numerical safeguard).
   zak_bark_fraction_1 <- function(H, delta, nu, chi) {
     if (zak_is_deciduous_chi(chi)) {
-      # hardwoods: barkf = 1 - exp(1 - (H/1.3)^chi)
+      # hardwoods
       barkf <- 1 - exp(1 - (H / BH)^chi)
     } else {
-      # conifers: barkf = delta + nu*(1.3/H)
+      # conifers
       barkf <- delta + nu * (BH / H)
     }
+
     # cap > 1 as in the provided script
     if (is.finite(barkf) && barkf > 1) {
       barkf <- 0.984
@@ -125,20 +154,40 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
   }
 
   # ---- internal: section volume (scalar) from B to U (m) using closed-form TT * K ----
+  # This is a somewhat "scary looking math” block that computes stem volume between
+  # two heights B and U (in meters), given:
+  #   - total height H (m)
+  #   - a2 = s (dimensionless taper “shape” term)
+  #   - B2 = beta, G2 = gamma (taper coefficients)
+  #   - dib_cm = diameter inside bark at breast height (cm)
+  #
+  # The derivation comes from integrating the taper function analytically.
+  # The result is written as:
+  #   Volume(B..U) = TT(B,U,H,...) * K(H,...)
+  #
+  # where:
+  #   - K is a scale factor involving dib_cm^2 and constants
+  #   - TT is the analytic integral expression (includes logs and polynomials)
   zak_section_volume_1 <- function(H, B, U, a2, B2, G2, dib_cm) {
+    # enforce U <= H (volume cannot extend past tree height)
     U2 <- if (U > H) H else U
     B2m <- B
 
+    # precompute powers of H for speed/readability
     H2 <- H * H
     H3 <- H2 * H
     H4 <- H3 * H
 
+    # z0 is the relative height (1 - BH/H) at breast height
     z0 <- 1 - BH / H
+
+    # Bl2 and K are scale factors used throughout the original derivation
     y11 <- (z0 - a2)
     y22 <- (z0^2 + B2 * z0^3 + G2 * z0^4)
     Bl2 <- y11 / y22
     K <- cons * dib_cm^2 * Bl2
 
+    # TT is the closed-form integral from B to U of the taper cross-sectional area.
     TT <- {
       (-1 / 12) *
         (12 *
@@ -197,16 +246,35 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
           H^3
     }
 
+    # Final volume for that section
     TT * K
   }
 
   # ---- internal: merchantable height solver for a top diameter (scalar) ----
+  # This block computes the merchantable height (m) at which DIB equals topdbh_cm.
+  #
+  # the role of the t* variables:
+  # - The merchantable height is obtained by solving a polynomial equation derived from
+  #   the taper model. The original authors used a *closed-form algebraic solution* (not iteration).
+  # - The many t1, t3, t60, t118, ... variables are temporary intermediates from the
+  #   symbolic derivation.
+  #
+  # Guidance:
+  # - Treat this as an “atomic” solver: do not refactor or simplify unless you re-derive it.
+  # - The small clamp on t60 is a numerical safeguard present in the original code.
   zak_merch_height_1 <- function(H, topdbh_cm, a2, B2, G2, dib_cm) {
+    # Convert top diameter to area-like constant (same unit convention as the script)
     ca_h <- cons * topdbh_cm^2
+
+    # Relative height at breast height
     z0 <- 1 - BH / H
 
+    # K here is a scale factor linking dib and taper parameters
     K <- ((z0 - a2) * cons * dib_cm^2) / (z0^2 + B2 * z0^3 + G2 * z0^4)
 
+    # ---- Symbolic intermediates (t*) ----
+    # These are purely algebraic helpers produced by the closed-form root expression.
+    # They represent combinations of beta, gamma, K, ca_h, and constants.
     t1 <- 1 / G2
     t3 <- sqrt(3.0)
     t5 <- B2 * B2
@@ -226,6 +294,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     t48 <- t15 * ca_h
     t56 <- t5 * t5
 
+    # Discriminant-like term controlling numerical stability of the cubic root
     t60 <- 27.0 *
       t11 *
       ca_h *
@@ -246,10 +315,13 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       27 * t48 * t30 * t56 +
       4 * t35 * t5
 
+    # Numerical safeguard from the original script:
+    # prevent negative/too-small value inside the subsequent sqrt/cuberoot cascade.
     if (!is.finite(t60) || t60 < 0.001) {
       t60 <- 0.001
     }
 
+    # Remaining intermediates (sqrt/cuberoot chains) constructing the real root
     t62 <- sqrt(ca_h * t60)
     t69 <- ((9 *
       t7 *
@@ -305,12 +377,15 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
         t88
     )
 
+    # r is the *relative* height fraction (roughly corresponds to h/H in the derivation)
+    # Merchantable height is then H * (1 - r).
     r <- -B2 * t1 / 4 - t3 * t1 * t88 / 36 + t90 * t1 * t118 / 36
-
     H * (1 - r)
   }
 
-  # ---- cache merch criteria once per species (vectorized match) ----
+  # ---- improve speed: cache merch criteria once per species (vectorized match) ----
+  # Merchantability comes from ON rules (stump height, top diameter, minimum DBH),
+  # not from model parameters. This mirrors CTAE design and keeps policy separate.
   mc_cache <- purrr::map_dfr(
     unique(species_std),
     ~ get_merch_criteria("ON", .x) |>
@@ -327,6 +402,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     ))
   }
 
+  # Match criteria to each tree row by standardized species code
   mc_idx <- match(species_std, mc_cache$.species_key)
   if (anyNA(mc_idx)) {
     i_bad <- which(is.na(mc_idx))[1]
@@ -337,7 +413,8 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
   topdbh_vec <- mc_cache$topdbh_cm[mc_idx]
   mindbh_vec <- mc_cache$mindbh_cm[mc_idx]
 
-  # ---- cache zakrzewski parameters once per species (vectorized match) ----
+  # ---- improve speed: cache zakrzewski parameters once per species (vectorized match) ----
+  # Model coefficients (delta, nu, rho, beta, gamma, chi) are retrieved via get_volume_params().
   param_cache <- purrr::map_dfr(
     unique(species_std),
     ~ get_volume_params(
@@ -374,10 +451,14 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
   vol_total <- numeric(n)
   vol_merch <- numeric(n)
 
+  # ---- row-wise evaluation (fail-fast, detailed errors) ----
+  # We loop row-by-row.
+  # The expensive algebra is per-tree anyway, so vectorization brings limited benefit here.
   for (i in seq_len(n)) {
     dbh <- DBH[i]
     H <- height[i]
 
+    # ---- basic input validation ----
     if (is.na(dbh) || is.na(H) || !is.finite(dbh) || !is.finite(H)) {
       abort_i(i, "DBH and height must be finite numeric values (not NA/Inf).")
     }
@@ -391,7 +472,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       H <- BH
     }
 
-    # merch criteria (already matched)
+    # ---- merchantability criteria (from ON rules via get_merch_criteria) ----
     stumpht <- stumpht_vec[i]
     topdbh <- topdbh_vec[i]
     mindbh <- mindbh_vec[i]
@@ -406,13 +487,14 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Invalid mindbh_cm in merch criteria.")
     }
 
+    # Below minimum DBH => valid outcome: no volume reported (per CTAE design)
     if (dbh < mindbh) {
       vol_total[i] <- 0
       vol_merch[i] <- 0
       next
     }
 
-    # parameters (already matched)
+    # ---- model parameters (from get_volume_params) ----
     delta <- delta_vec[i]
     nu <- nu_vec[i]
     rho <- rho_vec[i]
@@ -439,6 +521,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Parameter 'chi' is not finite (NA/Inf).")
     }
 
+    # gamma appears in denominators inside the merchantable-height closed-form solver
     if (gamma == 0) {
       abort_i(
         i,
@@ -446,12 +529,14 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       )
     }
 
-    # HDR & s
+    # ---- compute HDR and s ----
     HDR <- H / dbh
     if (!is.finite(HDR) || HDR <= 0) {
       abort_i(i, "Invalid HDR (H/DBH).")
     }
 
+    # Deciduous: s = 2
+    # Conifers: s-form depends on species (Table 1)
     if (zak_is_deciduous_chi(chi)) {
       s <- 2
     } else {
@@ -465,7 +550,8 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Computed 's' is invalid (non-finite/<=0).")
     }
 
-    # bark fraction + DIB at BH (scalar helper)
+    # ---- compute bark fraction and DIB at breast height ----
+    # DBH is outside-bark; model uses DIB at BH as a scaling diameter.
     barkf <- zak_bark_fraction_1(H = H, delta = delta, nu = nu, chi = chi)
     if (!is.finite(barkf) || barkf <= 0) {
       abort_i(i, "Computed bark fraction is invalid (non-finite/<=0).")
@@ -476,7 +562,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Computed DIB at BH is invalid (non-finite/<=0).")
     }
 
-    # total volume
+    # ---- gross total volume (0..H) ----
     v_total <- zak_section_volume_1(
       H = H,
       B = 0,
@@ -490,9 +576,14 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       abort_i(i, "Total volume computation produced non-finite/negative value.")
     }
 
-    # merchantable volume
+    # ---- gross merchantable volume (stump..merchht) ----
+    # Only compute merch volume if:
+    # - DIB at BH is larger than the top diameter (otherwise merch ht is undefined/0)
+    # - tree height is “tall enough” to be meaningful (legacy check H > 2)
     v_merch <- 0
     if (dib > topdbh && H > 2) {
+      # Closed-form merchantable height solver:
+      # returns the height where DIB equals topdbh.
       merchht <- zak_merch_height_1(
         H = H,
         topdbh_cm = topdbh,
@@ -508,10 +599,13 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
       if (merchht < 0) {
         abort_i(i, "Merchantable height is negative.")
       }
+
+      # cap to total height (defensive; solver should already respect this)
       if (merchht > H) {
         merchht <- H
       }
 
+      # if merchantable height is below stump, merchantable volume is zero
       if (merchht < stumpht) {
         v_merch <- 0
       } else {
