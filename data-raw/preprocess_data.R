@@ -149,14 +149,6 @@ parameters_Kozak94 <-
 usethis::use_data(parameters_Kozak94, overwrite = T)
 
 
-# data - Huang 1994 models for AB ####
-# parameters_HuangV <- parameters_HuangV %>% rename(Species = species)
-# parameters_HuangV <- parameters_HuangV %>% mutate(Subregion = NaturalSubregionCode)
-# write.csv(parameters_HuangV, "data-raw/parameters_HuangV.csv", row.names=F)
-parameters_HuangV <- read.csv("data-raw/parameters_HuangV.csv")
-usethis::use_data(parameters_HuangV, overwrite = T)
-
-
 # data - Zakrzewski 2013 model for ON ####
 
 # translating species to NFI codes
@@ -198,3 +190,57 @@ parameters_Zakrzewski2013 <-
   select(-Spp_alpha, -tree_spec)
 
 usethis::use_data(parameters_Zakrzewski2013, overwrite = T)
+
+# ------------------------------------------------------------------------------
+# NOTE: The three datasets imported below (Huang, GalBella, Klos) contain parameters for the same model - Kozak88 taper equation.
+
+# data - Huang 1994 models for AB ####
+# parameters_HuangV <- parameters_HuangV %>% rename(Species = species)
+# parameters_HuangV <- parameters_HuangV %>% mutate(Subregion = NaturalSubregionCode)
+# write.csv(parameters_HuangV, "data-raw/parameters_HuangV.csv", row.names=F)
+parameters_HuangV <- read.csv("data-raw/parameters_HuangV.csv")
+
+# select column, change to wide
+parameters_Huang94 <-
+  parameters_HuangV %>%
+  select(Species, parameter, estimate, Subregion) %>%
+  pivot_wider(names_from = parameter, values_from = estimate)
+
+usethis::use_data(parameters_Huang94, overwrite = T)
+
+
+# data - Gal & Bella 1994 parameters for SK ####
+# equation 6
+parameters_GalBella94 <- read.csv(
+  "data-raw/GalBella1994_Table5_K2_params_with_NFI_species.csv"
+)
+
+parameters_GalBella94 <- parameters_GalBella94 %>%
+  rename(Species = Species_NFI) %>%
+  select(-Species_common)
+
+usethis::use_data(parameters_GalBella94, overwrite = T)
+
+# data - Klos 2004 parameters for MN ####
+parameters_Klos2004 <- readxl::read_excel("data-raw/Klos2004_parameters.xlsx")
+usethis::use_data(parameters_Klos2004, overwrite = T)
+
+# parameters_Klos2004 <- read_csv("data-raw/klos_manitoba_parameters.csv")
+# parameters_Klos2004 <-
+#   parameters_Klos2004 %>%
+#   filter(model_component == "taper_eq1") %>%
+#   arrange(region_type, region, parameter) %>%
+#   select(-jurisdiction, -species_original, -table_id, -model_component) %>%
+#   rename(Species = species_nfi)
+
+# param_wide <- parameters_Klos2004 %>%
+#   filter(parameter %in% c("a0","a1","a2","b1","b2","b3","b4","b5")) %>%
+#   filter(region_type !="site_type") %>%
+#   pivot_wider(names_from = parameter, values_from = value)
+# write.csv(param_wide, file="data-raw/params_Klos.csv", row.names=T)
+
+# parameters_Klos2004 %>%
+#   filter(parameter %in% c("a0","a1","a2","b1","b2","b3","b4","b5")) %>%
+#   filter(region_type !="site_type") %>%
+#  dplyr::summarise(n = dplyr::n(), .by = c(Species, region_type, region, parameter)) |>
+#   dplyr::filter(n > 1L)

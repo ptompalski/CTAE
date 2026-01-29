@@ -200,23 +200,76 @@
 "parameters_V2B"
 
 
-#' Model parameters required for tree volume equations for major Alberta tree species
+#' Taper model parameters for Alberta tree species
 #'
-#' A dataset containing parameters for the Huang 1994 tree volume models in Alberta
+#' Species-specific parameter estimates for the individual-tree volume models
+#' developed by Huang (1994) for Alberta forests, designed to be used with Kozak (1988)
+#' variable exponent taper model.
+#'
+#' The dataset includes parameter sets applicable at the provincial level as
+#' well as, where available, subregion-specific coefficients.
 #'
 #'
-#' @format A data frame with four variables:
+#' @format A data frame:
 #' \describe{
-#'   \item{species}{Tree species code following the NFI standard (e.g. POPU.TRE)}
-#'   \item{parameter}{Name of model parameter}
-#'   \item{estimate}{Parameter estimate}
-#'   \item{NaturalSubregionNum}{Number for natural subregions of Alberta (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang 1994)}
-#'   \item{NaturalSubregionCode}{Code for natural subregions of Alberta. 'Province' indicates provincial-level parameters (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang et al. 1994)}
-#' }
+#'   \item{Species}{Tree species code following the NFI standard (e.g. POPU.TRE)}
+#'   \item{Subregion}{Natural subregion of Alberta. 'Province' indicates provincial-level parameters (See \code{\link{AlbertaNaturalRegSubreg}} and Appendix 4 in Huang et al. 1994)}
+#'   \item{a0, a1, a2}{Scaling and conditioning parameters of the K2 taper model.}
+#'   \item{b1, b2, b3, b4, b5}{Exponent parameters controlling stem shape in the variable-exponent formulation.}
+#'  }
 #'
 #' @references
 #' Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. Report 1 - Individual tree volume estimation procedures for Alberta: Methods of Formulation and Statistical Foundations. Alberta Environmental Protection, Land and Forest Service, Forest Management Division, Edmonton, AB.
-"parameters_HuangV"
+"parameters_Huang94"
+
+#' Taper model parameters for Saskatchewan tree species
+#'
+#' Species-specific parameter estimates for the Kozak (1988) variable-exponent
+#' taper model, as fitted by Gal & Bella (1994) using stem section data from
+#' Saskatchewan. These parameters are intended for use in numerical stem taper
+#' and volume calculations based on diameter at breast height (DBH) and total
+#' tree height.
+#'
+#' The dataset corresponds to Table 5 in Gal & Bella (1994) and includes parameter
+#' estimates for 12 commercially important Saskatchewan tree species.
+#'
+#' @format A tibble with 12 rows and 12 columns:
+#' \describe{
+#'   \item{Species}{Species code following the Canadian National Forest Inventory (NFI) convention (e.g., \code{PICE.GLA}).}
+#'   \item{a0, a1, a2}{Scaling and conditioning parameters of the K2 taper model.}
+#'   \item{b1, b2, b3, b4, b5}{Exponent parameters controlling stem shape in the variable-exponent formulation.}
+#'   \item{N}{Number of trees used to fit the model for the given species.}
+#'   \item{RSS}{Residual sum of squares from the nonlinear model fit.}
+#' }
+#'
+#' @details
+#' These parameters are valid for Saskatchewan conditions and should not be
+#' applied outside the region without caution.
+#'
+#' @source
+#' Gal, J., & Bella, I.E. (1994). \emph{New stem taper functions for 12 Saskatchewan
+#' timber species}. Natural Resources Canada, Canadian Forest Service, Northwest
+#' Region, Information Report NOR-X-338. Table 5.
+#'
+#' @references
+#' Kozak, A. (1988). A variable-exponent taper equation.
+#' \emph{Canadian Journal of Forest Research}, 18, 1363–1368.
+"parameters_GalBella94"
+
+
+#' Taper model parameters for Manitoba tree species
+#'
+#' #' Species-specific parameter estimates for the Kozak (1988) variable-exponent
+#' taper model, as fitted by Klos (2004) for Manitoba forests.
+#'
+#' @format A tibble with 16 rows:
+#' \describe{
+#'   \item{Species}{Species code following the Canadian National Forest Inventory (NFI) convention (e.g., \code{PICE.GLA}).}
+#'   \item{Subregion}{Optional Ecozone or Ecoregion identifier}
+#'   \item{a0, a1, a2}{Scaling and conditioning parameters of the K2 taper model.}
+#'   \item{b1, b2, b3, b4, b5}{Exponent parameters controlling stem shape in the variable-exponent formulation.}
+#' }
+"parameters_Klos2004"
 
 
 #' Natural regions and subregions of Alberta
