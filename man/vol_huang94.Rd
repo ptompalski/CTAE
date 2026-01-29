@@ -2,7 +2,7 @@
 % Please edit documentation in R/vol_kozak88.R
 \name{vol_huang94}
 \alias{vol_huang94}
-\title{Estimate tree volume (Alberta) using Kozak (1988) model form with Huang (1994) parameters}
+\title{Estimate tree volume in Alberta using Kozak (1988) model form with Huang (1994) parameters}
 \usage{
 vol_huang94(DBH, height, species, subregion = "Province")
 }
@@ -19,7 +19,7 @@ vol_huang94(DBH, height, species, subregion = "Province")
 A tibble with volumes (m^3): total and merchantable.
 }
 \description{
-Estimate tree volume (Alberta) using Kozak (1988) model form with Huang (1994) parameters
+Estimate tree volume in Alberta using Kozak (1988) model form with Huang (1994) parameters
 }
 \references{
 Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. Report 1 - Individual tree volume estimation procedures for Alberta: Methods of Formulation and Statistical Foundations. Alberta Environmental Protection, Land and Forest Service, Forest Management Division, Edmonton, AB.

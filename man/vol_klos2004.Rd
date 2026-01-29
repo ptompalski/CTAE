@@ -2,7 +2,7 @@
 % Please edit documentation in R/vol_kozak88.R
 \name{vol_klos2004}
 \alias{vol_klos2004}
-\title{Estimate tree volume (Manitoba) using Kozak (1988) form with Klos (2004) params}
+\title{Estimate tree volume in Manitoba using Kozak (1988) form with Klos (2004) params}
 \usage{
 vol_klos2004(DBH, height, species, subregion = "Province")
 }
@@ -16,7 +16,7 @@ vol_klos2004(DBH, height, species, subregion = "Province")
 \item{subregion}{Optional Ecozone or Ecoregion identifier}
 }
 \description{
-Estimate tree volume (Manitoba) using Kozak (1988) form with Klos (2004) params
+Estimate tree volume in Manitoba using Kozak (1988) form with Klos (2004) params
 }
 \references{
 Klos, R. J. (2004). \emph{Stem taper and volume equations for major tree species in Manitoba}. M.Sc. thesis, University of Manitoba, Winnipeg, MB, Canada.

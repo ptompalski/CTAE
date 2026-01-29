@@ -440,7 +440,7 @@ vol_kozak88_engine <- function(
 # Exported wrappers (AB / MB / SK) that reuse the same Kozak88 engine
 # ------------------------------------------------------------------------------
 
-#' Estimate tree volume (Alberta) using Kozak (1988) model form with Huang (1994) parameters
+#' Estimate tree volume in Alberta using Kozak (1988) model form with Huang (1994) parameters
 #'
 #' @param DBH Numeric vector. Diameter at breast height (cm).
 #' @param height Numeric vector. Total height (m).
@@ -469,7 +469,7 @@ vol_huang94 <- function(DBH, height, species, subregion = "Province") {
   )
 }
 
-#' Estimate tree volume (Manitoba) using Kozak (1988) form with Klos (2004) params
+#' Estimate tree volume in Manitoba using Kozak (1988) form with Klos (2004) parameters
 #'
 #' @inheritParams vol_huang94
 #' @param subregion Optional Ecozone or Ecoregion identifier
@@ -492,7 +492,7 @@ vol_klos2004 <- function(DBH, height, species, subregion = "Province") {
   )
 }
 
-#' Estimate tree volume (Saskatchewan) using Kozak (1988) form with Gal & Bella (1994) params
+#' Estimate tree volume in Saskatchewan using Kozak (1988) form with Gal & Bella (1994) parameters
 #'
 #' @inheritParams vol_huang94
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/vol_kozak88.R
 \name{vol_galbella94}
 \alias{vol_galbella94}
-\title{Estimate tree volume (Saskatchewan) using Kozak (1988) form with Gal & Bella (1994) params}
+\title{Estimate tree volume in Saskatchewan using Kozak (1988) form with Gal & Bella (1994) params}
 \usage{
 vol_galbella94(DBH, height, species)
 }
@@ -14,7 +14,7 @@ vol_galbella94(DBH, height, species)
 \item{species}{Character vector. Species code (e.g., "PICE.MAR").}
 }
 \description{
-Estimate tree volume (Saskatchewan) using Kozak (1988) form with Gal & Bella (1994) params
+Estimate tree volume in Saskatchewan using Kozak (1988) form with Gal & Bella (1994) params
 }
 \references{
 Gal, J., & Bella, I.E. (1994). \emph{New stem taper functions for 12 Saskatchewan timber species}. Natural Resources Canada, Canadian Forest Service, Northwest Region, Information Report NOR-X-338. Table 5.

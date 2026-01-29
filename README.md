@@ -31,15 +31,21 @@ CTAE currently includes allometric models to:
 
 #### Regional models
 
-- Alberta - Individual tree volume equations for major Alberta tree
-  species (Huang 1994)
-- British Columbia - Kozak 1994 Taper Equations
-- Ontario - Zakrzewski et al. (2013) taper/volume model for Ontario
-- Honer et al. 1983 (central and eastern Canada)
+- Alberta: `vol_huang94()` - Individual tree volume equations for major
+  Alberta tree species (Huang 1994)
+- British Columbia: `vol_kozak94()` - Kozak 1994 Taper Equations
+- Manitoba: `vol_klos2004()` - Individual tree volume using parameters
+  developed by Klos (2004)
+- Ontario: `vol_zakrzewski2013()` - Zakrzewski et al. (2013)
+  taper/volume model for Ontario
+- Saskatchewan: `vol_galbella94()` - Individual tree volume using
+  parameters developed by Gal & Bella (1994)
+- Central and eastern Canada: `vol_honer83()` - Honer et al. 1983
 
 #### National models
 
-- Ung et al. 2013 Canadian national taper models
+- Ung et al. 2013 Canadian national taper models: `vol_national_dbh()`
+  and `vol_national_dbh_ht()`
 
 ### Other
 
@@ -66,6 +72,10 @@ land in Canada. Natural Resources Canada, Canadian Forest Service,
 Pacific Forestry Centre, Victoria, BC. Information Report BC-X-411. 112
 p.
 
+Gal, J., & Bella, I.E. (1994). New stem taper functions for 12
+Saskatchewan timber species. Natural Resources Canada, Canadian Forest
+Service, Northwest Region, Information Report NOR-X-338. Table 5.
+
 Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the
 commercial tree species of central and eastern Canada. Environ. Can.,
 Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf.
@@ -77,8 +87,15 @@ estimation procedures for Alberta: Methods of Formulation and
 Statistical Foundations. Alberta Environmental Protection, Land and
 Forest Service, Forest Management Division, Edmonton, AB.
 
+Kozak, A. (1988). A variable-exponent taper equation. Canadian Journal
+of Forest Research, 18, 1363–1368
+
 Kozak, A. (1994). Development of Taper Equations by BEC Zones and
 Species. Province of British Columbia, Ministry of Forests (report).
+
+Klos, R. J. (2004). Stem taper and volume equations for major tree
+species in Manitoba. M.Sc. thesis, University of Manitoba, Winnipeg, MB,
+Canada.
 
 Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree
 aboveground biomass equations. Canadian Journal of Forest Research,
