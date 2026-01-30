@@ -221,9 +221,9 @@ parameters_GalBella94 <- parameters_GalBella94 %>%
 
 usethis::use_data(parameters_GalBella94, overwrite = T)
 
-# data - Klos 2004 parameters for MN ####
-parameters_Klos2004 <- readxl::read_excel("data-raw/Klos2004_parameters.xlsx")
-usethis::use_data(parameters_Klos2004, overwrite = T)
+# data - Klos et al 2007 (previously Klos 2004 Master Thesis) - parameters for MN ####
+parameters_Klos2007 <- readxl::read_excel("data-raw/Klos2007_parameters.xlsx")
+usethis::use_data(parameters_Klos2007, overwrite = T)
 
 # parameters_Klos2004 <- read_csv("data-raw/klos_manitoba_parameters.csv")
 # parameters_Klos2004 <-

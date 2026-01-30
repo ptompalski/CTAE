@@ -1,4 +1,4 @@
-# Models for AB (Huang), SK (Gal&Bella), MN (Klos) all use the same taper equation (Kozak88).
+# Models for AB (Huang), SK (Gal&Bella), MN (Klos et al) all use the same taper equation (Kozak88).
 # The code below includes internal kozak88 that is then used in three separate functions for
 # each jurisdictions.
 
@@ -475,12 +475,14 @@ vol_huang94 <- function(DBH, height, species, subregion = "Province") {
 #' @param subregion Optional Ecozone or Ecoregion identifier
 #'
 #' @references
-#' Klos, R. J. (2004). \emph{Stem taper and volume equations for major tree species in Manitoba}. M.Sc. thesis, University of Manitoba, Winnipeg, MB, Canada.
+#' Klos, R. J., Wang, G. G., Dang, Q.-L., & East, E. W. (2007).
+#' \emph{Taper equations for five major commercial tree species in Manitoba, Canada}.
+#' Western Journal of Applied Forestry, 22(3), 163–170.
 #'
 #' Kozak, A. (1988). A variable-exponent taper equation. \emph{Canadian Journal of Forest Research}, 18, 1363–1368.
 #'
 #' @export
-vol_klos2004 <- function(DBH, height, species, subregion = "Province") {
+vol_klos2007 <- function(DBH, height, species, subregion = "Province") {
   vol_kozak88_engine(
     DBH = DBH,
     height = height,

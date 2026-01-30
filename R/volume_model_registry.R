@@ -17,7 +17,7 @@ volume_model_registry <- function() {
       "regional_huang94",
       "regional_zakrzewski2013",
       "regional_galbella94",
-      "regional_klos2004"
+      "regional_klos2007"
     ),
 
     label = c(
@@ -28,7 +28,7 @@ volume_model_registry <- function() {
       "Huang 1994 model (AB; subregions; DBH + height)",
       "Zakrzewski 2013 model for ON (DBH + height)",
       "Gal & Bella model parameters for SK",
-      "Klos 2004 model parameters for MN"
+      "Klos et al. 2007 model parameters for MN"
     ),
 
     # function names to run the models
@@ -40,7 +40,7 @@ volume_model_registry <- function() {
       "vol_huang94",
       "vol_zakrzewski2013",
       "vol_galbella94",
-      "vol_klos2004"
+      "vol_klos2007"
     ),
 
     # What inputs are required?
@@ -88,7 +88,7 @@ volume_model_registry <- function() {
       "parameters_Huang94",
       "parameters_Zakrzewski2013",
       "parameters_GalBella94",
-      "parameters_Klos2004"
+      "parameters_Klos2007"
     )
   )
 }
