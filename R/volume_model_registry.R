@@ -17,7 +17,8 @@ volume_model_registry <- function() {
       "regional_huang94",
       "regional_zakrzewski2013",
       "regional_galbella94",
-      "regional_klos2007"
+      "regional_klos2007",
+      "regional_sharma2021"
     ),
 
     label = c(
@@ -28,7 +29,8 @@ volume_model_registry <- function() {
       "Huang 1994 model (AB; subregions; DBH + height)",
       "Zakrzewski 2013 model for ON (DBH + height)",
       "Gal & Bella model parameters for SK",
-      "Klos et al. 2007 model parameters for MN"
+      "Klos et al. 2007 model parameters for MN",
+      "Sharma 2021 regional model for central and eastern Canada, 25 species"
     ),
 
     # function names to run the models
@@ -40,11 +42,12 @@ volume_model_registry <- function() {
       "vol_huang94",
       "vol_zakrzewski2013",
       "vol_galbella94",
-      "vol_klos2007"
+      "vol_klos2007",
+      "vol_sharma2021"
     ),
 
     # What inputs are required?
-    requires_ht = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+    requires_ht = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
 
     # Geographic scope: used for ranking + selection
     scope = c(
@@ -55,12 +58,23 @@ volume_model_registry <- function() {
       "regional",
       "regional",
       "regional",
+      "regional",
       "regional"
     ),
 
     # # Province applicability. "ALL" means any province can use it (subject to params).
     # # Kozak94 is BC-specific in your legacy implementation.
-    province_scope = c("ALL", "ALL", "BC", "ALL", "AB", "ON", "SK", "MN"),
+    province_scope = c(
+      "ALL",
+      "ALL",
+      "BC",
+      "ALL",
+      "AB",
+      "ON",
+      "SK",
+      "MN",
+      "ALL"
+    ),
 
     # # Subregion expectation:
     # # - national: none
@@ -76,7 +90,7 @@ volume_model_registry <- function() {
 
     # Rank: higher is preferred in "auto" mode.
     # Suggested preference: regional > national; and if ht is available prefer ht models.
-    rank = c(10, 20, 90, 70, 90, 90, 90, 90),
+    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70),
 
     # Key to request params from get_volume_params()
     params_key = c(
@@ -88,7 +102,8 @@ volume_model_registry <- function() {
       "parameters_Huang94",
       "parameters_Zakrzewski2013",
       "parameters_GalBella94",
-      "parameters_Klos2007"
+      "parameters_Klos2007",
+      "parameters_Sharma2021"
     )
   )
 }

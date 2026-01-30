@@ -244,3 +244,50 @@ usethis::use_data(parameters_Klos2007, overwrite = T)
 #   filter(region_type !="site_type") %>%
 #  dplyr::summarise(n = dplyr::n(), .by = c(Species, region_type, region, parameter)) |>
 #   dplyr::filter(n > 1L)
+
+# data - Sharma 2021 model for central and eastern Canada ####
+
+path_tbl2 <- "data-raw/Sharma2021_Table2.csv" # inside bark, total
+path_tbl3 <- "data-raw/Sharma2021_Table3.csv" # outside bark, total
+path_tbl4 <- "data-raw/Sharma2021_Table4.csv" # merchantable (inside bark)
+
+# ---- read tables ----
+tbl_inside_total <- read_csv(path_tbl2, show_col_types = FALSE) |>
+  mutate(
+    volume_type = "total_inside_bark"
+  )
+
+tbl_outside_total <- read_csv(path_tbl3, show_col_types = FALSE) |>
+  mutate(
+    volume_type = "total_outside_bark"
+  )
+
+tbl_merchantable <- read_csv(path_tbl4, show_col_types = FALSE) |>
+  mutate(
+    volume_type = "merchantable_inside_bark"
+  )
+
+parameters_Sharma2021 <- bind_rows(
+  tbl_inside_total,
+  tbl_outside_total,
+  tbl_merchantable
+) |>
+  select(
+    Species = species,
+    volume_type,
+    alpha,
+    beta,
+    gamma
+  ) |>
+  arrange(volume_type, species)
+
+# Sharma 2021 includes to models for Cedar (genus): one species-specific for THUJ.OCC (eastern white-cedar),
+# second for "Cedar species". He does not specify what that group consist of.
+# Because there are only two cedar species occuring in eastern/central Canada, and one is already included as a
+# separate entry, the "Cedar species" is converted to Eastern red cedar (JUNI.VIR)
+
+parameters_Sharma2021 <- parameters_Sharma2021 |>
+  mutate(
+    Species = if_else(Species == "CEDA.SPP", "JUNI.VIR", Species)
+  )
+usethis::use_data(parameters_Sharma2021, overwrite = T)
