@@ -37,6 +37,7 @@
 #'   species = c("PICE.GLA", "PICE.GLA", "ABIE.BAL", "PINU.BAN")
 #' )
 #' trees %>% mutate(vol=vol_honer83(dbh, ht, species)) %>% unnest(vol)
+#' @export
 
 vol_honer83 <- function(DBH, height, species) {
   # ---- internal constants (match original Honer implementation intent) ----

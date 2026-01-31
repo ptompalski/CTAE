@@ -15,7 +15,7 @@ test_that("vol_* kozak88 wrappers return expected shape and non-negative volumes
     species = ab_sp,
     subregion = "Province"
   )
-  mb <- vol_klos2004(
+  mb <- vol_klos2007(
     DBH = 20,
     height = 20,
     species = mb_sp,

@@ -489,7 +489,7 @@ vol_klos2007 <- function(DBH, height, species, subregion = "Province") {
     species = species,
     subregion = subregion,
     jurisdiction = "MB",
-    model_id = "regional_klos2004",
+    model_id = "regional_klos2007",
     fallback_subregion = "Province"
   )
 }

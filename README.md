@@ -41,6 +41,7 @@ CTAE currently includes allometric models to:
 - Saskatchewan: `vol_galbella94()` - Individual tree volume using
   parameters developed by Gal & Bella (1994)
 - Central and eastern Canada: `vol_honer83()` - Honer et al. 1983
+- Central and eastern Canada: `vol_sharma2021()` - Sharma 2021
 
 #### National models
 
@@ -100,6 +101,10 @@ Western Journal of Applied Forestry, 22(3), 163–170.
 Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree
 aboveground biomass equations. Canadian Journal of Forest Research,
 35(8), 1996–2018. <https://doi.org/10.1139/x05-112>
+
+Sharma, M. (2021). Total and Merchantable Volume Equations for 25
+Commercial Tree Species Grown in Canada and the Northeastern United
+States. Forests, 12, 1270.
 
 Ung, C.H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass
 equations: new parameter estimates that include British Columbia data.
