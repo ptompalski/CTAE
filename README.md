@@ -48,6 +48,18 @@ CTAE currently includes allometric models to:
 - Ung et al. 2013 Canadian national taper models: `vol_national_dbh()`
   and `vol_national_dbh_ht()`
 
+| Model | Coverage | Subregion | Inputs | N species | Reference |
+|:---|:---|:---|:---|:---|:---|
+| vol_national_dbh | Canada (national) | none | DBH | 34 | Ung et al. 2013 |
+| vol_national_dbh_ht | Canada (national) | none | DBH + Ht | 34 | Ung et al. 2013 |
+| vol_kozak94 | BC | BEC zone required | DBH + Ht | 16 | Kozak 1994 |
+| vol_honer83 | ON, QC, NB, NS, PE, NL | none | DBH + Ht | 21 | Honer et al. 1983 |
+| vol_huang94 | AB | Province-wide or AB subregions | DBH + Ht | 13 | Huang 1994 |
+| vol_zakrzewski2013 | ON | none | DBH + Ht | 24 | Zakrzewski & Penner 2013 |
+| vol_galbella94 | SK | none | DBH + Ht | 12 | Gal & Bella 1994 |
+| vol_klos2007 | MN | Province-wide or ecozones | DBH + Ht | 5 | Klos et al. 2007 |
+| vol_sharma2021 | ON, QC, NB, NS, PE, NL | none | DBH + Ht | 25 | Sharma 2021 |
+
 ### Other
 
 - National volume-to-biomass conversions models (Boudewyn et al. 2007)

@@ -61,6 +61,51 @@ CTAE currently includes allometric models to:
 
 - Ung et al. 2013  Canadian national taper models: `vol_national_dbh()` and `vol_national_dbh_ht()`
 
+```{r, echo=F}
+# registry with list-column `species`
+reg <- volume_model_registry_species()
+
+fmt_inputs <- function(requires_ht) {
+  if (requires_ht) "DBH + Ht" else "DBH"
+}
+
+fmt_geo <- function(scope, province_scope) {
+  # province_scope is a character vector (from list-column)
+  if (length(province_scope) == 1 && identical(province_scope, "ALL")) {
+    return("Canada (national)")
+  }
+  paste(province_scope, collapse = ", ")
+}
+
+fmt_species <- function(species, max = 10) {
+  species <- sort(unique(species))
+  if (length(species) == 0) return("—")
+  if (length(species) <= max) return(paste(species, collapse = ", "))
+  paste0(
+    paste(species[1:max], collapse = ", "),
+    ", … (+", length(species) - max, ")"
+  )
+}
+
+readme_tbl <- reg %>%
+  transmute(
+    Model = engine,
+    # `Model ID` = model_id,
+    Coverage = purrr::map2_chr(scope, province_scope, fmt_geo),
+    Subregion = subregion_type,
+    Inputs = purrr::map_chr(requires_ht, fmt_inputs),
+    # Species = purrr::map_chr(species, fmt_species, max = 10),
+    `N species` = n_species,
+    Reference=reference
+  ) 
+
+knitr::kable(
+  readme_tbl,
+  format = "pipe",
+  align = c("l","l","l","l","l","l","r")
+)
+```
+
 
 ### Other
 

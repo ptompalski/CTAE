@@ -20,7 +20,5 @@ vol_kozak94(DBH, height, species, BEC_zone)
 A tibble with volumes (m^3): total, merchantable, stump, and top.
 }
 \description{
-Same as `vol_kozak94()` but **fails fast**: if any tree cannot be processed
-(missing parameters, missing merch criteria, non-finite intermediate values,
-etc.), the function aborts with a clear, per-tree error message.
+Estimate tree volume using Kozak (1994) taper model (BC, BEC-zone specific)
 }

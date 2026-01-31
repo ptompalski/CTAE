@@ -1,8 +1,5 @@
 #' Estimate tree volume using Kozak (1994) taper model (BC, BEC-zone specific)
 #'
-#' Same as `vol_kozak94()` but **fails fast**: if any tree cannot be processed
-#' (missing parameters, missing merch criteria, non-finite intermediate values,
-#' etc.), the function aborts with a clear, per-tree error message.
 #'
 #' @param DBH Numeric vector of diameter at breast height (cm).
 #' @param height Numeric vector of total tree height (m).

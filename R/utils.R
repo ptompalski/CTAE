@@ -27,6 +27,16 @@ prov_aliases <- tibble::tribble(
   "NWT"   , "NT"
 )
 
+# internal
+supported_provinces <- function() {
+  stopifnot(exists("prov_codes", inherits = TRUE))
+
+  prov_codes %>%
+    dplyr::pull(code) %>%
+    unique() %>%
+    sort()
+}
+
 #' Standardize jurisdiction (province and territorial) codes
 #'
 #'
@@ -54,6 +64,26 @@ standardize_jurisdiction_code <- function(x) {
   }
 
   x_fixed
+}
+
+normalize_province_scope <- function(x) {
+  # x is a list element from province_scope
+  if (length(x) == 1 && identical(x[[1]], "ALL")) {
+    return(supported_provinces())
+  }
+  unique(unlist(x))
+}
+
+select_volume_models <- function(jurisdiction) {
+  prov <- CTAE:::standardize_jurisdiction_code(jurisdiction)
+
+  volume_model_registry() %>%
+    dplyr::mutate(
+      prov_vec = purrr::map(province_scope, normalize_province_scope),
+      supported = purrr::map_lgl(prov_vec, ~ prov %in% .x)
+    ) %>%
+    dplyr::filter(supported) %>%
+    dplyr::arrange(rank)
 }
 
 

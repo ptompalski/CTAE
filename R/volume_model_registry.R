@@ -21,17 +21,21 @@ volume_model_registry <- function() {
       "regional_sharma2021"
     ),
 
-    label = c(
-      "Ung et al. 2013 Canadian national taper models (DBH only)",
-      "Ung et al. 2013 Canadian national taper models (DBH + height)",
-      "Kozak 1994 taper (BC; BEC zones; DBH + height)",
-      "Honer 1983 model (regional; DBH + height)",
-      "Huang 1994 model (AB; subregions; DBH + height)",
-      "Zakrzewski 2013 model for ON (DBH + height)",
-      "Gal & Bella model parameters for SK",
-      "Klos et al. 2007 model parameters for MN",
-      "Sharma 2021 regional model for central and eastern Canada, 25 species"
+    reference = c(
+      "Ung et al. 2013",
+      "Ung et al. 2013",
+      "Kozak 1994",
+      "Honer et al. 1983",
+      "Huang 1994",
+      "Zakrzewski & Penner 2013",
+      "Gal & Bella 1994",
+      "Klos et al. 2007",
+      "Sharma 2021"
     ),
+
+    # comment = c(
+
+    # ),
 
     # function names to run the models
     engine = c(
@@ -64,29 +68,30 @@ volume_model_registry <- function() {
 
     # # Province applicability. "ALL" means any province can use it (subject to params).
     # # Kozak94 is BC-specific in your legacy implementation.
-    province_scope = c(
+    province_scope = list(
       "ALL",
       "ALL",
       "BC",
-      "ALL",
+      c("ON", "QC", "NB", "NS", "PE", "NL"),
       "AB",
       "ON",
       "SK",
       "MN",
-      "ALL"
+      c("ON", "QC", "NB", "NS", "PE", "NL")
     ),
 
     # # Subregion expectation:
-    # # - national: none
-    # # - Kozak88/Honer: often "ALL" but table has Subregion column
-    # # - Kozak94: BEC zone (or "ALL" if your params are aggregated, but code is BEC-oriented)
-    # subregion_type = c(
-    #   "none",
-    #   "none",
-    #   "all_or_subregion",
-    #   "bec",
-    #   "all_or_subregion"
-    # ),
+    subregion_type = c(
+      "none",
+      "none",
+      "BEC zone required",
+      "none",
+      "Province-wide or AB subregions",
+      "none",
+      "none",
+      "Province-wide or ecozones",
+      "none"
+    ),
 
     # Rank: higher is preferred in "auto" mode.
     # Suggested preference: regional > national; and if ht is available prefer ht models.
@@ -96,7 +101,6 @@ volume_model_registry <- function() {
     params_key = c(
       "parameters_NationalTaperModelsDBH",
       "parameters_NationalTaperModelsDBHHT",
-      # "parameters_Kozak88",
       "parameters_Kozak94",
       "parameters_Honer",
       "parameters_Huang94",
@@ -107,3 +111,98 @@ volume_model_registry <- function() {
     )
   )
 }
+
+
+# internal
+get_params_tbl <- function(params_key) {
+  stopifnot(
+    is.character(params_key),
+    length(params_key) == 1,
+    nzchar(params_key)
+  )
+
+  # 1) If package is attached, datasets usually live here
+  pkg_env <- tryCatch(as.environment("package:CTAE"), error = function(e) NULL)
+  if (
+    !is.null(pkg_env) && exists(params_key, envir = pkg_env, inherits = FALSE)
+  ) {
+    return(get(params_key, envir = pkg_env, inherits = FALSE))
+  }
+
+  # 2) Some internal objects live in the namespace
+  ns_env <- asNamespace("CTAE")
+  if (exists(params_key, envir = ns_env, inherits = FALSE)) {
+    return(get(params_key, envir = ns_env, inherits = FALSE))
+  }
+
+  # 3) Try loading from data/ via utils::data()
+  tmp <- rlang::env()
+  ok <- tryCatch(
+    {
+      utils::data(list = params_key, package = "CTAE", envir = tmp)
+      exists(params_key, envir = tmp, inherits = FALSE)
+    },
+    error = function(e) FALSE
+  )
+
+  if (ok) {
+    return(get(params_key, envir = tmp, inherits = FALSE))
+  }
+
+  rlang::abort(paste0(
+    "Internal params object not found: `",
+    params_key,
+    "`.\n",
+    "Tried: package env (package:CTAE), namespace, and utils::data()."
+  ))
+}
+
+
+# internal
+extract_species_from_params <- function(tbl) {
+  stopifnot(inherits(tbl, "data.frame"))
+
+  # find a plausible species column
+  candidates <- c("species", "Species", "spp", "sp", "SPP", "species_code")
+  sp_col <- candidates[candidates %in% names(tbl)][1]
+
+  if (is.na(sp_col)) {
+    return(character(0))
+  }
+
+  sp <- tbl[[sp_col]]
+
+  sp <- sp[!is.na(sp)]
+  sp <- unique(as.character(sp))
+  sp <- sort(sp)
+
+  sp
+}
+
+#' Volume model registry with species coverage
+#'
+#' @return A tibble like `volume_model_registry()` plus:
+#'   - `species` (list-column of character vectors)
+#'   - `n_species` (integer)
+#'   - `species_text` (collapsed string for printing)
+#' @keywords internal
+volume_model_registry_species <- function() {
+  reg <- volume_model_registry()
+
+  reg %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      species = list({
+        params <- get_params_tbl(params_key)
+        extract_species_from_params(params)
+      }),
+      n_species = length(species),
+      species_text = dplyr::if_else(
+        n_species == 0L,
+        NA_character_,
+        paste(species, collapse = ", ")
+      )
+    ) %>%
+    dplyr::ungroup()
+}
+# x <- volume_model_registry_species()
