@@ -29,36 +29,28 @@ CTAE currently includes allometric models to:
 
 ### Volume (total and merchantable)
 
-#### Regional models
-
-- Alberta: `vol_huang94()` - Individual tree volume equations for major
-  Alberta tree species (Huang 1994)
-- British Columbia: `vol_kozak94()` - Kozak 1994 Taper Equations
-- Manitoba: `vol_klos2007()` - Individual tree volume using parameters
-  developed by Klos (2004)
-- Ontario: `vol_zakrzewski2013()` - Zakrzewski et al. (2013)
-  taper/volume model for Ontario
-- Saskatchewan: `vol_galbella94()` - Individual tree volume using
-  parameters developed by Gal & Bella (1994)
-- Central and eastern Canada: `vol_honer83()` - Honer et al. 1983
-- Central and eastern Canada: `vol_sharma2021()` - Sharma 2021
-
-#### National models
-
-- Ung et al. 2013 Canadian national taper models: `vol_national_dbh()`
-  and `vol_national_dbh_ht()`
-
-| Model | Coverage | Subregion | Inputs | N species | Reference |
-|:---|:---|:---|:---|:---|:---|
-| vol_national_dbh | Canada (national) | none | DBH | 34 | Ung et al. 2013 |
-| vol_national_dbh_ht | Canada (national) | none | DBH + Ht | 34 | Ung et al. 2013 |
-| vol_kozak94 | BC | BEC zone required | DBH + Ht | 16 | Kozak 1994 |
-| vol_honer83 | ON, QC, NB, NS, PE, NL | none | DBH + Ht | 21 | Honer et al. 1983 |
-| vol_huang94 | AB | Province-wide or AB subregions | DBH + Ht | 13 | Huang 1994 |
-| vol_zakrzewski2013 | ON | none | DBH + Ht | 24 | Zakrzewski & Penner 2013 |
-| vol_galbella94 | SK | none | DBH + Ht | 12 | Gal & Bella 1994 |
-| vol_klos2007 | MN | Province-wide or ecozones | DBH + Ht | 5 | Klos et al. 2007 |
-| vol_sharma2021 | ON, QC, NB, NS, PE, NL | none | DBH + Ht | 25 | Sharma 2021 |
+- `vol_galbella94`. Provincial taper model for Saskatchewan based on the
+  Kozak variable-exponent form.. Coverage: SK. 12 species. Gal & Bella
+  1994
+- `vol_honer83`. Regional volume models for central and eastern Canada,
+  applicable across multiple provinces.. Coverage: NB, NL, NS, ON, PE,
+  QC. 21 species. Honer et al. 1983
+- `vol_huang94`. Provincial taper model for Alberta based on the Kozak
+  variable-exponent form; applicable at the province level or by Alberta
+  subregions.. Coverage: AB. 13 species. Huang 1994
+- `vol_klos2007`. Provincial taper model for Manitoba based on the Kozak
+  variable-exponent form; applicable at the province level or by
+  ecozone.. Coverage: MB. 5 species. Klos et al. 2007
+- `vol_kozak94`. Provincial taper model for British Columbia; requires
+  BEC zone as a subregion input.. Coverage: BC. 16 species. Kozak 1994
+- `vol_sharma2021`. Regional volume models for central and eastern
+  Canada, applicable across multiple provinces.. Coverage: NB, NL, NS,
+  ON, PE, QC. 25 species. Sharma 2021
+- `vol_ung2013`. National taper model for Canada, available in two
+  variants: DBH-only and DBH with total height.. Coverage: Canada
+  (national). 34 species. Ung et al. 2013
+- `vol_zakrzewski2013`. Provincial taper model for Ontario.. Coverage:
+  ON. 24 species. Zakrzewski & Penner 2013
 
 ### Other
 

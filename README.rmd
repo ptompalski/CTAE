@@ -47,63 +47,93 @@ CTAE currently includes allometric models to:
 
 ### Volume (total and merchantable)
 
-#### Regional models 
 
-- Alberta: `vol_huang94()` - Individual tree volume equations for major Alberta tree species (Huang 1994)
-- British Columbia: `vol_kozak94()` - Kozak 1994 Taper Equations
-- Manitoba: `vol_klos2007()` - Individual tree volume using parameters developed by Klos (2004)
-- Ontario: `vol_zakrzewski2013()` - Zakrzewski et al. (2013) taper/volume model for Ontario
-- Saskatchewan: `vol_galbella94()` - Individual tree volume using parameters developed by Gal & Bella (1994)
-- Central and eastern Canada: `vol_honer83()` - Honer et al. 1983
-- Central and eastern Canada: `vol_sharma2021()` - Sharma 2021
-
-#### National models
-
-- Ung et al. 2013  Canadian national taper models: `vol_national_dbh()` and `vol_national_dbh_ht()`
-
-```{r, echo=F}
-# registry with list-column `species`
+```{r results = "asis", echo = FALSE}
 reg <- volume_model_registry_species()
 
-fmt_inputs <- function(requires_ht) {
-  if (requires_ht) "DBH + Ht" else "DBH"
-}
+# ---- collapse registry to one row per engine ----
+reg_collapsed <- reg %>%
+  dplyr::group_by(engine) %>%
+  dplyr::summarise(
+    scope = dplyr::first(scope),
+    province_scope = list({
+      x <- sort(unique(unlist(province_scope)))
+      if (any(x == "ALL")) "ALL" else x
+    }),
 
+    # FIX: keep the actual description, not reference
+    description = paste(unique(description), collapse = "; "),
+
+    requires_ht_any = any(requires_ht),
+    requires_ht_all = all(requires_ht),
+
+    species = list(sort(unique(unlist(species)))),
+    n_species = length(species[[1]]),
+
+    reference = paste(unique(reference), collapse = "; "),
+    .groups = "drop"
+  )
+
+# ---- helpers ----
 fmt_geo <- function(scope, province_scope) {
-  # province_scope is a character vector (from list-column)
   if (length(province_scope) == 1 && identical(province_scope, "ALL")) {
-    return("Canada (national)")
+    "Canada (national)"
+  } else {
+    paste(province_scope, collapse = ", ")
   }
-  paste(province_scope, collapse = ", ")
 }
 
-fmt_species <- function(species, max = 10) {
-  species <- sort(unique(species))
-  if (length(species) == 0) return("—")
-  if (length(species) <= max) return(paste(species, collapse = ", "))
-  paste0(
-    paste(species[1:max], collapse = ", "),
-    ", … (+", length(species) - max, ")"
+fmt_inputs <- function(any_ht, all_ht) {
+  dplyr::case_when(
+    !any_ht ~ "DBH",
+    all_ht  ~ "DBH & height",
+    TRUE    ~ "DBH or DBH & height"
   )
 }
 
-readme_tbl <- reg %>%
-  transmute(
-    Model = engine,
-    # `Model ID` = model_id,
-    Coverage = purrr::map2_chr(scope, province_scope, fmt_geo),
-    Subregion = subregion_type,
-    Inputs = purrr::map_chr(requires_ht, fmt_inputs),
-    # Species = purrr::map_chr(species, fmt_species, max = 10),
-    `N species` = n_species,
-    Reference=reference
-  ) 
+fmt_model_bullet_oneline <- function(
+  engine,
+  coverage,
+  # inputs,
+  n_species,
+  description,
+  reference
+) {
+  parts <- c(
+    paste0("`", engine, "`"),
+    paste0(description),
+    paste0("Coverage: ", coverage),
+    # paste0("Inputs: ", inputs),
+    paste0(n_species, " species"),
+    paste0("", reference)
+  )
 
-knitr::kable(
-  readme_tbl,
-  format = "pipe",
-  align = c("l","l","l","l","l","l","r")
-)
+  paste0("- ", paste(parts, collapse = ". "))
+}
+
+# ---- build bullets ----
+bullets <- reg_collapsed %>%
+  dplyr::mutate(
+    Coverage = purrr::map2_chr(scope, province_scope, fmt_geo),
+    Inputs = fmt_inputs(requires_ht_any, requires_ht_all)
+  ) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(
+    bullet = fmt_model_bullet_oneline(
+      engine,
+      Coverage,
+      # Inputs,
+      n_species,
+      description,
+      reference
+    )
+  ) %>%
+  dplyr::ungroup()
+
+# ---- emit Markdown (important for README.Rmd) ----
+cat(paste(bullets$bullet, collapse = "\n"))
+
+
 ```
 
 

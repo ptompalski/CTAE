@@ -39,8 +39,8 @@ volume_model_registry <- function() {
 
     # function names to run the models
     engine = c(
-      "vol_national_dbh",
-      "vol_national_dbh_ht",
+      "vol_ung2013", #"vol_national_dbh_engine",
+      "vol_ung2013", #"vol_national_dbh_ht_engine",
       "vol_kozak94",
       "vol_honer83",
       "vol_huang94",
@@ -76,7 +76,7 @@ volume_model_registry <- function() {
       "AB",
       "ON",
       "SK",
-      "MN",
+      "MB",
       c("ON", "QC", "NB", "NS", "PE", "NL")
     ),
 
@@ -91,6 +91,33 @@ volume_model_registry <- function() {
       "none",
       "Province-wide or ecozones",
       "none"
+    ),
+    # # Description
+    description = c(
+      # Ung et al. (national)
+      "National taper model for Canada, available in two variants: DBH-only and DBH with total height.",
+      "National taper model for Canada, available in two variants: DBH-only and DBH with total height.",
+
+      # Kozak 1994 (BC)
+      "Provincial taper model for British Columbia; requires BEC zone as a subregion input.",
+
+      # Honer et al. (central & eastern Canada)
+      "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
+
+      # Huang 1994 (AB)
+      "Provincial taper model for Alberta based on the Kozak variable-exponent form; applicable at the province level or by Alberta subregions.",
+
+      # Zakrzewski & Penner 2013 (ON)
+      "Provincial taper model for Ontario.",
+
+      # Gal & Bella 1994 (SK)
+      "Provincial taper model for Saskatchewan based on the Kozak variable-exponent form.",
+
+      # Klos et al. (MB)
+      "Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone.",
+
+      # Sharma 2021 (central & eastern Canada)
+      "Regional volume models for central and eastern Canada, applicable across multiple provinces."
     ),
 
     # Rank: higher is preferred in "auto" mode.
