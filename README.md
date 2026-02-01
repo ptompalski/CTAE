@@ -52,6 +52,26 @@ CTAE currently includes allometric models to:
 - `vol_zakrzewski2013`. Provincial taper model for Ontario.. Coverage:
   ON. 24 species. Zakrzewski & Penner 2013
 
+#### Merchantability criteria
+
+Merchantable volume in CTAE is defined using jurisdiction-specific
+merchantability rules, following the officially adopted criteria in each
+province or territory (e.g., minimum top diameter, minimum DBH, and
+stump height). For most models, these rules are applied dynamically
+based on the provided jurisdiction.
+
+Some volume models, however, have merchantability criteria fixed within
+the model formulation itself, reflecting how the original equations were
+developed and calibrated. In these cases (e.g., `vol_honer83`,
+`vol_sharma2021`), merchantable volume is computed using the
+model-specific, hard-coded criteria and does not vary by jurisdiction or
+species.
+
+The jurisdiction-specific merchantability criteria used by CTAE can be
+inspected in the internal dataset `merchcrit`, which documents the
+values applied for each jurisdiction (and, where applicable, by species
+or subregion).
+
 ### Other
 
 - National volume-to-biomass conversions models (Boudewyn et al. 2007)
