@@ -150,3 +150,33 @@ testthat::test_that("vol_fortin2007: does not produce extreme values across spec
   # Very generous upper bound for merchantable m^3 at DBH<=80 cm, H<=40 m
   testthat::expect_true(all(v < 50))
 })
+
+testthat::test_that("vol_fortin2007 matches manual calculations: hardwood vs conifer", {
+  # model paramters entered manually from the java implementation. They match the parameters in the publication, although have more decimals
+  cases <- tibble::tribble(
+    ~species   , ~DBH , ~H , ~b1              , ~b2              , ~b3              ,
+    "BETU.PAP" ,   20 , 20 , -16.000108490313 , 0.43866084427706 ,  0               ,
+    "PICE.MAR" ,   20 , 20 , -16.000108490313 , 0.51037282935719 , -0.0034365415188
+  )
+
+  for (k in seq_len(nrow(cases))) {
+    DBH <- cases$DBH[k]
+    H <- cases$H[k]
+    spp <- cases$species[k]
+
+    cyl_dm3 <- pi * DBH^2 * H / 40
+    pred_dm3 <- cases$b1[k] *
+      (H / DBH) +
+      cases$b2[k] * cyl_dm3 +
+      cases$b3[k] * (cyl_dm3 * DBH)
+
+    expected_m3 <- pred_dm3 / 1000
+    out <- vol_fortin2007(DBH = DBH, height = H, species = spp)
+
+    testthat::expect_equal(
+      out$vol_merchantable[[1]],
+      expected_m3,
+      tolerance = 1e-7
+    )
+  }
+})
