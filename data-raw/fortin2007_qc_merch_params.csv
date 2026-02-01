@@ -1,0 +1,27 @@
+idx,qc_species_code,qc_group,is_conifer,nfi_species_code,species_fr,species_latin,beta1_ht_over_dbh,beta2_cyl,beta3_conif_cyl_dbh
+1,BOG,FEU,False,BETU.POP,Bouleau gris,Betula populifolia,-16.000108490313,0.42733027120747,0.0
+2,BOJ,FEU,False,BETU.ALL,Bouleau jaune,Betula alleghaniensis,-16.000108490313,0.42603332461534,0.0
+3,BOP,FEU,False,BETU.PAP,Bouleau à papier,Betula papyrifera,-16.000108490313,0.43866084427706,0.0
+4,CET,FEU,False,PRUN.SER,Cerisier tardif,Prunus serotina,-16.000108490313,0.41426360966922,0.0
+5,CHR,FEU,False,QUER.RUB,Chêne rouge,Quercus rubra,-16.000108490313,0.41880194516251,0.0
+6,EPB,RES,True,PICE.GLA,Épinette blanche,Picea glauca,-16.000108490313,0.50343496202819,-0.0023611652918
+7,EPN,RES,True,PICE.MAR,Épinette noire,Picea mariana,-16.000108490313,0.51037282935719,-0.0034365415188
+8,EPR,RES,True,PICE.RUB,Épinette rouge,Picea rubens,-16.000108490313,0.50149352683151,-0.0021496320903
+9,ERR,FEU,False,ACER.RUB,Érable rouge,Acer rubrum,-16.000108490313,0.39550130519221,0.0
+10,ERS,FEU,False,ACER.SAC,Érable à sucre,Acer saccharum,-16.000108490313,0.40824752273542,0.0
+11,FRA,FEU,False,FRAX.AME,Frêne d'Amérique,Fraxinus americana,-16.000108490313,0.38533308048495,0.0
+12,FRN,FEU,False,FRAX.NIG,Frêne noir,Fraxinus nigra,-16.000108490313,0.42945723078271,0.0
+13,HEG,FEU,False,FAGU.GRA,Hêtre à grandes feuilles,Fagus grandifolia,-16.000108490313,0.44056825352813,0.0
+14,MEL,RES,True,LARI.LAR,Mélèze laricin,Larix laricina,-16.000108490313,0.49930378760866,-0.0033109084444
+15,ORA,FEU,False,ULMU.AME,Orme d'Amérique,Ulmus americana,-16.000108490313,0.39944648667202,0.0
+16,OSV,FEU,False,OSTR.VIR,Ostryer de Virginie,Ostrya virginiana,-16.000108490313,0.41071772713106,0.0
+17,PEB,FEU,False,POPU.BAL,Peuplier baumier,Populus balsamifera,-16.000108490313,0.40025350018861,0.0
+18,PEG,FEU,False,POPU.GRA,Peuplier à grandes dents,Populus grandidentata,-16.000108490313,0.40090487559365,0.0
+19,PET,FEU,False,POPU.TRE,Peuplier faux-tremble,Populus tremuloides,-16.000108490313,0.44065322509284,0.0
+20,PIB,RES,True,PINU.STR,Pin blanc,Pinus strobus,-16.000108490313,0.50380277491798,-0.0019693123635
+21,PIG,RES,True,PINU.BAN,Pin gris,Pinus banksiana,-16.000108490313,0.50680973546485,-0.0024816909016
+22,PIR,RES,True,PINU.RES,Pin rouge,Pinus resinosa,-16.000108490313,0.46379787228253,-0.0013038739668
+23,PRU,RES,True,TSUG.CAN,Pruche du Canada,Tsuga canadensis,-16.000108490313,0.42983077080332,-0.0007401361179
+24,SAB,RES,True,ABIE.BAL,Sapin baumier,Abies balsamea,-16.000108490313,0.5094404840024,-0.0034919336079
+25,THO,RES,True,THUJ.OCC,Thuya occidental,Thuja occidentalis,-16.000108490313,0.50268644250096,-0.003001751407
+26,TIL,FEU,False,TILI.AME,Tilleul d'Amérique,Tilia americana,-16.000108490313,0.40486104845745,0.0

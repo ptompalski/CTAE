@@ -29,6 +29,8 @@ CTAE currently includes allometric models to:
 
 ### Volume (total and merchantable)
 
+- `vol_fortin2007`. Provincial merchantable volume model for QC..
+  Coverage: QC. 26 species. Fortin et al. 2007
 - `vol_galbella94`. Provincial taper model for Saskatchewan based on the
   Kozak variable-exponent form.. Coverage: SK. 12 species. Gal & Bella
   1994
@@ -96,6 +98,11 @@ Model-based, volume-to-biomass conversion for forested and vegetated
 land in Canada. Natural Resources Canada, Canadian Forest Service,
 Pacific Forestry Centre, Victoria, BC. Information Report BC-X-411. 112
 p.
+
+Fortin, M., DeBlois, J., Bernier, S., Blais, G., 2007. Mise au point
+d’un tarif de cubage général pour les forêts québécoises : une approche
+pour mieux évaluer l’incertitude associée aux prévisions. The Forestry
+Chronicle 83, 754–765. <https://doi.org/10.5558/tfc83754-5>
 
 Gal, J., & Bella, I.E. (1994). New stem taper functions for 12
 Saskatchewan timber species. Natural Resources Canada, Canadian Forest

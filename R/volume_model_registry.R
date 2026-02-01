@@ -18,7 +18,8 @@ volume_model_registry <- function() {
       "regional_zakrzewski2013",
       "regional_galbella94",
       "regional_klos2007",
-      "regional_sharma2021"
+      "regional_sharma2021",
+      "regional_fortin2007"
     ),
 
     reference = c(
@@ -30,7 +31,8 @@ volume_model_registry <- function() {
       "Zakrzewski & Penner 2013",
       "Gal & Bella 1994",
       "Klos et al. 2007",
-      "Sharma 2021"
+      "Sharma 2021",
+      "Fortin et al. 2007"
     ),
 
     # comment = c(
@@ -47,16 +49,29 @@ volume_model_registry <- function() {
       "vol_zakrzewski2013",
       "vol_galbella94",
       "vol_klos2007",
-      "vol_sharma2021"
+      "vol_sharma2021",
+      "vol_fortin2007"
     ),
 
     # What inputs are required?
-    requires_ht = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+    requires_ht = c(
+      FALSE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE
+    ),
 
     # Geographic scope: used for ranking + selection
     scope = c(
       "national",
       "national",
+      "regional",
       "regional",
       "regional",
       "regional",
@@ -77,7 +92,8 @@ volume_model_registry <- function() {
       "ON",
       "SK",
       "MB",
-      c("ON", "QC", "NB", "NS", "PE", "NL")
+      c("ON", "QC", "NB", "NS", "PE", "NL"),
+      "QC"
     ),
 
     # # Subregion expectation:
@@ -90,6 +106,7 @@ volume_model_registry <- function() {
       "none",
       "none",
       "Province-wide or ecozones",
+      "none",
       "none"
     ),
     # # Description
@@ -117,12 +134,15 @@ volume_model_registry <- function() {
       "Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone.",
 
       # Sharma 2021 (central & eastern Canada)
-      "Regional volume models for central and eastern Canada, applicable across multiple provinces."
+      "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
+
+      # Fortin et al 2007
+      "Provincial merchantable volume model for Quebec."
     ),
 
     # Rank: higher is preferred in "auto" mode.
     # Suggested preference: regional > national; and if ht is available prefer ht models.
-    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70),
+    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70, 90),
 
     # Key to request params from get_volume_params()
     params_key = c(
@@ -134,7 +154,8 @@ volume_model_registry <- function() {
       "parameters_Zakrzewski2013",
       "parameters_GalBella94",
       "parameters_Klos2007",
-      "parameters_Sharma2021"
+      "parameters_Sharma2021",
+      "parameters_fortin2007"
     )
   )
 }

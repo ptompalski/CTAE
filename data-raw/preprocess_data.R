@@ -291,3 +291,18 @@ parameters_Sharma2021 <- parameters_Sharma2021 |>
     Species = if_else(Species == "CEDA.SPP", "JUNI.VIR", Species)
   )
 usethis::use_data(parameters_Sharma2021, overwrite = T)
+
+# data - parameters for the QC merch volume model (Fortin et al 2007)
+
+parameters_fortin2007 <- read_csv("data-raw/fortin2007_qc_merch_params.csv")
+
+# select column, change to wide
+parameters_fortin2007 <-
+  parameters_fortin2007 %>%
+  select(
+    Species = nfi_species_code,
+    b1 = beta1_ht_over_dbh,
+    b2 = beta2_cyl,
+    b3 = beta3_conif_cyl_dbh
+  )
+usethis::use_data(parameters_fortin2007, overwrite = T)
