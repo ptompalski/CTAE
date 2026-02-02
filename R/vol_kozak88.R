@@ -52,9 +52,8 @@ vol_kozak88_engine <- function(
     subr_std[idx] <- unname(map_std[subr_std[idx]])
   }
 
-  # ---- constants (as in your legacy implementation) ----
+  # ---- constants ----
   cons <- 0.00007854
-  per <- (1.0 - sqrt(0.225))
 
   # ---- internal: structured abort with context ----
   abort_i <- function(i, msg) {
@@ -79,11 +78,8 @@ vol_kozak88_engine <- function(
   }
 
   # ---- merchantability criteria (cache once; species-specific if supported) ----
-  # If get_merch_criteria() supports species-specific rules for that jurisdiction,
-  # passing species_std here will pick them up.
   mc0 <- get_merch_criteria(jurisdiction_std, species = "ALL", verbose = FALSE)
   if (!is.null(mc0) && nrow(mc0) > 0) {
-    # keep it for fallback if species-specific not present
     mc_all <- mc0 %>% dplyr::slice(1)
   } else {
     mc_all <- NULL
@@ -135,7 +131,7 @@ vol_kozak88_engine <- function(
     mc
   }
 
-  # ---- internal: check wide params row ----
+  # ---- internal: check wide params row (now supports optional p) ----
   check_params_wide <- function(p_w) {
     need <- c("a0", "a1", "a2", "b1", "b2", "b3", "b4", "b5")
     if (nrow(p_w) != 1) {
@@ -143,6 +139,12 @@ vol_kozak88_engine <- function(
     }
     if (!all(need %in% names(p_w))) {
       return(NULL)
+    }
+
+    # p is optional in your tables; default to Kozak88 constant if absent
+    p_val <- 0.225
+    if ("p" %in% names(p_w)) {
+      p_val <- p_w$p[[1]]
     }
 
     p <- list(
@@ -153,9 +155,14 @@ vol_kozak88_engine <- function(
       b2 = p_w$b2[[1]],
       b3 = p_w$b3[[1]],
       b4 = p_w$b4[[1]],
-      b5 = p_w$b5[[1]]
+      b5 = p_w$b5[[1]],
+      p = p_val
     )
+
     if (any(!is.finite(unlist(p)))) {
+      return(NULL)
+    }
+    if (p$p <= 0 || p$p >= 1) {
       return(NULL)
     }
     p
@@ -176,6 +183,11 @@ vol_kozak88_engine <- function(
     }
     if (z > 1) {
       z <- 1
+    }
+
+    per <- (1.0 - sqrt(p$p))
+    if (!is.finite(per) || per <= 0) {
+      return(NA_real_)
     }
 
     x <- (1 - sqrt(z)) / per
@@ -202,16 +214,16 @@ vol_kozak88_engine <- function(
     dib
   }
 
-  # ---- internal: solve g (relative merch height) such that DIB == topdbh ----
-  solve_g <- function(DBH, HT, p, topdbh) {
+  # ---- internal: colleague-compatible solver for g (with reset-to-0.9 behavior) ----
+  solve_g_colleague <- function(DBH, HT, p, topdbh) {
     g0 <- 0.9
     g1 <- 0
-    maxiter <- 1000
-    tol <- 1e-8
-    iii <- 0
+    maxiter <- 500
+    tol <- 1e-9
+    per <- (1.0 - sqrt(p$p))
 
-    while (abs(g0 - g1) > tol && iii <= maxiter) {
-      cc <- p$b1 *
+    for (iii in seq_len(maxiter)) {
+      cee <- p$b1 *
         (g0^2) +
         p$b2 * log(g0 + 0.001) +
         p$b3 * sqrt(g0) +
@@ -219,24 +231,66 @@ vol_kozak88_engine <- function(
         p$b5 * (DBH / HT)
 
       ff <- p$a0 * (DBH^p$a1) * (p$a2^DBH)
-      if (!is.finite(cc) || cc == 0 || !is.finite(ff) || ff <= 0) {
-        return(NA_real_)
+
+      # If things go odd, break and reset later
+      if (!is.finite(cee) || cee == 0 || !is.finite(ff) || ff <= 0) {
+        g0 <- NA_real_
+        break
       }
 
-      g1 <- (1 - ((topdbh / ff)^(1 / cc)) * per)^2
-      if (!is.finite(g1)) {
-        return(NA_real_)
-      }
-
+      g1 <- (1 - ((topdbh / ff)^(1 / cee)) * per)^2
       g0 <- (g0 + g1) / 2
-      g0 <- max(min(g0, 1), 0)
-      iii <- iii + 1
+
+      if (is.nan(g0) || is.infinite(g0)) {
+        break
+      }
+      if (abs(g0 - g1) < tol) break
     }
 
-    if (iii > maxiter) {
+    # Reset behavior exactly like colleague
+    if (!is.finite(g0) || is.nan(g0) || is.infinite(g0) || g0 > 1) {
+      g0 <- 0.9
+    }
+    if (g0 < 0) {
+      g0 <- 0.9
+    }
+
+    g0
+  }
+
+  # ---- internal: Simpson integration (20 sub-sections => 10 Simpson segments) ----
+  vol_integrate_simpson <- function(stumpht, upper_h, dbh, HT, p) {
+    if (upper_h <= stumpht) {
+      return(0)
+    }
+
+    mlen <- (1:20) * (upper_h - stumpht) / 20 + stumpht
+
+    dib0 <- kozak88_dib(stumpht, dbh, HT, p)
+    if (!is.finite(dib0) || dib0 < 0) {
       return(NA_real_)
     }
-    g0
+
+    dibx <- vapply(mlen, kozak88_dib, numeric(1), DBH = dbh, HT = HT, p = p)
+    dibm <- c(dib0, dibx)
+
+    if (length(dibm) != 21) {
+      return(NA_real_)
+    }
+    if (any(!is.finite(dibm)) || any(dibm < 0)) {
+      return(NA_real_)
+    }
+
+    k <- cons * (((upper_h - stumpht) / 10) / 6)
+
+    v <- 0
+    for (seg in 1:10) {
+      idx0 <- (seg - 1) * 2 + 1
+      idxm <- idx0 + 1
+      idx1 <- idx0 + 2
+      v <- v + k * (dibm[idx0]^2 + 4 * dibm[idxm]^2 + dibm[idx1]^2)
+    }
+    v
   }
 
   # ---- outputs ----
@@ -265,12 +319,6 @@ vol_kozak88_engine <- function(
     stumpht <- mc$stumpht_m[[1]]
     topdbh <- mc$topdbh_cm[[1]]
     mindbh <- mc$mindbh_cm[[1]]
-
-    if (dbh < mindbh) {
-      vol_total[i] <- 0
-      vol_merch[i] <- 0
-      next
-    }
 
     # ---- parameters: try requested subregion; fallback ----
     subr_req <- subr_std[i]
@@ -324,110 +372,61 @@ vol_kozak88_engine <- function(
     if (is.null(p)) {
       abort_i(
         i,
-        "Returned parameter row is missing required coefficients (a0,a1,a2,b1..b5) or contains NA/Inf."
+        "Returned parameter row is missing required coefficients (a0,a1,a2,b1..b5[,p]) or contains NA/Inf."
       )
     }
 
-    # ---- solve merchantable relative height g and merchantable height hi ----
-    g <- solve_g(dbh, HT, p, topdbh)
-    if (!is.finite(g)) {
-      abort_i(
-        i,
-        "Merchantable height solver failed to converge or produced non-finite value."
-      )
-    }
-
-    hi <- g * HT
-    if (!is.finite(hi)) {
-      abort_i(i, "Computed merchantable height is non-finite.")
-    }
-
-    # if merch height <= stump => merch vol = 0, total = stump + tip
-    if (hi <= stumpht) {
-      dib_stump <- kozak88_dib(stumpht, dbh, HT, p)
-      if (!is.finite(dib_stump) || dib_stump < 0) {
-        abort_i(i, "Failed computing DIB at stump height.")
-      }
-
-      volstp <- cons * dib_stump^2 * stumpht
-      if (!is.finite(volstp) || volstp < 0) {
-        abort_i(i, "Computed stump volume is invalid.")
-      }
-
-      tipvol <- cons * (topdbh^2) * (HT - hi) / 3
-      if (!is.finite(tipvol) || tipvol < 0) {
-        abort_i(i, "Computed tip volume is invalid.")
-      }
-
-      vol_merch[i] <- 0
-      vol_total[i] <- volstp + tipvol
-      next
-    }
-
-    # ---- Newton integration points (20 sub-sections => 21 diameters) ----
-    mlen <- (1:20) * (hi - stumpht) / 20 + stumpht
-    z <- mlen / HT
-    x <- (1 - sqrt(z)) / per
-
+    # ---- stump volume (same as colleague) ----
     dib_stump <- kozak88_dib(stumpht, dbh, HT, p)
     if (!is.finite(dib_stump) || dib_stump < 0) {
       abort_i(i, "Failed computing DIB at stump height.")
     }
-
-    ff <- p$a0 * (dbh^p$a1) * (p$a2^dbh)
-    if (!is.finite(ff) || ff <= 0) {
-      abort_i(i, "Form factor is non-finite or <= 0 (check a0/a1/a2).")
+    stpvol <- cons * dib_stump^2 * stumpht
+    if (!is.finite(stpvol) || stpvol < 0) {
+      abort_i(i, "Computed stump volume is invalid.")
     }
 
-    cc_vec <- p$b1 *
-      (z^2) +
-      p$b2 * log(z + 0.001) +
-      p$b3 * sqrt(z) +
-      p$b4 * exp(z) +
-      p$b5 * (dbh / HT)
+    # ---- colleague logic: compute hi via solver (with reset behavior), then totvol = section + tip + stump ----
+    g0 <- solve_g_colleague(dbh, HT, p, topdbh)
+    hi <- g0 * HT
 
-    dibx <- ff * (x^cc_vec)
-    dibm <- c(dib_stump, dibx)
-
-    if (length(dibm) != 21) {
-      abort_i(
-        i,
-        "Internal error: expected 21 diameters for Newton integration."
-      )
+    # guard: if hi ends up below stump, clamp (prevents negative integration lengths)
+    if (!is.finite(hi)) {
+      hi <- 0.9 * HT
     }
-    if (any(!is.finite(dibm)) || any(dibm < 0)) {
-      abort_i(i, "One or more predicted DIB values are non-finite/negative.")
+    if (hi < stumpht) {
+      hi <- stumpht
     }
 
-    # ---- Newton's formula for merchantable volume to topdbh ----
-    k <- cons * (((hi - stumpht) / 10) / 6)
-
-    mvol <- 0
-    for (seg in 1:10) {
-      idx0 <- (seg - 1) * 2 + 1
-      idxm <- idx0 + 1
-      idx1 <- idx0 + 2
-      mvol <- mvol + k * (dibm[idx0]^2 + 4 * dibm[idxm]^2 + dibm[idx1]^2)
-    }
-    if (!is.finite(mvol) || mvol < 0) {
-      abort_i(i, "Computed merchantable volume is non-finite/negative.")
+    # section volume from stump -> hi (this is what colleague calls mvol before mindbh filter)
+    section_vol <- vol_integrate_simpson(stumpht, hi, dbh, HT, p)
+    if (!is.finite(section_vol) || section_vol < 0) {
+      section_vol <- 0
     }
 
-    volstp <- cons * dibm[1]^2 * stumpht
-    if (!is.finite(volstp) || volstp < 0) {
-      abort_i(i, "Computed stump volume is non-finite/negative.")
+    # tip volume cone uses DIB at hi (colleague uses dibm[[20]] which is DIB at hi)
+    dib_hi <- kozak88_dib(hi, dbh, HT, p)
+    if (!is.finite(dib_hi) || dib_hi < 0) {
+      dib_hi <- 0
     }
-
-    tipvol <- cons * (topdbh^2) * (HT - hi) / 3
+    tipvol <- cons * dib_hi^2 * (HT - hi) / 3
     if (!is.finite(tipvol) || tipvol < 0) {
-      abort_i(i, "Computed tip volume is non-finite/negative.")
+      tipvol <- 0
     }
 
-    vol_merch[i] <- mvol
-    vol_total[i] <- mvol + tipvol + volstp
-    if (!is.finite(vol_total[i]) || vol_total[i] < 0) {
-      abort_i(i, "Computed total volume is non-finite/negative.")
+    totvol <- section_vol + tipvol + stpvol
+    if (!is.finite(totvol) || totvol < 0) {
+      totvol <- 0
     }
+
+    # ---- merchantable volume output (match colleague): 0 if dbh < mindbh ----
+    mvol_out <- if (dbh < mindbh) 0 else section_vol
+    if (!is.finite(mvol_out) || mvol_out < 0) {
+      mvol_out <- 0
+    }
+
+    vol_total[i] <- totvol
+    vol_merch[i] <- mvol_out
   }
 
   dplyr::tibble(
@@ -435,6 +434,7 @@ vol_kozak88_engine <- function(
     vol_merchantable = vol_merch
   )
 }
+
 
 # ------------------------------------------------------------------------------
 # Exported wrappers (AB / MB / SK) that reuse the same Kozak88 engine
