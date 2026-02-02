@@ -294,3 +294,10 @@ test_that("vol_zakrzewski2013() respects standardized species codes (one call, c
   testthat::expect_equal(nrow(out), 3)
   testthat::expect_equal(calls$n, 1L)
 })
+testthat::test_that("zakrzewski2013 returns positive total volume below mindbh", {
+  # pick an ON conifer (mindbh ~ 9.1 cm) and a small tree
+  out <- vol_zakrzewski2013(DBH = 6, height = 8, species = "PICE.MAR")
+
+  testthat::expect_gt(out$vol_total, 0)
+  testthat::expect_equal(out$vol_merchantable, 0)
+})
