@@ -29,7 +29,7 @@ CTAE currently includes allometric models to:
 
 ### Volume (total and merchantable)
 
-- `vol_fortin2007`. Provincial merchantable volume model for QC..
+- `vol_fortin2007`. Provincial merchantable volume model for Quebec..
   Coverage: QC. 26 species. Fortin et al. 2007
 - `vol_galbella94`. Provincial taper model for Saskatchewan based on the
   Kozak variable-exponent form.. Coverage: SK. 12 species. Gal & Bella
@@ -53,6 +53,17 @@ CTAE currently includes allometric models to:
   (national). 34 species. Ung et al. 2013
 - `vol_zakrzewski2013`. Provincial taper model for Ontario.. Coverage:
   ON. 24 species. Zakrzewski & Penner 2013
+
+#### `vol()`: automatic tree volume estimation across multiple models
+
+`vol()` is a convenience wrapper for estimating total and merchantable
+tree volume using the volume models implemented in `CTAE`. Rather than
+requiring users to select a specific model, `vol()` consults an internal
+model registry and automatically determines which models are applicable
+for each tree based on: - species availability in model parameter
+tables - geographic scope (province / jurisdiction) - required inputs
+(e.g. total height, subregion such as BEC zone) - model ranking
+(regional models preferred over national where available)
 
 #### Merchantability criteria
 

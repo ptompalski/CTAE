@@ -150,13 +150,26 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
     hm1
   }
 
-  # ---- cache merch criteria once per species ----
-  mc_cache <- purrr::map_dfr(
-    unique(species_std),
-    ~ get_merch_criteria("BC", .x) %>%
-      dplyr::slice(1) %>%
-      dplyr::mutate(.species_key = .x)
-  )
+  # ---- cache merch criteria once per species × BEC_zone ----
+  mc_cache <- dplyr::tibble(
+    .species_key = species_std,
+    .bec_key = bec_std
+  ) %>%
+    dplyr::distinct() %>%
+    dplyr::mutate(
+      mc = purrr::map2(
+        .species_key,
+        .bec_key,
+        ~ get_merch_criteria(
+          "BC",
+          species = .x,
+          BEC_zone = .y,
+          verbose = FALSE
+        ) %>%
+          dplyr::slice(1)
+      )
+    ) %>%
+    tidyr::unnest(mc)
 
   req <- c(".species_key", "stumpht_m", "topdbh_cm", "mindbh_cm")
   miss <- setdiff(req, names(mc_cache))
@@ -192,7 +205,7 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
 
     # merch criteria
     mc <- mc_cache %>%
-      dplyr::filter(.species_key == species_std[i]) %>%
+      dplyr::filter(.species_key == species_std[i], .bec_key == bec_std[i]) %>%
       dplyr::slice(1)
 
     if (nrow(mc) == 0) {

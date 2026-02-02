@@ -115,13 +115,12 @@ get_merch_criteria <- function(
       return("High_elevation")
     }
 
-    # Unknown BEC codes: treat as missing (will use UNKNOWN fallback) + warn later
-    return(NA_character_)
+    # unknown code -> NA; will trigger UNKNOWN fallback in BC logic
+    NA_character_
   }
 
-  # ---- Non-BC: jurisdiction lookup, but allow optional species/genus overrides ----
+  # ---- Non-BC ----
   if (!is_bc) {
-    # If a province has no species-specific rows, keep the legacy behavior (Province + ALL).
     has_species_rows <- any(
       merchcrit$Province == jurisdiction_std &
         !is.na(merchcrit$Species) &
@@ -130,6 +129,7 @@ get_merch_criteria <- function(
     )
 
     spp <- species_to_spp(species_std)
+
     candidates <- if (!is.na(species_std) && nzchar(species_std)) {
       unique(stats::na.omit(c(species_std, spp, "ALL")))
     } else {
@@ -156,7 +156,7 @@ get_merch_criteria <- function(
       }
     }
 
-    # Legacy-friendly fallback: if ALL not present, take first Province row
+    # Legacy-friendly fallback
     if (nrow(hits) == 0) {
       hits <- merchcrit[merchcrit$Province == jurisdiction_std, , drop = FALSE]
       hit_cand <- NA_character_
@@ -172,7 +172,6 @@ get_merch_criteria <- function(
       )
     }
 
-    # enforce uniqueness (we're not using BEC_group outside BC, so this should be 1 row)
     if (nrow(hits) > 1) {
       stop(
         sprintf(
@@ -184,33 +183,22 @@ get_merch_criteria <- function(
       )
     }
 
-    # Optional warning if we fell back (genus / ALL) in a province that supports species rows
+    # Warnings (tuned): warn only if we fell back to ALL (not genus)
     if (
       isTRUE(verbose) &&
         has_species_rows &&
         !is.na(species_std) &&
-        nzchar(species_std)
+        nzchar(species_std) &&
+        identical(hit_cand, "ALL")
     ) {
-      if (!is.na(spp) && identical(hit_cand, spp)) {
-        warning(
-          sprintf(
-            "No exact species match for '%s' in %s; using genus-level fallback '%s'.",
-            species_std,
-            jurisdiction_std,
-            spp
-          ),
-          call. = FALSE
-        )
-      } else if (identical(hit_cand, "ALL")) {
-        warning(
-          sprintf(
-            "No species/genus match for '%s' in %s; using fallback Species='ALL'.",
-            species_std,
-            jurisdiction_std
-          ),
-          call. = FALSE
-        )
-      }
+      warning(
+        sprintf(
+          "No species/genus match for '%s' in %s; using fallback Species='ALL'.",
+          species_std,
+          jurisdiction_std
+        ),
+        call. = FALSE
+      )
     }
 
     hit <- hits[1, , drop = FALSE]
@@ -228,7 +216,7 @@ get_merch_criteria <- function(
     ))
   }
 
-  # ---- BC: BEC-aware if possible; otherwise conservative UNKNOWN ----
+  # ---- BC ----
   bec_group <- bec_to_group(BEC_zone)
   bec_group_eff <- if (!is.na(bec_group) && nzchar(bec_group)) {
     bec_group
@@ -266,15 +254,13 @@ get_merch_criteria <- function(
 
   res <- lookup_once(bec_group_eff)
 
-  # If user provided a BEC zone (so bec_group_eff != "UNKNOWN") but it didn't match,
-  # try the conservative UNKNOWN layer as a last resort.
+  # If mapped BEC group failed, try UNKNOWN last
   if (nrow(res$hit) == 0 && !identical(bec_group_eff, "UNKNOWN")) {
     res2 <- lookup_once("UNKNOWN")
     if (nrow(res2$hit) > 0) res <- res2
   }
 
   if (nrow(res$hit) == 0) {
-    # BC should always have ALL+UNKNOWN at minimum; if not, fail loud
     stop(
       sprintf(
         paste0(
@@ -302,39 +288,29 @@ get_merch_criteria <- function(
 
   hit <- res$hit[1, , drop = FALSE]
 
-  # Optional warning if we fell back (UNKNOWN BEC / genus / ALL)
+  # Warnings (tuned): warn on UNKNOWN BEC, and on ALL fallback (not genus)
   if (isTRUE(verbose)) {
     msgs <- character(0)
 
-    if (
-      identical(res$bg, "UNKNOWN") && !(is.na(BEC_zone) || !nzchar(BEC_zone))
-    ) {
-      msgs <- c(
-        msgs,
-        sprintf(
-          "BEC_zone '%s' could not be mapped; using conservative BC 'UNKNOWN' utilization.",
-          BEC_zone
+    # BEC warnings: only when UNKNOWN is used
+    if (identical(res$bg, "UNKNOWN")) {
+      if (is.na(BEC_zone) || !nzchar(BEC_zone)) {
+        msgs <- c(
+          msgs,
+          "BEC_zone missing; using conservative BC 'UNKNOWN' utilization."
         )
-      )
-    } else if (
-      identical(res$bg, "UNKNOWN") && (is.na(BEC_zone) || !nzchar(BEC_zone))
-    ) {
-      msgs <- c(
-        msgs,
-        "BEC_zone missing; using conservative BC 'UNKNOWN' utilization."
-      )
+      } else {
+        msgs <- c(
+          msgs,
+          sprintf(
+            "BEC_zone '%s' could not be mapped; using conservative BC 'UNKNOWN' utilization.",
+            BEC_zone
+          )
+        )
+      }
     }
 
-    if (!is.na(spp) && identical(res$cand, spp)) {
-      msgs <- c(
-        msgs,
-        sprintf(
-          "No exact species match for '%s'; using genus-level fallback '%s'.",
-          species_std,
-          spp
-        )
-      )
-    }
+    # ALL fallback warning (genus fallback is intentionally silent)
     if (identical(res$cand, "ALL") && !identical(species_std, "ALL")) {
       msgs <- c(
         msgs,

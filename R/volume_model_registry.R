@@ -35,14 +35,9 @@ volume_model_registry <- function() {
       "Fortin et al. 2007"
     ),
 
-    # comment = c(
-
-    # ),
-
-    # function names to run the models
     engine = c(
-      "vol_ung2013", #"vol_national_dbh_engine",
-      "vol_ung2013", #"vol_national_dbh_ht_engine",
+      "vol_ung2013",
+      "vol_ung2013",
       "vol_kozak94",
       "vol_honer83",
       "vol_huang94",
@@ -53,7 +48,6 @@ volume_model_registry <- function() {
       "vol_fortin2007"
     ),
 
-    # What inputs are required?
     requires_ht = c(
       FALSE,
       TRUE,
@@ -67,7 +61,6 @@ volume_model_registry <- function() {
       TRUE
     ),
 
-    # Geographic scope: used for ranking + selection
     scope = c(
       "national",
       "national",
@@ -81,8 +74,6 @@ volume_model_registry <- function() {
       "regional"
     ),
 
-    # # Province applicability. "ALL" means any province can use it (subject to params).
-    # # Kozak94 is BC-specific in your legacy implementation.
     province_scope = list(
       "ALL",
       "ALL",
@@ -96,55 +87,63 @@ volume_model_registry <- function() {
       "QC"
     ),
 
-    # # Subregion expectation:
-    subregion_type = c(
+    # human-readable (docs)
+    subregion_desc = c(
       "none",
       "none",
-      "BEC zone required",
+      "BEC zone",
       "none",
-      "Province-wide or AB subregions",
+      "optional AB subregion",
       "none",
       "none",
-      "Province-wide or ecozones",
+      "optional MB ecozone",
       "none",
       "none"
     ),
-    # # Description
+
+    # machine-readable (selection logic)
+    subregion_required = c(
+      FALSE, # national_ung_dbh
+      FALSE, # national_ung_dbh_ht
+      TRUE, # regional_kozak94 requires BEC zone
+      FALSE, # honer
+      FALSE, # huang: province-wide works without specifying subregion
+      FALSE, # zakrzewski
+      FALSE, # galbella
+      FALSE, # klos: can run province-wide, ecozone optional
+      FALSE, # sharma
+      FALSE # fortin
+    ),
+
+    # engine arg name for the optional/required subregion
+    subregion_arg = c(
+      NA_character_,
+      NA_character_,
+      "BEC_zone",
+      NA_character_,
+      "subregion", # if your vol_huang94() takes subregion=...
+      NA_character_,
+      NA_character_,
+      "subregion", # if vol_klos2007() takes subregion=...
+      NA_character_,
+      NA_character_
+    ),
+
     description = c(
-      # Ung et al. (national)
       "National taper model for Canada, available in two variants: DBH-only and DBH with total height.",
       "National taper model for Canada, available in two variants: DBH-only and DBH with total height.",
-
-      # Kozak 1994 (BC)
       "Provincial taper model for British Columbia; requires BEC zone as a subregion input.",
-
-      # Honer et al. (central & eastern Canada)
       "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
-
-      # Huang 1994 (AB)
       "Provincial taper model for Alberta based on the Kozak variable-exponent form; applicable at the province level or by Alberta subregions.",
-
-      # Zakrzewski & Penner 2013 (ON)
       "Provincial taper model for Ontario.",
-
-      # Gal & Bella 1994 (SK)
       "Provincial taper model for Saskatchewan based on the Kozak variable-exponent form.",
-
-      # Klos et al. (MB)
       "Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone.",
-
-      # Sharma 2021 (central & eastern Canada)
       "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
-
-      # Fortin et al 2007
       "Provincial merchantable volume model for Quebec."
     ),
 
-    # Rank: higher is preferred in "auto" mode.
-    # Suggested preference: regional > national; and if ht is available prefer ht models.
     rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70, 90),
 
-    # Key to request params from get_volume_params()
     params_key = c(
       "parameters_NationalTaperModelsDBH",
       "parameters_NationalTaperModelsDBHHT",
@@ -237,12 +236,42 @@ extract_species_from_params <- function(tbl) {
 volume_model_registry_species <- function() {
   reg <- volume_model_registry()
 
+  # Backward-compatible defaults (in case older registry doesn't have them yet)
+  if (!"subregion_required" %in% names(reg)) {
+    reg <- reg %>%
+      dplyr::mutate(subregion_required = FALSE)
+  }
+  if (!"subregion_arg" %in% names(reg)) {
+    reg <- reg %>%
+      dplyr::mutate(subregion_arg = NA_character_)
+  }
+  if (!"subregion_type" %in% names(reg)) {
+    reg <- reg %>%
+      dplyr::mutate(subregion_type = "none")
+  }
+
   reg %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
       species = list({
-        params <- get_params_tbl(params_key)
-        extract_species_from_params(params)
+        # make failures easier to debug
+        tryCatch(
+          {
+            params <- get_params_tbl(params_key)
+            extract_species_from_params(params)
+          },
+          error = function(e) {
+            stop(
+              sprintf(
+                "Failed to build species list for model_id=%s (params_key=%s): %s",
+                model_id,
+                params_key,
+                conditionMessage(e)
+              ),
+              call. = FALSE
+            )
+          }
+        )
       }),
       n_species = length(species),
       species_text = dplyr::if_else(
@@ -253,4 +282,5 @@ volume_model_registry_species <- function() {
     ) %>%
     dplyr::ungroup()
 }
+
 # x <- volume_model_registry_species()

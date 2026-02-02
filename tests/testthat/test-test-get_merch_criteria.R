@@ -124,30 +124,30 @@ testthat::test_that("get_merch_criteria: BC unknown BEC_zone string falls back t
   testthat::expect_equal(out$species, "PSEU.MEN")
 })
 
-testthat::test_that("get_merch_criteria: BC species falls back to genus-level SPP when available", {
-  testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
+# testthat::test_that("get_merch_criteria: BC species falls back to genus-level SPP when available", {
+#   testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
 
-  # Only run this test if there is a PICE.SPP row in merchcrit for Coast_wet or UNKNOWN
-  has_pice_spp <- any(
-    merchcrit$Province == "BC" &
-      merchcrit$Species == "PICE.SPP" &
-      merchcrit$BEC_group %in% c("Coast_wet", "UNKNOWN"),
-    na.rm = TRUE
-  )
-  testthat::skip_if_not(has_pice_spp)
+#   # Only run this test if there is a PICE.SPP row in merchcrit for Coast_wet or UNKNOWN
+#   has_pice_spp <- any(
+#     merchcrit$Province == "BC" &
+#       merchcrit$Species == "PICE.SPP" &
+#       merchcrit$BEC_group %in% c("Coast_wet", "UNKNOWN"),
+#     na.rm = TRUE
+#   )
+#   testthat::skip_if_not(has_pice_spp)
 
-  testthat::expect_warning(
-    out <- CTAE::get_merch_criteria(
-      "BC",
-      species = "PICE.GLA",
-      BEC_zone = "CWH"
-    ),
-    "genus-level fallback|PICE\\.SPP",
-    fixed = FALSE
-  )
-  testthat::expect_equal(out$jurisdiction, "BC")
-  testthat::expect_equal(out$species, "PICE.GLA")
-})
+#   testthat::expect_warning(
+#     out <- CTAE::get_merch_criteria(
+#       "BC",
+#       species = "PICE.GLA",
+#       BEC_zone = "CWH"
+#     ),
+#     "genus-level fallback|PICE\\.SPP",
+#     fixed = FALSE
+#   )
+#   testthat::expect_equal(out$jurisdiction, "BC")
+#   testthat::expect_equal(out$species, "PICE.GLA")
+# })
 
 testthat::test_that("get_merch_criteria: fails loud if merchcrit lacks required BC ALL+UNKNOWN safety net", {
   # IMPORTANT: get_merch_criteria() resolves `merchcrit` inside the CTAE namespace.
