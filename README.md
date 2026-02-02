@@ -1,54 +1,99 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# CTAE - Canadian tree allometric equations
+# CTAE: Canadian tree allometric equations
 
-A collection of tools to calculate tree- or stand-level attributes
-developed for Canadian forests
+CTAE is an R package that brings together a collection of published
+allometric models developed for Canadian forests. The package provides a
+unified interface to estimate a range of tree- and stand-level
+attributes, based on models published in the Canadian forestry
+literature. The focus of CTAE is on standardization: models are
+implemented as faithfully as possible to their original formulations,
+with transparent parameter tables, consistent inputs/outputs, and
+jurisdiction-appropriate assumptions (e.g. merchantability rules).
 
-## Models included so far
+CTAE currently includes allometric models to:
+
+- Estimate tree-level volume (total and merchantable)
+- Estimate aboveground biomass (AGB)
+- Convert volume to biomass
+- Convert total volume to merchantable volume
+- Apply simple growth models to estimate changes in attributes over time
+
+## Included models
+
+### Aboveground biomass
 
 - Canadian national tree aboveground biomass equations (Lambert et
   al. 2005, Ung et al. 2008).
 
-- Individual tree volume equations for major Alberta tree species (Huang
-  1994)
+### Volume (total and merchantable)
 
-- Volume-to-biomass conversions models (Boudewyn et al. 2007)
+- `vol_fortin2007`. Provincial merchantable volume model for Quebec..
+  Coverage: QC. 26 species. Fortin et al. 2007
+- `vol_galbella94`. Provincial taper model for Saskatchewan based on the
+  Kozak variable-exponent form.. Coverage: SK. 12 species. Gal & Bella
+  1994
+- `vol_honer83`. Regional volume models for central and eastern Canada,
+  applicable across multiple provinces.. Coverage: NB, NL, NS, ON, PE,
+  QC. 21 species. Honer et al. 1983
+- `vol_huang94`. Provincial taper model for Alberta based on the Kozak
+  variable-exponent form; applicable at the province level or by Alberta
+  subregions.. Coverage: AB. 13 species. Huang 1994
+- `vol_klos2007`. Provincial taper model for Manitoba based on the Kozak
+  variable-exponent form; applicable at the province level or by
+  ecozone.. Coverage: MB. 5 species. Klos et al. 2007
+- `vol_kozak94`. Provincial taper model for British Columbia; requires
+  BEC zone as a subregion input.. Coverage: BC. 16 species. Kozak 1994
+- `vol_sharma2021`. Regional volume models for central and eastern
+  Canada, applicable across multiple provinces.. Coverage: NB, NL, NS,
+  ON, PE, QC. 25 species. Sharma 2021
+- `vol_ung2013`. National taper model for Canada, available in two
+  variants: DBH-only and DBH with total height.. Coverage: Canada
+  (national). 34 species. Ung et al. 2013
+- `vol_zakrzewski2013`. Provincial taper model for Ontario.. Coverage:
+  ON. 24 species. Zakrzewski & Penner 2013
 
-- Total volume to merchantable volume conversions models (Boudewyn et
-  al. 2007)
+#### `vol()`: automatic tree volume estimation across multiple models
 
-- Simple growth and yield model (H, BA, V) (Ung et al. 2009)
+`vol()` is a convenience wrapper for estimating total and merchantable
+tree volume using the volume models implemented in `CTAE`. Rather than
+requiring users to select a specific model, `vol()` consults an internal
+model registry and automatically determines which models are applicable
+for each tree based on:
 
-Updated model parameters for models developed by Boudewyn et al (2007)
-downloaded from <https://nfi.nfis.org/en/biomass_models>.
+- species availability in model parameter tables
+- geographic scope (province / jurisdiction)
+- required inputs (e.g. total height, subregion such as BEC zone)
+- model ranking (regional models preferred over national where
+  available)
 
-Boudewyn, P.A.; Song, X.; Magnussen, S.; Gillis, M.D. (2007).
-Model-based, volume-to-biomass conversion for forested and vegetated
-land in Canada. Natural Resources Canada, Canadian Forest Service,
-Pacific Forestry Centre, Victoria, BC. Information Report BC-X-411. 112
-p.
+#### Merchantability criteria
 
-Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation
-for Major Alberta Tree Species. Report 1 - Individual tree volume
-estimation procedures for Alberta: Methods of Formulation and
-Statistical Foundations. Alberta Environmental Protection, Land and
-Forest Service, Forest Management Division, Edmonton, AB.
+Merchantable volume in CTAE is defined using jurisdiction-specific
+merchantability rules, following the officially adopted criteria in each
+province or territory (e.g., minimum top diameter, minimum DBH, and
+stump height). For most models, these rules are applied dynamically
+based on the provided jurisdiction.
 
-Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree
-aboveground biomass equations. Canadian Journal of Forest Research,
-35(8), 1996–2018. <https://doi.org/10.1139/x05-112>
+Some volume models, however, have merchantability criteria fixed within
+the model formulation itself, reflecting how the original equations were
+developed and calibrated. In these cases (e.g., `vol_honer83`,
+`vol_sharma2021`), merchantable volume is computed using the
+model-specific, hard-coded criteria and does not vary by jurisdiction or
+species.
 
-Ung, C.-H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass
-equations: new parameter estimates that include British Columbia data.
-Canadian Journal of Forest Research, 38(5), 1123–1132.
-<https://doi.org/10.1139/X07-224>
+The jurisdiction-specific merchantability criteria used by CTAE can be
+inspected in the internal dataset `merchcrit`, which documents the
+values applied for each jurisdiction (and, where applicable, by species
+or subregion).
 
-Ung, C.-H., Bernier, P.Y., Guo, X.J., Lambert, M.-C., 2009. A simple
-growth and yield model for assessing changes in standing volume across
-Canada’s forests. The Forestry Chronicle 85, 57–64.
-<https://doi.org/10.5558/tfc85057-1>
+### Other
+
+- National volume-to-biomass conversions models (Boudewyn et al. 2007)
+- National total volume to merchantable volume conversions models
+  (Boudewyn et al. 2007)
+- National growth and yield model (H, BA, V) (Ung et al. 2009)
 
 ## Installation
 
@@ -60,907 +105,65 @@ devtools::install_github("ptompalski/CTAE")
 library(CTAE)
 ```
 
-# Additional details
+## References
 
-## Alberta Natural Subregion Codes
+Boudewyn, P.A.; Song, X.; Magnussen, S.; Gillis, M.D. (2007).
+Model-based, volume-to-biomass conversion for forested and vegetated
+land in Canada. Natural Resources Canada, Canadian Forest Service,
+Pacific Forestry Centre, Victoria, BC. Information Report BC-X-411. 112
+p.
 
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-Code
-</th>
-<th style="text-align:left;">
-Subregion name
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-CM
-</td>
-<td style="text-align:left;">
-Central Mixedwood
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-DMW
-</td>
-<td style="text-align:left;">
-Dry Mixedwood
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NM
-</td>
-<td style="text-align:left;">
-Northern Mixedwood (Wetland Mixedwood)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BSA
-</td>
-<td style="text-align:left;">
-Boreal Subarctic
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PAD
-</td>
-<td style="text-align:left;">
-Peace-Athabasca Delta (Peace River Lowlands)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LBH
-</td>
-<td style="text-align:left;">
-Lower Boreal Highlands (Boreal Highlands)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UB
-</td>
-<td style="text-align:left;">
-Upper Boreal Highlands (Boreal Highlands)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AP
-</td>
-<td style="text-align:left;">
-Athabasca Plain
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ALP
-</td>
-<td style="text-align:left;">
-Alpine
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SA
-</td>
-<td style="text-align:left;">
-Subalpine
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-Montane
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UF
-</td>
-<td style="text-align:left;">
-Upper Foothills
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LF
-</td>
-<td style="text-align:left;">
-Lower Foothills
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KU
-</td>
-<td style="text-align:left;">
-Kazan Upland
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-FP
-</td>
-<td style="text-align:left;">
-Foothills Parkland
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PRP
-</td>
-<td style="text-align:left;">
-Peace River Parkland
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-CP
-</td>
-<td style="text-align:left;">
-Central Parkland
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-DMG
-</td>
-<td style="text-align:left;">
-Dry Mixedgrass
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-Foothills Fescue
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NF
-</td>
-<td style="text-align:left;">
-Northern Fescue
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MG
-</td>
-<td style="text-align:left;">
-Mixedgrass
-</td>
-</tr>
-</tbody>
-</table>
+Fortin, M., DeBlois, J., Bernier, S., Blais, G., 2007. Mise au point
+d’un tarif de cubage général pour les forêts québécoises : une approche
+pour mieux évaluer l’incertitude associée aux prévisions. The Forestry
+Chronicle 83, 754–765. <https://doi.org/10.5558/tfc83754-5>
 
-## Huang et al. model availability (`V_Huang()`)
+Gal, J., & Bella, I.E. (1994). New stem taper functions for 12
+Saskatchewan timber species. Natural Resources Canada, Canadian Forest
+Service, Northwest Region, Information Report NOR-X-338. Table 5.
 
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-species
-</th>
-<th style="text-align:left;">
-Province
-</th>
-<th style="text-align:left;">
-ALP
-</th>
-<th style="text-align:left;">
-AP
-</th>
-<th style="text-align:left;">
-BSA
-</th>
-<th style="text-align:left;">
-CM
-</th>
-<th style="text-align:left;">
-CP
-</th>
-<th style="text-align:left;">
-DMW
-</th>
-<th style="text-align:left;">
-FP
-</th>
-<th style="text-align:left;">
-KU
-</th>
-<th style="text-align:left;">
-LBH
-</th>
-<th style="text-align:left;">
-LF
-</th>
-<th style="text-align:left;">
-M
-</th>
-<th style="text-align:left;">
-NM
-</th>
-<th style="text-align:left;">
-PAD
-</th>
-<th style="text-align:left;">
-PRP
-</th>
-<th style="text-align:left;">
-SA
-</th>
-<th style="text-align:left;">
-UF
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ABIE.BAL
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BETU.PAP
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LARI.LAR
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PICE.ENG
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PICE.GLA
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PICE.MAR
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PINU.BAN
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PINU.CON
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-POPU.BAL
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-POPU.TRE
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PSEU.MEN
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UNKN.HWD
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UNKN.SWD
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-<td style="text-align:left;">
-✅
-</td>
-</tr>
-</tbody>
-</table>
-<!-- ## Ecozone Codes -->
-<!-- ```{r, echo=T} -->
-<!-- CTAE::CodesEcozones -->
-<!-- # CodesEcozones %>% -->
-<!--   # select(`Ecozone code`=EcozoneCode, `Ecozone name` = EcozoneName) %>% -->
-<!--   # kable(format = "html") -->
-<!-- ``` -->
+Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the
+commercial tree species of central and eastern Canada. Environ. Can.,
+Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf.
+Rep. M-X-140. <https://ostrnrcan-dostrncan.canada.ca/handle/1845/239814>
+
+Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation
+for Major Alberta Tree Species. Report 1 - Individual tree volume
+estimation procedures for Alberta: Methods of Formulation and
+Statistical Foundations. Alberta Environmental Protection, Land and
+Forest Service, Forest Management Division, Edmonton, AB.
+
+Kozak, A. (1988). A variable-exponent taper equation. Canadian Journal
+of Forest Research, 18, 1363–1368
+
+Kozak, A. (1994). Development of Taper Equations by BEC Zones and
+Species. Province of British Columbia, Ministry of Forests (report).
+
+Klos, R. J., Wang, G. G., Dang, Q.-L., & East, E. W. (2007). Taper
+equations for five major commercial tree species in Manitoba, Canada.
+Western Journal of Applied Forestry, 22(3), 163–170.
+
+Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree
+aboveground biomass equations. Canadian Journal of Forest Research,
+35(8), 1996–2018. <https://doi.org/10.1139/x05-112>
+
+Sharma, M. (2021). Total and Merchantable Volume Equations for 25
+Commercial Tree Species Grown in Canada and the Northeastern United
+States. Forests, 12, 1270.
+
+Ung, C.H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass
+equations: new parameter estimates that include British Columbia data.
+Canadian Journal of Forest Research, 38(5), 1123–1132.
+<https://doi.org/10.1139/X07-224>
+
+Ung, C.H., Bernier, P.Y., Guo, X.J., Lambert, M.-C., 2009. A simple
+growth and yield model for assessing changes in standing volume across
+Canada’s forests. The Forestry Chronicle 85, 57–64.
+<https://doi.org/10.5558/tfc85057-1>
+
+Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models.
+Forestry Chronicle 89, 211–224. <https://doi.org/10.5558/tfc2013-040>
+
+Zakrzewski, W.T., Penner, M., 2013. A comparison of tree stem taper
+models for use in Ontario. Ontario Forest Research Institute, Report
+176.

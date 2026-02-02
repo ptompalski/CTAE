@@ -18,7 +18,7 @@ A data frame with five variables:
 parameters_LambertUng
 }
 \description{
-A dataset containing the coefficients for the Lambert et al 2005 and Ung et al 2008 AGB models. 
+A dataset containing the coefficients for the Lambert et al 2005 and Ung et al 2008 AGB models.
 Parameters for both types of models are included (models based on DBH only and models based on DBH and height)
 }
 \references{

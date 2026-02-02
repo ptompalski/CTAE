@@ -1,0 +1,558 @@
+jurisdiction,species_original,species_nfi,table_id,model_component,region_type,region,parameter,value
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Plain,MSE,0.04095
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Plain,R2,0.999647
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Plain,a,0.48676
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Plain,b,1.02212
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Plain,n,1452.0
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Shield,MSE,0.033366
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Shield,R2,0.999648
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Shield,a,0.39517
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Shield,b,1.02486
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,ecozone,Boreal Shield,n,708.0
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,province,Provincial,MSE,0.039138
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,province,Provincial,R2,0.999647
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,province,Provincial,a,0.45216
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,province,Provincial,b,1.0232
+MB,White spruce,PICE.GLA,Table 24,dib_dob_eq11,province,Provincial,n,2160.0
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Plain,MSE,0.187331
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Plain,R2,0.79984
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Plain,a,34.605
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Plain,b,0.0408
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Plain,c,1.3985
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Plain,n,64.0
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Shield,MSE,0.197207
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Shield,R2,0.707113
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Shield,a,23.0868
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Shield,b,0.0863
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Shield,c,2.0248
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,ecozone,Boreal Shield,n,33.0
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,province,Provincial,MSE,0.194689
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,province,Provincial,R2,0.779316
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,province,Provincial,a,38.0155
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,province,Provincial,b,0.0291
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,province,Provincial,c,1.1104
+MB,White spruce,PICE.GLA,Table 24,height_dbh_eq15,province,Provincial,n,97.0
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Plain,MSE,0.017873
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Plain,R2,0.999734
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Plain,a,-1.3506
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Plain,b,1.2791
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Plain,c,-0.00324
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Plain,n,64.0
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Shield,MSE,0.013431
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Shield,R2,0.999786
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Shield,a,-1.7114
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Shield,b,1.2886
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Shield,c,-0.00272
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,ecozone,Boreal Shield,n,33.0
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,province,Provincial,MSE,0.018999
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,province,Provincial,R2,0.99972
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,province,Provincial,a,-1.8149
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,province,Provincial,b,1.3055
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,province,Provincial,c,-0.0035
+MB,White spruce,PICE.GLA,Table 24,stumpdob_dbh_eq18,province,Provincial,n,97.0
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,MSE,1.908303
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,R2,0.982889
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,a0,0.7524
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,a1,1.0797
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,a2,0.9939
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,b1,0.2469
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,b2,-0.0669
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,b3,0.1921
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,b4,0.0374
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,b5,0.1218
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Plain,n,1452.0
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,MSE,1.415953
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,R2,0.984431
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,a0,0.6554
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,a1,1.133
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,a2,0.9923
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,b1,0.1801
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,b2,-0.0592
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,b3,0.1254
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,b4,0.0996
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,b5,0.123
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,ecozone,Boreal Shield,n,708.0
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,MSE,1.769892
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,R2,0.983337
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,a0,0.6977
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,a1,1.1086
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,a2,0.9931
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,b1,0.2342
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,b2,-0.0653
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,b3,0.1814
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,b4,0.0491
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,b5,0.1233
+MB,White spruce,PICE.GLA,Table 8,taper_eq1,province,Provincial,n,2160.0
+MB,Black spruce,PICE.MAR,Table 25,dib_dob_eq11,province,Provincial,MSE,0.038568
+MB,Black spruce,PICE.MAR,Table 25,dib_dob_eq11,province,Provincial,R2,0.998975
+MB,Black spruce,PICE.MAR,Table 25,dib_dob_eq11,province,Provincial,a,0.37747
+MB,Black spruce,PICE.MAR,Table 25,dib_dob_eq11,province,Provincial,b,1.02456
+MB,Black spruce,PICE.MAR,Table 25,dib_dob_eq11,province,Provincial,n,5940.0
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Lowland,MSE,0.032307
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Lowland,R2,0.9991173
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Lowland,a,0.3878
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Lowland,b,1.02151
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Lowland,n,1289.0
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Upland,MSE,0.0433149
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Upland,R2,0.9988634
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Upland,a,0.40792
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Upland,b,1.02364
+MB,Black spruce,PICE.MAR,Table 26,dib_dob_eq11,site_type,Upland,n,3476.0
+MB,Black spruce,PICE.MAR,Table 25,height_dbh_eq15,province,Provincial,MSE,0.153136
+MB,Black spruce,PICE.MAR,Table 25,height_dbh_eq15,province,Provincial,R2,0.875025
+MB,Black spruce,PICE.MAR,Table 25,height_dbh_eq15,province,Provincial,a,22.0772
+MB,Black spruce,PICE.MAR,Table 25,height_dbh_eq15,province,Provincial,b,0.1191
+MB,Black spruce,PICE.MAR,Table 25,height_dbh_eq15,province,Provincial,c,2.695
+MB,Black spruce,PICE.MAR,Table 25,height_dbh_eq15,province,Provincial,n,300.0
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Lowland,MSE,0.107521
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Lowland,R2,0.7475618
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Lowland,a,20.8347
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Lowland,b,0.135
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Lowland,c,3.0383
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Lowland,n,61.0
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Upland,MSE,0.1633656
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Upland,R2,0.5772468
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Upland,a,32.1195
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Upland,b,0.0417
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Upland,c,89.0
+MB,Black spruce,PICE.MAR,Table 26,height_dbh_eq15,site_type,Upland,n,167.0
+MB,Black spruce,PICE.MAR,Table 25,stumpdob_dbh_eq18,province,Provincial,MSE,0.005023
+MB,Black spruce,PICE.MAR,Table 25,stumpdob_dbh_eq18,province,Provincial,R2,0.999743
+MB,Black spruce,PICE.MAR,Table 25,stumpdob_dbh_eq18,province,Provincial,a,0.0119
+MB,Black spruce,PICE.MAR,Table 25,stumpdob_dbh_eq18,province,Provincial,b,1.1432
+MB,Black spruce,PICE.MAR,Table 25,stumpdob_dbh_eq18,province,Provincial,c,-0.00169
+MB,Black spruce,PICE.MAR,Table 25,stumpdob_dbh_eq18,province,Provincial,n,300.0
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Lowland,MSE,0.0433943
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Lowland,R2,0.9970843
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Lowland,a,-1.3889
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Lowland,b,1.2807
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Lowland,c,-0.00487
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Lowland,n,61.0
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Upland,MSE,0.0080557
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Upland,R2,0.9991892
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Upland,a,0.9628
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Upland,b,1.0397
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Upland,c,0.000885
+MB,Black spruce,PICE.MAR,Table 26,stumpdob_dbh_eq18,site_type,Upland,n,167.0
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,MSE,0.663633
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,R2,0.981481
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,a0,0.8894
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,a1,1.0163
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,a2,0.995
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,b1,0.2866
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,b2,-0.0853
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,b3,0.6307
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,b4,-0.1714
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,b5,0.1491
+MB,Black spruce,PICE.MAR,Table 11,taper_eq1,province,Provincial,n,5940.0
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,MSE,0.4844582
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,R2,0.9862398
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,a0,0.5191
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,a1,1.3059
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,a2,0.9785
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,b1,0.7781
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,b2,-0.0841
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,b3,0.4179
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,b4,-0.3529
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,b5,0.3231
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Lowland,n,1289.0
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,MSE,0.7565699
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,R2,0.9792101
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,a0,1.1427
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,a1,0.8876
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,a2,1.0017
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,b1,0.6841
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,b2,-0.09
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,b3,0.3417
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,b4,-0.2204
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,b5,0.1648
+MB,Black spruce,PICE.MAR,Table 14,taper_eq1,site_type,Upland,n,3476.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,148,MSE,0.104677
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,148,R2,0.997582
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,148,a,-0.03509
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,148,b,1.04152
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,148,n,1639.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,152-154,MSE,0.048417
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,152-154,R2,0.999224
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,152-154,a,0.06821
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,152-154,b,1.03323
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,152-154,n,487.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,155,MSE,0.119019
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,155,R2,0.997734
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,155,a,0.0715
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,155,b,1.04337
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,155,n,234.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,88,MSE,0.094587
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,88,R2,0.9978
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,88,a,0.04797
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,88,b,1.05064
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,88,n,862.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,89,MSE,0.098577
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,89,R2,0.998285
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,89,a,0.10244
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,89,b,1.03214
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,89,n,420.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,90,MSE,0.14396
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,90,R2,0.997128
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,90,a,0.01824
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,90,b,1.05138
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,90,n,1006.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,91,MSE,0.174087
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,91,R2,0.997305
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,91,a,0.07387
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,91,b,1.04256
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,ecoregion,91,n,782.0
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,province,Provincial,MSE,0.12359
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,province,Provincial,R2,0.997636
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,province,Provincial,a,0.04326
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,province,Provincial,b,1.04194
+MB,Jack pine,PINU.BAN,Table 27,dib_dob_eq11,province,Provincial,n,5430.0
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Mineral,MSE,0.127125
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Mineral,R2,0.997642
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Mineral,a,0.01981
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Mineral,b,1.04786
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Mineral,n,596.0
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Rock,MSE,0.156659
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Rock,R2,0.996243
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Rock,a,-0.03593
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Rock,b,1.06228
+MB,Jack pine,PINU.BAN,Table 28,dib_dob_eq11,site_type,Rock,n,410.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,148,MSE,0.205866
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,148,R2,0.768299
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,148,a,18.4303
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,148,b,0.1659
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,148,c,4.9657
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,148,n,94.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,152-154,MSE,0.057856
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,152-154,R2,0.636017
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,152-154,a,48.7248
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,152-154,b,0.00585
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,152-154,c,0.486
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,152-154,n,21.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,155,MSE,0.231148
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,155,R2,0.929237
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,155,a,41.0288
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,155,b,0.0303
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,155,c,1.266
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,155,n,15.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,88,MSE,0.150987
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,88,R2,0.88338
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,88,a,31.3526
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,88,b,0.0202
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,88,c,0.8221
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,88,n,61.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,89,MSE,0.0764
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,89,R2,0.981832
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,89,a,19.9378
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,89,b,0.1099
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,89,c,2.1513
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,89,n,25.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,90,MSE,0.178492
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,90,R2,0.715814
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,90,a,26.6519
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,90,b,0.0507
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,90,c,1.0894
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,90,n,47.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,91,MSE,0.180817
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,91,R2,0.411925
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,91,a,34.2235
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,91,b,0.0141
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,91,c,0.5311
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,ecoregion,91,n,35.0
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,province,Provincial,MSE,0.221091
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,province,Provincial,R2,0.88493
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,province,Provincial,a,25.4006
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,province,Provincial,b,0.0634
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,province,Provincial,c,1.5326
+MB,Jack pine,PINU.BAN,Table 27,height_dbh_eq15,province,Provincial,n,298.0
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Mineral,MSE,0.094751
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Mineral,R2,0.363092
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Mineral,a,34.7539
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Mineral,b,0.015
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Mineral,c,0.5249
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Mineral,n,27.0
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Rock,MSE,0.172251
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Rock,R2,0.754658
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Rock,a,17.5955
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Rock,b,0.1169
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Rock,c,1.6449
+MB,Jack pine,PINU.BAN,Table 28,height_dbh_eq15,site_type,Rock,n,20.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,148,MSE,0.009668
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,148,R2,0.999616
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,148,a,0.758
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,148,b,1.0251
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,148,c,0.00194
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,148,n,94.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,152-154,MSE,0.069707
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,152-154,R2,0.995736
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,152-154,a,1.069
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,152-154,b,1.031
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,152-154,c,0.000399
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,152-154,n,21.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,155,MSE,0.112381
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,155,R2,0.998462
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,155,a,0.3533
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,155,b,1.0577
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,155,c,0.00071
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,155,n,15.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,88,MSE,0.03083
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,88,R2,0.99927
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,88,a,0.1397
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,88,b,1.1016
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,88,c,-0.00046
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,88,n,61.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,89,MSE,0.000864
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,89,R2,0.999986
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,89,a,-0.3065
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,89,b,1.1342
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,89,c,-0.00173
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,89,n,25.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,90,MSE,0.008833
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,90,R2,0.999569
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,90,a,1.3997
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,90,b,0.8899
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,90,c,0.00765
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,90,n,47.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,91,MSE,0.026898
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,91,R2,0.998244
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,91,a,-1.884
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,91,b,1.2526
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,91,c,-0.00315
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,ecoregion,91,n,35.0
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,province,Provincial,MSE,0.000521
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,province,Provincial,R2,0.999987
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,province,Provincial,a,-0.1696
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,province,Provincial,b,1.1482
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,province,Provincial,c,-0.00187
+MB,Jack pine,PINU.BAN,Table 27,stumpdob_dbh_eq18,province,Provincial,n,298.0
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Mineral,MSE,0.04739
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Mineral,R2,0.996372
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Mineral,a,6.5592
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Mineral,b,0.472
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Mineral,c,0.0155
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Mineral,n,27.0
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Rock,MSE,0.007824
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Rock,R2,0.999664
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Rock,a,0.7149
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Rock,b,0.9539
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Rock,c,0.00704
+MB,Jack pine,PINU.BAN,Table 28,stumpdob_dbh_eq18,site_type,Rock,n,20.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,MSE,0.904634
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,R2,0.977363
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,a0,1.1236
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,a1,0.9006
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,a2,1.0018
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,b1,-0.1237
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,b2,-0.0251
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,b3,0.1738
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,b4,0.1434
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,b5,0.1157
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,148,n,1639.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,MSE,1.697812
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,R2,0.97128
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,a0,1.6336
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,a1,0.7698
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,a2,1.0025
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,b1,0.9974
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,b2,-0.0924
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,b3,0.5719
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,b4,-0.5121
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,b5,0.3402
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,152-154,n,487.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,MSE,0.918455
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,R2,0.981417
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,a0,1.095
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,a1,0.8971
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,a2,1.0018
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,b1,0.356
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,b2,-0.0564
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,b3,0.5162
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,b4,-0.2258
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,b5,0.2933
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,155,n,234.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,MSE,1.019903
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,R2,0.973937
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,a0,0.969
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,a1,0.9568
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,a2,1.0012
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,b1,0.4314
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,b2,-0.0659
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,b3,-0.0805
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,b4,0.1196
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,b5,-0.0685
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,88,n,862.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,MSE,1.348637
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,R2,0.975319
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,a0,0.8864
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,a1,1.013
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,a2,0.9964
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,b1,-0.1669
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,b2,-0.0178
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,b3,0.0695
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,b4,0.2151
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,b5,0.0784
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,89,n,420.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,MSE,0.923144
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,R2,0.979705
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,a0,1.2446
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,a1,0.7872
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,a2,1.0122
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,b1,-0.2493
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,b2,-0.0351
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,b3,0.1648
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,b4,0.2737
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,b5,0.0284
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,90,n,1006.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,MSE,1.026653
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,R2,0.982809
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,a0,0.9138
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,a1,0.982
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,a2,0.9985
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,b1,0.1462
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,b2,-0.0414
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,b3,0.2919
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,b4,0.0168
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,b5,0.1665
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,ecoregion,91,n,782.0
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,MSE,1.244656
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,R2,0.974126
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,a0,0.9674
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,a1,0.9746
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,a2,0.9976
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,b1,0.0487
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,b2,-0.0402
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,b3,0.1459
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,b4,0.1266
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,b5,0.0753
+MB,Jack pine,PINU.BAN,Table 18,taper_eq1,province,Provincial,n,5430.0
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,MSE,1.1033837
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,R2,0.9777024
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,a0,2.0531
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,a1,0.5446
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,a2,1.0235
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,b1,-0.0967
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,b1,-0.4068
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,b2,-0.0323
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,b4,0.487
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,b5,-0.1332
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Mineral,n,596.0
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,MSE,0.5418752
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,R2,0.9854957
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,a0,1.1158
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,a1,0.8511
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,a2,1.0083
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,b1,0.3392
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,b1,-0.2465
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,b2,-0.0265
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,b4,0.1713
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,b5,0.1479
+MB,Jack pine,PINU.BAN,Table 21,taper_eq1,site_type,Rock,n,410.0
+MB,Balsam poplar,POPU.BAL,Table 22,dib_dob_eq11,ecoregion,152-154,MSE,0.149684
+MB,Balsam poplar,POPU.BAL,Table 22,dib_dob_eq11,ecoregion,152-154,R2,0.99819
+MB,Balsam poplar,POPU.BAL,Table 22,dib_dob_eq11,ecoregion,152-154,a,0.65856
+MB,Balsam poplar,POPU.BAL,Table 22,dib_dob_eq11,ecoregion,152-154,b,1.06317
+MB,Balsam poplar,POPU.BAL,Table 22,dib_dob_eq11,ecoregion,152-154,n,875.0
+MB,Balsam poplar,POPU.BAL,Table 22,height_dbh_eq15,ecoregion,152-154,MSE,0.147706
+MB,Balsam poplar,POPU.BAL,Table 22,height_dbh_eq15,ecoregion,152-154,R2,0.369591
+MB,Balsam poplar,POPU.BAL,Table 22,height_dbh_eq15,ecoregion,152-154,a,28.7428
+MB,Balsam poplar,POPU.BAL,Table 22,height_dbh_eq15,ecoregion,152-154,b,0.0466
+MB,Balsam poplar,POPU.BAL,Table 22,height_dbh_eq15,ecoregion,152-154,c,0.9728
+MB,Balsam poplar,POPU.BAL,Table 22,height_dbh_eq15,ecoregion,152-154,n,37.0
+MB,Balsam poplar,POPU.BAL,Table 22,stumpdob_dbh_eq18,ecoregion,152-154,MSE,0.000408
+MB,Balsam poplar,POPU.BAL,Table 22,stumpdob_dbh_eq18,ecoregion,152-154,R2,0.99997
+MB,Balsam poplar,POPU.BAL,Table 22,stumpdob_dbh_eq18,ecoregion,152-154,a,-7.3723
+MB,Balsam poplar,POPU.BAL,Table 22,stumpdob_dbh_eq18,ecoregion,152-154,b,1.7746
+MB,Balsam poplar,POPU.BAL,Table 22,stumpdob_dbh_eq18,ecoregion,152-154,c,-0.0131
+MB,Balsam poplar,POPU.BAL,Table 22,stumpdob_dbh_eq18,ecoregion,152-154,n,37.0
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,MSE,1.236146
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,R2,0.983187
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,a0,0.2569
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,a1,1.5383
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,a2,0.9751
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,b1,0.7719
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,b3,0.1448
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,b2,-0.1105
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,b4,-0.0811
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,b5,0.1324
+MB,Balsam poplar,POPU.BAL,Table 2,taper_eq1,ecoregion,152-154,n,875.0
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Plain,MSE,0.172843
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Plain,R2,0.780331
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Plain,a,23.0375
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Plain,b,0.1633
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Plain,n,61.0
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Shield,MSE,0.283248
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Shield,R2,0.899722
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Shield,a,42.0171
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Shield,b,0.0337
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,ecozone,Boreal Shield,n,10.0
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,province,Provincial,MSE,0.184107
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,province,Provincial,R2,0.824006
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,province,Provincial,a,23.9472
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,province,Provincial,b,0.1283
+MB,Trembling aspen,POPU.TRE,Table 23,dib_dob_eq11,province,Provincial,n,71.0
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Plain,MSE,0.172843
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Plain,R2,0.780331
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Plain,a,23.0375
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Plain,b,0.1633
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Plain,c,5.2256
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Plain,n,61.0
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Shield,MSE,0.283248
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Shield,R2,0.899722
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Shield,a,42.0171
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Shield,b,0.0337
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Shield,c,1.1569
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,ecozone,Boreal Shield,n,10.0
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,province,Provincial,MSE,0.184107
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,province,Provincial,R2,0.824006
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,province,Provincial,a,23.9472
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,province,Provincial,b,0.1283
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,province,Provincial,c,3.1155
+MB,Trembling aspen,POPU.TRE,Table 23,height_dbh_eq15,province,Provincial,n,71.0
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Plain,MSE,0.002199
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Plain,R2,0.999948
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Plain,a,-3.8616
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Plain,b,1.4469
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Plain,c,-0.00637
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Plain,n,61.0
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Shield,MSE,0.225146
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Shield,R2,0.996589
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Shield,a,-0.9291
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Shield,b,1.2522
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Shield,c,-0.00493
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,ecozone,Boreal Shield,n,10.0
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,province,Provincial,MSE,0.007263
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,province,Provincial,R2,0.999838
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,province,Provincial,a,-1.9176
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,province,Provincial,b,1.2781
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,province,Provincial,c,-0.0034
+MB,Trembling aspen,POPU.TRE,Table 23,stumpdob_dbh_eq18,province,Provincial,n,71.0
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,MSE,1.691296
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,R2,0.978322
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,a0,0.456
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,a1,1.2991
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,a2,0.9859
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,b2,-0.1311
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,b3,0.5736
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,b4,-0.3198
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,b5,0.1047
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Plain,n,1413.0
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,MSE,1.294318
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,R2,0.977597
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,a0,0.7855
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,a1,1.058
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,a2,0.995
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,b2,-0.0713
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,b3,0.3202
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,b4,0.2354
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,b5,-0.212
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,ecozone,Boreal Shield,n,211.0
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,MSE,1.768216
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,R2,0.976623
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,a0,0.6549
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,a1,1.128
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,a2,0.993
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,b2,-0.1311
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,b3,0.6458
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,b4,-0.2967
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,b5,0.067
+MB,Trembling aspen,POPU.TRE,Table 5,taper_eq1,province,Provincial,n,1624.0
