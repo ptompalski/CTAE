@@ -60,10 +60,13 @@ CTAE currently includes allometric models to:
 tree volume using the volume models implemented in `CTAE`. Rather than
 requiring users to select a specific model, `vol()` consults an internal
 model registry and automatically determines which models are applicable
-for each tree based on: - species availability in model parameter
-tables - geographic scope (province / jurisdiction) - required inputs
-(e.g. total height, subregion such as BEC zone) - model ranking
-(regional models preferred over national where available)
+for each tree based on:
+
+- species availability in model parameter tables
+- geographic scope (province / jurisdiction)
+- required inputs (e.g. total height, subregion such as BEC zone)
+- model ranking (regional models preferred over national where
+  available)
 
 #### Merchantability criteria
 

@@ -59,7 +59,8 @@ get_merch_criteria <- function(
   }
 
   # ---- internal data ----
-  stopifnot(exists("merchcrit", inherits = TRUE))
+  merchcrit <- CTAE::merchcrit
+  # stopifnot(exists("merchcrit", inherits = TRUE))
 
   required <- c(
     "Province",

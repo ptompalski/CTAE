@@ -139,6 +139,7 @@ cat(paste(bullets$bullet, collapse = "\n"))
 #### `vol()`: automatic tree volume estimation across multiple models
 
 `vol()` is a convenience wrapper for estimating total and merchantable tree volume using the volume models implemented in `CTAE`. Rather than requiring users to select a specific model, `vol()` consults an internal model registry and automatically determines which models are applicable for each tree based on:
+
 - species availability in model parameter tables
 - geographic scope (province / jurisdiction)
 - required inputs (e.g. total height, subregion such as BEC zone)
