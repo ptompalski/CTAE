@@ -100,3 +100,16 @@ testthat::test_that("works in tidyverse pipe with list-column + unnest", {
   testthat::expect_equal(nrow(out), 4)
   testthat::expect_true(all(c("vol_total", "vol_merchantable") %in% names(out)))
 })
+testthat::test_that("total volume is calculated for small trees (below minimum DBH)", {
+  out <- vol_honer83(
+    DBH = c(2, 4, 6, 8),
+    height = c(4, 6, 8, 10),
+    species = rep("PICE.GLA", 4)
+  )
+
+  # merchantable should be zero for these small DBHs (given typical thresholds)
+  testthat::expect_true(all(out$vol_merchantable == 0, na.rm = TRUE))
+
+  # total volume should still be computed for valid positive DBH/height
+  testthat::expect_true(all(out$vol_total > 0, na.rm = TRUE))
+})

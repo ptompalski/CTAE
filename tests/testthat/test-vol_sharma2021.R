@@ -93,3 +93,13 @@ testthat::test_that("vol_sharma2021: unknown species produces an informative err
     ignore.case = TRUE
   )
 })
+testthat::test_that("vol_sharma2021: total volume is calculated for small trees (below minimum DBH)", {
+  out <- CTAE::vol_sharma2021(
+    DBH = c(2, 4, 6, 8),
+    height = c(4, 6, 8, 10),
+    species = rep("PICE.MAR", 4)
+  )
+
+  # Total volume should still be computed (positive) for valid DBH/height
+  testthat::expect_true(all(out$vol_total > 0, na.rm = TRUE))
+})

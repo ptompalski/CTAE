@@ -3,11 +3,10 @@
 #'
 #' @param DBH Numeric vector of diameter at breast height (cm).
 #' @param height Numeric vector of total tree height (m).
-#' @param species Character vector of species codes (standardized with
-#'   `standardize_species_code()`).
+#' @param species Character vector of species codes (e.g. "TSUG.HET")
 #' @param BEC_zone Character vector of BEC zone codes (e.g., "CWH", "ICH", "IDF").
 #'
-#' @return A tibble with volumes (m^3): total, merchantable, stump, and top.
+#' @return A tibble with volumes (m^3): total, merchantable.
 #' @export
 vol_kozak94 <- function(DBH, height, species, BEC_zone) {
   n <- length(DBH)
@@ -225,14 +224,8 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
       abort_i(i, "Invalid mindbh_cm in merch criteria.")
     }
 
-    if (dbh < mindbh) {
-      # below minimum dbh is a valid outcome → return zeros (no failure)
-      vol_total[i] <- 0
-      vol_merch[i] <- 0
-      vol_stump[i] <- 0
-      vol_top[i] <- 0
-      next
-    }
+    # mindbh is a merchantability rule: it should NOT affect total volume
+    allow_merch <- (dbh >= mindbh)
 
     # parameters
     p <- get_volume_params(
@@ -380,6 +373,10 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
         abort_i(i, "Smalian integration failed for top section (hm -> tip).")
       }
       topv <- vtop[["v"]]
+    }
+
+    if (!allow_merch) {
+      volm <- 0
     }
 
     if (!is.finite(topv) || topv < 0) {

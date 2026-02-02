@@ -125,7 +125,7 @@ test_that("invalid DBH/height inputs abort with row-context", {
   )
 })
 
-test_that("DBH below mindbh returns zeros (both total and merch)", {
+test_that("DBH below mindbh returns zero merchantable but non-zero total", {
   skip_if_not(exists("get_merch_criteria", mode = "function"))
 
   sp <- "PICE.MAR"
@@ -138,8 +138,7 @@ test_that("DBH below mindbh returns zeros (both total and merch)", {
   mindbh <- mc$mindbh_cm[[1]]
   skip_if(!is.finite(mindbh))
 
-  # ensure strictly below
-  dbh <- max(0.1, mindbh - 0.1)
+  dbh <- max(0.5, mindbh - 0.1)
 
   out <- vol_huang94(
     DBH = dbh,
@@ -147,8 +146,9 @@ test_that("DBH below mindbh returns zeros (both total and merch)", {
     species = sp,
     subregion = "Province"
   )
-  expect_equal(out$vol_total[[1]], 0)
+
   expect_equal(out$vol_merchantable[[1]], 0)
+  expect_true(out$vol_total[[1]] > 0)
 })
 
 test_that("subregion fallback emits a warning when requested subregion missing", {
@@ -208,4 +208,34 @@ test_that("missing parameters aborts with informative message (valid model_id)",
     "no parameters for",
     fixed = FALSE
   )
+})
+test_that("Kozak88 wrappers compute total volume for small trees (below mindbh)", {
+  skip_if_not(exists("get_merch_criteria", mode = "function"))
+
+  sp <- "PICE.MAR"
+
+  mc <- get_merch_criteria("AB", species = sp, verbose = FALSE)
+  if (nrow(mc) == 0) {
+    mc <- get_merch_criteria("AB", species = "ALL", verbose = FALSE)
+  }
+  skip_if(nrow(mc) == 0)
+
+  mindbh <- mc$mindbh_cm[[1]]
+  skip_if(!is.finite(mindbh))
+
+  # choose DBH strictly below merchantability threshold
+  dbh_small <- max(0.5, mindbh - 1)
+
+  out <- vol_huang94(
+    DBH = dbh_small,
+    height = 15,
+    species = sp,
+    subregion = "Province"
+  )
+
+  # merchantable volume must be zero
+  expect_equal(out$vol_merchantable[[1]], 0)
+
+  # total volume must still be positive (regression target)
+  expect_true(out$vol_total[[1]] > 0)
 })
