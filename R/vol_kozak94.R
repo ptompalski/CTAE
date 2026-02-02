@@ -1,9 +1,13 @@
 #' Estimate tree volume using Kozak (1994) taper model (BC, BEC-zone specific)
 #'
+#' Implements the Kozak (1994) taper/volume formulation for British Columbia,
+#' using BEC-zone–specific parameter sets. Total volume is computed independent
+#' of merchantability; merchantable volume is set to 0 when DBH is below the
+#' jurisdictional minimum DBH criterion.
 #'
 #' @param DBH Numeric vector of diameter at breast height (cm).
 #' @param height Numeric vector of total tree height (m).
-#' @param species Character vector of species codes (e.g. "TSUG.HET")
+#' @param species Character vector of species codes (e.g. "TSUG.HET").
 #' @param BEC_zone Character vector of BEC zone codes (e.g., "CWH", "ICH", "IDF").
 #'
 #' @return A tibble with volumes (m^3): total, merchantable.
@@ -149,25 +153,26 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
     hm1
   }
 
-  # ---- cache merch criteria once per species × BEC_zone ----
+  # ---- cache merch criteria once per species x BEC_zone ----
+  # Use `.data$...` inside dplyr verbs to avoid R CMD check NSE notes.
   mc_cache <- dplyr::tibble(
     .species_key = species_std,
     .bec_key = bec_std
-  ) %>%
-    dplyr::distinct() %>%
+  ) |>
+    dplyr::distinct() |>
     dplyr::mutate(
       mc = purrr::map2(
-        .species_key,
-        .bec_key,
+        .data$.species_key,
+        .data$.bec_key,
         ~ get_merch_criteria(
           "BC",
           species = .x,
           BEC_zone = .y,
           verbose = FALSE
-        ) %>%
+        ) |>
           dplyr::slice(1)
       )
-    ) %>%
+    ) |>
     tidyr::unnest(mc)
 
   req <- c(".species_key", "stumpht_m", "topdbh_cm", "mindbh_cm")
@@ -203,8 +208,11 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
     }
 
     # merch criteria
-    mc <- mc_cache %>%
-      dplyr::filter(.species_key == species_std[i], .bec_key == bec_std[i]) %>%
+    mc <- mc_cache |>
+      dplyr::filter(
+        .data$.species_key == species_std[i],
+        .data$.bec_key == bec_std[i]
+      ) |>
       dplyr::slice(1)
 
     if (nrow(mc) == 0) {
@@ -235,7 +243,7 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
     )
 
     if (nrow(p) == 0) {
-      abort_i(i, "No Kozak94 parameters found for this species × BEC_zone.")
+      abort_i(i, "No Kozak94 parameters found for this species x BEC_zone.")
     }
     if (nrow(p) > 1) {
       abort_i(
@@ -398,8 +406,3 @@ vol_kozak94 <- function(DBH, height, species, BEC_zone) {
     vol_merchantable = vol_merch
   )
 }
-
-# vol_kozak94(DBH = 20, height = 20, species = "POPU.BAL", BEC_zone = "CWH")
-# vol_kozak94(DBH = 20, height = 20, species = "THUJ.PLI", BEC_zone = "CWH")
-# vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH")
-# vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "ITD")

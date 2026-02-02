@@ -36,13 +36,13 @@ vol_honer83(
 )
 
 # Works with the pipe operator:
-trees <- tibble(
+trees <- tibble::tibble(
   tree_id = 1:4,
   dbh = c(22, 30, 18, 35),
   ht  = c(18, 24, 15, 27),
   species = c("PICE.GLA", "PICE.GLA", "ABIE.BAL", "PINU.BAN")
 )
-trees \%>\% mutate(vol=vol_honer83(dbh, ht, species)) \%>\% unnest(vol)
+trees |> dplyr::mutate(vol=vol_honer83(dbh, ht, species)) |> tidyr::unnest(vol)
 }
 \references{
 Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada.

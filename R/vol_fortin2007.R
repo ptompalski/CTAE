@@ -95,7 +95,7 @@ vol_fortin2007 <- function(DBH, height, species) {
 
   params_tbl <- purrr::map_dfr(
     sp_unique,
-    ~ get_volume_params("regional_fortin2007", species = .x) %>%
+    ~ get_volume_params("regional_fortin2007", species = .x) |>
       dplyr::mutate(.species_key = .x)
   )
 
@@ -134,7 +134,7 @@ vol_fortin2007 <- function(DBH, height, species) {
       next
     }
 
-    p <- params_tbl %>%
+    p <- params_tbl |>
       dplyr::filter(.data$.species_key == species_std[i])
 
     if (nrow(p) == 0) {

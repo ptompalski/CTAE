@@ -166,8 +166,8 @@ trees <- tibble::tibble(
   subregion = c(NA, NA, NA, "CWH")
 )
 
-trees \%>\%
-  mutate(
+trees |>
+  dplyr::mutate(
     vol(
       DBH = DBH,
       height = height,
@@ -179,8 +179,8 @@ trees \%>\%
   )
 
 ## --- Same data, return all applicable volume models per tree ---
-trees \%>\%
-  mutate(
+trees |>
+  dplyr::mutate(
     vol(
       DBH = DBH,
       height = height,

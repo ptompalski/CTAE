@@ -49,8 +49,8 @@
 #' trees |>
 #'   dplyr::mutate(
 #'     vol = vol_ung2013(DBH, species = species, jurisdiction = "NB")
-#'   ) %>%
-#' unnest(vol)
+#'   ) |>
+#' tidyr::unnest(vol)
 #'
 #' @export
 vol_ung2013 <- function(DBH, height = NULL, species, jurisdiction) {
@@ -120,21 +120,21 @@ vol_ung2013 <- function(DBH, height = NULL, species, jurisdiction) {
       }
       dplyr::as_tibble(p)
     }
-  ) %>%
+  ) |>
     dplyr::distinct(Species, .keep_all = TRUE)
 
   df <- dplyr::left_join(df, params_tbl, by = "Species")
 
   # merch criteria per (jurisdiction, species)
-  merch_tbl <- df %>%
-    dplyr::distinct(jurisdiction, Species) %>%
+  merch_tbl <- df |>
+    dplyr::distinct(jurisdiction, Species) |>
     dplyr::mutate(
       merch = purrr::pmap(
         list(jurisdiction = jurisdiction, species = Species),
-        ~ get_merch_criteria(..1, ..2) %>%
+        ~ get_merch_criteria(..1, ..2) |>
           dplyr::select(stumpht_m, topdbh_cm, mindbh_cm)
       )
-    ) %>%
+    ) |>
     tidyr::unnest(merch)
 
   dplyr::left_join(df, merch_tbl, by = c("jurisdiction", "Species"))
@@ -223,7 +223,7 @@ vol_national_dbh_engine <- function(DBH, species, jurisdiction) {
   }
 
   purrr::pmap_dfr(
-    df %>%
+    df |>
       dplyr::select(
         dbh,
         stumpht_m,
@@ -325,7 +325,7 @@ vol_national_dbh_ht_engine <- function(DBH, height, species, jurisdiction) {
   }
 
   purrr::pmap_dfr(
-    df %>%
+    df |>
       dplyr::select(
         dbh,
         ht,

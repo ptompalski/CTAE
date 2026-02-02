@@ -85,8 +85,6 @@
 #' Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada.
 #' Environ. Can., Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf. Rep. M-X-140.
 #'
-#' @seealso
-#' \code{\link{vol_honer_dbh_ht}}
 #'
 "parameters_Honer"
 

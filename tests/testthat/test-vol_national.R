@@ -131,9 +131,9 @@ testthat::test_that("Ung2013 volumes are reasonable across all species (from par
   testthat::expect_true(all(out_dbh$vol_total <= 30 | is.na(out_dbh$vol_total)))
 
   # Monotonicity in DBH per species
-  mono_dbh <- dplyr::bind_cols(grid_dbh, out_dbh) %>%
-    dplyr::arrange(.data$Species, .data$DBH) %>%
-    dplyr::group_by(.data$Species) %>%
+  mono_dbh <- dplyr::bind_cols(grid_dbh, out_dbh) |>
+    dplyr::arrange(.data$Species, .data$DBH) |>
+    dplyr::group_by(.data$Species) |>
     dplyr::summarise(
       ok = all(diff(.data$vol_total) >= -1e-8, na.rm = TRUE),
       .groups = "drop"
@@ -175,9 +175,9 @@ testthat::test_that("Ung2013 volumes are reasonable across all species (from par
   ))
 
   # Height effect sanity check (per species+DBH)
-  mono_ht <- dplyr::bind_cols(grid_dbh_ht, out_dbh_ht) %>%
-    dplyr::arrange(.data$Species, .data$DBH, .data$height) %>%
-    dplyr::group_by(.data$Species, .data$DBH) %>%
+  mono_ht <- dplyr::bind_cols(grid_dbh_ht, out_dbh_ht) |>
+    dplyr::arrange(.data$Species, .data$DBH, .data$height) |>
+    dplyr::group_by(.data$Species, .data$DBH) |>
     dplyr::summarise(
       ok = all(diff(.data$vol_total) >= -1e-8, na.rm = TRUE),
       .groups = "drop"

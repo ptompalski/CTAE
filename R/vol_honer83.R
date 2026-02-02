@@ -30,13 +30,13 @@
 #' )
 #'
 #' # Works with the pipe operator:
-#' trees <- tibble(
+#' trees <- tibble::tibble(
 #'   tree_id = 1:4,
 #'   dbh = c(22, 30, 18, 35),
 #'   ht  = c(18, 24, 15, 27),
 #'   species = c("PICE.GLA", "PICE.GLA", "ABIE.BAL", "PINU.BAN")
 #' )
-#' trees %>% mutate(vol=vol_honer83(dbh, ht, species)) %>% unnest(vol)
+#' trees |> dplyr::mutate(vol=vol_honer83(dbh, ht, species)) |> tidyr::unnest(vol)
 #' @export
 
 vol_honer83 <- function(DBH, height, species) {
@@ -73,7 +73,7 @@ vol_honer83 <- function(DBH, height, species) {
     }
   )
 
-  df <- df %>%
+  df <- df |>
     dplyr::left_join(params_tbl, by = "Species")
 
   # ---- compute volumes (vectorized; b2a/b2b collapsed to b2) ----

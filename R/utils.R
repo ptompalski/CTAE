@@ -31,9 +31,9 @@ prov_aliases <- tibble::tribble(
 supported_provinces <- function() {
   stopifnot(exists("prov_codes", inherits = TRUE))
 
-  prov_codes %>%
-    dplyr::pull(code) %>%
-    unique() %>%
+  prov_codes |>
+    dplyr::pull(.data$code) |>
+    unique() |>
     sort()
 }
 
@@ -43,12 +43,12 @@ supported_provinces <- function() {
 #'
 #' @keywords internal
 standardize_jurisdiction_code <- function(x) {
-  x_clean <- x %>%
-    str_trim() %>%
-    str_to_upper()
+  x_clean <- x |>
+    stringr::str_trim() |>
+    stringr::str_to_upper()
 
-  x_fixed <- x_clean %>%
-    recode(!!!setNames(prov_aliases$code, prov_aliases$alias))
+  x_fixed <- x_clean |>
+    dplyr::recode(!!!stats::setNames(prov_aliases$code, prov_aliases$alias))
 
   unknown <- setdiff(
     unique(x_fixed),
@@ -75,14 +75,14 @@ normalize_province_scope <- function(x) {
 }
 
 select_volume_models <- function(jurisdiction) {
-  prov <- CTAE:::standardize_jurisdiction_code(jurisdiction)
+  prov <- standardize_jurisdiction_code(jurisdiction)
 
-  volume_model_registry() %>%
+  volume_model_registry() |>
     dplyr::mutate(
       prov_vec = purrr::map(province_scope, normalize_province_scope),
       supported = purrr::map_lgl(prov_vec, ~ prov %in% .x)
-    ) %>%
-    dplyr::filter(supported) %>%
+    ) |>
+    dplyr::filter(supported) |>
     dplyr::arrange(rank)
 }
 
@@ -93,10 +93,10 @@ select_volume_models <- function(jurisdiction) {
 #'
 #' @keywords internal
 standardize_species_code <- function(x, keep_all = TRUE) {
-  x0 <- x %>%
-    as.character() %>%
-    str_trim() %>%
-    str_to_upper()
+  x0 <- x |>
+    as.character() |>
+    stringr::str_trim() |>
+    stringr::str_to_upper()
 
   # Keep "ALL" exactly as "ALL" (and optionally treat ""/NA as NA)
   is_all <- keep_all & !is.na(x0) & x0 == "ALL"
@@ -106,16 +106,16 @@ standardize_species_code <- function(x, keep_all = TRUE) {
 
   # Remove non-alphanumerics EXCEPT dot, then handle dot insertion
   # (we'll re-build the canonical dot format)
-  y <- y %>%
-    str_replace_all("[^A-Z0-9\\.]", "")
+  y <- y |>
+    stringr::str_replace_all("[^A-Z0-9\\.]", "")
 
   # If it's already in NFI-like form "ABCD.EFG", keep it
-  is_nfi <- str_detect(y, "^[A-Z]{4}\\.[A-Z]{3}$")
+  is_nfi <- stringr::str_detect(y, "^[A-Z]{4}\\.[A-Z]{3}$")
 
   # If it's in compact form "ABCDEFG" (7 letters), convert to "ABCD.EFG"
-  is_compact <- str_detect(y, "^[A-Z]{7}$")
+  is_compact <- stringr::str_detect(y, "^[A-Z]{7}$")
 
-  y[is_compact] <- str_replace(
+  y[is_compact] <- stringr::str_replace(
     y[is_compact],
     "^([A-Z]{4})([A-Z]{3})$",
     "\\1.\\2"
@@ -125,7 +125,7 @@ standardize_species_code <- function(x, keep_all = TRUE) {
   # so the compact rule will already catch it after cleaning.
 
   # Validate: anything not ALL must be either NFI or become NFI
-  is_ok <- is_all | str_detect(y, "^[A-Z]{4}\\.[A-Z]{3}$") | is.na(y)
+  is_ok <- is_all | stringr::str_detect(y, "^[A-Z]{4}\\.[A-Z]{3}$") | is.na(y)
 
   bad <- unique(y[!is_ok])
   if (length(bad) > 0) {

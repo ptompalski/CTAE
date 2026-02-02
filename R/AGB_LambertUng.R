@@ -50,7 +50,7 @@
   model_in <- stringr::str_trim(model)
 
   # normalize table keys (protects against trailing spaces in the data)
-  params2 <- params %>%
+  params2 <- params |>
     dplyr::mutate(
       model = stringr::str_trim(.data$model),
       species = stringr::str_trim(toupper(.data$species)),

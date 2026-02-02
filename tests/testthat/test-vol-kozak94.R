@@ -149,7 +149,7 @@ testthat::test_that("vol_kozak94: total volume is calculated for small trees (db
     species = "PSEU.MEN",
     BEC_zone = "CWH",
     verbose = FALSE
-  ) %>%
+  ) |>
     dplyr::slice(1)
 
   testthat::expect_true(all(c("mindbh_cm") %in% names(mc)))
@@ -179,7 +179,7 @@ testthat::test_that("vol_kozak94: merchantable volume is positive for a clearly 
     species = "PSEU.MEN",
     BEC_zone = "CWH",
     verbose = FALSE
-  ) %>%
+  ) |>
     dplyr::slice(1)
 
   mindbh <- mc$mindbh_cm[[1]]

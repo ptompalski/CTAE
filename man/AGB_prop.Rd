@@ -2,7 +2,7 @@
 % Please edit documentation in R/AGB_prop.R
 \name{AGB_prop}
 \alias{AGB_prop}
-\title{Calculate AGB proportion of different tree organs using multinomial logit 
+\title{Calculate AGB proportion of different tree organs using multinomial logit
 proportion equations using tree volume as input}
 \usage{
 AGB_prop(value_input, value_type, species, jurisdiction, ecozone)
@@ -19,10 +19,10 @@ AGB_prop(value_input, value_type, species, jurisdiction, ecozone)
 \item{ecozone}{ecozone number (1-15). Call 'CodesEcozones' for a list of ecozones names and codes - also available in table 2 of appendix 7 of Boudewyn et al (2007).}
 }
 \value{
-A list containing aboveground biomass proportion (0-1) for the tree 
-components: stemwood, stembark, branches, foliage. A warning is displayed if 
-the input volume is above (below) the maximum (minimum) volume used to 
-calibrate the equations parameters. 
+A list containing aboveground biomass proportion (0-1) for the tree
+components: stemwood, stembark, branches, foliage. A warning is displayed if
+the input volume is above (below) the maximum (minimum) volume used to
+calibrate the equations parameters.
 \describe{
 \item{\code{Pstemwood}}{Biomass proportion allocated to the stem wood of merchantable-sized live trees (biomass includes stumps and tops).}
 \item{\code{Pbark}}{Biomass proportion allocated to the bark of live, merchantable-sized live trees}
@@ -31,10 +31,10 @@ calibrate the equations parameters.
 }
 }
 \description{
-Calculates proportions of calculated aboveground biomass for 
-different tree organs using multinomial logit equations present in Boudewyn 
-et al (2007). It takes volume (or alternatively biomass) as main input but requires species, province 
-jurisdiction and ecozone for properly fitting the logit model. This routine 
+Calculates proportions of calculated aboveground biomass for
+different tree organs using multinomial logit equations present in Boudewyn
+et al (2007). It takes volume (or alternatively biomass) as main input but requires species, province
+jurisdiction and ecozone for properly fitting the logit model. This routine
 is the same as the one used in V2B() but returns only the proportions and not
 the biomass values e.g. Pstemwood = 0.77, Pstembark = 0.099, Pbranches = 0.073,
 Pfoliage = 0.058. Proportion values always add up to 1.
@@ -44,16 +44,15 @@ Pfoliage = 0.058. Proportion values always add up to 1.
 AGB_prop(350, value_type = "vol", species = "PINU.CON",jurisdiction = "BC", ecozone=4)
 
 # Using a data frame and volume as example
-library(tidyverse)
-tb <- tibble(VOL = rnorm(150, 250, 60),
+tb <- tibble::tibble(VOL = rnorm(150, 250, 60),
              TYP = rep("vol"),
              SPE = rep("PINU.CON", 150),
              JUR = rep("BC", 150),
              ECO = rep(4, 150))
-             
-tb \%>\%
-mutate(
-  pmap_dfr(list(.$VOL, .$TYP, .$SPE, .$JUR, .$ECO), AGB_prop)
+
+tb |>
+dplyr::mutate(
+  purrr::pmap_dfr(list(VOL, TYP, SPE, JUR, ECO), AGB_prop)
   )
 
 }

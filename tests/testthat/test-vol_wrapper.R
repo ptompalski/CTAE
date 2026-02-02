@@ -73,7 +73,7 @@ test_that("vol() pick_best=FALSE can be unnested after mutate()", {
     subregion = c(NA, NA, NA, "CWH")
   )
 
-  out <- trees %>%
+  out <- trees |>
     dplyr::mutate(
       v = suppressWarnings(
         vol(
@@ -86,7 +86,7 @@ test_that("vol() pick_best=FALSE can be unnested after mutate()", {
           keep_model_id = TRUE
         )
       )
-    ) %>%
+    ) |>
     tidyr::unnest(v)
 
   expect_s3_class(out, "tbl_df")

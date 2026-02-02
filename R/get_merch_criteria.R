@@ -51,11 +51,11 @@ get_merch_criteria <- function(
     nzchar(jurisdiction)
   )
 
-  jurisdiction_std <- CTAE:::standardize_jurisdiction_code(jurisdiction)
+  jurisdiction_std <- standardize_jurisdiction_code(jurisdiction)
 
   species_std <- species
   if (!is.na(species_std) && nzchar(species_std)) {
-    species_std <- CTAE:::standardize_species_code(species_std)
+    species_std <- standardize_species_code(species_std)
   }
 
   # ---- internal data ----

@@ -238,20 +238,20 @@ volume_model_registry_species <- function() {
 
   # Backward-compatible defaults (in case older registry doesn't have them yet)
   if (!"subregion_required" %in% names(reg)) {
-    reg <- reg %>%
+    reg <- reg |>
       dplyr::mutate(subregion_required = FALSE)
   }
   if (!"subregion_arg" %in% names(reg)) {
-    reg <- reg %>%
+    reg <- reg |>
       dplyr::mutate(subregion_arg = NA_character_)
   }
   if (!"subregion_type" %in% names(reg)) {
-    reg <- reg %>%
+    reg <- reg |>
       dplyr::mutate(subregion_type = "none")
   }
 
-  reg %>%
-    dplyr::rowwise() %>%
+  reg |>
+    dplyr::rowwise() |>
     dplyr::mutate(
       species = list({
         # make failures easier to debug
@@ -279,7 +279,7 @@ volume_model_registry_species <- function() {
         NA_character_,
         paste(species, collapse = ", ")
       )
-    ) %>%
+    ) |>
     dplyr::ungroup()
 }
 

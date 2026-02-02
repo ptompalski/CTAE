@@ -38,8 +38,8 @@ vol_kozak88_engine <- function(
   }
 
   # ---- standardize inputs ----
-  jurisdiction_std <- CTAE:::standardize_jurisdiction_code(jurisdiction)
-  species_std <- CTAE:::standardize_species_code(species)
+  jurisdiction_std <- standardize_jurisdiction_code(jurisdiction)
+  species_std <- standardize_species_code(species)
   subr_std <- stringr::str_squish(stringr::str_to_upper(subregion))
 
   if (!is.null(subregion_map)) {
@@ -80,7 +80,7 @@ vol_kozak88_engine <- function(
   # ---- merchantability criteria (cache once; species-specific if supported) ----
   mc0 <- get_merch_criteria(jurisdiction_std, species = "ALL", verbose = FALSE)
   if (!is.null(mc0) && nrow(mc0) > 0) {
-    mc_all <- mc0 %>% dplyr::slice(1)
+    mc_all <- mc0 |> dplyr::slice(1)
   } else {
     mc_all <- NULL
   }
@@ -90,7 +90,7 @@ vol_kozak88_engine <- function(
   get_mc_row <- function(sp) {
     mc <- get_merch_criteria(jurisdiction_std, species = sp, verbose = FALSE)
     if (!is.null(mc) && nrow(mc) > 0) {
-      mc <- mc %>% dplyr::slice(1)
+      mc <- mc |> dplyr::slice(1)
     } else {
       mc <- NULL
     }

@@ -2,3 +2,9 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^data-raw$
+^volume_models$
+^biomass_equations$
+^archived$
+^README\.Rmd$
+^README\.html$
+^_packageSetup\.R$

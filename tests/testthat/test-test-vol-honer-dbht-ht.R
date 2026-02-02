@@ -93,8 +93,8 @@ testthat::test_that("works in tidyverse pipe with list-column + unnest", {
     species = c("PICE.GLA", "PICE.GLA", "ABIE.BAL", "PINU.BAN")
   )
 
-  out <- trees %>%
-    dplyr::mutate(vol = vol_honer83(dbh, ht, species)) %>%
+  out <- trees |>
+    dplyr::mutate(vol = vol_honer83(dbh, ht, species)) |>
     tidyr::unnest(vol)
 
   testthat::expect_equal(nrow(out), 4)

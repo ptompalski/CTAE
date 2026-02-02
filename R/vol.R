@@ -137,8 +137,8 @@
 #'   subregion = c(NA, NA, NA, "CWH")
 #' )
 #'
-#' trees %>%
-#'   mutate(
+#' trees |>
+#'   dplyr::mutate(
 #'     vol(
 #'       DBH = DBH,
 #'       height = height,
@@ -150,8 +150,8 @@
 #'   )
 #'
 #' ## --- Same data, return all applicable volume models per tree ---
-#' trees %>%
-#'   mutate(
+#' trees |>
+#'   dplyr::mutate(
 #'     vol(
 #'       DBH = DBH,
 #'       height = height,
@@ -202,9 +202,9 @@ vol <- function(
   # ---- standardize inputs ----
   jurisdiction_std <- purrr::map_chr(
     jurisdiction,
-    CTAE:::standardize_jurisdiction_code
+    standardize_jurisdiction_code
   )
-  species_std <- purrr::map_chr(species, CTAE:::standardize_species_code)
+  species_std <- purrr::map_chr(species, standardize_species_code)
 
   x <- tibble::tibble(
     .row_id = seq_len(n),
@@ -215,28 +215,28 @@ vol <- function(
     subregion = subregion
   )
 
-  reg <- CTAE:::volume_model_registry_species() %>%
+  reg <- volume_model_registry_species() |>
     dplyr::mutate(
-      species_cov = species, # rename to avoid clash after crossing
+      species_cov = .data$species, # rename to avoid clash after crossing
       species = NULL
     )
 
   # ---- ensure operational subregion columns exist (backward compatible) ----
   if (!"subregion_required" %in% names(reg)) {
-    reg <- reg %>%
+    reg <- reg |>
       dplyr::mutate(
         subregion_required = dplyr::if_else(
           "subregion_type" %in%
             names(reg) &
-            !is.na(subregion_type) &
-            grepl("required", subregion_type, ignore.case = TRUE),
+            !is.na(.data$subregion_type) &
+            grepl("required", .data$subregion_type, ignore.case = TRUE),
           TRUE,
           FALSE
         )
       )
   }
   if (!"subregion_arg" %in% names(reg)) {
-    reg <- reg %>% dplyr::mutate(subregion_arg = NA_character_)
+    reg <- reg |> dplyr::mutate(subregion_arg = NA_character_)
   }
 
   # ---- helpers ----
@@ -327,16 +327,17 @@ vol <- function(
   }
 
   # ---- candidates ----
-  cand <- tidyr::crossing(x, reg) %>%
-    dplyr::rowwise() %>%
+  cand <- tidyr::crossing(x, reg) |>
+    dplyr::rowwise() |>
     dplyr::mutate(
-      .ok_prov = province_is_covered(jurisdiction, province_scope),
-      .ok_sp = species_is_covered(species_in, species_cov),
-      .ok_ht = !requires_ht || (!is.na(height) & is.finite(height)),
-      .ok_sub = subregion_ok(subregion, subregion_required)
-    ) %>%
-    dplyr::ungroup() %>%
-    dplyr::filter(.ok_prov, .ok_sp, .ok_ht, .ok_sub) %>%
+      .ok_prov = province_is_covered(.data$jurisdiction, .data$province_scope),
+      .ok_sp = species_is_covered(.data$species_in, .data$species_cov),
+      .ok_ht = !.data$requires_ht ||
+        (!is.na(.data$height) & is.finite(.data$height)),
+      .ok_sub = subregion_ok(.data$subregion, .data$subregion_required)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::filter(.data$.ok_prov, .data$.ok_sp, .data$.ok_ht, .data$.ok_sub) |>
     dplyr::select(
       .row_id,
       DBH,
@@ -360,41 +361,48 @@ vol <- function(
   }
 
   # Collapse multiple registry variants mapping to the same engine
-  cand <- cand %>%
-    dplyr::group_by(.row_id, engine) %>%
-    dplyr::arrange(dplyr::desc(requires_ht), dplyr::desc(rank)) %>%
-    dplyr::slice(1) %>%
+  cand <- cand |>
+    dplyr::group_by(.data$.row_id, .data$engine) |>
+    dplyr::arrange(dplyr::desc(.data$requires_ht), dplyr::desc(.data$rank)) |>
+    dplyr::slice(1) |>
     dplyr::ungroup()
 
   # Build args + evaluate
-  res <- cand %>%
+  res <- cand |>
     dplyr::mutate(
       .args = purrr::pmap(
-        list(subregion_arg, DBH, height, species_in, jurisdiction, subregion),
+        list(
+          .data$subregion_arg,
+          .data$DBH,
+          .data$height,
+          .data$species_in,
+          .data$jurisdiction,
+          .data$subregion
+        ),
         build_engine_args
       ),
-      .out = purrr::map2(engine, .args, safe_call_engine_one)
-    ) %>%
+      .out = purrr::map2(.data$engine, .data$.args, safe_call_engine_one)
+    ) |>
     tidyr::unnest(.out)
 
   # Drop failures (NA rows produced by safe_call_engine_one)
-  res <- res %>%
-    dplyr::filter(
-      !(".failed" %in% names(.)) || is.na(.failed) || .failed != TRUE
-    ) %>%
-    dplyr::select(-dplyr::any_of(".failed"))
+  if (".failed" %in% names(res)) {
+    res <- res |>
+      dplyr::filter(is.na(.data$.failed) | .data$.failed != TRUE) |>
+      dplyr::select(-dplyr::any_of(".failed"))
+  }
 
   if (isTRUE(pick_best)) {
     # choose best successful model per row
-    best <- res %>%
-      dplyr::group_by(.row_id) %>%
-      dplyr::slice_max(order_by = rank, n = 1, with_ties = FALSE) %>%
-      dplyr::ungroup() %>%
+    best <- res |>
+      dplyr::group_by(.data$.row_id) |>
+      dplyr::slice_max(order_by = .data$rank, n = 1, with_ties = FALSE) |>
+      dplyr::ungroup() |>
       dplyr::transmute(
-        .row_id,
-        vol_total,
-        vol_merchantable,
-        vol_model = if (isTRUE(keep_model_id)) engine else NULL
+        .data$.row_id,
+        vol_total = .data$vol_total,
+        vol_merchantable = .data$vol_merchantable,
+        vol_model = if (isTRUE(keep_model_id)) .data$engine else NULL
       )
 
     # Ensure every row has a successful model
@@ -407,10 +415,10 @@ vol <- function(
       )
     }
 
-    out <- x %>%
-      dplyr::select(.row_id) %>%
-      dplyr::left_join(best, by = ".row_id") %>%
-      dplyr::arrange(.row_id) %>%
+    out <- x |>
+      dplyr::select(.row_id) |>
+      dplyr::left_join(best, by = ".row_id") |>
+      dplyr::arrange(.data$.row_id) |>
       dplyr::select(-.row_id)
 
     return(out)
@@ -430,11 +438,11 @@ vol <- function(
         vol_model = character(0)
       )[0, ]
     } else {
-      out_list[[i]] <- df %>%
+      out_list[[i]] <- df |>
         dplyr::transmute(
-          vol_total,
-          vol_merchantable,
-          vol_model = if (isTRUE(keep_model_id)) engine else NULL
+          vol_total = .data$vol_total,
+          vol_merchantable = .data$vol_merchantable,
+          vol_model = if (isTRUE(keep_model_id)) .data$engine else NULL
         )
     }
   }

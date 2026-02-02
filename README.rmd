@@ -52,8 +52,8 @@ CTAE currently includes allometric models to:
 reg <- volume_model_registry_species()
 
 # ---- collapse registry to one row per engine ----
-reg_collapsed <- reg %>%
-  dplyr::group_by(engine) %>%
+reg_collapsed <- reg |>
+  dplyr::group_by(engine) |>
   dplyr::summarise(
     scope = dplyr::first(scope),
     province_scope = list({
@@ -112,12 +112,12 @@ fmt_model_bullet_oneline <- function(
 }
 
 # ---- build bullets ----
-bullets <- reg_collapsed %>%
+bullets <- reg_collapsed |>
   dplyr::mutate(
     Coverage = purrr::map2_chr(scope, province_scope, fmt_geo),
     Inputs = fmt_inputs(requires_ht_any, requires_ht_all)
-  ) %>%
-  dplyr::rowwise() %>%
+  ) |>
+  dplyr::rowwise() |>
   dplyr::mutate(
     bullet = fmt_model_bullet_oneline(
       engine,
@@ -127,7 +127,7 @@ bullets <- reg_collapsed %>%
       description,
       reference
     )
-  ) %>%
+  ) |>
   dplyr::ungroup()
 
 # ---- emit Markdown (important for README.Rmd) ----

@@ -57,8 +57,8 @@ trees <- tibble::tibble(
 trees |>
   dplyr::mutate(
     vol = vol_ung2013(DBH, species = species, jurisdiction = "NB")
-  ) \%>\%
-unnest(vol)
+  ) |>
+tidyr::unnest(vol)
 
 }
 \references{
