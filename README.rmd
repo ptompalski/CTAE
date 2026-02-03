@@ -145,6 +145,29 @@ cat(paste(bullets$bullet, collapse = "\n"))
 - required inputs (e.g. total height, subregion such as BEC zone)
 - model ranking (regional models preferred over national where available)
 
+Example:
+```{r, echo=F, warning=F, message=F}
+trees <- tibble::tibble(
+  DBH = c(18, 22, 30, 26, 20),
+  height = c(15, 18, 22, 20, 20),
+  species = c("PICE.MAR", "BETU.PAP", "POPU.TRE", "PSEU.MEN", "PINU.BAN"),
+  jurisdiction =  c("AB", "ON", "QC", "BC", "MB"),
+  subregion = c(NA, NA, NA, "CWH", "Boreal Plains")
+)
+
+trees |>
+  dplyr::mutate(
+    vol(
+      DBH = DBH,
+      height = height,
+      species = species,
+      jurisdiction = jurisdiction,
+      subregion = subregion,
+      keep_model_id = TRUE
+    )
+  )
+```
+
 
 #### Merchantability criteria
 Merchantable volume in CTAE is defined using jurisdiction-specific merchantability rules, following the officially adopted criteria in each province or territory (e.g., minimum top diameter, minimum DBH, and stump height). For most models, these rules are applied dynamically based on the provided jurisdiction.

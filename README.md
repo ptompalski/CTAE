@@ -68,6 +68,17 @@ for each tree based on:
 - model ranking (regional models preferred over national where
   available)
 
+Example:
+
+    #> # A tibble: 5 × 8
+    #>     DBH height species  jurisdiction subregion     vol_total vol_merchantable vol_model         
+    #>   <dbl>  <dbl> <chr>    <chr>        <chr>             <dbl>            <dbl> <chr>             
+    #> 1    18     15 PICE.MAR AB           <NA>             0.1581           0.1448 vol_huang94       
+    #> 2    22     18 BETU.PAP ON           <NA>             0.2910           0.2326 vol_zakrzewski2013
+    #> 3    30     22 POPU.TRE QC           <NA>            NA                0.6735 vol_fortin2007    
+    #> 4    26     20 PSEU.MEN BC           CWH              0.3871           0.3048 vol_kozak94       
+    #> 5    20     20 PINU.BAN MB           Boreal Plains    0.2905           0.2744 vol_klos2007
+
 #### Merchantability criteria
 
 Merchantable volume in CTAE is defined using jurisdiction-specific
