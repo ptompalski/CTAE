@@ -73,11 +73,11 @@ Example:
     #> # A tibble: 5 × 8
     #>     DBH height species  jurisdiction subregion     vol_total vol_merchantable vol_model         
     #>   <dbl>  <dbl> <chr>    <chr>        <chr>             <dbl>            <dbl> <chr>             
-    #> 1    18     15 PICE.MAR AB           <NA>             0.1581           0.1448 vol_huang94       
-    #> 2    22     18 BETU.PAP ON           <NA>             0.2910           0.2326 vol_zakrzewski2013
-    #> 3    30     22 POPU.TRE QC           <NA>            NA                0.6735 vol_fortin2007    
-    #> 4    26     20 PSEU.MEN BC           CWH              0.3871           0.3048 vol_kozak94       
-    #> 5    20     20 PINU.BAN MB           Boreal Plains    0.2905           0.2744 vol_klos2007
+    #> 1    18     15 PICE.MAR AB           <NA>              0.158            0.145 vol_huang94       
+    #> 2    22     18 BETU.PAP ON           <NA>              0.291            0.233 vol_zakrzewski2013
+    #> 3    30     22 POPU.TRE QC           <NA>             NA                0.674 vol_fortin2007    
+    #> 4    26     20 PSEU.MEN BC           CWH               0.387            0.305 vol_kozak94       
+    #> 5    20     20 PINU.BAN MB           Boreal Plains     0.291            0.274 vol_klos2007
 
 #### Merchantability criteria
 
@@ -115,6 +115,16 @@ code below:
 devtools::install_github("ptompalski/CTAE")
 library(CTAE)
 ```
+
+## License
+
+This package is licensed under the GNU Lesser General Public License
+(LGPL-3.0).
+
+© His Majesty the King in Right of Canada, as represented by the
+Minister of Natural Resources, 2026.
+
+See the `LICENSE` file for full license terms.
 
 ## References
 
