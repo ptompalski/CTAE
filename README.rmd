@@ -192,6 +192,14 @@ devtools::install_github("ptompalski/CTAE")
 library(CTAE)
 ```
 
+## License
+
+This package is licensed under the GNU Lesser General Public License (LGPL-3.0).
+
+© His Majesty the King in Right of Canada, as represented by the Minister of Natural Resources, 2026.
+
+See the `LICENSE` file for full license terms.
+
 ## References 
 
 Boudewyn, P.A.; Song, X.; Magnussen, S.; Gillis, M.D. (2007). Model-based, volume-to-biomass conversion for forested and vegetated land in Canada. Natural Resources Canada, Canadian Forest Service, Pacific Forestry Centre, Victoria, BC. Information Report BC-X-411. 112 p.

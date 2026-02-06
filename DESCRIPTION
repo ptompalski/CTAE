@@ -2,7 +2,7 @@ Package: CTAE
 Type: Package
 Title: Canadian tree allometric equations
 Description: Tools for estimating tree allometry, biomass, taper, and volume using published equations.
-Version: 0.5.0
+Version: 0.5.1
 Author: Authors@R: c(
     person(given = "Piotr", 
            family = "Tompalski",
@@ -25,7 +25,7 @@ Author: Authors@R: c(
                  "as represented by the Minister of Natural Resources Canada"), role = "cph")
    )
 Maintainer: Piotr Tompalski <piotr.tompalski@NRCan-RNCan.gc.ca>
-License: GPL (>= 3)
+License: LGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends: 

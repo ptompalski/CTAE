@@ -1,3 +1,7 @@
+# CTAE 0.5.1
+
+- Changed package license from GPL to LGPL-3.
+
 # CTAE 0.5.0
 
 ## Major features
