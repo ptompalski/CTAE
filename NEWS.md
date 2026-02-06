@@ -1,6 +1,7 @@
 # CTAE 0.5.1
 
 - Changed package license from GPL to LGPL-3.
+- Added Nigh 2016 model for BC `vol_nigh2016`
 
 # CTAE 0.5.0
 
