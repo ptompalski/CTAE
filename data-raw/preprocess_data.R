@@ -306,3 +306,20 @@ parameters_fortin2007 <-
     b3 = beta3_conif_cyl_dbh
   )
 usethis::use_data(parameters_fortin2007, overwrite = T)
+
+
+# data - parameters for the BC total and merch volume model (Nigh 2016) ####
+
+parameters_Nigh2016 <- readxl::read_excel("data-raw/Nigh2016_parameters.xlsx")
+parameters_Nigh2016 <-
+  parameters_Nigh2016 %>%
+  select(Species = species_nfi, Subregion = region, volume_type, b0, b1, b2) %>%
+  mutate(
+    subregion_type = if_else(
+      Subregion %in% c("Coast", "Interior"),
+      "region",
+      "bec"
+    )
+  )
+
+usethis::use_data(parameters_Nigh2016, overwrite = T)

@@ -19,7 +19,8 @@ volume_model_registry <- function() {
       "regional_galbella94",
       "regional_klos2007",
       "regional_sharma2021",
-      "regional_fortin2007"
+      "regional_fortin2007",
+      "regional_nigh2016"
     ),
 
     reference = c(
@@ -32,7 +33,8 @@ volume_model_registry <- function() {
       "Gal & Bella 1994",
       "Klos et al. 2007",
       "Sharma 2021",
-      "Fortin et al. 2007"
+      "Fortin et al. 2007",
+      "Nigh 2016"
     ),
 
     engine = c(
@@ -45,11 +47,13 @@ volume_model_registry <- function() {
       "vol_galbella94",
       "vol_klos2007",
       "vol_sharma2021",
-      "vol_fortin2007"
+      "vol_fortin2007",
+      "vol_nigh2016"
     ),
 
     requires_ht = c(
       FALSE,
+      TRUE,
       TRUE,
       TRUE,
       TRUE,
@@ -71,6 +75,7 @@ volume_model_registry <- function() {
       "regional",
       "regional",
       "regional",
+      "regional",
       "regional"
     ),
 
@@ -84,7 +89,8 @@ volume_model_registry <- function() {
       "SK",
       "MB",
       c("ON", "QC", "NB", "NS", "PE", "NL"),
-      "QC"
+      "QC",
+      "BC"
     ),
 
     # human-readable (docs)
@@ -98,7 +104,8 @@ volume_model_registry <- function() {
       "none",
       "optional MB ecozone",
       "none",
-      "none"
+      "none",
+      "BEC zone or Coast/Interior"
     ),
 
     # machine-readable (selection logic)
@@ -112,7 +119,8 @@ volume_model_registry <- function() {
       FALSE, # galbella
       FALSE, # klos: can run province-wide, ecozone optional
       FALSE, # sharma
-      FALSE # fortin
+      FALSE, # fortin
+      TRUE # nigh 2016
     ),
 
     # engine arg name for the optional/required subregion
@@ -121,12 +129,13 @@ volume_model_registry <- function() {
       NA_character_,
       "BEC_zone",
       NA_character_,
-      "subregion", # if your vol_huang94() takes subregion=...
+      "subregion", # vol_huang94() takes subregion=...
       NA_character_,
       NA_character_,
-      "subregion", # if vol_klos2007() takes subregion=...
+      "subregion", # vol_klos2007() takes subregion=...
       NA_character_,
-      NA_character_
+      NA_character_,
+      "subregion" # nigh2016 works with bec zones or coast/interior
     ),
 
     description = c(
@@ -139,10 +148,11 @@ volume_model_registry <- function() {
       "Provincial taper model for Saskatchewan based on the Kozak variable-exponent form.",
       "Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone.",
       "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
-      "Provincial merchantable volume model for Quebec."
+      "Provincial merchantable volume model for Quebec.",
+      "Total and merchantable volume equations for BC."
     ),
 
-    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70, 90),
+    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70, 90, 80),
 
     params_key = c(
       "parameters_NationalTaperModelsDBH",
@@ -154,7 +164,8 @@ volume_model_registry <- function() {
       "parameters_GalBella94",
       "parameters_Klos2007",
       "parameters_Sharma2021",
-      "parameters_fortin2007"
+      "parameters_fortin2007",
+      "parameters_Nigh2016"
     )
   )
 }
