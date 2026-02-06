@@ -46,6 +46,21 @@ get_volume_params <- function(
   stopifnot(length(model_id) == 1, is.character(model_id), nzchar(model_id))
   stopifnot(length(species) == 1, is.character(species), nzchar(species))
 
+  species_std <- standardize_species_code(species)
+
+  # ---- Helpers ----
+  species_to_spp <- function(sp) {
+    if (
+      is.na(sp) || !nzchar(sp) || identical(sp, "ALL") || grepl("\\.SPP$", sp)
+    ) {
+      return(NA_character_)
+    }
+    if (!grepl("^[A-Z]{4}\\.[A-Z]{3}$", sp)) {
+      return(NA_character_)
+    }
+    paste0(substr(sp, 1, 4), ".SPP")
+  }
+
   reg <- volume_model_registry()
   if (!model_id %in% reg$model_id) {
     stop(
@@ -59,8 +74,6 @@ get_volume_params <- function(
   row <- reg[reg$model_id == model_id, , drop = FALSE]
   params_key <- row$params_key[[1]]
 
-  # Parameters are stored in the package namespace as data objects.
-  # Using environment() is robust inside-package (function lives in namespace).
   params <- get(params_key, envir = environment(), inherits = TRUE)
 
   if (!is.data.frame(params)) {
@@ -70,18 +83,28 @@ get_volume_params <- function(
   # Start filtering
   out <- params
 
-  # Species filter (all current models use species)
-  if ("Species" %in% names(out)) {
-    out <- out[out$Species == species, , drop = FALSE]
-  } else {
+  # ---- Species filter with fallback ----
+  if (!"Species" %in% names(out)) {
     stop(
       "Parameter object '",
       params_key,
-      "' must contain a `Species` column. ",
-      "Found: ",
+      "' must contain a `Species` column. Found: ",
       paste(names(out), collapse = ", ")
     )
   }
+
+  spp <- species_to_spp(species_std)
+  candidates <- unique(stats::na.omit(c(species_std, spp)))
+
+  out0 <- out[0, , drop = FALSE]
+  for (cand in candidates) {
+    tmp <- out[out$Species == cand, , drop = FALSE]
+    if (nrow(tmp) > 0) {
+      out0 <- tmp
+      break
+    }
+  }
+  out <- out0
 
   # Province filter (only if present & provided)
   if ("Province" %in% names(out) && !is.na(province) && nzchar(province)) {
@@ -107,7 +130,7 @@ get_volume_params <- function(
         "No parameters found for model_id='",
         model_id,
         "', species='",
-        species,
+        species_std,
         "'",
         if (!is.na(province) && nzchar(province)) {
           paste0(", province='", province, "'")
@@ -119,6 +142,8 @@ get_volume_params <- function(
         } else {
           ""
         },
+        ". Tried species candidates: ",
+        paste(candidates, collapse = ", "),
         ". (params_key='",
         params_key,
         "')"
@@ -126,7 +151,6 @@ get_volume_params <- function(
       stop(msg)
     }
 
-    # Return empty tibble with same columns as underlying parameter object
     return(tibble::as_tibble(params[0, , drop = FALSE]))
   }
 

@@ -45,6 +45,8 @@ CTAE currently includes allometric models to:
   ecozone.. Coverage: MB. 5 species. Klos et al. 2007
 - `vol_kozak94`. Provincial taper model for British Columbia; requires
   BEC zone as a subregion input.. Coverage: BC. 16 species. Kozak 1994
+- `vol_nigh2016`. Total and merchantable volume equations for BC..
+  Coverage: BC. 18 species. Nigh 2016
 - `vol_sharma2021`. Regional volume models for central and eastern
   Canada, applicable across multiple provinces.. Coverage: NB, NL, NS,
   ON, PE, QC. 25 species. Sharma 2021
@@ -70,14 +72,35 @@ for each tree based on:
 
 Example:
 
-    #> # A tibble: 5 × 8
-    #>     DBH height species  jurisdiction subregion     vol_total vol_merchantable vol_model         
-    #>   <dbl>  <dbl> <chr>    <chr>        <chr>             <dbl>            <dbl> <chr>             
-    #> 1    18     15 PICE.MAR AB           <NA>              0.158            0.145 vol_huang94       
-    #> 2    22     18 BETU.PAP ON           <NA>              0.291            0.233 vol_zakrzewski2013
-    #> 3    30     22 POPU.TRE QC           <NA>             NA                0.674 vol_fortin2007    
-    #> 4    26     20 PSEU.MEN BC           CWH               0.387            0.305 vol_kozak94       
-    #> 5    20     20 PINU.BAN MB           Boreal Plains     0.291            0.274 vol_klos2007
+``` r
+trees <- tibble::tibble(
+  DBH = c(18, 22, 30, 26, 20),
+  height = c(15, 18, 22, 20, 20),
+  species = c("PICE.MAR", "BETU.PAP", "POPU.TRE", "PSEU.MEN", "PINU.BAN"),
+  jurisdiction =  c("AB", "ON", "QC", "BC", "MB"),
+  subregion = c(NA, NA, NA, "CWH", "Boreal Plains")
+)
+
+trees |>
+  dplyr::mutate(
+    vol(
+      DBH = DBH,
+      height = height,
+      species = species,
+      jurisdiction = jurisdiction,
+      subregion = subregion,
+      keep_model_id = TRUE
+    )
+  )
+#> # A tibble: 5 × 8
+#>     DBH height species  jurisdiction subregion     vol_total vol_merchantable vol_model         
+#>   <dbl>  <dbl> <chr>    <chr>        <chr>             <dbl>            <dbl> <chr>             
+#> 1    18     15 PICE.MAR AB           <NA>              0.158            0.145 vol_huang94       
+#> 2    22     18 BETU.PAP ON           <NA>              0.291            0.233 vol_zakrzewski2013
+#> 3    30     22 POPU.TRE QC           <NA>             NA                0.674 vol_fortin2007    
+#> 4    26     20 PSEU.MEN BC           CWH               0.387            0.305 vol_kozak94       
+#> 5    20     20 PINU.BAN MB           Boreal Plains     0.291            0.274 vol_klos2007
+```
 
 #### Merchantability criteria
 
@@ -90,9 +113,9 @@ based on the provided jurisdiction.
 Some volume models, however, have merchantability criteria fixed within
 the model formulation itself, reflecting how the original equations were
 developed and calibrated. In these cases (e.g., `vol_honer83`,
-`vol_sharma2021`), merchantable volume is computed using the
-model-specific, hard-coded criteria and does not vary by jurisdiction or
-species.
+`vol_sharma2021`, `vol_fortin2007`, `vol_nigh2016`), merchantable volume
+is computed using the model-specific, hard-coded criteria and does not
+vary by jurisdiction or species.
 
 The jurisdiction-specific merchantability criteria used by CTAE can be
 inspected in the internal dataset `merchcrit`, which documents the
@@ -167,6 +190,10 @@ Western Journal of Applied Forestry, 22(3), 163–170.
 Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree
 aboveground biomass equations. Canadian Journal of Forest Research,
 35(8), 1996–2018. <https://doi.org/10.1139/x05-112>
+
+Nigh, G.D., 2016. Total and merchantable volume equations for common
+tree species in British Columbia: by region and biogeoclimactic zone
+(No. Prov. B.C., Victoria, B.C. Tech. Rep. 106.).
 
 Sharma, M. (2021). Total and Merchantable Volume Equations for 25
 Commercial Tree Species Grown in Canada and the Northeastern United

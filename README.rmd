@@ -146,7 +146,7 @@ cat(paste(bullets$bullet, collapse = "\n"))
 - model ranking (regional models preferred over national where available)
 
 Example:
-```{r, echo=F, warning=F, message=F}
+```{r, echo=T, warning=F, message=F}
 trees <- tibble::tibble(
   DBH = c(18, 22, 30, 26, 20),
   height = c(15, 18, 22, 20, 20),
@@ -172,7 +172,7 @@ trees |>
 #### Merchantability criteria
 Merchantable volume in CTAE is defined using jurisdiction-specific merchantability rules, following the officially adopted criteria in each province or territory (e.g., minimum top diameter, minimum DBH, and stump height). For most models, these rules are applied dynamically based on the provided jurisdiction.
 
-Some volume models, however, have merchantability criteria fixed within the model formulation itself, reflecting how the original equations were developed and calibrated. In these cases (e.g., `vol_honer83`, `vol_sharma2021`), merchantable volume is computed using the model-specific, hard-coded criteria and does not vary by jurisdiction or species.
+Some volume models, however, have merchantability criteria fixed within the model formulation itself, reflecting how the original equations were developed and calibrated. In these cases (e.g., `vol_honer83`, `vol_sharma2021`, `vol_fortin2007`, `vol_nigh2016`), merchantable volume is computed using the model-specific, hard-coded criteria and does not vary by jurisdiction or species.
 
 The jurisdiction-specific merchantability criteria used by CTAE can be inspected in the internal dataset `merchcrit`, which documents the values applied for each jurisdiction (and, where applicable, by species or subregion).
 
@@ -220,6 +220,8 @@ Kozak, A. (1994). Development of Taper Equations by BEC Zones and Species. Provi
 Klos, R. J., Wang, G. G., Dang, Q.-L., & East, E. W. (2007). Taper equations for five major commercial tree species in Manitoba, Canada. Western Journal of Applied Forestry, 22(3), 163–170.
 
 Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree aboveground biomass equations. Canadian Journal of Forest Research, 35(8), 1996–2018. https://doi.org/10.1139/x05-112
+
+Nigh, G.D., 2016. Total and merchantable volume equations for common tree species in British Columbia: by region and biogeoclimactic zone (No. Prov. B.C., Victoria, B.C. Tech. Rep. 106.).
 
 Sharma, M. (2021). Total and Merchantable Volume Equations for 25 Commercial Tree Species Grown in Canada and the Northeastern United States. Forests, 12, 1270.
 
