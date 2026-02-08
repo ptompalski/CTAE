@@ -24,8 +24,37 @@ CTAE currently includes allometric models to:
 
 ### Aboveground biomass
 
-- Canadian national tree aboveground biomass equations (Lambert et
-  al. 2005, Ung et al. 2008).
+- `agb_lambert_ung()` - Canadian national tree aboveground biomass
+  equations (Lambert et al. 2005, Ung et al. 2008).
+
+Example:
+
+``` r
+ trees <- tibble::tibble(
+  tree_id = 1:4,
+  DBH = c(22, 30, 18, 35),
+  height = c(18, 24, NA, 27),
+  species = c("PICE.GLA", "PICE.GLA", "ABIE.BAL", "PINU.BAN")
+ )
+
+trees |>
+  dplyr::mutate(
+    agb = agb_lambert_ung(
+      DBH = DBH,
+      height = height,
+      species = species,
+      keep_model_id = TRUE
+    )
+  ) |>
+  unnest(agb)
+#> # A tibble: 4 × 12
+#>   tree_id   DBH height species  Bwood Bbark Bstem Bfoliage Bbranches Bcrown Btotal model_id
+#>     <int> <dbl>  <dbl> <chr>    <dbl> <dbl> <dbl>    <dbl>     <dbl>  <dbl>  <dbl> <chr>   
+#> 1       1    22     18 PICE.GLA 113.   15.1 128.      13.5      17.4   30.9  159.  DBHHT   
+#> 2       2    30     24 PICE.GLA 261.   31.6 293.      20.8      32.8   53.6  346.  DBHHT   
+#> 3       3    18     NA ABIE.BAL  55.5  10.2  65.7     10.5      10.8   21.3   86.9 DBH     
+#> 4       4    35     27 PINU.BAN 488.   29.6 518.      18.7      38.4   57.1  575.  DBHHT
+```
 
 ### Volume (total and merchantable)
 
