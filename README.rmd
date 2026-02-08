@@ -43,7 +43,7 @@ CTAE currently includes allometric models to:
 ## Included models
 
 ### Aboveground biomass
-- Canadian national tree aboveground biomass equations (Lambert et al. 2005, Ung et al. 2008).
+- `agb_lambert_ung()` -  Canadian national tree aboveground biomass equations (Lambert et al. 2005, Ung et al. 2008).
 
 ### Volume (total and merchantable)
 
