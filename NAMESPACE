@@ -2,11 +2,11 @@
 
 export(AGB_prop)
 export(Ung2009)
-export(V2B)
 export(Vtot2Vmerch)
 export(agb_lambert_ung)
 export(get_merch_criteria)
 export(get_volume_params)
+export(v2b)
 export(vol)
 export(vol_fortin2007)
 export(vol_galbella94)
