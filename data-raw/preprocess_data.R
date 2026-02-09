@@ -323,3 +323,331 @@ parameters_Nigh2016 <-
   )
 
 usethis::use_data(parameters_Nigh2016, overwrite = T)
+
+
+# data - Boudewyn et al 2007 #####
+
+CodesEcozones <- tribble(
+  ~ecozone , ~ecozone_name_en     , ~ecozone_name_fr           ,
+         1 , "Arctic Cordillera"  , "Cordillère arctique"      ,
+         2 , "Northern Arctic"    , "Haut-Arctique"            ,
+         3 , "Southern Arctic"    , "Bas-Arctique"             ,
+         4 , "Taiga Plain"        , "Taïga des plaines"        ,
+         5 , "Taiga Shield"       , "Taïga du Bouclier"        ,
+         6 , "Boreal Shield"      , "Bouclier boréal"          ,
+         7 , "Atlantic Maritime"  , "Maritime de l'Atlantique" ,
+         8 , "MixedWood Plain"    , "Plaines à foréts mixtes"  ,
+         9 , "Boreal PLain"       , "Plaines boréales"         ,
+        10 , "Prairie"            , "Prairies"                 ,
+        11 , "Taiga Cordillera"   , "Taïga de la Cordillère"   ,
+        12 , "Boreal Cordillera"  , "Cordillère borèale"       ,
+        13 , "Pacific Maritime"   , "Maritime du Pacifique"    ,
+        14 , "Montane Cordillera" , "Cordillère montagnarde"   ,
+        15 , "Hudson Plain"       , "Plaines hudsonniennes"
+)
+
+canfi_genus_codes <-
+  tibble::tribble(
+    ~canfi_genus , ~genus        ,
+               1 , "PICE"        ,
+               2 , "PINU"        ,
+               3 , "ABIE"        ,
+               5 , "PSEU"        ,
+               6 , "LARI"        ,
+               9 , "POPU"        ,
+              10 , "BETU"        ,
+              11 , "ACER"        ,
+              12 , "GENH"        ,
+             121 , "CARY"        ,
+             122 , "JUGL"        ,
+             123 , "ALNU"        ,
+             124 , "OSTR"        ,
+             125 , "CARP"        ,
+             126 , "FAGU"        ,
+             127 , "QUER"        ,
+             128 , "ULMU"        ,
+             129 , "MORU"        ,
+             130 , "LIRI"        ,
+             131 , "MAGN"        ,
+             132 , "SASS"        ,
+             133 , "PLAT"        ,
+             134 , "PRUN"        ,
+             135 , "GLED"        ,
+             136 , "ROBI"        ,
+             137 , "TILI"        ,
+             138 , "NYSS"        ,
+             139 , "CORN"        ,
+             140 , "ARBU"        ,
+             141 , "FRAX"        ,
+             142 , "SALI"        ,
+             143 , "GYMN"        ,
+             144 , "CELT"        ,
+             145 , "AMEL"        ,
+             146 , "CORY"        ,
+             147 , "CRAT"        ,
+             148 , "ILEX"        ,
+             149 , "MALU"        ,
+             150 , "NEMO"        ,
+             151 , "RHUS"        ,
+             152 , "SORB"        ,
+             153 , "VIBU"        ,
+             154 , "CAST"        ,
+             155 , "ASIM"        ,
+               8 , "GENC"        ,
+               4 , "TSUG"        ,
+               7 , "THUJ"        ,
+              71 , "JUNI"        ,
+              72 , "TAXU"        ,
+              73 , "CHAM"        ,
+              81 , NA_character_
+  )
+
+
+add_ecozone_names <- function(df, ecozone_tbl = CodesEcozones) {
+  df %>%
+    left_join(ecozone_tbl, by = "ecozone") %>%
+    relocate(ecozone_name_en, ecozone_name_fr, .after = ecozone)
+}
+
+# CANFI genus -> NFI genus code mapping (your object)
+# canfi_genus_codes <- tibble::tribble(...)
+
+# --- helpers ---------------------------------------------------------
+
+make_species_nfi <- function(
+  genus,
+  species = NA_character_,
+  variety = NA_character_
+) {
+  genus <- as.character(genus)
+  species <- as.character(species)
+  variety <- as.character(variety)
+
+  out <- ifelse(
+    !is.na(species) & nzchar(species),
+    paste(genus, species, sep = "."),
+    paste(genus, "SPP", sep = ".")
+  )
+
+  ifelse(!is.na(variety) & nzchar(variety), paste(out, variety, sep = "."), out)
+}
+
+prep_species_level <- function(
+  df,
+  component,
+  source_table,
+  ecozones = CodesEcozones
+) {
+  df %>%
+    dplyr::rename(
+      canfi_species = dplyr::any_of("canfi_spec")
+    ) %>%
+    dplyr::mutate(
+      component = component,
+      source_table = source_table,
+      species_nfi = make_species_nfi(genus, species, variety)
+    ) %>%
+    add_ecozone_names(ecozones) %>%
+    dplyr::relocate(
+      component,
+      source_table,
+      juris_id,
+      ecozone,
+      ecozone_name_en,
+      ecozone_name_fr,
+      species_nfi,
+      dplyr::any_of("canfi_species"),
+      genus,
+      species,
+      variety
+    )
+}
+
+
+# For tables that are genus-level (no species/variety columns)
+prep_genus_level <- function(
+  df,
+  component,
+  source_table,
+  ecozones = CodesEcozones
+) {
+  df %>%
+    mutate(
+      component = component,
+      source_table = source_table,
+      species = NA_character_,
+      variety = NA_character_,
+      canfi_species = NA_character_,
+      species_nfi = paste0(genus, ".SPP")
+    ) %>%
+    add_ecozone_names(ecozones) %>%
+    relocate(
+      component,
+      source_table,
+      juris_id,
+      ecozone,
+      ecozone_name_en,
+      ecozone_name_fr,
+      species_nfi,
+      canfi_genus,
+      genus,
+      species,
+      variety
+    )
+}
+
+# Table 14: has canfi_genus numeric only; join to get genus code
+prep_table14 <- function(
+  df,
+  component,
+  source_table,
+  ecozones = CodesEcozones,
+  canfi_genus_codes
+) {
+  df %>%
+    left_join(canfi_genus_codes, by = "canfi_genus") %>%
+    mutate(
+      component = component,
+      source_table = source_table,
+      species = NA_character_,
+      variety = NA_character_,
+      canfi_species = NA_character_,
+      species_nfi = paste0(genus, ".SPP")
+    ) %>%
+    add_ecozone_names(ecozones) %>%
+    relocate(
+      component,
+      source_table,
+      juris_id,
+      ecozone,
+      ecozone_name_en,
+      ecozone_name_fr,
+      species_nfi,
+      canfi_genus,
+      genus,
+      species,
+      variety
+    )
+}
+
+prep_caps_species_level <- function(
+  df,
+  component,
+  source_table,
+  ecozones = CodesEcozones
+) {
+  df %>%
+    # standardize CANFI column name
+    dplyr::rename(canfi_species = dplyr::any_of("canfi_spec")) %>%
+    # standardize min/max column names to a common pair
+    dplyr::rename(
+      x_min = dplyr::any_of(c("vol_min", "biom_min", "tb_min")),
+      x_max = dplyr::any_of(c("vol_max", "biom_max", "tb_max"))
+    ) %>%
+    dplyr::mutate(
+      component = component,
+      source_table = source_table,
+      species_nfi = make_species_nfi(genus, species, variety)
+    ) %>%
+    add_ecozone_names(ecozones) %>%
+    dplyr::relocate(
+      component,
+      source_table,
+      juris_id,
+      ecozone,
+      ecozone_name_en,
+      ecozone_name_fr,
+      species_nfi,
+      dplyr::any_of("canfi_species"),
+      genus,
+      species,
+      variety,
+      x_min,
+      x_max,
+      p_sw_low,
+      p_sb_low,
+      p_br_low,
+      p_fl_low,
+      p_sw_high,
+      p_sb_high,
+      p_br_high,
+      p_fl_high
+    )
+}
+
+
+# --- import ----------------------------------------------------------
+
+# Adjust these filenames to match your local copies
+files <- list(
+  B3 = "appendix2_table3.csv",
+  B3a = "appendix2_table3a.csv",
+  B4 = "appendix2_table4.csv",
+  B5 = "appendix2_table5.csv",
+  B6_vol = "appendix2_table6.csv",
+  B6_tb = "appendix2_table6_tb.csv",
+  B7_vol = "appendix2_table7.csv",
+  B7_tb = "appendix2_table7_tb.csv",
+  B14 = "appendix6_table14.csv"
+)
+
+parameters_v2b <- list(
+  B3 = read_csv(file.path("data-raw", files$B3), show_col_types = FALSE) %>%
+    prep_species_level("B3", "Appendix 2 - Table 3"),
+
+  # B3a = read_csv(file.path("data-raw", files$B3a), show_col_types = FALSE) %>%
+  #   prep_species_level("B3a", "Appendix 2 - Table 3a (dead tree biomass)"),
+
+  B4 = read_csv(file.path("data-raw", files$B4), show_col_types = FALSE) %>%
+    prep_species_level("B4", "Appendix 2 - Table 4"),
+
+  B5 = read_csv(file.path("data-raw", files$B5), show_col_types = FALSE) %>%
+    # Table 5 is genus-level and already includes genus as a code in your version
+    prep_genus_level("B5", "Appendix 2 - Table 5"),
+
+  B6_vol = read_csv(
+    file.path("data-raw", files$B6_vol),
+    show_col_types = FALSE
+  ) %>%
+    prep_species_level(
+      "B6_vol",
+      "Appendix 2 - Table 6 (volm-based proportions)"
+    ),
+
+  B6_tb = read_csv(
+    file.path("data-raw", files$B6_tb),
+    show_col_types = FALSE
+  ) %>%
+    prep_species_level(
+      "B6_tb",
+      "Appendix 2 - Table 6 tb (tb-based proportions)"
+    ),
+
+  B7_vol = read_csv(
+    file.path("data-raw", files$B7_vol),
+    show_col_types = FALSE
+  ) %>%
+    prep_caps_species_level(
+      "B7_vol",
+      "Appendix 2 - Table 7 (caps for Table 6 volm)"
+    ),
+
+  B7_tb = read_csv(
+    file.path("data-raw", files$B7_tb),
+    show_col_types = FALSE
+  ) %>%
+    prep_caps_species_level(
+      "B7_tb",
+      "Appendix 2 - Table 7 tb (caps for Table 6 tb)"
+    ),
+
+  B14 = read_csv(file.path("data-raw", files$B14), show_col_types = FALSE) %>%
+    prep_table14(
+      "B14",
+      "Appendix 6 - Table 14",
+      canfi_genus_codes = canfi_genus_codes
+    )
+)
+
+# --- save ------------------------------------------------------------
+usethis::use_data(parameters_v2b, overwrite = TRUE)
