@@ -50,7 +50,7 @@ model-based volume-to-biomass (v2b) conversion framework.
 \details{
 The parameters are provided as a named list of data frames corresponding
 to the original tables in Boudewyn et al. (2007), as well as updated and
-extended parameter tables subsequedwadntly released through the National Forest
+extended parameter tables subsequently released through the National Forest
 Inventory (NFI). The updated parameters were downloaded from
 \url{https://nfi.nfis.org/en/biomass_models}.
 

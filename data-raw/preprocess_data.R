@@ -444,8 +444,8 @@ prep_species_level <- function(
     ) %>%
     dplyr::mutate(
       component = component,
-      source_table = source_table,
-      species_nfi = make_species_nfi(genus, species, variety)
+      source_table = source_table
+      # species_nfi = make_species_nfi(genus, species, variety)
     ) %>%
     add_ecozone_names(ecozones) %>%
     dplyr::relocate(
@@ -455,7 +455,7 @@ prep_species_level <- function(
       ecozone,
       ecozone_name_en,
       ecozone_name_fr,
-      species_nfi,
+      # species_nfi,
       dplyr::any_of("canfi_species"),
       genus,
       species,
@@ -477,8 +477,8 @@ prep_genus_level <- function(
       source_table = source_table,
       species = NA_character_,
       variety = NA_character_,
-      canfi_species = NA_character_,
-      species_nfi = paste0(genus, ".SPP")
+      canfi_species = NA_character_
+      # species_nfi = paste0(genus, ".SPP")
     ) %>%
     add_ecozone_names(ecozones) %>%
     relocate(
@@ -488,7 +488,7 @@ prep_genus_level <- function(
       ecozone,
       ecozone_name_en,
       ecozone_name_fr,
-      species_nfi,
+      # species_nfi,
       canfi_genus,
       genus,
       species,
@@ -511,8 +511,8 @@ prep_table14 <- function(
       source_table = source_table,
       species = NA_character_,
       variety = NA_character_,
-      canfi_species = NA_character_,
-      species_nfi = paste0(genus, ".SPP")
+      canfi_species = NA_character_
+      # species_nfi = paste0(genus, ".SPP")
     ) %>%
     add_ecozone_names(ecozones) %>%
     relocate(
@@ -522,7 +522,7 @@ prep_table14 <- function(
       ecozone,
       ecozone_name_en,
       ecozone_name_fr,
-      species_nfi,
+      # species_nfi,
       canfi_genus,
       genus,
       species,
@@ -546,8 +546,8 @@ prep_caps_species_level <- function(
     ) %>%
     dplyr::mutate(
       component = component,
-      source_table = source_table,
-      species_nfi = make_species_nfi(genus, species, variety)
+      source_table = source_table
+      # species_nfi = make_species_nfi(genus, species, variety)
     ) %>%
     add_ecozone_names(ecozones) %>%
     dplyr::relocate(
@@ -557,7 +557,7 @@ prep_caps_species_level <- function(
       ecozone,
       ecozone_name_en,
       ecozone_name_fr,
-      species_nfi,
+      # species_nfi,
       dplyr::any_of("canfi_species"),
       genus,
       species,
