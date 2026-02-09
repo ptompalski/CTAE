@@ -155,8 +155,8 @@ or subregion).
 
 - `v2b()` - National volume-to-biomass conversions models (Boudewyn et
   al. 2007)
-- National total volume to merchantable volume conversions models
-  (Boudewyn et al. 2007)
+- `vol_total_to_merchantable()` - National total volume to merchantable
+  volume conversions models (Boudewyn et al. 2007)
 - National growth and yield model (H, BA, V) (Ung et al. 2009)
 
 ## Installation

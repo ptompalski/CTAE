@@ -12,6 +12,26 @@ This refactor preserves the original model structure (Tables 3–7) while improv
 * Optional renormalization ensures capped proportions sum to 1.
 * Warnings are issued when volumes fall outside the calibration range (`x_min` / `x_max`) reported in Table 7.
 
+
+## Boudewyn et al. (2007) total volume to merchantable volume (`vol_total_to_merchantable()`)  
+
+New implementation of the Boudewyn et al. (2007) *total volume → merchantable volume* conversion based on Appendix 6 (Table 14).
+  
+- Fully vectorized and safe for use inside `dplyr::mutate()` + `tidyr::unnest()`.
+- Supports genus-level species matching using NFI species codes.
+- Optional controls for:
+  - returning the predicted merchantable proportion (`include_prop = TRUE`);
+   - clamping predicted proportions to [0, 1];
+   - warning on extrapolation below the calibration minimum (`volmin`);
+   - clamping input volume to the calibration domain (`clamp_x = TRUE`).
+
+This function is intended for workflows where total volume is available but merchantable volume is required, e.g. prior to applying Boudewyn volume-to-biomass conversions.
+
+Results may represent extrapolations when total volume falls below the calibration range reported in Boudewyn et al. (2007); warnings are issued by default in such cases.
+
+
+
+
 #### Important note on numerical differences
 Results from `v2b()` may differ from earlier implementations of the Boudewyn models, particularly for high-volume stands.  
 These differences arise because earlier code paths applied the Table 6 proportion equations directly, without enforcing the Table 7 bounds. The new implementation follows the documented model behavior more closely by applying these caps.

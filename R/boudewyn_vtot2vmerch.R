@@ -104,7 +104,75 @@ total_to_merch_prop <- function(vol_total, k, a, b, c) {
 #'
 #' @return A tibble with one row per input and column \code{merchantable_volume}.
 #'   Optionally includes \code{prop_merch} and \code{vol_total_used}.
+#'@examples
+#' # ---- single stand ----------------------------------------------------------
+#' vol_total_to_merchantable(
+#'   vol_total = 300,
+#'   species = "PICE.MAR",
+#'   jurisdiction = "AB",
+#'   ecozone = 4
+#' )
 #'
+#' # ---- return predicted merchantable proportion ------------------------------
+#' vol_total_to_merchantable(
+#'   vol_total = 300,
+#'   species = "PICE.MAR",
+#'   jurisdiction = "AB",
+#'   ecozone = 4,
+#'   include_prop = TRUE
+#' )
+#'
+#' # ---- vectorized over volume ------------------------------------------------
+#' vol_total_to_merchantable(
+#'   vol_total = c(50, 100, 300, 600),
+#'   species = "PICE.MAR",
+#'   jurisdiction = "AB",
+#'   ecozone = 4,
+#'   include_prop = TRUE
+#' )
+#'
+#' # ---- tidyverse workflow ----------------------------------------------------
+#' library(dplyr)
+#' library(tidyr)
+#'
+#' stands <- tibble::tibble(
+#'   stand_id = 1:4,
+#'   vol_total = c(50, 150, 350, 600),
+#'   species = c("PICE.MAR", "PICE.GLA", "ABIE.BAL", "PSEU.MEN"),
+#'   jurisdiction = c("AB", "ON", "QC", "BC"),
+#'   ecozone = c(6, 6, 8, 13)
+#' )
+#'
+#' stands |>
+#'   mutate(
+#'     merch = vol_total_to_merchantable(
+#'       vol_total = vol_total,
+#'       species = species,
+#'       jurisdiction = jurisdiction,
+#'       ecozone = ecozone,
+#'       include_prop = TRUE
+#'     )
+#'   ) |>
+#'   unnest(merch)
+#'
+#' # ---- chaining with Boudewyn v2b() ------------------------------------------
+#' # Convert total volume -> merchantable volume -> biomass components
+#' stands |>
+#'   mutate(
+#'     merch = vol_total_to_merchantable(
+#'       vol_total = vol_total,
+#'       species = species,
+#'       jurisdiction = jurisdiction,
+#'       ecozone = ecozone
+#'     ),
+#'     biomass = v2b(
+#'       volume = merch$vol_merchantable,
+#'       species = species,
+#'       jurisdiction = jurisdiction,
+#'       ecozone = ecozone
+#'     )
+#'   ) |>
+#'   unnest(biomass)
 #' @export
 vol_total_to_merchantable <- function(
   vol_total,
