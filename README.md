@@ -153,7 +153,8 @@ or subregion).
 
 ### Other
 
-- National volume-to-biomass conversions models (Boudewyn et al. 2007)
+- `v2b()` - National volume-to-biomass conversions models (Boudewyn et
+  al. 2007)
 - National total volume to merchantable volume conversions models
   (Boudewyn et al. 2007)
 - National growth and yield model (H, BA, V) (Ung et al. 2009)

@@ -1,3 +1,22 @@
+# CTAE 0.6.0
+
+## Boudewyn et al. (2007) volume-to-biomass refactor (`v2b()`)
+
+The Boudewyn et al. (2007) volume-to-biomass implementation has been fully refactored and standardized under a new high-level wrapper, `v2b()`.
+
+This refactor preserves the original model structure (Tables 3–7) while improving correctness, transparency, and vectorization:
+
+* Model components are now modularized and vectorized, making the functions safe to use inside `dplyr::mutate()` workflows.
+* Parameter selection is stricter and more explicit, with clear errors when parameters are missing or non-unique.
+* Volume-based biomass proportion models (Table 6) now explicitly apply the proportion bounds (“caps”) reported in Table 7, as described in Boudewyn et al. (2007), to prevent unrealistic proportions when extrapolating.
+* Optional renormalization ensures capped proportions sum to 1.
+* Warnings are issued when volumes fall outside the calibration range (`x_min` / `x_max`) reported in Table 7.
+
+#### Important note on numerical differences
+Results from `v2b()` may differ from earlier implementations of the Boudewyn models, particularly for high-volume stands.  
+These differences arise because earlier code paths applied the Table 6 proportion equations directly, without enforcing the Table 7 bounds. The new implementation follows the documented model behavior more closely by applying these caps.
+
+
 # CTAE 0.5.2
 
 ## Changes
