@@ -2,7 +2,7 @@ Package: CanadaForestAllometry
 Type: Package
 Title: Allometric models for Canadian forest
 Description: Tools for estimating tree allometry, biomass, taper, and volume using published equations.
-Version: 0.6.0
+Version: 0.7.0
 Author: Authors@R: c(
     person(given = "Piotr", 
            family = "Tompalski",
