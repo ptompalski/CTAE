@@ -151,12 +151,21 @@ inspected in the internal dataset `merchcrit`, which documents the
 values applied for each jurisdiction (and, where applicable, by species
 or subregion).
 
+### National volume-to-biomass conversions models
+
+Implementation of the national volume-to-biomass conversion models
+(Boudewyn et al. 2007), using the updated model parameters available at
+<https://nfi.nfis.org/en/biomass_models>.
+
+- `v2b()` - converts merchantable volume to biomass components
+- `vol_total_to_merchantable()` - converts total volume to merchantable
+  volume
+- `agb_component_proportions()` - calculates component proportions
+  (stemwood, bark, branches, foliage) using either merchantable volume
+  or total aboveground biomass as input
+
 ### Other
 
-- `v2b()` - National volume-to-biomass conversions models (Boudewyn et
-  al. 2007)
-- `vol_total_to_merchantable()` - National total volume to merchantable
-  volume conversions models (Boudewyn et al. 2007)
 - National growth and yield model (H, BA, V) (Ung et al. 2009)
 
 ## Installation

@@ -229,8 +229,7 @@ testthat::test_that("v2b_props_from_table6 returns proportions summing to 1", {
     b3 = 0,
     c1 = 1,
     c2 = 0,
-    c3 = 0,
-    offset = 5
+    c3 = 0
   )
   testthat::expect_s3_class(props, "tbl_df")
   s <- props$p_sw + props$p_sb + props$p_br + props$p_fl
@@ -711,10 +710,10 @@ testthat::test_that("v2b() matches manual calculation for one case (manually pas
 test_that("Boudewyn functions accept ecozone as number, EN name, and FR name", {
   # pick some simple, valid inputs (adjust if your functions require more args)
   vol_total <- c(100, 100, 100)
-  ecozone_num <- c(4, 10, 6)
+  ecozone_num <- c(5, 10, 6)
 
-  ecozone_en <- c("Taiga Plain", "Prairie", "Boreal Shield")
-  ecozone_fr <- c("Taïga des plaines", "Prairies", "Bouclier boréal")
+  ecozone_en <- c("Taiga Shield", "Prairie", "Boreal Shield")
+  ecozone_fr <- c("Taïga du Bouclier", "Prairies", "Bouclier boréal")
 
   # ---- v2b() ----
   out_num_v2b <- v2b(
@@ -765,20 +764,35 @@ test_that("Boudewyn functions accept ecozone as number, EN name, and FR name", {
 
 test_that("Boudewyn functions accept mixed ecozone vectors (name + number)", {
   vol_total <- c(100, 100)
-  ecozone_mixed <- c("Taiga Plain", 4)
+  ecozone_mixed <- c("Boreal Shield", 6)
 
-  out_v2b <- v2b(vol_merchantable = vol_total, ecozone = ecozone_mixed)
-  out_ref <- v2b(vol_merchantable = vol_total, ecozone = c(4, 4))
+  out_v2b <- v2b(
+    vol_merchantable = vol_total,
+    ecozone = ecozone_mixed,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+  out_ref <- v2b(
+    vol_merchantable = vol_total,
+    ecozone = c(6, 6),
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
 
   expect_equal(out_v2b, out_ref)
 
   out_m <- vol_total_to_merchantable(
     vol_total = vol_total,
-    ecozone = ecozone_mixed
+    ecozone = ecozone_mixed,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
   )
+
   out_ref_m <- vol_total_to_merchantable(
     vol_total = vol_total,
-    ecozone = c(4, 4)
+    ecozone = c(6, 6),
+    species = "PICE.MAR",
+    jurisdiction = "AB"
   )
 
   expect_equal(out_m, out_ref_m)

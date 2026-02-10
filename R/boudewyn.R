@@ -415,9 +415,10 @@ v2b_props_from_table6 <- function(
   b3,
   c1,
   c2,
-  c3,
-  offset = 5
+  c3
 ) {
+  offset <- 5
+
   # Boudewyn Eqs. 4–7 (Table 6): multinomial-logit-style proportions
   x <- as.numeric(x)
   lx <- log(x + offset)
@@ -467,117 +468,122 @@ v2b_clamp_x_table7 <- function(x, caps) {
   pmin(pmax(x, caps$x_min), caps$x_max)
 }
 
-# ---- wrapper: volume -> total biomass + components (vol path) ----------------
 
-#' Convert merchantable volume to total aboveground biomass and components (Boudewyn et al. 2007)
+#' Boudewyn biomass component proportions (Tables 6–7)
 #'
-#' Computes total aboveground biomass (AGB) and biomass components (bark, branches, foliage)
-#' from gross merchantable volume per hectare, using the Boudewyn et al. (2007)
-#' model-based volume-to-biomass conversion framework (Tables 3--7), with updated
-#' NFI parameters.
+#' Compute component proportions (stemwood, bark, branches, foliage) using the
+#' multinomial-logit models (Table 6) and bounds (Table 7), either as a function
+#' of merchantable volume ("vol") or total aboveground biomass ("agb").
 #'
-#' This function uses the volume-based proportion models (Appendix 2 Table 6)
-#' and caps (Appendix 2 Table 7). Proportion caps are applied after evaluating the
-#' Table 6 equations and (optionally) renormalized to sum to 1.
-#'
-#' @param vol_merchantable Numeric vector. Gross merchantable volume per hectare.
+#' @param x Numeric vector. Input to the proportion models:
+#'   merchantable volume (t/ha) when value_type = "vol", or total biomass (t/ha)
+#'   when value_type = "agb".
+#' @param value_type One of "vol" or "agb".
 #' @param species Character vector. NFI species codes (e.g., "PICE.MAR").
 #' @param jurisdiction Character vector. Jurisdiction code (e.g., "AB").
-#' @param ecozone Numeric vector. Ecozone code (1--15).
-#' @param renormalize Logical. If TRUE, renormalize capped proportions to sum to 1.
-#' @param clamp_x Logical. If TRUE, clamp \code{vol_merchantable} to the calibration range
-#'   \code{[x_min, x_max]} from Table 7 before evaluating the proportion equations.
+#' @param ecozone Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).
+#' @param renormalize Logical. Renormalize after capping to sum to 1.
+#' @param clamp_x Logical. Clamp x to [x_min, x_max] from Table 7 before evaluating.
 #'
-#' @details
-#' Extrapolation vs clamping.
-#' The Table 7 columns \code{x_min} and \code{x_max} describe the approximate range of the
-#' independent variable used to calibrate the proportion models. By default (\code{clamp_x = FALSE}),
-#' the function uses the input \code{vol_merchantable} directly. If \code{vol_merchantable} falls outside the calibration
-#' range, the result is an extrapolation; however, proportion caps (Table 7) are still applied to
-#' prevent unrealistic proportions.
-#'
-#' Setting \code{clamp_x = TRUE} replaces \code{vol_merchantable} with \code{min(max(vol_merchantable, x_min), x_max)}
-#' before computing proportions. This can substantially change results for high-volume stands and
-#' may lead to systematic underestimation of total biomass where \code{vol_merchantable > x_max}.
-#' For this reason, clamping is disabled by default and is intended mainly for sensitivity analyses
-#' and debugging.
-#'
-#' @return A tibble with one row per input and computed columns only:
+#' @return Tibble with p_sw, p_sb, p_br, p_fl and optional x_used.
 #' \describe{
-#'   \item{b_total}{Total aboveground tree biomass (t/ha).}
-#'   \item{b_bark}{Bark biomass (t/ha).}
-#'   \item{b_branches}{Branch biomass (t/ha).}
-#'   \item{b_foliage}{Foliage biomass (t/ha).}
 #'   \item{p_sw}{Proportion of total biomass in stem wood.}
 #'   \item{p_sb}{Proportion of total biomass in bark.}
 #'   \item{p_br}{Proportion of total biomass in branches.}
 #'   \item{p_fl}{Proportion of total biomass in foliage.}
-#'   \item{b_stem_total}{Total stem wood biomass used to back-calculate \code{b_total} (t/ha).}
-#'   \item{volume_used}{Only returned when \code{clamp_x = TRUE}; the volume actually used in Table 6.}
 #' }
-v2b_biomass_components <- function(
-  vol_merchantable,
+#' @examples
+#' # ---- Volume-based proportions (most common use) ---------------------------
+#'
+#' # Single stand
+#' agb_component_proportions(
+#'   x = 350,
+#'   value_type = "vol",
+#'   species = "PICE.MAR",
+#'   jurisdiction = "AB",
+#'   ecozone = 6
+#' )
+#'
+#'
+#' # ---- Biomass-based proportions --------------------------------------------
+#'
+#' agb_component_proportions(
+#'   x = 120,
+#'   value_type = "agb",
+#'   species = "PICE.MAR",
+#'   jurisdiction = "AB",
+#'   ecozone = 6
+#' )
+#'
+#'
+#' # ---- Vectorized / tidyverse workflow --------------------------------------
+#'
+#' library(dplyr)
+#' library(tidyr)
+#'
+#' stands <- tibble::tibble(
+#'   stand_id = 1:3,
+#'   vol_merchantable = c(120, 350, 300),
+#'   species = c("PICE.MAR", "PSEU.MEN", "PINU.BAN"),
+#'   jurisdiction = c("AB", "BC", "ON"),
+#'   ecozone = c(5, 13, 6)
+#' )
+#'
+#' stands |>
+#'   mutate(
+#'     props = agb_component_proportions(
+#'       x = vol_merchantable,
+#'       value_type = "vol",
+#'       species = species,
+#'       jurisdiction = jurisdiction,
+#'       ecozone = ecozone
+#'     )
+#'   ) |>
+#'   unnest(props)
+#' @export
+agb_component_proportions <- function(
+  x,
+  value_type = c("vol", "agb"),
   species,
   jurisdiction,
   ecozone,
-  offset = 5, # used in log calculations to protect against log(0)
   renormalize = TRUE,
   clamp_x = FALSE
 ) {
-  # keys
+  offset <- 5
+  value_type <- match.arg(value_type)
+  ecozone <- standardize_ecozone(ecozone)
+
   keys <- v2b_build_keys(
     species = species,
     jurisdiction = jurisdiction,
     ecozone = ecozone
   )
   n <- nrow(keys)
-  vol_merchantable <- rep_len(as.numeric(vol_merchantable), n)
+  x <- rep_len(as.numeric(x), n)
 
-  # stage 1: stem wood biomass (Tables 3–5)
-  stem <- v2b_stem_biomass(
-    vol_merchantable = vol_merchantable,
-    species = species,
-    jurisdiction = jurisdiction,
-    ecozone = ecozone
-  )
-  b_stem_total <- stem$b_nm + stem$b_s
+  comp6 <- if (value_type == "vol") "B6_vol" else "B6_tb"
+  comp7 <- if (value_type == "vol") "B7_vol" else "B7_tb"
 
-  # stage 2: proportions (Table 6 vol) + caps (Table 7 vol)
-  p6 <- v2b_fetch_params(
-    "B6_vol",
-    keys,
-    allow_variety_fallback = TRUE,
-    allow_species_spp_fallback = FALSE
-  )
-  p7 <- v2b_fetch_params(
-    "B7_vol",
-    keys,
-    allow_variety_fallback = TRUE,
-    allow_species_spp_fallback = FALSE
-  )
+  p6 <- v2b_fetch_params(comp6, keys, allow_variety_fallback = TRUE)
+  p7 <- v2b_fetch_params(comp7, keys, allow_variety_fallback = TRUE)
 
-  # warn on extrapolation (do not modify volume)
-  outside <- (vol_merchantable < p7$x_min) | (vol_merchantable > p7$x_max)
+  outside <- (x < p7$x_min) | (x > p7$x_max)
 
   if (!clamp_x && any(outside, na.rm = TRUE)) {
     rlang::warn(
       paste0(
-        "Some volumes are outside the calibration range of the Boudewyn ",
-        "proportion models (Table 7). Results are extrapolations. ",
-        "Set clamp_x = TRUE to clamp volume to [x_min, x_max]."
+        "Some inputs are outside the calibration range of the Boudewyn proportion models (Table 7). ",
+        "Results are extrapolations. Set clamp_x = TRUE to clamp to [x_min, x_max]."
       ),
       class = "ctae_v2b_extrapolation"
     )
   }
 
-  volume_used <- if (clamp_x) {
-    pmin(pmax(vol_merchantable, p7$x_min), p7$x_max)
-  } else {
-    vol_merchantable
-  }
+  x_used <- if (clamp_x) pmin(pmax(x, p7$x_min), p7$x_max) else x
 
   props <- v2b_props_from_table6(
-    x = volume_used,
+    x = x_used,
     a1 = p6$a1,
     a2 = p6$a2,
     a3 = p6$a3,
@@ -586,13 +592,38 @@ v2b_biomass_components <- function(
     b3 = p6$b3,
     c1 = p6$c1,
     c2 = p6$c2,
-    c3 = p6$c3,
-    offset = offset
+    c3 = p6$c3
+  ) |>
+    v2b_apply_caps_table7(caps = p7, renormalize = renormalize)
+
+  if (clamp_x) dplyr::mutate(props, x_used = x_used) else props
+}
+
+
+v2b_biomass_components <- function(
+  vol_merchantable,
+  species,
+  jurisdiction,
+  ecozone,
+  renormalize = TRUE,
+  clamp_x = FALSE
+) {
+  offset <- 5
+  ecozone <- standardize_ecozone(ecozone)
+
+  stem <- v2b_stem_biomass(vol_merchantable, species, jurisdiction, ecozone)
+  b_stem_total <- stem$b_nm + stem$b_s
+
+  props <- agb_component_proportions(
+    x = vol_merchantable,
+    value_type = "vol",
+    species = species,
+    jurisdiction = jurisdiction,
+    ecozone = ecozone,
+    renormalize = renormalize,
+    clamp_x = clamp_x
   )
 
-  props <- v2b_apply_caps_table7(props, caps = p7, renormalize = renormalize)
-
-  # convert stem wood -> total biomass
   b_total <- b_stem_total / props$p_sw
 
   out <- tibble::tibble(
@@ -607,13 +638,112 @@ v2b_biomass_components <- function(
     b_stem_total = b_stem_total
   )
 
-  if (clamp_x) {
-    out <- dplyr::mutate(out, volume_used = volume_used)
+  if ("x_used" %in% names(props)) {
+    out <- dplyr::mutate(out, volume_used = props$x_used)
   }
 
   out
 }
 
+
+# v2b_biomass_components <- function(
+#   vol_merchantable,
+#   species,
+#   jurisdiction,
+#   ecozone,
+#   offset = 5, # used in log calculations to protect against log(0)
+#   renormalize = TRUE,
+#   clamp_x = FALSE
+# ) {
+#   # keys
+#   keys <- v2b_build_keys(
+#     species = species,
+#     jurisdiction = jurisdiction,
+#     ecozone = ecozone
+#   )
+#   n <- nrow(keys)
+#   vol_merchantable <- rep_len(as.numeric(vol_merchantable), n)
+
+#   # stage 1: stem wood biomass (Tables 3–5)
+#   stem <- v2b_stem_biomass(
+#     vol_merchantable = vol_merchantable,
+#     species = species,
+#     jurisdiction = jurisdiction,
+#     ecozone = ecozone
+#   )
+#   b_stem_total <- stem$b_nm + stem$b_s
+
+#   # stage 2: proportions (Table 6 vol) + caps (Table 7 vol)
+#   p6 <- v2b_fetch_params(
+#     "B6_vol",
+#     keys,
+#     allow_variety_fallback = TRUE,
+#     allow_species_spp_fallback = FALSE
+#   )
+#   p7 <- v2b_fetch_params(
+#     "B7_vol",
+#     keys,
+#     allow_variety_fallback = TRUE,
+#     allow_species_spp_fallback = FALSE
+#   )
+
+#   # warn on extrapolation (do not modify volume)
+#   outside <- (vol_merchantable < p7$x_min) | (vol_merchantable > p7$x_max)
+
+#   if (!clamp_x && any(outside, na.rm = TRUE)) {
+#     rlang::warn(
+#       paste0(
+#         "Some volumes are outside the calibration range of the Boudewyn ",
+#         "proportion models (Table 7). Results are extrapolations. ",
+#         "Set clamp_x = TRUE to clamp volume to [x_min, x_max]."
+#       ),
+#       class = "ctae_v2b_extrapolation"
+#     )
+#   }
+
+#   volume_used <- if (clamp_x) {
+#     pmin(pmax(vol_merchantable, p7$x_min), p7$x_max)
+#   } else {
+#     vol_merchantable
+#   }
+
+#   props <- v2b_props_from_table6(
+#     x = volume_used,
+#     a1 = p6$a1,
+#     a2 = p6$a2,
+#     a3 = p6$a3,
+#     b1 = p6$b1,
+#     b2 = p6$b2,
+#     b3 = p6$b3,
+#     c1 = p6$c1,
+#     c2 = p6$c2,
+#     c3 = p6$c3,
+#     offset = offset
+#   )
+
+#   props <- v2b_apply_caps_table7(props, caps = p7, renormalize = renormalize)
+
+#   # convert stem wood -> total biomass
+#   b_total <- b_stem_total / props$p_sw
+
+#   out <- tibble::tibble(
+#     b_total = b_total,
+#     b_bark = b_total * props$p_sb,
+#     b_branches = b_total * props$p_br,
+#     b_foliage = b_total * props$p_fl,
+#     p_sw = props$p_sw,
+#     p_sb = props$p_sb,
+#     p_br = props$p_br,
+#     p_fl = props$p_fl,
+#     b_stem_total = b_stem_total
+#   )
+
+#   if (clamp_x) {
+#     out <- dplyr::mutate(out, volume_used = volume_used)
+#   }
+
+#   out
+# }
 
 #' Convert volume to aboveground biomass components (Boudewyn et al. 2007)
 #'
@@ -747,7 +877,6 @@ v2b <- function(
     species = species,
     jurisdiction = jurisdiction,
     ecozone = ecozone,
-    offset = offset,
     renormalize = renormalize,
     clamp_x = clamp_x
   )
