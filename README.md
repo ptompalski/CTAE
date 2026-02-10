@@ -1,18 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# CTAE: Canadian tree allometric equations
+# CanadaForestAllometry
 
-CTAE is an R package that brings together a collection of published
-allometric models developed for Canadian forests. The package provides a
-unified interface to estimate a range of tree- and stand-level
-attributes, based on models published in the Canadian forestry
-literature. The focus of CTAE is on standardization: models are
-implemented as faithfully as possible to their original formulations,
-with transparent parameter tables, consistent inputs/outputs, and
-jurisdiction-appropriate assumptions (e.g. merchantability rules).
+`CanadaForestAllometry` is an R package that brings together a
+collection of published allometric models developed for Canadian
+forests. The package provides a unified interface to estimate a range of
+tree- and stand-level attributes, based on models published in the
+Canadian forestry literature. The focus of `CanadaForestAllometry` is on
+standardization: models are implemented as faithfully as possible to
+their original formulations, with transparent parameter tables,
+consistent inputs/outputs, and jurisdiction-appropriate assumptions
+(e.g. merchantability rules).
 
-CTAE currently includes allometric models to:
+`CanadaForestAllometry` currently includes allometric models to:
 
 - Estimate tree-level volume (total and merchantable)
 - Estimate aboveground biomass (AGB)
@@ -88,10 +89,11 @@ trees |>
 #### `vol()`: automatic tree volume estimation across multiple models
 
 `vol()` is a convenience wrapper for estimating total and merchantable
-tree volume using the volume models implemented in `CTAE`. Rather than
-requiring users to select a specific model, `vol()` consults an internal
-model registry and automatically determines which models are applicable
-for each tree based on:
+tree volume using the volume models implemented in
+`CanadaForestAllometry`. Rather than requiring users to select a
+specific model, `vol()` consults an internal model registry and
+automatically determines which models are applicable for each tree based
+on:
 
 - species availability in model parameter tables
 - geographic scope (province / jurisdiction)
@@ -133,11 +135,11 @@ trees |>
 
 #### Merchantability criteria
 
-Merchantable volume in CTAE is defined using jurisdiction-specific
-merchantability rules, following the officially adopted criteria in each
-province or territory (e.g., minimum top diameter, minimum DBH, and
-stump height). For most models, these rules are applied dynamically
-based on the provided jurisdiction.
+Merchantable volume in `CanadaForestAllometry` is defined using
+jurisdiction-specific merchantability rules, following the officially
+adopted criteria in each province or territory (e.g., minimum top
+diameter, minimum DBH, and stump height). For most models, these rules
+are applied dynamically based on the provided jurisdiction.
 
 Some volume models, however, have merchantability criteria fixed within
 the model formulation itself, reflecting how the original equations were
@@ -146,10 +148,10 @@ developed and calibrated. In these cases (e.g., `vol_honer83`,
 is computed using the model-specific, hard-coded criteria and does not
 vary by jurisdiction or species.
 
-The jurisdiction-specific merchantability criteria used by CTAE can be
-inspected in the internal dataset `merchcrit`, which documents the
-values applied for each jurisdiction (and, where applicable, by species
-or subregion).
+The jurisdiction-specific merchantability criteria used by
+`CanadaForestAllometry` can be inspected in the internal dataset
+`merchcrit`, which documents the values applied for each jurisdiction
+(and, where applicable, by species or subregion).
 
 ### National volume-to-biomass conversions models
 
@@ -174,8 +176,8 @@ You can install the most recent version of the package by executing the
 code below:
 
 ``` r
-devtools::install_github("ptompalski/CTAE")
-library(CTAE)
+devtools::install_github("ptompalski/CanadaForestAllometry")
+library(CanadaForestAllometry)
 ```
 
 ## License

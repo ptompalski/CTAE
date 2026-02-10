@@ -1,6 +1,6 @@
 #' Volume model registry
 #'
-#' Returns a registry (metadata table) describing tree volume models available in CTAE.
+#' Returns a registry (metadata table) describing tree volume models available in CanadaForestAllometry.
 #' The registry is used by wrapper functions to (1) discover models, (2) select the
 #' best applicable model for a given tree, and (3) select the correct model function.
 #'
@@ -180,7 +180,10 @@ get_params_tbl <- function(params_key) {
   )
 
   # 1) If package is attached, datasets usually live here
-  pkg_env <- tryCatch(as.environment("package:CTAE"), error = function(e) NULL)
+  pkg_env <- tryCatch(
+    as.environment("package:CanadaForestAllometry"),
+    error = function(e) NULL
+  )
   if (
     !is.null(pkg_env) && exists(params_key, envir = pkg_env, inherits = FALSE)
   ) {
@@ -188,7 +191,7 @@ get_params_tbl <- function(params_key) {
   }
 
   # 2) Some internal objects live in the namespace
-  ns_env <- asNamespace("CTAE")
+  ns_env <- asNamespace("CanadaForestAllometry")
   if (exists(params_key, envir = ns_env, inherits = FALSE)) {
     return(get(params_key, envir = ns_env, inherits = FALSE))
   }
@@ -197,7 +200,11 @@ get_params_tbl <- function(params_key) {
   tmp <- rlang::env()
   ok <- tryCatch(
     {
-      utils::data(list = params_key, package = "CTAE", envir = tmp)
+      utils::data(
+        list = params_key,
+        package = "CanadaForestAllometry",
+        envir = tmp
+      )
       exists(params_key, envir = tmp, inherits = FALSE)
     },
     error = function(e) FALSE
@@ -211,7 +218,7 @@ get_params_tbl <- function(params_key) {
     "Internal params object not found: `",
     params_key,
     "`.\n",
-    "Tried: package env (package:CTAE), namespace, and utils::data()."
+    "Tried: package env (package:CanadaForestAllometry), namespace, and utils::data()."
   ))
 }
 

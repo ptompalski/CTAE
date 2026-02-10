@@ -70,7 +70,7 @@ testthat::test_that("vol_ung2013 recycles vectors consistently", {
 
 .local_data <- function(obj_name) {
   e <- new.env(parent = emptyenv())
-  utils::data(list = obj_name, package = "CTAE", envir = e)
+  utils::data(list = obj_name, package = "CanadaForestAllometry", envir = e)
   if (!exists(obj_name, envir = e, inherits = FALSE)) {
     testthat::skip(paste0(
       "Dataset `",

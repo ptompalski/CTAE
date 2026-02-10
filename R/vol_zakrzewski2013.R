@@ -9,7 +9,7 @@
 #'
 #' @note
 #' Implementation is based on an original R script provided by
-#' Margaret Penner, refactored for CTAE
+#' Margaret Penner, refactored for CanadaForestAllometry
 #' (vectorized inputs, standardized species codes, and merchantability
 #' criteria via \code{\link{get_merch_criteria}}).
 #'
@@ -40,7 +40,7 @@ vol_zakrzewski2013 <- function(DBH, height, species) {
     rlang::abort("DBH, height, and species must have the same length.")
   }
 
-  # Standardize to CTAE/NFI species codes (e.g., "PICE.MAR")
+  # Standardize to CanadaForestAllometry/NFI species codes (e.g., "PICE.MAR")
   species_std <- standardize_species_code(species)
 
   # ---- constants ----

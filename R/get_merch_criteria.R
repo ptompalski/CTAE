@@ -59,7 +59,7 @@ get_merch_criteria <- function(
   }
 
   # ---- internal data ----
-  merchcrit <- CTAE::merchcrit
+  merchcrit <- CanadaForestAllometry::merchcrit
   # stopifnot(exists("merchcrit", inherits = TRUE))
 
   required <- c(

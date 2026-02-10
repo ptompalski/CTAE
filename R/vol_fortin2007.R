@@ -6,7 +6,7 @@
 #' This function returns merchantable stem volume (under bark) at the
 #' individual-tree level as a function of diameter at breast height (DBH)
 #' and total tree height. Only the fixed-effects (mean) component of the
-#' original mixed-effects formulation is implemented in CTAE; stochastic
+#' original mixed-effects formulation is implemented in CanadaForestAllometry; stochastic
 #' components (random effects and residual variance) are intentionally
 #' omitted.
 #'

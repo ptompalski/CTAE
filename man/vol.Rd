@@ -42,7 +42,7 @@ with one element per tree. Each element is a tibble of candidate model outputs
 \description{
 `vol()` is the main convenience wrapper for estimating total and
 merchantable stem volume from diameter and height. It automatically
-selects and runs one (or more) of the volume models implemented in CTAE,
+selects and runs one (or more) of the volume models implemented in CanadaForestAllometry,
 based on the model registry returned by [volume_model_registry()].
 }
 \section{Model selection logic}{

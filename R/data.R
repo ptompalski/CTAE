@@ -389,7 +389,7 @@
 #' required to reproduce the mean merchantable volume predictions of the
 #' Fortin et al. model. The full mixed-effects model, including random
 #' effects, covariance structure, and stochastic simulation of prediction
-#' uncertainty, is not implemented in CTAE.
+#' uncertainty, is not implemented in CanadaForestAllometry.
 #'
 #' Users requiring the complete model formulation and full functionality
 #' (e.g., stochastic predictions and uncertainty propagation) are directed

@@ -2,7 +2,7 @@
 
 testthat::test_that("vol_sharma2021: returns tibble with correct columns and length", {
   # Basic single-tree call
-  out1 <- CTAE::vol_sharma2021(
+  out1 <- CanadaForestAllometry::vol_sharma2021(
     DBH = 30,
     height = 22,
     species = "PICE.MAR"
@@ -13,7 +13,7 @@ testthat::test_that("vol_sharma2021: returns tibble with correct columns and len
   testthat::expect_equal(nrow(out1), 1L)
 
   # Vectorized call
-  out2 <- CTAE::vol_sharma2021(
+  out2 <- CanadaForestAllometry::vol_sharma2021(
     DBH = c(25, 32, 18),
     height = c(20, 24, 15),
     species = c("PICE.GLA", "ABIE.BAL", "PINU.BAN")
@@ -25,7 +25,7 @@ testthat::test_that("vol_sharma2021: returns tibble with correct columns and len
 })
 
 testthat::test_that("vol_sharma2021: recycling works like base rep(length.out = n)", {
-  out <- CTAE::vol_sharma2021(
+  out <- CanadaForestAllometry::vol_sharma2021(
     DBH = c(20, 30),
     height = 22,
     species = "PICE.MAR"
@@ -37,7 +37,7 @@ testthat::test_that("vol_sharma2021: recycling works like base rep(length.out = 
 })
 
 testthat::test_that("vol_sharma2021: invalid geometry returns NA (non-positive or non-finite inputs)", {
-  out <- CTAE::vol_sharma2021(
+  out <- CanadaForestAllometry::vol_sharma2021(
     DBH = c(30, 0, -5, NA, 25),
     height = c(22, 22, 22, 22, Inf),
     species = rep("PICE.MAR", 5)
@@ -59,7 +59,7 @@ testthat::test_that("vol_sharma2021: invalid geometry returns NA (non-positive o
 })
 
 testthat::test_that("vol_sharma2021: merchantable and total are non-negative", {
-  out <- CTAE::vol_sharma2021(
+  out <- CanadaForestAllometry::vol_sharma2021(
     DBH = c(5, 10, 20, 40),
     height = c(8, 10, 18, 28),
     species = c("PICE.MAR", "PICE.MAR", "PICE.MAR", "PICE.MAR")
@@ -72,7 +72,7 @@ testthat::test_that("vol_sharma2021: merchantable and total are non-negative", {
 })
 
 testthat::test_that("vol_sharma2021: merchantable volume does not exceed total volume", {
-  out <- CTAE::vol_sharma2021(
+  out <- CanadaForestAllometry::vol_sharma2021(
     DBH = c(15, 25, 35),
     height = c(14, 20, 26),
     species = c("PICE.MAR", "ABIE.BAL", "PINU.BAN")
@@ -84,7 +84,7 @@ testthat::test_that("vol_sharma2021: merchantable volume does not exceed total v
 
 testthat::test_that("vol_sharma2021: unknown species produces an informative error", {
   testthat::expect_error(
-    CTAE::vol_sharma2021(
+    CanadaForestAllometry::vol_sharma2021(
       DBH = 30,
       height = 22,
       species = "NOT.A.REAL.SPECIES"
@@ -94,7 +94,7 @@ testthat::test_that("vol_sharma2021: unknown species produces an informative err
   )
 })
 testthat::test_that("vol_sharma2021: total volume is calculated for small trees (below minimum DBH)", {
-  out <- CTAE::vol_sharma2021(
+  out <- CanadaForestAllometry::vol_sharma2021(
     DBH = c(2, 4, 6, 8),
     height = c(4, 6, 8, 10),
     species = rep("PICE.MAR", 4)
