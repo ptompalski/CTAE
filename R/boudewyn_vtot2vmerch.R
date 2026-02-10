@@ -95,7 +95,7 @@ total_to_merch_prop <- function(vol_total, k, a, b, c) {
 #' @param vol_total Numeric vector. Total volume per hectare (all live trees).
 #' @param species Character vector. NFI species codes (e.g. \code{"PICE.MAR"}). Only genus is used.
 #' @param jurisdiction Character vector. Jurisdiction code (e.g. \code{"AB"}).
-#' @param ecozone Numeric vector. Ecozone code (1--15).
+#' @param ecozone Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).
 #' @param include_prop Logical. If TRUE, return the predicted merchantable proportion.
 #' @param clamp_prop Logical. If TRUE (default), clamp predicted proportion to [0, 1].
 #' @param warn_outside Logical. If TRUE (default), warn when \code{vol_total < volmin}.
@@ -110,7 +110,7 @@ total_to_merch_prop <- function(vol_total, k, a, b, c) {
 #'   vol_total = 300,
 #'   species = "PICE.MAR",
 #'   jurisdiction = "AB",
-#'   ecozone = 4
+#'   ecozone = "Taiga Plain"
 #' )
 #'
 #' # ---- return predicted merchantable proportion ------------------------------
@@ -190,6 +190,8 @@ vol_total_to_merchantable <- function(
     length(jurisdiction),
     length(ecozone)
   )
+
+  ecozone <- standardize_ecozone(ecozone)
 
   vol_total <- rep_len(as.numeric(vol_total), n)
   species <- rep_len(species, n)

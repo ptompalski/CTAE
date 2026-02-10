@@ -22,7 +22,7 @@ vol_total_to_merchantable(
 
 \item{jurisdiction}{Character vector. Jurisdiction code (e.g. \code{"AB"}).}
 
-\item{ecozone}{Numeric vector. Ecozone code (1--15).}
+\item{ecozone}{Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).}
 
 \item{include_prop}{Logical. If TRUE, return the predicted merchantable proportion.}
 
@@ -47,7 +47,7 @@ vol_total_to_merchantable(
   vol_total = 300,
   species = "PICE.MAR",
   jurisdiction = "AB",
-  ecozone = 4
+  ecozone = "Taiga Plain"
 )
 
 # ---- return predicted merchantable proportion ------------------------------

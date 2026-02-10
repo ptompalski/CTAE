@@ -651,3 +651,27 @@ parameters_v2b <- list(
 
 # --- save ------------------------------------------------------------
 usethis::use_data(parameters_v2b, overwrite = TRUE)
+
+
+# ecozone - internal dataset
+
+ecozones <- tribble(
+  ~ecozone , ~ecozone_name_en     , ~ecozone_name_fr           ,
+         1 , "Arctic Cordillera"  , "Cordillère arctique"      ,
+         2 , "Northern Arctic"    , "Haut-Arctique"            ,
+         3 , "Southern Arctic"    , "Bas-Arctique"             ,
+         4 , "Taiga Plain"        , "Taïga des plaines"        ,
+         5 , "Taiga Shield"       , "Taïga du Bouclier"        ,
+         6 , "Boreal Shield"      , "Bouclier boréal"          ,
+         7 , "Atlantic Maritime"  , "Maritime de l'Atlantique" ,
+         8 , "MixedWood Plain"    , "Plaines à foréts mixtes"  ,
+         9 , "Boreal Plain"       , "Plaines boréales"         ,
+        10 , "Prairie"            , "Prairies"                 ,
+        11 , "Taiga Cordillera"   , "Taïga de la Cordillère"   ,
+        12 , "Boreal Cordillera"  , "Cordillère borèale"       ,
+        13 , "Pacific Maritime"   , "Maritime du Pacifique"    ,
+        14 , "Montane Cordillera" , "Cordillère montagnarde"   ,
+        15 , "Hudson Plain"       , "Plaines hudsonniennes"
+)
+
+usethis::use_data(ecozones, internal = TRUE, overwrite = TRUE)

@@ -4,10 +4,10 @@
 \alias{v2b_stem_biomass}
 \title{Convert merchantable volume to stem biomass (Boudewyn et al. 2007)}
 \usage{
-v2b_stem_biomass(volume, species, jurisdiction, ecozone)
+v2b_stem_biomass(vol_merchantable, species, jurisdiction, ecozone)
 }
 \arguments{
-\item{volume}{Numeric vector. Gross merchantable volume per hectare.}
+\item{vol_merchantable}{Numeric vector. Gross merchantable volume per hectare.}
 
 \item{species}{Character vector. Tree species codes in NFI format
 (e.g., \code{"PICE.MAR"}). Genus-level codes (\code{"PICE.SPP"}) and
@@ -49,7 +49,7 @@ requires additional proportion models.
 }
 \examples{
 v2b_stem_biomass(
-  volume = 350,
+  vol_merchantable = 350,
   species = "PICE.MAR",
   jurisdiction = "AB",
   ecozone = 4
