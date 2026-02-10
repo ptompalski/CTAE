@@ -155,3 +155,64 @@ standardize_species_code <- function(x, keep_all = TRUE) {
   y[is_all] <- "ALL"
   y
 }
+
+
+standardize_ecozone <- function(ecozone) {
+  if (is.null(ecozone)) {
+    return(NULL)
+  }
+
+  ez <- as.vector(ecozone)
+
+  # Build long lookup: one row per allowed name
+  lookup_long <- ecozones |>
+    tidyr::pivot_longer(
+      cols = c(ecozone_name_en, ecozone_name_fr),
+      names_to = "lang",
+      values_to = "name"
+    ) |>
+    dplyr::mutate(
+      key = stringi::stri_trans_general(tolower(trimws(name)), "Latin-ASCII")
+    )
+
+  # Output vector
+  out <- rep(NA_integer_, length(ez))
+
+  # Identify numeric-like elements (works for mixed vectors coerced to character)
+  is_num <- suppressWarnings(!is.na(as.integer(ez)))
+
+  ## ---- numeric-like inputs ----
+  if (any(is_num)) {
+    ez_num <- as.integer(ez[is_num])
+
+    if (any(!ez_num %in% 1:15, na.rm = TRUE)) {
+      bad <- unique(ez_num[!ez_num %in% 1:15])
+      cli::cli_abort("Invalid ecozone number(s): {bad}. Valid range is 1–15.")
+    }
+
+    out[is_num] <- ez_num
+  }
+
+  ## ---- name inputs ----
+  is_chr <- !is_num
+  if (any(is_chr)) {
+    ez_key <- stringi::stri_trans_general(
+      tolower(trimws(as.character(ez[is_chr]))),
+      "Latin-ASCII"
+    )
+
+    idx <- match(ez_key, lookup_long$key)
+    matched <- lookup_long$ecozone[idx]
+
+    if (anyNA(matched)) {
+      bad <- unique(as.character(ez[is_chr])[is.na(matched)])
+      cli::cli_abort(
+        "Unknown ecozone name(s): {bad}. Use numbers 1–15 or official ecozone names."
+      )
+    }
+
+    out[is_chr] <- matched
+  }
+
+  out
+}

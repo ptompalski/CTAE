@@ -5,7 +5,7 @@
 \title{Convert volume to aboveground biomass components (Boudewyn et al. 2007)}
 \usage{
 v2b(
-  volume,
+  vol_merchantable,
   species,
   jurisdiction,
   ecozone,
@@ -16,7 +16,7 @@ v2b(
 )
 }
 \arguments{
-\item{volume}{Numeric vector. Gross merchantable volume per hectare.}
+\item{vol_merchantable}{Numeric vector. Gross merchantable volume per hectare.}
 
 \item{species}{Character vector. NFI species codes (e.g., \code{"PICE.MAR"}).
 Genus-level codes (\code{"PICE.SPP"}) and variety-level codes
@@ -24,7 +24,7 @@ Genus-level codes (\code{"PICE.SPP"}) and variety-level codes
 
 \item{jurisdiction}{Character vector. Jurisdiction code (e.g., \code{"AB"}).}
 
-\item{ecozone}{Numeric vector. Ecozone code (1--15).}
+\item{ecozone}{Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).}
 
 \item{include_props}{Logical. If TRUE, include biomass proportions
 (\code{p_sw}, \code{p_sb}, \code{p_br}, \code{p_fl}) in the output.}
@@ -36,7 +36,7 @@ quantities (\code{b_m}, \code{b_n}, \code{b_nm}, \code{b_s}) and factors
 \item{renormalize}{Logical. If TRUE (default), renormalize capped proportions
 to sum to 1. This can be helpful when multiple components hit bounds.}
 
-\item{clamp_x}{Logical. If TRUE, clamp \code{volume} to the calibration range
+\item{clamp_x}{Logical. If TRUE, clamp \code{vol_merchantable} to the calibration range
 \code{[x_min, x_max]} from Table 7 before evaluating the proportion equations.
 Disabled by default.}
 }
@@ -75,19 +75,19 @@ the calibration range. This implementation applies Table 7 bounds (low/high
 caps) to each proportion to keep outputs within plausible limits.
 
 Extrapolation vs clamping.
-By default (\code{clamp_x = FALSE}), the input \code{volume} is used directly.
-If \code{volume} falls outside the calibration range (\code{x_min/x_max}) reported
+By default (\code{clamp_x = FALSE}), the input \code{vol_merchantable} is used directly.
+If \code{vol_merchantable} falls outside the calibration range (\code{x_min/x_max}) reported
 in Table 7, results are extrapolations, although Table 7 proportion caps are still
-applied. Setting \code{clamp_x = TRUE} replaces \code{volume} with
-\code{min(max(volume, x_min), x_max)} before computing proportions; this can
+applied. Setting \code{clamp_x = TRUE} replaces \code{vol_merchantable} with
+\code{min(max(vol_merchantable, x_min), x_max)} before computing proportions; this can
 materially change results for high-volume stands and may lead to systematic
-underestimation where \code{volume > x_max}. For this reason, clamping is disabled
+underestimation where \code{vol_merchantable > x_max}. For this reason, clamping is disabled
 by default.
 }
 \examples{
 # Single case (one stand)
 v2b(
-  volume = 350,
+  vol_merchantable = 350,
   species = "PSEU.MEN",
   jurisdiction = "BC",
   ecozone = 13
@@ -95,7 +95,7 @@ v2b(
 
 # Include proportions and intermediate quantities used in the calculation
 v2b(
-  volume = 350,
+  vol_merchantable = 350,
   species = "PSEU.MEN",
   jurisdiction = "BC",
   ecozone = 13
@@ -110,7 +110,7 @@ library(tidyr)
 
 stands <- tibble::tibble(
   stand_id = 1:3,
-  volume = c(120, 350, 300),
+  vol_merchantable = c(120, 350, 300),
   species = c("PICE.MAR", "PSEU.MEN", "PINU.BAN"),
   jurisdiction = c("AB", "BC", "ON"),
   ecozone = c(5, 13, 6)
@@ -119,7 +119,7 @@ stands <- tibble::tibble(
 stands |>
   mutate(
     v2b = v2b(
-      volume = volume,
+      vol_merchantable = vol_merchantable,
       species = species,
       jurisdiction = jurisdiction,
       ecozone = ecozone,

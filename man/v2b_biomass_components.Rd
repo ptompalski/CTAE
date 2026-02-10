@@ -5,7 +5,7 @@
 \title{Convert merchantable volume to total aboveground biomass and components (Boudewyn et al. 2007)}
 \usage{
 v2b_biomass_components(
-  volume,
+  vol_merchantable,
   species,
   jurisdiction,
   ecozone,
@@ -15,7 +15,7 @@ v2b_biomass_components(
 )
 }
 \arguments{
-\item{volume}{Numeric vector. Gross merchantable volume per hectare.}
+\item{vol_merchantable}{Numeric vector. Gross merchantable volume per hectare.}
 
 \item{species}{Character vector. NFI species codes (e.g., "PICE.MAR").}
 
@@ -25,7 +25,7 @@ v2b_biomass_components(
 
 \item{renormalize}{Logical. If TRUE, renormalize capped proportions to sum to 1.}
 
-\item{clamp_x}{Logical. If TRUE, clamp \code{volume} to the calibration range
+\item{clamp_x}{Logical. If TRUE, clamp \code{vol_merchantable} to the calibration range
 \code{[x_min, x_max]} from Table 7 before evaluating the proportion equations.}
 }
 \value{
@@ -58,13 +58,13 @@ Table 6 equations and (optionally) renormalized to sum to 1.
 Extrapolation vs clamping.
 The Table 7 columns \code{x_min} and \code{x_max} describe the approximate range of the
 independent variable used to calibrate the proportion models. By default (\code{clamp_x = FALSE}),
-the function uses the input \code{volume} directly. If \code{volume} falls outside the calibration
+the function uses the input \code{vol_merchantable} directly. If \code{vol_merchantable} falls outside the calibration
 range, the result is an extrapolation; however, proportion caps (Table 7) are still applied to
 prevent unrealistic proportions.
 
-Setting \code{clamp_x = TRUE} replaces \code{volume} with \code{min(max(volume, x_min), x_max)}
+Setting \code{clamp_x = TRUE} replaces \code{vol_merchantable} with \code{min(max(vol_merchantable, x_min), x_max)}
 before computing proportions. This can substantially change results for high-volume stands and
-may lead to systematic underestimation of total biomass where \code{volume > x_max}.
+may lead to systematic underestimation of total biomass where \code{vol_merchantable > x_max}.
 For this reason, clamping is disabled by default and is intended mainly for sensitivity analyses
 and debugging.
 }

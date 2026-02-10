@@ -336,7 +336,7 @@ testthat::test_that("v2b_stem_biomass returns expected shape and non-negative co
   testthat::skip_if_not(exists("v2b_stem_biomass", mode = "function"))
 
   out <- v2b_stem_biomass(
-    volume = 100,
+    vol_merchantable = 100,
     species = "PICE.MAR",
     jurisdiction = "AB",
     ecozone = 4
@@ -426,7 +426,7 @@ testthat::test_that("v2b warns on extrapolation when clamp_x=FALSE and volume ou
   out <- tryCatch(
     withCallingHandlers(
       v2b(
-        volume = vol,
+        vol_merchantable = vol,
         species = "PICE.MAR",
         jurisdiction = "AB",
         ecozone = 4,
@@ -458,7 +458,7 @@ testthat::test_that("v2b output columns respect include_props/include_intermedia
   testthat::skip_if_not(exists("v2b", mode = "function"))
 
   base <- v2b(
-    volume = 400,
+    vol_merchantable = 400,
     species = "PSEU.MEN",
     jurisdiction = "BC",
     ecozone = 13
@@ -469,7 +469,7 @@ testthat::test_that("v2b output columns respect include_props/include_intermedia
   )
 
   with_props <- v2b(
-    volume = 400,
+    vol_merchantable = 400,
     species = "PSEU.MEN",
     jurisdiction = "BC",
     ecozone = 13,
@@ -480,7 +480,7 @@ testthat::test_that("v2b output columns respect include_props/include_intermedia
   ))
 
   with_int <- v2b(
-    volume = 400,
+    vol_merchantable = 400,
     species = "PSEU.MEN",
     jurisdiction = "BC",
     ecozone = 13,
@@ -507,7 +507,7 @@ testthat::test_that("v2b() matches manual calculation for one case (manually pas
   # now the models require gross (not net) values for BC, the results will differ from the
   # ones in the publication.
   case <- list(
-    volume = 350, # <-- set the test volume
+    vol_merchantable = 350, # <-- set the test volume
     species = "PSEU.MEN", # <-- NFI species code used in v2b() "PSEU.MEN" is 500 canfi code
     jurisdiction = "BC", # <-- e.g. "AB"
     ecozone = 13 # <-- 1..15
@@ -577,11 +577,11 @@ testthat::test_that("v2b() matches manual calculation for one case (manually pas
 
   # ---- Manual calculation (should mirror v2b implementation) -----------------
 
-  volume <- as.numeric(case$volume)
+  vol_merchantable <- as.numeric(case$vol_merchantable)
   offset <- 5
 
   # Eq 1 (Table 3)
-  b_m <- params$B3$a * (volume^params$B3$b)
+  b_m <- params$B3$a * (vol_merchantable^params$B3$b)
 
   # Eq 2 (Table 4): nonmerchfactor = k + a * b_m^b, then cap
   f_nm <- params$B4$k + params$B4$a * (b_m^params$B4$b)
@@ -607,15 +607,21 @@ testthat::test_that("v2b() matches manual calculation for one case (manually pas
   b_stem_total <- b_nm + b_s
 
   # Table 6 proportions (raw)
-  lx <- log(volume + offset)
+  lx <- log(vol_merchantable + offset)
   p_a <- exp(
-    params$B6_vol$a1 + params$B6_vol$a2 * volume + params$B6_vol$a3 * lx
+    params$B6_vol$a1 +
+      params$B6_vol$a2 * vol_merchantable +
+      params$B6_vol$a3 * lx
   )
   p_b <- exp(
-    params$B6_vol$b1 + params$B6_vol$b2 * volume + params$B6_vol$b3 * lx
+    params$B6_vol$b1 +
+      params$B6_vol$b2 * vol_merchantable +
+      params$B6_vol$b3 * lx
   )
   p_c <- exp(
-    params$B6_vol$c1 + params$B6_vol$c2 * volume + params$B6_vol$c3 * lx
+    params$B6_vol$c1 +
+      params$B6_vol$c2 * vol_merchantable +
+      params$B6_vol$c3 * lx
   )
   den <- 1 + p_a + p_b + p_c
 
@@ -669,7 +675,7 @@ testthat::test_that("v2b() matches manual calculation for one case (manually pas
   # ---- Compare to v2b() ------------------------------------------------------
 
   got <- v2b(
-    volume = case$volume,
+    vol_merchantable = case$vol_merchantable,
     species = case$species,
     jurisdiction = case$jurisdiction,
     ecozone = case$ecozone,
@@ -699,4 +705,128 @@ testthat::test_that("v2b() matches manual calculation for one case (manually pas
 
   testthat::expect_equal(got$f_nm, manual$f_nm, tolerance = tol)
   testthat::expect_equal(got$f_s, manual$f_s, tolerance = tol)
+})
+
+
+test_that("Boudewyn functions accept ecozone as number, EN name, and FR name", {
+  # pick some simple, valid inputs (adjust if your functions require more args)
+  vol_total <- c(100, 100, 100)
+  ecozone_num <- c(4, 10, 6)
+
+  ecozone_en <- c("Taiga Plain", "Prairie", "Boreal Shield")
+  ecozone_fr <- c("Taïga des plaines", "Prairies", "Bouclier boréal")
+
+  # ---- v2b() ----
+  out_num_v2b <- v2b(
+    vol_merchantable = vol_total,
+    ecozone = ecozone_num,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+  out_en_v2b <- v2b(
+    vol_merchantable = vol_total,
+    ecozone = ecozone_en,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+  out_fr_v2b <- v2b(
+    vol_merchantable = vol_total,
+    ecozone = ecozone_fr,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+
+  expect_equal(out_en_v2b, out_num_v2b)
+  expect_equal(out_fr_v2b, out_num_v2b)
+
+  # ---- vol_total_to_merchantable() ----
+  out_num_m <- vol_total_to_merchantable(
+    vol_total = vol_total,
+    ecozone = ecozone_num,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+  out_en_m <- vol_total_to_merchantable(
+    vol_total = vol_total,
+    ecozone = ecozone_en,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+  out_fr_m <- vol_total_to_merchantable(
+    vol_total = vol_total,
+    ecozone = ecozone_fr,
+    species = "PICE.MAR",
+    jurisdiction = "AB"
+  )
+
+  expect_equal(out_en_m, out_num_m)
+  expect_equal(out_fr_m, out_num_m)
+})
+
+test_that("Boudewyn functions accept mixed ecozone vectors (name + number)", {
+  vol_total <- c(100, 100)
+  ecozone_mixed <- c("Taiga Plain", 4)
+
+  out_v2b <- v2b(vol_merchantable = vol_total, ecozone = ecozone_mixed)
+  out_ref <- v2b(vol_merchantable = vol_total, ecozone = c(4, 4))
+
+  expect_equal(out_v2b, out_ref)
+
+  out_m <- vol_total_to_merchantable(
+    vol_total = vol_total,
+    ecozone = ecozone_mixed
+  )
+  out_ref_m <- vol_total_to_merchantable(
+    vol_total = vol_total,
+    ecozone = c(4, 4)
+  )
+
+  expect_equal(out_m, out_ref_m)
+})
+
+test_that("Boudewyn functions error clearly on unknown ecozone names", {
+  vol_total <- 100
+
+  expect_error(
+    v2b(
+      vol_total,
+      ecozone = "Not a real ecozone",
+      species = "PICE.MAR",
+      jurisdiction = "AB"
+    ),
+    "Unknown ecozone name",
+    fixed = FALSE
+  )
+
+  expect_error(
+    vol_total_to_merchantable(
+      vol_total = vol_total,
+      ecozone = "Not a real ecozone",
+      species = "PICE.MAR",
+      jurisdiction = "AB"
+    ),
+    "Unknown ecozone name",
+    fixed = FALSE
+  )
+})
+
+test_that("Boudewyn functions error clearly on invalid ecozone numbers", {
+  vol_total <- 100
+
+  expect_error(
+    v2b(vol_total, ecozone = 99, species = "PICE.MAR", jurisdiction = "AB"),
+    "Invalid ecozone number",
+    fixed = FALSE
+  )
+
+  expect_error(
+    vol_total_to_merchantable(
+      vol_total = vol_total,
+      ecozone = 0,
+      species = "PICE.MAR",
+      jurisdiction = "AB"
+    ),
+    "Invalid ecozone number",
+    fixed = FALSE
+  )
 })

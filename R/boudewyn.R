@@ -231,15 +231,15 @@ v2b_build_keys <- function(species, jurisdiction, ecozone) {
 
 # ---- math helpers ------------------------------------------------------------
 
-v2b_stem_merch <- function(volume, a, b) {
-  volume <- as.numeric(volume)
+v2b_stem_merch <- function(vol_merchantable, a, b) {
+  vol_merchantable <- as.numeric(vol_merchantable)
   a <- as.numeric(a)
   b <- as.numeric(b)
 
   dplyr::if_else(
-    is.na(volume) | is.na(a) | is.na(b),
+    is.na(vol_merchantable) | is.na(a) | is.na(b),
     NA_real_,
-    a * (volume^b)
+    a * (vol_merchantable^b)
   )
 }
 
@@ -287,7 +287,7 @@ v2b_sapling_factor <- function(b_nm, a, b, k, cap) {
 #' The function supports species-, genus-, and ecozone-specific parameter
 #' selection and is vectorized over all inputs.
 #'
-#' @param volume Numeric vector. Gross merchantable volume per hectare.
+#' @param vol_merchantable Numeric vector. Gross merchantable volume per hectare.
 #' @param species Character vector. Tree species codes in NFI format
 #'   (e.g., \code{"PICE.MAR"}). Genus-level codes (\code{"PICE.SPP"}) and
 #'   variety-level codes (\code{"PICE.MAR.AAA"}) are supported.
@@ -321,12 +321,12 @@ v2b_sapling_factor <- function(b_nm, a, b, k, cap) {
 #'
 #' @examples
 #' v2b_stem_biomass(
-#'   volume = 350,
+#'   vol_merchantable = 350,
 #'   species = "PICE.MAR",
 #'   jurisdiction = "AB",
 #'   ecozone = 4
 #' )
-v2b_stem_biomass <- function(volume, species, jurisdiction, ecozone) {
+v2b_stem_biomass <- function(vol_merchantable, species, jurisdiction, ecozone) {
   # Build standardized keys (validates species/juris/ecozone)
   keys <- v2b_build_keys(
     species = species,
@@ -335,15 +335,15 @@ v2b_stem_biomass <- function(volume, species, jurisdiction, ecozone) {
   )
   n <- nrow(keys)
 
-  # align volume
-  volume <- rep_len(as.numeric(volume), n)
+  # align vol_merchantable
+  vol_merchantable <- rep_len(as.numeric(vol_merchantable), n)
 
   # fetch required params
   p3 <- v2b_fetch_params("B3", keys, allow_variety_fallback = TRUE)
   p4 <- v2b_fetch_params("B4", keys, allow_variety_fallback = TRUE)
 
   # Eq1
-  b_m <- v2b_stem_merch(volume = volume, a = p3$a, b = p3$b)
+  b_m <- v2b_stem_merch(vol_merchantable = vol_merchantable, a = p3$a, b = p3$b)
 
   # Eq2
   f_nm <- v2b_nonmerch_factor(
@@ -480,25 +480,25 @@ v2b_clamp_x_table7 <- function(x, caps) {
 #' and caps (Appendix 2 Table 7). Proportion caps are applied after evaluating the
 #' Table 6 equations and (optionally) renormalized to sum to 1.
 #'
-#' @param volume Numeric vector. Gross merchantable volume per hectare.
+#' @param vol_merchantable Numeric vector. Gross merchantable volume per hectare.
 #' @param species Character vector. NFI species codes (e.g., "PICE.MAR").
 #' @param jurisdiction Character vector. Jurisdiction code (e.g., "AB").
 #' @param ecozone Numeric vector. Ecozone code (1--15).
 #' @param renormalize Logical. If TRUE, renormalize capped proportions to sum to 1.
-#' @param clamp_x Logical. If TRUE, clamp \code{volume} to the calibration range
+#' @param clamp_x Logical. If TRUE, clamp \code{vol_merchantable} to the calibration range
 #'   \code{[x_min, x_max]} from Table 7 before evaluating the proportion equations.
 #'
 #' @details
 #' Extrapolation vs clamping.
 #' The Table 7 columns \code{x_min} and \code{x_max} describe the approximate range of the
 #' independent variable used to calibrate the proportion models. By default (\code{clamp_x = FALSE}),
-#' the function uses the input \code{volume} directly. If \code{volume} falls outside the calibration
+#' the function uses the input \code{vol_merchantable} directly. If \code{vol_merchantable} falls outside the calibration
 #' range, the result is an extrapolation; however, proportion caps (Table 7) are still applied to
 #' prevent unrealistic proportions.
 #'
-#' Setting \code{clamp_x = TRUE} replaces \code{volume} with \code{min(max(volume, x_min), x_max)}
+#' Setting \code{clamp_x = TRUE} replaces \code{vol_merchantable} with \code{min(max(vol_merchantable, x_min), x_max)}
 #' before computing proportions. This can substantially change results for high-volume stands and
-#' may lead to systematic underestimation of total biomass where \code{volume > x_max}.
+#' may lead to systematic underestimation of total biomass where \code{vol_merchantable > x_max}.
 #' For this reason, clamping is disabled by default and is intended mainly for sensitivity analyses
 #' and debugging.
 #'
@@ -516,7 +516,7 @@ v2b_clamp_x_table7 <- function(x, caps) {
 #'   \item{volume_used}{Only returned when \code{clamp_x = TRUE}; the volume actually used in Table 6.}
 #' }
 v2b_biomass_components <- function(
-  volume,
+  vol_merchantable,
   species,
   jurisdiction,
   ecozone,
@@ -531,11 +531,11 @@ v2b_biomass_components <- function(
     ecozone = ecozone
   )
   n <- nrow(keys)
-  volume <- rep_len(as.numeric(volume), n)
+  vol_merchantable <- rep_len(as.numeric(vol_merchantable), n)
 
   # stage 1: stem wood biomass (Tables 3–5)
   stem <- v2b_stem_biomass(
-    volume = volume,
+    vol_merchantable = vol_merchantable,
     species = species,
     jurisdiction = jurisdiction,
     ecozone = ecozone
@@ -557,7 +557,7 @@ v2b_biomass_components <- function(
   )
 
   # warn on extrapolation (do not modify volume)
-  outside <- (volume < p7$x_min) | (volume > p7$x_max)
+  outside <- (vol_merchantable < p7$x_min) | (vol_merchantable > p7$x_max)
 
   if (!clamp_x && any(outside, na.rm = TRUE)) {
     rlang::warn(
@@ -570,7 +570,11 @@ v2b_biomass_components <- function(
     )
   }
 
-  volume_used <- if (clamp_x) pmin(pmax(volume, p7$x_min), p7$x_max) else volume
+  volume_used <- if (clamp_x) {
+    pmin(pmax(vol_merchantable, p7$x_min), p7$x_max)
+  } else {
+    vol_merchantable
+  }
 
   props <- v2b_props_from_table6(
     x = volume_used,
@@ -628,12 +632,12 @@ v2b_biomass_components <- function(
 #' The function is vectorized over all inputs and is designed to work naturally
 #' inside \code{dplyr::mutate()} (typically followed by \code{tidyr::unnest()}).
 #'
-#' @param volume Numeric vector. Gross merchantable volume per hectare.
+#' @param vol_merchantable Numeric vector. Gross merchantable volume per hectare.
 #' @param species Character vector. NFI species codes (e.g., \code{"PICE.MAR"}).
 #'   Genus-level codes (\code{"PICE.SPP"}) and variety-level codes
 #'   (\code{"PICE.MAR.AAA"}) are supported.
 #' @param jurisdiction Character vector. Jurisdiction code (e.g., \code{"AB"}).
-#' @param ecozone Numeric vector. Ecozone code (1--15).
+#' @param ecozone Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).
 #' @param include_props Logical. If TRUE, include biomass proportions
 #'   (\code{p_sw}, \code{p_sb}, \code{p_br}, \code{p_fl}) in the output.
 #' @param include_intermediates Logical. If TRUE, include intermediate stem-biomass
@@ -641,7 +645,7 @@ v2b_biomass_components <- function(
 #'   (\code{f_nm}, \code{f_s}, \code{has_sapling}, \code{b_stem_total}).
 #' @param renormalize Logical. If TRUE (default), renormalize capped proportions
 #'   to sum to 1. This can be helpful when multiple components hit bounds.
-#' @param clamp_x Logical. If TRUE, clamp \code{volume} to the calibration range
+#' @param clamp_x Logical. If TRUE, clamp \code{vol_merchantable} to the calibration range
 #'   \code{[x_min, x_max]} from Table 7 before evaluating the proportion equations.
 #'   Disabled by default.
 #'
@@ -652,13 +656,13 @@ v2b_biomass_components <- function(
 #' caps) to each proportion to keep outputs within plausible limits.
 #'
 #' Extrapolation vs clamping.
-#' By default (\code{clamp_x = FALSE}), the input \code{volume} is used directly.
-#' If \code{volume} falls outside the calibration range (\code{x_min/x_max}) reported
+#' By default (\code{clamp_x = FALSE}), the input \code{vol_merchantable} is used directly.
+#' If \code{vol_merchantable} falls outside the calibration range (\code{x_min/x_max}) reported
 #' in Table 7, results are extrapolations, although Table 7 proportion caps are still
-#' applied. Setting \code{clamp_x = TRUE} replaces \code{volume} with
-#' \code{min(max(volume, x_min), x_max)} before computing proportions; this can
+#' applied. Setting \code{clamp_x = TRUE} replaces \code{vol_merchantable} with
+#' \code{min(max(vol_merchantable, x_min), x_max)} before computing proportions; this can
 #' materially change results for high-volume stands and may lead to systematic
-#' underestimation where \code{volume > x_max}. For this reason, clamping is disabled
+#' underestimation where \code{vol_merchantable > x_max}. For this reason, clamping is disabled
 #' by default.
 #'
 #' @return A tibble with one row per input observation. By default includes:
@@ -674,7 +678,7 @@ v2b_biomass_components <- function(
 #' @examples
 #' # Single case (one stand)
 #' v2b(
-#'   volume = 350,
+#'   vol_merchantable = 350,
 #'   species = "PSEU.MEN",
 #'   jurisdiction = "BC",
 #'   ecozone = 13
@@ -682,7 +686,7 @@ v2b_biomass_components <- function(
 #'
 #' # Include proportions and intermediate quantities used in the calculation
 #' v2b(
-#'   volume = 350,
+#'   vol_merchantable = 350,
 #'   species = "PSEU.MEN",
 #'   jurisdiction = "BC",
 #'   ecozone = 13
@@ -697,7 +701,7 @@ v2b_biomass_components <- function(
 #'
 #' stands <- tibble::tibble(
 #'   stand_id = 1:3,
-#'   volume = c(120, 350, 300),
+#'   vol_merchantable = c(120, 350, 300),
 #'   species = c("PICE.MAR", "PSEU.MEN", "PINU.BAN"),
 #'   jurisdiction = c("AB", "BC", "ON"),
 #'   ecozone = c(5, 13, 6)
@@ -706,7 +710,7 @@ v2b_biomass_components <- function(
 #' stands |>
 #'   mutate(
 #'     v2b = v2b(
-#'       volume = volume,
+#'       vol_merchantable = vol_merchantable,
 #'       species = species,
 #'       jurisdiction = jurisdiction,
 #'       ecozone = ecozone,
@@ -717,7 +721,7 @@ v2b_biomass_components <- function(
 #'
 #' @export
 v2b <- function(
-  volume,
+  vol_merchantable,
   species,
   jurisdiction,
   ecozone,
@@ -727,10 +731,11 @@ v2b <- function(
   clamp_x = FALSE
 ) {
   offset <- 5
+  ecozone <- standardize_ecozone(ecozone)
 
   # compute stem biomass (Tables 3–5)
   stem <- v2b_stem_biomass(
-    volume = volume,
+    vol_merchantable = vol_merchantable,
     species = species,
     jurisdiction = jurisdiction,
     ecozone = ecozone
@@ -738,7 +743,7 @@ v2b <- function(
 
   # compute total biomass + components (Tables 6–7 vol)
   comp <- v2b_biomass_components(
-    volume = volume,
+    vol_merchantable = vol_merchantable,
     species = species,
     jurisdiction = jurisdiction,
     ecozone = ecozone,
