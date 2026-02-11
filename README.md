@@ -2,7 +2,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ptompalski/CanadaForestAllometry/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/ptompalski/CanadaForestAllometry/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/ptompalski/CanadaForestAllometry/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ptompalski/CanadaForestAllometry/actions/workflows/R-CMD-check.yaml)
+
+[![R-CMD-check](https://github.com/ptompalski/CanadaForestAllometry/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/ptompalski/CanadaForestAllometry/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/ptompalski/CanadaForestAllometry/graph/badge.svg)](https://app.codecov.io/gh/ptompalski/CanadaForestAllometry)
 <!-- badges: end -->
 
 # CanadaForestAllometry
