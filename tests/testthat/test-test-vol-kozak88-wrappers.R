@@ -37,15 +37,15 @@ test_that("vol_kozak88_engine recycles scalars and returns correct row count", {
   # call engine directly (internal); use ::: in tests
   skip_if_not(
     "vol_kozak88_engine" %in%
-      getNamespaceExports("CTAE") ||
+      getNamespaceExports("CanadaForestAllometry") ||
       exists(
         "vol_kozak88_engine",
-        envir = asNamespace("CTAE"),
+        envir = asNamespace("CanadaForestAllometry"),
         inherits = FALSE
       )
   )
 
-  eng <- CTAE:::vol_kozak88_engine
+  eng <- CanadaForestAllometry:::vol_kozak88_engine
 
   # use a wrapper-known model/species (AB example); adjust if needed
   res <- eng(
@@ -66,7 +66,7 @@ test_that("vol_kozak88_engine recycles scalars and returns correct row count", {
 })
 
 test_that("length incompatibility aborts with clear message", {
-  eng <- CTAE:::vol_kozak88_engine
+  eng <- CanadaForestAllometry:::vol_kozak88_engine
 
   expect_error(
     eng(
@@ -83,7 +83,7 @@ test_that("length incompatibility aborts with clear message", {
 })
 
 test_that("invalid DBH/height inputs abort with row-context", {
-  eng <- CTAE:::vol_kozak88_engine
+  eng <- CanadaForestAllometry:::vol_kozak88_engine
 
   expect_error(
     eng(
@@ -152,7 +152,7 @@ test_that("DBH below mindbh returns zero merchantable but non-zero total", {
 })
 
 test_that("subregion fallback emits a warning when requested subregion missing", {
-  eng <- CTAE:::vol_kozak88_engine
+  eng <- CanadaForestAllometry:::vol_kozak88_engine
 
   # Choose a clearly bogus subregion to force fallback.
   # If your parameter tables actually include 'BOGUS', change this string.
@@ -189,7 +189,7 @@ test_that("AB subregion_map UB -> LBH behaves consistently when UB is used", {
 })
 
 test_that("missing parameters aborts with informative message (valid model_id)", {
-  eng <- CTAE:::vol_kozak88_engine
+  eng <- CanadaForestAllometry:::vol_kozak88_engine
 
   expect_warning(
     expect_error(

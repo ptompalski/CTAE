@@ -1,7 +1,7 @@
-# Lambert & Ung AGB (CTAE-style refactor, vectorized + cached coefficients)
+# Lambert & Ung AGB (CanadaForestAllometry-style refactor, vectorized + cached coefficients)
 # -------------------------------------------------------------------------
 # Changes requested:
-#   1) Assume `standardize_species_code()` exists (CTAE-wide helper) and use it directly
+#   1) Assume `standardize_species_code()` exists (CanadaForestAllometry-wide helper) and use it directly
 #   2) Allow `height` to be NA in validation (needed for equation_set = "auto" or "dbh")
 #
 # Core behavior:
@@ -59,9 +59,9 @@
 }
 
 
-# ---- internal: standardize species code (CTAE helper) --------------------
+# ---- internal: standardize species code (CanadaForestAllometry helper) --------------------
 
-# CTAE assumption: `standardize_species_code()` exists and returns NFI-style codes.
+# CanadaForestAllometry assumption: `standardize_species_code()` exists and returns NFI-style codes.
 # We still handle NA/blank by mapping to UNKN.SPP (safe fallback).
 .lu_standardize_species <- function(species) {
   if (!is.character(species)) {
@@ -247,7 +247,7 @@
 #'      keep_model_id = TRUE
 #'    )
 #'  ) |>
-#'  unnest(agb)
+#'  tidyr::unnest(agb)
 agb_lambert_ung <- function(
   DBH,
   height = NA_real_,
@@ -278,7 +278,7 @@ agb_lambert_ung <- function(
   height <- rep_len(height, n)
   species <- rep_len(species, n)
 
-  # Standardize species codes (vectorized; CTAE helper)
+  # Standardize species codes (vectorized; CanadaForestAllometry helper)
   species <- .lu_standardize_species(species)
 
   # Height is "usable" only if finite and > 0

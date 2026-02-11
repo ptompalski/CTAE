@@ -4,7 +4,7 @@ testthat::test_that("get_merch_criteria: ON uses species/genus criteria when ava
   testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
 
   # Basic ON lookup (province-level default)
-  out_on <- CTAE::get_merch_criteria("ON")
+  out_on <- CanadaForestAllometry::get_merch_criteria("ON")
   testthat::expect_s3_class(out_on, "tbl_df")
   testthat::expect_equal(out_on$jurisdiction, "ON")
   testthat::expect_equal(out_on$species, "ALL")
@@ -16,7 +16,11 @@ testthat::test_that("get_merch_criteria: ON uses species/genus criteria when ava
   # It should NOT depend on BC's BEC logic, but species can matter if present in the table.
   warns <- character(0)
   out_on2 <- withCallingHandlers(
-    CTAE::get_merch_criteria("ON", species = "PICE.GLA", BEC_zone = "CWH"),
+    CanadaForestAllometry::get_merch_criteria(
+      "ON",
+      species = "PICE.GLA",
+      BEC_zone = "CWH"
+    ),
     warning = function(w) {
       warns <<- c(warns, conditionMessage(w))
       invokeRestart("muffleWarning")
@@ -45,7 +49,7 @@ testthat::test_that("get_merch_criteria: ON uses species/genus criteria when ava
   }
 
   # Alias standardization (PEI -> PE)
-  out_pe <- CTAE::get_merch_criteria("PEI")
+  out_pe <- CanadaForestAllometry::get_merch_criteria("PEI")
   testthat::expect_equal(out_pe$jurisdiction, "PE")
   testthat::expect_equal(out_pe$species, "ALL")
 })
@@ -58,7 +62,7 @@ testthat::test_that("get_merch_criteria: BC allows missing species (falls back t
   # - BEC_zone missing -> UNKNOWN
   warns <- character(0)
   out <- withCallingHandlers(
-    CTAE::get_merch_criteria("BC"),
+    CanadaForestAllometry::get_merch_criteria("BC"),
     warning = function(w) {
       warns <<- c(warns, conditionMessage(w))
       invokeRestart("muffleWarning")
@@ -79,7 +83,7 @@ testthat::test_that("get_merch_criteria: BC allows missing species (falls back t
 
   # If verbose=FALSE, no warning
   testthat::expect_silent(
-    out2 <- CTAE::get_merch_criteria("BC", verbose = FALSE)
+    out2 <- CanadaForestAllometry::get_merch_criteria("BC", verbose = FALSE)
   )
   testthat::expect_equal(out2$jurisdiction, "BC")
   testthat::expect_equal(out2$species, "ALL")
@@ -89,7 +93,10 @@ testthat::test_that("get_merch_criteria: BC missing BEC_zone uses conservative U
   testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
 
   testthat::expect_warning(
-    out <- CTAE::get_merch_criteria("BC", species = "PSEU.MEN"),
+    out <- CanadaForestAllometry::get_merch_criteria(
+      "BC",
+      species = "PSEU.MEN"
+    ),
     "BEC_zone missing|UNKNOWN",
     fixed = FALSE
   )
@@ -98,7 +105,7 @@ testthat::test_that("get_merch_criteria: BC missing BEC_zone uses conservative U
 
   # BEC missing but verbose=FALSE -> no warning
   testthat::expect_silent(
-    out2 <- CTAE::get_merch_criteria(
+    out2 <- CanadaForestAllometry::get_merch_criteria(
       "BC",
       species = "PSEU.MEN",
       verbose = FALSE
@@ -112,7 +119,7 @@ testthat::test_that("get_merch_criteria: BC unknown BEC_zone string falls back t
   testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
 
   testthat::expect_warning(
-    out <- CTAE::get_merch_criteria(
+    out <- CanadaForestAllometry::get_merch_criteria(
       "BC",
       species = "PSEU.MEN",
       BEC_zone = "NOT_A_BEC"
@@ -137,7 +144,7 @@ testthat::test_that("get_merch_criteria: BC unknown BEC_zone string falls back t
 #   testthat::skip_if_not(has_pice_spp)
 
 #   testthat::expect_warning(
-#     out <- CTAE::get_merch_criteria(
+#     out <- CanadaForestAllometry::get_merch_criteria(
 #       "BC",
 #       species = "PICE.GLA",
 #       BEC_zone = "CWH"
@@ -150,9 +157,9 @@ testthat::test_that("get_merch_criteria: BC unknown BEC_zone string falls back t
 # })
 
 testthat::test_that("get_merch_criteria: fails loud if merchcrit lacks required BC ALL+UNKNOWN safety net", {
-  # IMPORTANT: get_merch_criteria() resolves `merchcrit` inside the CTAE namespace.
-  # Masking `merchcrit` in the test environment will NOT affect CTAE::get_merch_criteria().
-  ns <- asNamespace("CTAE")
+  # IMPORTANT: get_merch_criteria() resolves `merchcrit` inside the CanadaForestAllometry namespace.
+  # Masking `merchcrit` in the test environment will NOT affect CanadaForestAllometry::get_merch_criteria().
+  ns <- asNamespace("CanadaForestAllometry")
 
   testthat::skip_if_not(exists("merchcrit", envir = ns, inherits = FALSE))
 
@@ -171,7 +178,7 @@ testthat::test_that("get_merch_criteria: fails loud if merchcrit lacks required 
   assign("merchcrit", broken, envir = ns)
 
   testthat::expect_error(
-    CTAE::get_merch_criteria("BC", verbose = FALSE),
+    CanadaForestAllometry::get_merch_criteria("BC", verbose = FALSE),
     "No merchantability criteria found for BC|\\('BC','ALL','UNKNOWN'\\)",
     fixed = FALSE
   )

@@ -2,7 +2,7 @@
 
 .local_data <- function(obj_name) {
   e <- new.env(parent = emptyenv())
-  utils::data(list = obj_name, package = "CTAE", envir = e)
+  utils::data(list = obj_name, package = "CanadaForestAllometry", envir = e)
   if (!exists(obj_name, envir = e, inherits = FALSE)) {
     testthat::skip(paste0(
       "Dataset `",
@@ -55,7 +55,7 @@ testthat::test_that("vol_nigh2016: returns tibble and matches Nigh2016 formula",
   DBH <- 30
   ht <- 20
 
-  out <- CTAE::vol_nigh2016(
+  out <- CanadaForestAllometry::vol_nigh2016(
     DBH = DBH,
     height = ht,
     species = sp,
@@ -92,7 +92,7 @@ testthat::test_that("vol_nigh2016: vectorization and subregion recycling", {
   sp <- keys$Species[[1]]
   subr <- keys$Subregion[[1]]
 
-  out <- CTAE::vol_nigh2016(
+  out <- CanadaForestAllometry::vol_nigh2016(
     DBH = c(15, 25, 35),
     height = c(12, 18, 24),
     species = rep(sp, 3),
@@ -107,13 +107,17 @@ testthat::test_that("vol_nigh2016: vectorization and subregion recycling", {
 
 testthat::test_that("vol_nigh2016: input validation errors", {
   testthat::expect_error(
-    CTAE::vol_nigh2016(DBH = 20, height = 20, species = "PICE.GLA"),
+    CanadaForestAllometry::vol_nigh2016(
+      DBH = 20,
+      height = 20,
+      species = "PICE.GLA"
+    ),
     "subregion is required",
     ignore.case = TRUE
   )
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = c(20, 30),
       height = c(20, 22),
       species = c("PICE.GLA", "ABIE.BAL"),
@@ -124,7 +128,7 @@ testthat::test_that("vol_nigh2016: input validation errors", {
   )
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = c(20, 30),
       height = 20,
       species = "PICE.GLA",
@@ -151,7 +155,7 @@ testthat::test_that("vol_nigh2016: rejects invalid geometry values", {
   subr <- keys$Subregion[[1]]
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = 0,
       height = 20,
       species = sp,
@@ -162,7 +166,7 @@ testthat::test_that("vol_nigh2016: rejects invalid geometry values", {
   )
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = 20,
       height = 0,
       species = sp,
@@ -173,7 +177,7 @@ testthat::test_that("vol_nigh2016: rejects invalid geometry values", {
   )
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = 20,
       height = 1.2,
       species = sp,
@@ -184,7 +188,7 @@ testthat::test_that("vol_nigh2016: rejects invalid geometry values", {
   )
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = NA_real_,
       height = 20,
       species = sp,
@@ -200,7 +204,7 @@ testthat::test_that("vol_nigh2016: unknown subregion produces informative error"
   sp <- params$Species[[1]]
 
   testthat::expect_error(
-    CTAE::vol_nigh2016(
+    CanadaForestAllometry::vol_nigh2016(
       DBH = 20,
       height = 18,
       species = sp,
@@ -229,7 +233,7 @@ testthat::test_that("vol_nigh2016: works across all species/subregion pairs", {
   DBH <- 30
   ht <- 20
 
-  out <- CTAE::vol_nigh2016(
+  out <- CanadaForestAllometry::vol_nigh2016(
     DBH = rep(DBH, nrow(keys)),
     height = rep(ht, nrow(keys)),
     species = keys$Species,

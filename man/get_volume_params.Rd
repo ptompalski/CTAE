@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_volume_params.R
 \name{get_volume_params}
 \alias{get_volume_params}
-\title{Get volume-model parameters from the CTAE registry}
+\title{Get volume-model parameters from the CanadaForestAllometry registry}
 \usage{
 get_volume_params(
   model_id,
@@ -35,7 +35,7 @@ A tibble containing the filtered parameter rows for the requested model.
 \description{
 Retrieves the parameter table for a given volume model using
 \code{\link{volume_model_registry}} and the parameter objects bundled with the
-CTAE package (e.g., \code{parameters_NationalTaperModelsDBH}).
+CanadaForestAllometry package (e.g., \code{parameters_NationalTaperModelsDBH}).
 }
 \details{
 The function then applies **context filters** (when relevant / available in the

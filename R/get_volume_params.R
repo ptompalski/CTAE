@@ -1,8 +1,8 @@
-#' Get volume-model parameters from the CTAE registry
+#' Get volume-model parameters from the CanadaForestAllometry registry
 #'
 #' Retrieves the parameter table for a given volume model using
 #' \code{\link{volume_model_registry}} and the parameter objects bundled with the
-#' CTAE package (e.g., \code{parameters_NationalTaperModelsDBH}).
+#' CanadaForestAllometry package (e.g., \code{parameters_NationalTaperModelsDBH}).
 #'
 #' The function then applies **context filters** (when relevant / available in the
 #' parameter table), typically by \code{species}, and for regional models also by

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(CTAE)
+library(CanadaForestAllometry)
 
-test_check("CTAE")
+test_check("CanadaForestAllometry")

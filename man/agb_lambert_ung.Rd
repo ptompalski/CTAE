@@ -84,5 +84,5 @@ trees |>
      keep_model_id = TRUE
    )
  ) |>
- unnest(agb)
+ tidyr::unnest(agb)
 }

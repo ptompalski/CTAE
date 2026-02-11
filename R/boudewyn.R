@@ -277,55 +277,6 @@ v2b_sapling_factor <- function(b_nm, a, b, k, cap) {
 
 # ---- wrapper: volume -> stem biomass -----------------------------------------
 
-#' Convert merchantable volume to stem biomass (Boudewyn et al. 2007)
-#'
-#' Calculates stem wood biomass components from gross merchantable volume
-#' using the model-based volume-to-biomass conversion equations of
-#' Boudewyn et al. (2007), with updated parameters from the National Forest
-#' Inventory (NFI).
-#'
-#' The function supports species-, genus-, and ecozone-specific parameter
-#' selection and is vectorized over all inputs.
-#'
-#' @param vol_merchantable Numeric vector. Gross merchantable volume per hectare.
-#' @param species Character vector. Tree species codes in NFI format
-#'   (e.g., \code{"PICE.MAR"}). Genus-level codes (\code{"PICE.SPP"}) and
-#'   variety-level codes (\code{"PICE.MAR.AAA"}) are supported.
-#' @param jurisdiction Character vector. Jurisdiction code (e.g., \code{"AB"}).
-#' @param ecozone Numeric vector. Ecozone code (1--15).
-#'
-#' @return
-#' A tibble with one row per input observation and the following columns:
-#' \describe{
-#'   \item{b_m}{Stem wood biomass of merchantable-sized live trees (t/ha).}
-#'   \item{b_n}{Stem wood biomass of nonmerchantable-sized live trees (t/ha).}
-#'   \item{b_nm}{Total stem wood biomass of merchantable and nonmerchantable trees (t/ha).}
-#'   \item{b_s}{Stem wood biomass of sapling-sized live trees (t/ha).}
-#'   \item{f_nm}{Nonmerchantable factor (Table 4).}
-#'   \item{f_s}{Sapling factor (Table 5; \code{NA} if not applicable).}
-#'   \item{has_sapling}{Logical indicating whether sapling parameters were applied.}
-#' }
-#'
-#' @details
-#' The function implements Equations 1--3 in Boudewyn et al. (2007) and
-#' corresponds to Scenarios 1 and 2 in the original report.
-#'
-#' This function returns stem wood biomass only. Conversion to total
-#' aboveground biomass and biomass components (bark, branches, foliage)
-#' requires additional proportion models.
-#'
-#' @references
-#' Boudewyn, P.A.; Song, X.; Magnussen, S.; Gillis, M.D. (2007).
-#' Model-based, volume-to-biomass conversion for forested and vegetated land
-#' in Canada. Natural Resources Canada, Canadian Forest Service.
-#'
-#' @examples
-#' v2b_stem_biomass(
-#'   vol_merchantable = 350,
-#'   species = "PICE.MAR",
-#'   jurisdiction = "AB",
-#'   ecozone = 4
-#' )
 v2b_stem_biomass <- function(vol_merchantable, species, jurisdiction, ecozone) {
   # Build standardized keys (validates species/juris/ecozone)
   keys <- v2b_build_keys(
@@ -440,7 +391,7 @@ v2b_props_from_table6 <- function(
 v2b_apply_caps_table7 <- function(props, caps, renormalize = TRUE) {
   clamp <- function(x, lo, hi) pmin(pmax(x, lo), hi)
 
-  out <- props %>%
+  out <- props |>
     dplyr::mutate(
       p_sw = clamp(p_sw, caps$p_sw_low, caps$p_sw_high),
       p_sb = clamp(p_sb, caps$p_sb_low, caps$p_sb_high),
@@ -450,7 +401,7 @@ v2b_apply_caps_table7 <- function(props, caps, renormalize = TRUE) {
 
   if (renormalize) {
     s <- out$p_sw + out$p_sb + out$p_br + out$p_fl
-    out <- out %>%
+    out <- out |>
       dplyr::mutate(
         p_sw = p_sw / s,
         p_sb = p_sb / s,
@@ -819,7 +770,7 @@ v2b_biomass_components <- function(
 #'   vol_merchantable = 350,
 #'   species = "PSEU.MEN",
 #'   jurisdiction = "BC",
-#'   ecozone = 13
+#'   ecozone = 13,
 #'   include_props = TRUE,
 #'   include_intermediates = TRUE
 #' )
@@ -907,6 +858,6 @@ v2b <- function(
     if ("volume_used" %in% names(out)) keep <- c(keep, "volume_used")
   }
 
-  out %>%
+  out |>
     dplyr::select(dplyr::all_of(unique(keep)))
 }

@@ -187,7 +187,9 @@ standardize_ecozone <- function(ecozone) {
 
     if (any(!ez_num %in% 1:15, na.rm = TRUE)) {
       bad <- unique(ez_num[!ez_num %in% 1:15])
-      cli::cli_abort("Invalid ecozone number(s): {bad}. Valid range is 1–15.")
+      rlang::abort(glue::glue(
+        "Invalid ecozone number(s): {bad}. Valid range is 1-15."
+      ))
     }
 
     out[is_num] <- ez_num
@@ -206,8 +208,12 @@ standardize_ecozone <- function(ecozone) {
 
     if (anyNA(matched)) {
       bad <- unique(as.character(ez[is_chr])[is.na(matched)])
-      cli::cli_abort(
-        "Unknown ecozone name(s): {bad}. Use numbers 1–15 or official ecozone names."
+
+      rlang::abort(
+        glue::glue(
+          "Unknown ecozone name(s): {bad}. Use numbers 1-15 or official ecozone names."
+        ),
+        class = "ctae_unknown_ecozone"
       )
     }
 

@@ -1,3 +1,10 @@
+# CanadaForestAllometry 0.7.0
+
+- **Renamed package**: *CTAE* is now **CanadaForestAllometry**.
+- This is a naming change only
+- All existing functions are available under the new package name.
+
+
 # CTAE 0.6.0
 
 ## Boudewyn et al. (2007) volume-to-biomass refactor (`v2b()`)

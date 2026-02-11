@@ -25,7 +25,7 @@ Estimate tree volume using Zakrzewski (2013) taper model (Ontario)
 }
 \note{
 Implementation is based on an original R script provided by
-Margaret Penner, refactored for CTAE
+Margaret Penner, refactored for CanadaForestAllometry
 (vectorized inputs, standardized species codes, and merchantability
 criteria via \code{\link{get_merch_criteria}}).
 }

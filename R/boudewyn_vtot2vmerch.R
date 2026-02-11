@@ -166,7 +166,7 @@ total_to_merch_prop <- function(vol_total, k, a, b, c) {
 #'       ecozone = ecozone
 #'     ),
 #'     biomass = v2b(
-#'       volume = merch$vol_merchantable,
+#'       vol_merchantable = merch$vol_merchantable,
 #'       species = species,
 #'       jurisdiction = jurisdiction,
 #'       ecozone = ecozone

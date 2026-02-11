@@ -161,7 +161,6 @@
 #'
 #' Ung, C.-H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass equations: new parameter estimates that include British Columbia data. Canadian Journal of Forest Research, 38(5), 1123–1132. https://doi.org/10.1139/X07-224
 #'
-#' @seealso \code{\link{AGB_LambertUngDBH}} and \code{\link{AGB_LambertUngDBHHT}}
 "parameters_LambertUng"
 
 
@@ -389,7 +388,7 @@
 #' required to reproduce the mean merchantable volume predictions of the
 #' Fortin et al. model. The full mixed-effects model, including random
 #' effects, covariance structure, and stochastic simulation of prediction
-#' uncertainty, is not implemented in CTAE.
+#' uncertainty, is not implemented in CanadaForestAllometry.
 #'
 #' Users requiring the complete model formulation and full functionality
 #' (e.g., stochastic predictions and uncertainty propagation) are directed
