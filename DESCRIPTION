@@ -37,7 +37,9 @@ Imports:
     stringr,
     rlang,
     purrr,
-    stats
+    stats,
+    stringi,
+    glue
 RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 3.0.0)

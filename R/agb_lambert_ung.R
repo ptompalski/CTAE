@@ -247,7 +247,7 @@
 #'      keep_model_id = TRUE
 #'    )
 #'  ) |>
-#'  unnest(agb)
+#'  tidyr::unnest(agb)
 agb_lambert_ung <- function(
   DBH,
   height = NA_real_,

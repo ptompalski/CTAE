@@ -26,7 +26,4 @@ Lambert, M. C., Ung, C. H., & Raulier, F. (2005). Canadian national tree abovegr
 
 Ung, C.-H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass equations: new parameter estimates that include British Columbia data. Canadian Journal of Forest Research, 38(5), 1123–1132. https://doi.org/10.1139/X07-224
 }
-\seealso{
-\code{\link{AGB_LambertUngDBH}} and \code{\link{AGB_LambertUngDBHHT}}
-}
 \keyword{datasets}

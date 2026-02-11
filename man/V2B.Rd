@@ -98,7 +98,7 @@ v2b(
   vol_merchantable = 350,
   species = "PSEU.MEN",
   jurisdiction = "BC",
-  ecozone = 13
+  ecozone = 13,
   include_props = TRUE,
   include_intermediates = TRUE
 )

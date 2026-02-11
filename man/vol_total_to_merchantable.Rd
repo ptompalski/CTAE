@@ -103,7 +103,7 @@ stands |>
       ecozone = ecozone
     ),
     biomass = v2b(
-      volume = merch$vol_merchantable,
+      vol_merchantable = merch$vol_merchantable,
       species = species,
       jurisdiction = jurisdiction,
       ecozone = ecozone
