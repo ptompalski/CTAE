@@ -675,3 +675,87 @@ ecozones <- tribble(
 )
 
 usethis::use_data(ecozones, internal = TRUE, overwrite = TRUE)
+
+
+# Newfoundland - parameters from C. Hennigar implemantation in OSM
+# https://github.com/OSM-Contributors/OSM/blob/main/OSM.NewfoundlandModels/Volume/HonerVolume_N_X_242_122.cs
+
+# PlantCodes (OSM/USDA) -> NFI species codes
+plant_to_nfi <- tibble::tribble(
+  ~plant_code , ~Species   ,
+  "ABBA"      , "ABIE.BAL" , # balsam fir
+  "PIMA"      , "PICE.MAR" , # black spruce
+  "PIGL"      , "PICE.GLA" , # white spruce
+  "PIST"      , "PINU.STR" , # eastern white pine
+  "PIRE"      , "PINU.RES" , # red pine
+  "PIBA2"     , "PINU.BAN" , # jack pine
+  "LALA"      , "LARI.LAR" , # tamarack
+  "POTR5"     , "POPU.TRE" , # trembling aspen
+  "BEPA"      , "BETU.PAP" , # paper birch
+  "BEAL2"     , "BETU.ALL" , # yellow birch
+  "ACRU"      , "ACER.RUB" , # red maple
+  "BEPO"      , "BETU.POP" # gray birch
+)
+
+# ---- read csvs ----------------------------------------------------------------
+
+bf <- read_csv(
+  file.path("data-raw/nx242_bf_district_original.csv"),
+  show_col_types = FALSE
+) %>%
+  mutate(
+    param_set = "NX242_BF_DISTRICT",
+    plant_code = "ABBA",
+    Species = "ABIE.BAL"
+  )
+
+bs <- read_csv(
+  file.path("data-raw/nx242_bs_district_original.csv"),
+  show_col_types = FALSE
+) %>%
+  mutate(
+    param_set = "NX242_BS_DISTRICT",
+    plant_code = "PIMA",
+    Species = "PICE.MAR"
+  )
+
+sp <- read_csv(
+  file.path("data-raw/nx122_nx67_species_original.csv"),
+  show_col_types = FALSE
+) %>%
+  mutate(param_set = "NX122_NX67_SPECIES") %>%
+  left_join(plant_to_nfi, by = "plant_code")
+
+# ---- combine to one tidy table ------------------------------------------------
+
+parameters_volNL <-
+  bind_rows(
+    bf %>% mutate(district = as.integer(district)),
+    bs %>% mutate(district = as.integer(district)),
+    sp %>% mutate(district = NA_integer_)
+  ) %>%
+  # keep a consistent column order
+  select(
+    param_set,
+    district,
+    plant_code,
+    Species,
+    t,
+    a,
+    b,
+    c,
+    d,
+    e,
+    nv_a,
+    nv_b,
+    nv_c
+  ) %>%
+  arrange(param_set, district, plant_code) %>%
+  # rename district to "Subregion"
+  mutate(Subregion = as.character(district)) %>%
+
+  # province-wide parameters get Subregion="ALL"
+  mutate(Subregion = if_else(is.na(Subregion), "ALL", Subregion))
+
+
+usethis::use_data(parameters_volNL, overwrite = TRUE)

@@ -455,6 +455,9 @@
 "parameters_Nigh2016"
 
 
+#' Parameters for the Newfoundland and Labrador tree volume equations
+"parameters_volNL"
+
 #' Natural regions and subregions of Alberta
 #'
 #' A dataset containing a list of Alberta regions, subregions, and their codes.
