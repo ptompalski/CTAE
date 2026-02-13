@@ -21,6 +21,8 @@ Author: Authors@R: c(
        comment = "Original R implementation of Zakrzewski & Penner (2013) taper model"),
     person("Mathieu", "Fortin", role = "ctb",
          comment = "Author of the original Java implementation of the Fortin et al. (2007) Quebec merchantable volume model"),
+    person("Christopher", "Hennigar", role = "ctb",
+         comment = "Author of the original C# implementation of Newfoundland and Labrador volume model"),
     person(paste("His Majesty the King in Right of Canada,",
                  "as represented by the Minister of Natural Resources Canada"), role = "cph")
    )

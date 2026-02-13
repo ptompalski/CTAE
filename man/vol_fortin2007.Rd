@@ -72,6 +72,3 @@ vol_fortin2007(
 
 
 }
-\seealso{
-\code{\link{parameters_fortin2007}}
-}

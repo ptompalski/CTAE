@@ -1,7 +1,7 @@
 # code to prepare the package data files containing model parameters
 
 library(tidyverse)
-
+source("R/utils.R")
 
 # data - merchantability  criteria ####
 
@@ -88,15 +88,10 @@ merchcrit <- tibble::tribble(
 
 usethis::use_data(merchcrit, overwrite = T)
 
-# old version, updated above:
-# based on a csv file provided by Juha Metsaranta.
-# merchcrit = read.csv("data-raw/MerchCrit.csv")
 
-# merchcrit <- merchcrit %>%
-#   mutate(
-#     Province = standardize_province_code(Province),
-#     Species = standardize_species_code(Species)
-#   )
+# data - national agb parameters (Lambert/Ung) ####
+parameters_LambertUng <- read.csv("data-raw/parameters_LambertUng.csv")
+
 
 # data - model parameters for the Canadian national taper models (Ung et al 2013) ####
 # original csv files with model parameters provided by Juha Metsaranta.
@@ -105,18 +100,26 @@ natdbh = read.csv("data-raw/NationalDBH.csv") # Canadian national taper models, 
 parameters_NationalTaperModelsDBH <- natdbh %>%
   select(-me_eng) %>%
   mutate(Species = standardize_species_code(Species))
-usethis::use_data(parameters_NationalTaperModelsDBH, overwrite = T)
+# usethis::use_data(
+#   parameters_NationalTaperModelsDBH,
+#   overwrite = T,
+#   internal = T
+# )
 
 natdbhht = read.csv("data-raw/NationalDBHHT.csv") #Canadian national taper models, DBH + H
 parameters_NationalTaperModelsDBHHT <- natdbhht %>%
   select(-name_eng) %>%
   mutate(Species = standardize_species_code(Species))
-usethis::use_data(parameters_NationalTaperModelsDBHHT, overwrite = T)
+# usethis::use_data(
+#   parameters_NationalTaperModelsDBHHT,
+#   overwrite = T,
+#   internal = T
+# )
 
 # data for the Honer model
 # Entered manually from Honer et al 1983 paper.
 parameters_Honer <- readxl::read_excel("data-raw/Honer1983_parameters.xlsx")
-usethis::use_data(parameters_Honer, overwrite = T)
+usethis::use_data(parameters_Honer, overwrite = T, internal = T)
 
 # data - model paramters for the regional models (several models) ####
 # original csv files with model parameters provided by Juha Metsaranta.
@@ -125,7 +128,7 @@ usethis::use_data(parameters_Honer, overwrite = T)
 regdbhht <- read.csv("data-raw/RegionalDBHHT.csv")
 regdbhht <- regdbhht %>%
   mutate(
-    Province = standardize_province_code(Province),
+    Province = standardize_jurisdiction_code(Province),
     Species = standardize_species_code(Species)
   )
 
@@ -134,7 +137,7 @@ regdbhht <- regdbhht %>%
 parameters_Kozak88 <- regdbhht %>% filter(ModelName == "Kozak88")
 # parameters_Kozak94 <- regdbhht %>% filter(ModelName == "Kozak94")
 
-usethis::use_data(parameters_Kozak88, overwrite = T)
+# usethis::use_data(parameters_Kozak88, overwrite = T, internal = T)
 
 # data - Kozak 1994 models for BC ####
 parameters_Kozak94 <- readxl::read_excel("data-raw/kozak1994_parameters.xlsx")
@@ -146,8 +149,7 @@ parameters_Kozak94 <-
   ) %>%
   select(-source_page, -species_name, -species_code_bc, -n_sample) %>%
   rename(Species = species, Subregion = bec_zone)
-usethis::use_data(parameters_Kozak94, overwrite = T)
-
+# usethis::use_data(parameters_Kozak94, overwrite = T, internal = T)
 
 # data - Zakrzewski 2013 model for ON ####
 
@@ -189,7 +191,7 @@ parameters_Zakrzewski2013 <-
   rename(Species = NFI_code) %>%
   select(-Spp_alpha, -tree_spec)
 
-usethis::use_data(parameters_Zakrzewski2013, overwrite = T)
+# usethis::use_data(parameters_Zakrzewski2013, overwrite = T, internal = T)
 
 # ------------------------------------------------------------------------------
 # NOTE: The three datasets imported below (Huang, GalBella, Klos) contain parameters for the same model - Kozak88 taper equation.
@@ -206,8 +208,7 @@ parameters_Huang94 <-
   select(Species, parameter, estimate, Subregion) %>%
   pivot_wider(names_from = parameter, values_from = estimate)
 
-usethis::use_data(parameters_Huang94, overwrite = T)
-
+# usethis::use_data(parameters_Huang94, overwrite = T, internal = T)
 
 # data - Gal & Bella 1994 parameters for SK ####
 # equation 6
@@ -219,11 +220,11 @@ parameters_GalBella94 <- parameters_GalBella94 %>%
   rename(Species = Species_NFI) %>%
   select(-Species_common)
 
-usethis::use_data(parameters_GalBella94, overwrite = T)
+# usethis::use_data(parameters_GalBella94, overwrite = T, internal = T)
 
 # data - Klos et al 2007 (previously Klos 2004 Master Thesis) - parameters for MN ####
 parameters_Klos2007 <- readxl::read_excel("data-raw/Klos2007_parameters.xlsx")
-usethis::use_data(parameters_Klos2007, overwrite = T)
+# usethis::use_data(parameters_Klos2007, overwrite = T, internal = T)
 
 # parameters_Klos2004 <- read_csv("data-raw/klos_manitoba_parameters.csv")
 # parameters_Klos2004 <-
@@ -272,14 +273,14 @@ parameters_Sharma2021 <- bind_rows(
   tbl_outside_total,
   tbl_merchantable
 ) |>
-  select(
+  dplyr::select(
     Species = species,
     volume_type,
     alpha,
     beta,
     gamma
   ) |>
-  arrange(volume_type, species)
+  arrange(volume_type, Species)
 
 # Sharma 2021 includes to models for Cedar (genus): one species-specific for THUJ.OCC (eastern white-cedar),
 # second for "Cedar species". He does not specify what that group consist of.
@@ -290,7 +291,7 @@ parameters_Sharma2021 <- parameters_Sharma2021 |>
   mutate(
     Species = if_else(Species == "CEDA.SPP", "JUNI.VIR", Species)
   )
-usethis::use_data(parameters_Sharma2021, overwrite = T)
+# usethis::use_data(parameters_Sharma2021, overwrite = T, internal = T)
 
 # data - parameters for the QC merch volume model (Fortin et al 2007)
 
@@ -305,8 +306,7 @@ parameters_fortin2007 <-
     b2 = beta2_cyl,
     b3 = beta3_conif_cyl_dbh
   )
-usethis::use_data(parameters_fortin2007, overwrite = T)
-
+# usethis::use_data(parameters_fortin2007, overwrite = T, internal = T)
 
 # data - parameters for the BC total and merch volume model (Nigh 2016) ####
 
@@ -322,8 +322,7 @@ parameters_Nigh2016 <-
     )
   )
 
-usethis::use_data(parameters_Nigh2016, overwrite = T)
-
+# usethis::use_data(parameters_Nigh2016, overwrite = T, internal = T)
 
 # data - Boudewyn et al 2007 #####
 
@@ -650,8 +649,7 @@ parameters_v2b <- list(
 )
 
 # --- save ------------------------------------------------------------
-usethis::use_data(parameters_v2b, overwrite = TRUE)
-
+# usethis::use_data(parameters_v2b, overwrite = T, internal = TRUE)
 
 # ecozone - internal dataset
 
@@ -674,4 +672,116 @@ ecozones <- tribble(
         15 , "Hudson Plain"       , "Plaines hudsonniennes"
 )
 
-usethis::use_data(ecozones, internal = TRUE, overwrite = TRUE)
+# usethis::use_data(ecozones, overwrite = T, internal = TRUE)
+
+# Newfoundland - parameters from C. Hennigar implemantation in OSM
+# https://github.com/OSM-Contributors/OSM/blob/main/OSM.NewfoundlandModels/Volume/HonerVolume_N_X_242_122.cs
+
+# PlantCodes (OSM/USDA) -> NFI species codes
+plant_to_nfi <- tibble::tribble(
+  ~plant_code , ~Species   ,
+  "ABBA"      , "ABIE.BAL" , # balsam fir
+  "PIMA"      , "PICE.MAR" , # black spruce
+  "PIGL"      , "PICE.GLA" , # white spruce
+  "PIST"      , "PINU.STR" , # eastern white pine
+  "PIRE"      , "PINU.RES" , # red pine
+  "PIBA2"     , "PINU.BAN" , # jack pine
+  "LALA"      , "LARI.LAR" , # tamarack
+  "POTR5"     , "POPU.TRE" , # trembling aspen
+  "BEPA"      , "BETU.PAP" , # paper birch
+  "BEAL2"     , "BETU.ALL" , # yellow birch
+  "ACRU"      , "ACER.RUB" , # red maple
+  "BEPO"      , "BETU.POP" # gray birch
+)
+
+# ---- read csvs ----------------------------------------------------------------
+
+bf <- read_csv(
+  file.path("data-raw/nx242_bf_district_original.csv"),
+  show_col_types = FALSE
+) %>%
+  mutate(
+    param_set = "NX242_BF_DISTRICT",
+    plant_code = "ABBA",
+    Species = "ABIE.BAL"
+  )
+
+bs <- read_csv(
+  file.path("data-raw/nx242_bs_district_original.csv"),
+  show_col_types = FALSE
+) %>%
+  mutate(
+    param_set = "NX242_BS_DISTRICT",
+    plant_code = "PIMA",
+    Species = "PICE.MAR"
+  )
+
+sp <- read_csv(
+  file.path("data-raw/nx122_nx67_species_original.csv"),
+  show_col_types = FALSE
+) %>%
+  mutate(param_set = "NX122_NX67_SPECIES") %>%
+  left_join(plant_to_nfi, by = "plant_code")
+
+# ---- combine to one tidy table ------------------------------------------------
+
+parameters_volNL <-
+  bind_rows(
+    bf %>% mutate(district = as.integer(district)),
+    bs %>% mutate(district = as.integer(district)),
+    sp %>% mutate(district = NA_integer_)
+  ) %>%
+  # keep a consistent column order
+  select(
+    param_set,
+    district,
+    plant_code,
+    Species,
+    t,
+    a,
+    b,
+    c,
+    d,
+    e,
+    nv_a,
+    nv_b,
+    nv_c
+  ) %>%
+  arrange(param_set, district, plant_code) %>%
+  # rename district to "Subregion"
+  mutate(Subregion = as.character(district)) %>%
+
+  # province-wide parameters get Subregion="ALL"
+  mutate(Subregion = if_else(is.na(Subregion), "ALL", Subregion))
+
+
+# usethis::use_data(parameters_volNL, overwrite = T, internal = TRUE)
+
+internal_objs <- c(
+  "parameters_LambertUng",
+  "parameters_NationalTaperModelsDBH",
+  "parameters_NationalTaperModelsDBHHT",
+  "parameters_Honer",
+  "parameters_Kozak88",
+  "parameters_Kozak94",
+  "parameters_Zakrzewski2013",
+  "parameters_Huang94",
+  "parameters_GalBella94",
+  "parameters_Klos2007",
+  "parameters_Sharma2021",
+  "parameters_fortin2007",
+  "parameters_Nigh2016",
+  "parameters_v2b",
+  "ecozones",
+  "parameters_volNL"
+)
+
+# sanity check: make sure they exist before saving
+missing <- internal_objs[
+  !vapply(internal_objs, exists, logical(1), envir = environment())
+]
+if (length(missing)) {
+  stop("Missing internal objects: ", paste(missing, collapse = ", "))
+}
+
+save(list = internal_objs, file = "R/sysdata.rda", compress = "bzip2")

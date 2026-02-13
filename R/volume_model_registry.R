@@ -20,7 +20,8 @@ volume_model_registry <- function() {
       "regional_klos2007",
       "regional_sharma2021",
       "regional_fortin2007",
-      "regional_nigh2016"
+      "regional_nigh2016",
+      "regional_NL"
     ),
 
     reference = c(
@@ -34,7 +35,8 @@ volume_model_registry <- function() {
       "Klos et al. 2007",
       "Sharma 2021",
       "Fortin et al. 2007",
-      "Nigh 2016"
+      "Nigh 2016",
+      "Honer 1967; Ker 1974; Warren & Meades 1986"
     ),
 
     engine = c(
@@ -48,11 +50,13 @@ volume_model_registry <- function() {
       "vol_klos2007",
       "vol_sharma2021",
       "vol_fortin2007",
-      "vol_nigh2016"
+      "vol_nigh2016",
+      "vol_nl"
     ),
 
     requires_ht = c(
       FALSE,
+      TRUE,
       TRUE,
       TRUE,
       TRUE,
@@ -76,6 +80,7 @@ volume_model_registry <- function() {
       "regional",
       "regional",
       "regional",
+      "regional",
       "regional"
     ),
 
@@ -90,7 +95,8 @@ volume_model_registry <- function() {
       "MB",
       c("ON", "QC", "NB", "NS", "PE", "NL"),
       "QC",
-      "BC"
+      "BC",
+      "NL"
     ),
 
     # human-readable (docs)
@@ -105,7 +111,8 @@ volume_model_registry <- function() {
       "optional MB ecozone",
       "none",
       "none",
-      "BEC zone or Coast/Interior"
+      "BEC zone or Coast/Interior",
+      "NL forest districts"
     ),
 
     # machine-readable (selection logic)
@@ -120,7 +127,8 @@ volume_model_registry <- function() {
       FALSE, # klos: can run province-wide, ecozone optional
       FALSE, # sharma
       FALSE, # fortin
-      TRUE # nigh 2016
+      TRUE, # nigh 2016
+      FALSE # NL model from OSM
     ),
 
     # engine arg name for the optional/required subregion
@@ -135,24 +143,26 @@ volume_model_registry <- function() {
       "subregion", # vol_klos2007() takes subregion=...
       NA_character_,
       NA_character_,
-      "subregion" # nigh2016 works with bec zones or coast/interior
+      "subregion", # nigh2016 works with bec zones or coast/interior,
+      "district" # NL district
     ),
 
     description = c(
-      "National taper model for Canada, available in two variants: DBH-only and DBH with total height.",
-      "National taper model for Canada, available in two variants: DBH-only and DBH with total height.",
-      "Provincial taper model for British Columbia; requires BEC zone as a subregion input.",
-      "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
-      "Provincial taper model for Alberta based on the Kozak variable-exponent form; applicable at the province level or by Alberta subregions.",
-      "Provincial taper model for Ontario.",
-      "Provincial taper model for Saskatchewan based on the Kozak variable-exponent form.",
-      "Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone.",
-      "Regional volume models for central and eastern Canada, applicable across multiple provinces.",
-      "Provincial merchantable volume model for Quebec.",
-      "Total and merchantable volume equations for BC."
+      "National taper model for Canada, available in two variants: DBH-only and DBH with total height",
+      "National taper model for Canada, available in two variants: DBH-only and DBH with total height",
+      "Provincial taper model for British Columbia; requires BEC zone as a subregion input",
+      "Regional volume models for central and eastern Canada, applicable across multiple provinces",
+      "Provincial taper model for Alberta based on the Kozak variable-exponent form; applicable at the province level or by Alberta subregions",
+      "Provincial taper model for Ontario",
+      "Provincial taper model for Saskatchewan based on the Kozak variable-exponent form",
+      "Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone",
+      "Regional volume models for central and eastern Canada, applicable across multiple provinces",
+      "Provincial merchantable volume model for Quebec",
+      "Total and merchantable volume equations for BC",
+      "Total and merchantable volume for Newfoundland and Labrador"
     ),
 
-    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70, 90, 80),
+    rank = c(10, 20, 90, 60, 90, 90, 90, 90, 70, 90, 80, 90),
 
     params_key = c(
       "parameters_NationalTaperModelsDBH",
@@ -165,7 +175,8 @@ volume_model_registry <- function() {
       "parameters_Klos2007",
       "parameters_Sharma2021",
       "parameters_fortin2007",
-      "parameters_Nigh2016"
+      "parameters_Nigh2016",
+      "parameters_volNL"
     )
   )
 }
@@ -173,53 +184,35 @@ volume_model_registry <- function() {
 
 # internal
 get_params_tbl <- function(params_key) {
-  stopifnot(
-    is.character(params_key),
-    length(params_key) == 1,
-    nzchar(params_key)
-  )
+  ns <- asNamespace("CanadaForestAllometry")
 
-  # 1) If package is attached, datasets usually live here
-  pkg_env <- tryCatch(
-    as.environment("package:CanadaForestAllometry"),
-    error = function(e) NULL
-  )
-  if (
-    !is.null(pkg_env) && exists(params_key, envir = pkg_env, inherits = FALSE)
-  ) {
-    return(get(params_key, envir = pkg_env, inherits = FALSE))
+  # internal (sysdata.rda)
+  if (exists(params_key, envir = ns, inherits = FALSE)) {
+    obj <- get(params_key, envir = ns, inherits = FALSE)
+    if (!is.data.frame(obj)) {
+      rlang::abort(paste0(
+        "`",
+        params_key,
+        "` exists but is not a data.frame/tibble."
+      ))
+    }
+    return(obj)
   }
 
-  # 2) Some internal objects live in the namespace
-  ns_env <- asNamespace("CanadaForestAllometry")
-  if (exists(params_key, envir = ns_env, inherits = FALSE)) {
-    return(get(params_key, envir = ns_env, inherits = FALSE))
+  # optional fallback for non-parameter objects stored in data/
+  if (!startsWith(params_key, "parameters_")) {
+    tmp <- new.env(parent = emptyenv())
+    utils::data(
+      list = params_key,
+      package = "CanadaForestAllometry",
+      envir = tmp
+    )
+    if (exists(params_key, envir = tmp, inherits = FALSE)) {
+      return(get(params_key, envir = tmp, inherits = FALSE))
+    }
   }
 
-  # 3) Try loading from data/ via utils::data()
-  tmp <- rlang::env()
-  ok <- tryCatch(
-    {
-      utils::data(
-        list = params_key,
-        package = "CanadaForestAllometry",
-        envir = tmp
-      )
-      exists(params_key, envir = tmp, inherits = FALSE)
-    },
-    error = function(e) FALSE
-  )
-
-  if (ok) {
-    return(get(params_key, envir = tmp, inherits = FALSE))
-  }
-
-  rlang::abort(paste0(
-    "Internal params object not found: `",
-    params_key,
-    "`.\n",
-    "Tried: package env (package:CanadaForestAllometry), namespace, and utils::data()."
-  ))
+  rlang::abort(paste0("Internal params object not found: `", params_key, "`."))
 }
 
 

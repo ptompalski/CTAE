@@ -66,31 +66,33 @@ trees |>
 
 ### Volume (total and merchantable)
 
-- `vol_fortin2007`. Provincial merchantable volume model for Quebec..
+- `vol_NL`. Total and merchantable volume for Newfoundland and Labrador.
+  Coverage: NL. 12 species. Honer 1967; Ker 1974; Warren & Meades 1986
+- `vol_fortin2007`. Provincial merchantable volume model for Quebec.
   Coverage: QC. 26 species. Fortin et al. 2007
 - `vol_galbella94`. Provincial taper model for Saskatchewan based on the
-  Kozak variable-exponent form.. Coverage: SK. 12 species. Gal & Bella
+  Kozak variable-exponent form. Coverage: SK. 12 species. Gal & Bella
   1994
 - `vol_honer83`. Regional volume models for central and eastern Canada,
-  applicable across multiple provinces.. Coverage: NB, NL, NS, ON, PE,
+  applicable across multiple provinces. Coverage: NB, NL, NS, ON, PE,
   QC. 21 species. Honer et al. 1983
 - `vol_huang94`. Provincial taper model for Alberta based on the Kozak
   variable-exponent form; applicable at the province level or by Alberta
-  subregions.. Coverage: AB. 13 species. Huang 1994
+  subregions. Coverage: AB. 13 species. Huang 1994
 - `vol_klos2007`. Provincial taper model for Manitoba based on the Kozak
   variable-exponent form; applicable at the province level or by
-  ecozone.. Coverage: MB. 5 species. Klos et al. 2007
+  ecozone. Coverage: MB. 5 species. Klos et al. 2007
 - `vol_kozak94`. Provincial taper model for British Columbia; requires
-  BEC zone as a subregion input.. Coverage: BC. 16 species. Kozak 1994
-- `vol_nigh2016`. Total and merchantable volume equations for BC..
+  BEC zone as a subregion input. Coverage: BC. 16 species. Kozak 1994
+- `vol_nigh2016`. Total and merchantable volume equations for BC.
   Coverage: BC. 18 species. Nigh 2016
 - `vol_sharma2021`. Regional volume models for central and eastern
-  Canada, applicable across multiple provinces.. Coverage: NB, NL, NS,
+  Canada, applicable across multiple provinces. Coverage: NB, NL, NS,
   ON, PE, QC. 25 species. Sharma 2021
 - `vol_ung2013`. National taper model for Canada, available in two
-  variants: DBH-only and DBH with total height.. Coverage: Canada
+  variants: DBH-only and DBH with total height. Coverage: Canada
   (national). 34 species. Ung et al. 2013
-- `vol_zakrzewski2013`. Provincial taper model for Ontario.. Coverage:
+- `vol_zakrzewski2013`. Provincial taper model for Ontario. Coverage:
   ON. 24 species. Zakrzewski & Penner 2013
 
 #### `vol()`: automatic tree volume estimation across multiple models
@@ -214,6 +216,9 @@ Gal, J., & Bella, I.E. (1994). New stem taper functions for 12
 Saskatchewan timber species. Natural Resources Canada, Canadian Forest
 Service, Northwest Region, Information Report NOR-X-338. Table 5.
 
+Honer, T.G. (1967). Standard volume tables and merchantable conversion
+actors. Canadian Forest Service Information Report N-X-67.
+
 Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the
 commercial tree species of central and eastern Canada. Environ. Can.,
 Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf.
@@ -224,6 +229,10 @@ for Major Alberta Tree Species. Report 1 - Individual tree volume
 estimation procedures for Alberta: Methods of Formulation and
 Statistical Foundations. Alberta Environmental Protection, Land and
 Forest Service, Forest Management Division, Edmonton, AB.
+
+Ker, M.F. 1974. Metric Tree Volume Tables for Newfoundland. Newfoundland
+Forest Research Centre, St. Johns, NF. Information Report N-X-122.
+<https://ostrnrcan-dostrncan.canada.ca/handle/1845/238893>
 
 Kozak, A. (1988). A variable-exponent taper equation. Canadian Journal
 of Forest Research, 18, 1363–1368
@@ -259,6 +268,10 @@ Canada’s forests. The Forestry Chronicle 85, 57–64.
 
 Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models.
 Forestry Chronicle 89, 211–224. <https://doi.org/10.5558/tfc2013-040>
+
+Warren, G.R. & Meades, J.P. (1986). Wood defect and density studies II:
+Total and net volume equations for Newfoundland’s forest management
+units. Canadian Forest Service Information Report N-X-242.
 
 Zakrzewski, W.T., Penner, M., 2013. A comparison of tree stem taper
 models for use in Ontario. Ontario Forest Research Institute, Report

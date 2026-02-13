@@ -241,9 +241,13 @@ Fortin, M., DeBlois, J., Bernier, S., Blais, G., 2007. Mise au point d’un tari
 
 Gal, J., & Bella, I.E. (1994). New stem taper functions for 12 Saskatchewan timber species. Natural Resources Canada, Canadian Forest Service, Northwest Region, Information Report NOR-X-338. Table 5.
 
+Honer, T.G. (1967). Standard volume tables and merchantable conversion actors. Canadian Forest Service Information Report N-X-67.
+
 Honer, T.G.; Ker, M.F.; Alemdag, I.S. 1983. Metric timber tables for the commercial tree species of central and eastern Canada. Environ. Can., Can. For. Serv., Maritimes For. Res. Cent., Fredericton, NB. Inf. Rep. M-X-140. https://ostrnrcan-dostrncan.canada.ca/handle/1845/239814
 
 Huang, S. (1994). Ecologically Based Individual Tree Volume Estimation for Major Alberta Tree Species. Report 1 - Individual tree volume estimation procedures for Alberta: Methods of Formulation and Statistical Foundations. Alberta Environmental Protection, Land and Forest Service, Forest Management Division, Edmonton, AB.
+
+Ker, M.F. 1974. Metric Tree Volume Tables for Newfoundland. Newfoundland Forest Research Centre, St. Johns, NF. Information Report N-X-122. https://ostrnrcan-dostrncan.canada.ca/handle/1845/238893
 
 Kozak, A. (1988). A variable-exponent taper equation. Canadian Journal of Forest Research, 18, 1363–1368
 
@@ -262,5 +266,7 @@ Ung, C.H., Bernier, P., & Guo, X.-J. (2008). Canadian national biomass equations
 Ung, C.H., Bernier, P.Y., Guo, X.J., Lambert, M.-C., 2009. A simple growth and yield model for assessing changes in standing volume across Canada’s forests. The Forestry Chronicle 85, 57–64. https://doi.org/10.5558/tfc85057-1
 
 Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models. Forestry Chronicle 89, 211–224. https://doi.org/10.5558/tfc2013-040
+
+Warren, G.R. & Meades, J.P. (1986). Wood defect and density studies II: Total and net volume equations for Newfoundland’s forest management units. Canadian Forest Service Information Report N-X-242.
 
 Zakrzewski, W.T., Penner, M., 2013. A comparison of tree stem taper models for use in Ontario. Ontario Forest Research Institute, Report 176.

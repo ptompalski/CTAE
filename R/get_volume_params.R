@@ -74,7 +74,8 @@ get_volume_params <- function(
   row <- reg[reg$model_id == model_id, , drop = FALSE]
   params_key <- row$params_key[[1]]
 
-  params <- get(params_key, envir = environment(), inherits = TRUE)
+  # params <- get(params_key, envir = environment(), inherits = TRUE)
+  params <- get_params_tbl(params_key)
 
   if (!is.data.frame(params)) {
     stop("Parameter object '", params_key, "' is not a data.frame/tibble.")
@@ -117,7 +118,8 @@ get_volume_params <- function(
       names(out) &&
       !is.null(subregion) &&
       !is.na(subregion) &&
-      nzchar(subregion)
+      nzchar(subregion) &&
+      subregion != "ALL"
   ) {
     out <- out[out$Subregion == subregion, , drop = FALSE]
   }

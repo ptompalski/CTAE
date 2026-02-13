@@ -63,7 +63,12 @@ vol_sharma2021 <- function(DBH, height, species) {
   params_tbl <- purrr::map_dfr(
     unique(df$Species),
     function(sp) {
-      p <- get_volume_params("regional_sharma2021", species = sp, strict = TRUE)
+      p <- get_volume_params(
+        "regional_sharma2021",
+        species = sp,
+        subregion = "ALL",
+        strict = TRUE
+      )
       if (!"Species" %in% names(p)) {
         p$Species <- sp
       }

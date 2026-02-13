@@ -77,38 +77,42 @@
 
 # ---- internal: cached coefficient map -----------------------------------
 
-.lu_coef_map <- local({
-  cache <- NULL
+.lu_coef_map <- function() {
+  params <- .get_internal_data("parameters_LambertUng") |>
+    tibble::as_tibble()
 
-  function(params = parameters_LambertUng, refresh = FALSE) {
-    if (!isTRUE(refresh) && !is.null(cache)) {
-      return(cache)
-    }
-
-    params2 <- params |>
-      dplyr::mutate(
-        model = stringr::str_trim(.data$model),
-        species = stringr::str_trim(toupper(.data$species)),
-        parameter = stringr::str_trim(.data$parameter)
-      )
-
-    # cache[[model_id]][[species]] -> named numeric vector of coefficients
-    cache <<- params2 |>
-      dplyr::group_by(.data$model, .data$species) |>
-      dplyr::summarise(
-        coefs = list(stats::setNames(.data$estimate, .data$parameter)),
-        .groups = "drop"
-      ) |>
-      dplyr::nest_by(.data$model) |>
-      dplyr::mutate(
-        species_map = list(stats::setNames(data$coefs, data$species))
-      ) |>
-      dplyr::select("model", "species_map") |>
-      tibble::deframe()
-
-    cache
+  required <- c("species", "model", "parameter", "estimate")
+  missing <- setdiff(required, names(params))
+  if (length(missing) > 0) {
+    rlang::abort(paste0(
+      "`parameters_LambertUng` is missing required columns: ",
+      paste(missing, collapse = ", ")
+    ))
   }
-})
+
+  params <- params |>
+    dplyr::transmute(
+      species = species,
+      model_id = model, # "DBH" / "DBHHT"
+      parameter = parameter,
+      estimate = as.numeric(estimate)
+    )
+
+  tmp <- params |>
+    dplyr::group_by(model_id, species) |>
+    dplyr::summarise(
+      coefs = list(stats::setNames(estimate, parameter)),
+      .groups = "drop"
+    ) |>
+    tidyr::nest(data = c(species, coefs)) |>
+    dplyr::mutate(
+      smap = purrr::map(data, \(x) stats::setNames(x$coefs, x$species))
+    )
+
+  m <- stats::setNames(tmp$smap, tmp$model_id)
+  m
+}
+
 
 .lu_get_coefs_cached <- function(model_id, species) {
   m <- .lu_coef_map()
@@ -309,7 +313,7 @@ agb_lambert_ung <- function(
   )
 
   out <- df |>
-    dplyr::group_by(.data$model_id, .data$species) |>
+    dplyr::group_by(model_id, species) |>
     dplyr::group_modify(function(.x, .g) {
       mid <- .g$model_id[[1]]
       spp <- .g$species[[1]]
@@ -330,7 +334,7 @@ agb_lambert_ung <- function(
       dplyr::bind_cols(.x[".row_id"], comps)
     }) |>
     dplyr::ungroup() |>
-    dplyr::arrange(.data$.row_id)
+    dplyr::arrange(.row_id)
 
   # Drop grouping keys added by group_modify (species always; model_id depends on keep_model_id)
   if (!isTRUE(keep_model_id)) {
