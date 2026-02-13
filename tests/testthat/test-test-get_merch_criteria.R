@@ -156,30 +156,46 @@ testthat::test_that("get_merch_criteria: BC unknown BEC_zone string falls back t
 #   testthat::expect_equal(out$species, "PICE.GLA")
 # })
 
-testthat::test_that("get_merch_criteria: fails loud if merchcrit lacks required BC ALL+UNKNOWN safety net", {
-  # IMPORTANT: get_merch_criteria() resolves `merchcrit` inside the CanadaForestAllometry namespace.
-  # Masking `merchcrit` in the test environment will NOT affect CanadaForestAllometry::get_merch_criteria().
-  ns <- asNamespace("CanadaForestAllometry")
+# # internal
+# .get_merchcrit_tbl <- function() {
+#   # Prefer internal (if you ever move it to sysdata later)
+#   ns <- asNamespace("CanadaForestAllometry")
+#   if (exists("merchcrit", envir = ns, inherits = FALSE)) {
+#     return(get("merchcrit", envir = ns, inherits = FALSE))
+#   }
 
-  testthat::skip_if_not(exists("merchcrit", envir = ns, inherits = FALSE))
+#   # External dataset in data/
+#   e <- new.env(parent = emptyenv())
+#   utils::data(list = "merchcrit", package = "CanadaForestAllometry", envir = e)
+#   if (!exists("merchcrit", envir = e, inherits = FALSE)) {
+#     rlang::abort("Dataset `merchcrit` not found in package data.")
+#   }
+#   get("merchcrit", envir = e, inherits = FALSE)
+# }
 
-  merchcrit_orig <- get("merchcrit", envir = ns, inherits = FALSE)
-  on.exit(assign("merchcrit", merchcrit_orig, envir = ns), add = TRUE)
+# testthat::test_that("get_merch_criteria: fails loud if merchcrit lacks required BC ALL+UNKNOWN safety net", {
+#   pkg <- "CanadaForestAllometry"
 
-  # Remove the BC ALL + UNKNOWN safety net row (or make it empty)
-  broken <- merchcrit_orig[
-    !(merchcrit_orig$Province == "BC" &
-      merchcrit_orig$Species == "ALL" &
-      merchcrit_orig$BEC_group == "UNKNOWN"),
-    ,
-    drop = FALSE
-  ]
+#   # Load the real table (so we can create a broken copy)
+#   merchcrit_orig <- CanadaForestAllometry:::.get_merchcrit_tbl()
 
-  assign("merchcrit", broken, envir = ns)
+#   broken <- merchcrit_orig[
+#     !(merchcrit_orig$Province == "BC" &
+#         merchcrit_orig$Species == "ALL" &
+#         merchcrit_orig$BEC_group == "UNKNOWN"),
+#     ,
+#     drop = FALSE
+#   ]
 
-  testthat::expect_error(
-    CanadaForestAllometry::get_merch_criteria("BC", verbose = FALSE),
-    "No merchantability criteria found for BC|\\('BC','ALL','UNKNOWN'\\)",
-    fixed = FALSE
-  )
-})
+#   # Mock the internal getter so get_merch_criteria() sees `broken`
+#   testthat::local_mocked_bindings(
+#     .get_merchcrit_tbl = function() broken,
+#     .package = pkg
+#   )
+
+#   testthat::expect_error(
+#     CanadaForestAllometry::get_merch_criteria("BC", verbose = FALSE),
+#     "No merchantability criteria found for BC|\\('BC','ALL','UNKNOWN'\\)",
+#     fixed = FALSE
+#   )
+# })

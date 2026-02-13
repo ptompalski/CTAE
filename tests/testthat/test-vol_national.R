@@ -82,12 +82,12 @@ testthat::test_that("vol_ung2013 recycles vectors consistently", {
 }
 
 testthat::test_that("Ung2013 volumes are reasonable across all species (from parameter tables)", {
-  params_dbh <- dplyr::as_tibble(.local_data(
+  params_dbh <- CanadaForestAllometry:::get_params_tbl(
     "parameters_NationalTaperModelsDBH"
-  ))
-  params_dbhht <- dplyr::as_tibble(.local_data(
+  )
+  params_dbhht <- CanadaForestAllometry:::get_params_tbl(
     "parameters_NationalTaperModelsDBHHT"
-  ))
+  )
 
   testthat::expect_true("Species" %in% names(params_dbh))
   testthat::expect_true("Species" %in% names(params_dbhht))

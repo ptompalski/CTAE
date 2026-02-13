@@ -84,12 +84,12 @@ trees |>
 
 }
 \references{
+Honer, T.G. (1967). Standard volume tables and merchantable conversion factors.
+Canadian Forest Service Information Report N-X-67.
+
 Ker, M.F. 1974. Metric Tree Volume Tables for Newfoundland. Newfoundland Forest Research Centre, St. Johns, NF. Information Report N-X-122. https://ostrnrcan-dostrncan.canada.ca/handle/1845/238893
 
 Warren, G.R. & Meades, J.P. (1986). Wood defect and density studies II:
 Total and net volume equations for Newfoundland’s forest management units.
 Canadian Forest Service Information Report N-X-242.
-
-Honer, T.G. (1967). Standard volume tables and merchantable conversion factors.
-Canadian Forest Service Information Report N-X-67.
 }

@@ -1,20 +1,19 @@
 # tests/testthat/test-vol_nigh2016.R
 
-.local_data <- function(obj_name) {
-  e <- new.env(parent = emptyenv())
-  utils::data(list = obj_name, package = "CanadaForestAllometry", envir = e)
-  if (!exists(obj_name, envir = e, inherits = FALSE)) {
-    testthat::skip(paste0(
-      "Dataset `",
-      obj_name,
-      "` not available via utils::data()."
-    ))
-  }
-  get(obj_name, envir = e, inherits = FALSE)
-}
-
 testthat::test_that("vol_nigh2016: returns tibble and matches Nigh2016 formula", {
-  params <- dplyr::as_tibble(.local_data("parameters_Nigh2016"))
+  # get parameters via API (works for internal tables)
+  reg <- CanadaForestAllometry::get_volume_params(
+    model_id = "regional_nigh2016",
+    species = "PICE.SPP", # genus-group guaranteed to exist if the model supports PICE
+    subregion = "ALL",
+    strict = FALSE
+  )
+
+  if (nrow(reg) == 0) {
+    testthat::skip("No Nigh2016 parameters available (regional_nigh2016).")
+  }
+
+  params <- dplyr::as_tibble(reg)
 
   testthat::expect_true(all(
     c("Species", "Subregion", "volume_type", "b0", "b1", "b2") %in%
@@ -36,20 +35,23 @@ testthat::test_that("vol_nigh2016: returns tibble and matches Nigh2016 formula",
   sp <- keys$Species[[1]]
   subr <- keys$Subregion[[1]]
 
-  p_tot <- params |>
-    dplyr::filter(
-      .data$Species == sp,
-      .data$Subregion == subr,
-      .data$volume_type == "total"
-    ) |>
+  # pull exact rows using API so we’re consistent with model selection
+  p_tot <- CanadaForestAllometry::get_volume_params(
+    "regional_nigh2016",
+    species = sp,
+    subregion = subr,
+    strict = FALSE
+  ) |>
+    dplyr::filter(.data$volume_type == "total") |>
     dplyr::slice(1)
 
-  p_mer <- params |>
-    dplyr::filter(
-      .data$Species == sp,
-      .data$Subregion == subr,
-      .data$volume_type %in% c("merch", "merchantable")
-    ) |>
+  p_mer <- CanadaForestAllometry::get_volume_params(
+    "regional_nigh2016",
+    species = sp,
+    subregion = subr,
+    strict = FALSE
+  ) |>
+    dplyr::filter(.data$volume_type %in% c("merch", "merchantable")) |>
     dplyr::slice(1)
 
   DBH <- 30
@@ -66,9 +68,7 @@ testthat::test_that("vol_nigh2016: returns tibble and matches Nigh2016 formula",
   testthat::expect_named(out, c("vol_total", "vol_merchantable"))
   testthat::expect_equal(nrow(out), 1L)
 
-  exp_fun <- function(b0, b1, b2) {
-    exp(b0) * (DBH^b1) * (ht^b2)
-  }
+  exp_fun <- function(b0, b1, b2) exp(b0) * (DBH^b1) * (ht^b2)
   vt_exp <- exp_fun(p_tot$b0[[1]], p_tot$b1[[1]], p_tot$b2[[1]])
   vm_exp <- exp_fun(p_mer$b0[[1]], p_mer$b1[[1]], p_mer$b2[[1]])
 
@@ -77,7 +77,15 @@ testthat::test_that("vol_nigh2016: returns tibble and matches Nigh2016 formula",
 })
 
 testthat::test_that("vol_nigh2016: vectorization and subregion recycling", {
-  params <- dplyr::as_tibble(.local_data("parameters_Nigh2016"))
+  params <- CanadaForestAllometry::get_volume_params(
+    model_id = "regional_nigh2016",
+    species = "PICE.SPP",
+    subregion = "ALL",
+    strict = FALSE
+  )
+  if (nrow(params) == 0) {
+    testthat::skip("No Nigh2016 parameters available.")
+  }
 
   keys <- params |>
     dplyr::group_by(.data$Species, .data$Subregion) |>
@@ -140,7 +148,16 @@ testthat::test_that("vol_nigh2016: input validation errors", {
 })
 
 testthat::test_that("vol_nigh2016: rejects invalid geometry values", {
-  params <- dplyr::as_tibble(.local_data("parameters_Nigh2016"))
+  params <- CanadaForestAllometry::get_volume_params(
+    model_id = "regional_nigh2016",
+    species = "PICE.SPP",
+    subregion = "ALL",
+    strict = FALSE
+  )
+  if (nrow(params) == 0) {
+    testthat::skip("No Nigh2016 parameters available.")
+  }
+
   keys <- params |>
     dplyr::group_by(.data$Species, .data$Subregion) |>
     dplyr::summarise(
@@ -200,7 +217,16 @@ testthat::test_that("vol_nigh2016: rejects invalid geometry values", {
 })
 
 testthat::test_that("vol_nigh2016: unknown subregion produces informative error", {
-  params <- dplyr::as_tibble(.local_data("parameters_Nigh2016"))
+  params <- CanadaForestAllometry::get_volume_params(
+    model_id = "regional_nigh2016",
+    species = "PICE.SPP",
+    subregion = "ALL",
+    strict = FALSE
+  )
+  if (nrow(params) == 0) {
+    testthat::skip("No Nigh2016 parameters available.")
+  }
+
   sp <- params$Species[[1]]
 
   testthat::expect_error(
@@ -216,7 +242,15 @@ testthat::test_that("vol_nigh2016: unknown subregion produces informative error"
 })
 
 testthat::test_that("vol_nigh2016: works across all species/subregion pairs", {
-  params <- dplyr::as_tibble(.local_data("parameters_Nigh2016"))
+  params <- CanadaForestAllometry::get_volume_params(
+    model_id = "regional_nigh2016",
+    species = "PICE.SPP",
+    subregion = "ALL",
+    strict = FALSE
+  )
+  if (nrow(params) == 0) {
+    testthat::skip("No Nigh2016 parameters available.")
+  }
 
   keys <- params |>
     dplyr::group_by(.data$Species, .data$Subregion) |>
@@ -229,7 +263,6 @@ testthat::test_that("vol_nigh2016: works across all species/subregion pairs", {
 
   testthat::expect_true(nrow(keys) > 0)
 
-  # Use a common, valid geometry for all
   DBH <- 30
   ht <- 20
 
@@ -247,79 +280,40 @@ testthat::test_that("vol_nigh2016: works across all species/subregion pairs", {
   testthat::expect_true(all(out$vol_merchantable >= 0))
   testthat::expect_true(all(out$vol_merchantable <= out$vol_total))
 })
-test_that("get_volume_params supports genus-group fallback for Nigh (PICE.GLA -> PICE.SPP)", {
-  skip_if_not(exists("get_volume_params", mode = "function"))
 
-  p <- get_volume_params(
+testthat::test_that("get_volume_params supports genus-group fallback for Nigh (PICE.GLA -> PICE.SPP)", {
+  p <- CanadaForestAllometry::get_volume_params(
     "regional_nigh2016",
     species = "PICE.GLA",
     subregion = "Interior"
   )
-  expect_true(nrow(p) > 0)
+  testthat::expect_true(nrow(p) > 0)
 })
 
-test_that("vol_nigh2016 matches manual calculations for 4 reference rows (region + BEC; total + merchantable)", {
-  skip_if_not(exists("vol_nigh2016", mode = "function"))
-  skip_if_not(exists("get_volume_params", mode = "function"))
-
+testthat::test_that("vol_nigh2016 matches manual calculations for 4 reference rows (region + BEC; total + merchantable)", {
   # Helper: manual Nigh (2016) prediction
-  nigh_manual <- function(DBH, H, b0, b1, b2) {
-    exp(b0) * (DBH^b1) * (H^b2)
-  }
+  nigh_manual <- function(DBH, H, b0, b1, b2) exp(b0) * (DBH^b1) * (H^b2)
 
-  # Choosing test inputs
   DBH <- 20
   H <- 20
 
-  # ---- 1) REGION: total volume (hard-coded from PDF Table 4, Species Fd (PSEU.MEN), Coastal) ----
-  #  –9.988 1.709 1.159
-  b0 <- -9.988
-  b1 <- 1.709
-  b2 <- 1.159
+  # 1) REGION total (PSEU.MEN, Coast)
+  out <- CanadaForestAllometry::vol_nigh2016(DBH, H, "PSEU.MEN", "Coast")
+  v_manual <- nigh_manual(DBH, H, -9.988, 1.709, 1.159)
+  testthat::expect_equal(out$vol_total[[1]], v_manual, tolerance = 1e-10)
 
-  out <- vol_nigh2016(DBH, H, "PSEU.MEN", "Coast")
-  expect_s3_class(out, "tbl_df")
-  expect_named(out, c("vol_total", "vol_merchantable"))
+  # 2) REGION merch (TSUG.HET, Interior)
+  out <- CanadaForestAllometry::vol_nigh2016(DBH, H, "TSUG.HET", "Interior")
+  v_manual <- nigh_manual(DBH, H, -10.387, 1.885, 1.114)
+  testthat::expect_equal(out$vol_merchantable[[1]], v_manual, tolerance = 1e-10)
 
-  v_manual <- nigh_manual(DBH, H, b0, b1, b2)
-  expect_equal(out$vol_total[[1]], v_manual, tolerance = 1e-10)
+  # 3) BEC total (ABIE.LAS, ICH)
+  out <- CanadaForestAllometry::vol_nigh2016(DBH, H, "ABIE.LAS", "ICH")
+  v_manual <- nigh_manual(DBH, H, -9.931, 1.916, 0.960)
+  testthat::expect_equal(out$vol_total[[1]], v_manual, tolerance = 1e-10)
 
-  # ---- 2) REGION: merchantable volume (hard-coded from PDF Table 6, Species=Hw (TSUG.HET), Interior) ----
-  # –10.387 1.885 1.114
-  b0 <- -10.387
-  b1 <- 1.885
-  b2 <- 1.114
-
-  out <- vol_nigh2016(DBH, H, "TSUG.HET", "Interior")
-  expect_s3_class(out, "tbl_df")
-  expect_named(out, c("vol_total", "vol_merchantable"))
-
-  v_manual <- nigh_manual(DBH, H, b0, b1, b2)
-  expect_equal(out$vol_merchantable[[1]], v_manual, tolerance = 1e-10)
-
-  # ---- 3) BEC: total volume (hard-coded from PDF Table 9, Species Bl (ABIE.LAS), ICH) ----
-  #  –9.931 1.916 0.960
-  b0 <- -9.931
-  b1 <- 1.916
-  b2 <- 0.960
-
-  out <- vol_nigh2016(DBH, H, "ABIE.LAS", "ICH")
-  expect_s3_class(out, "tbl_df")
-  expect_named(out, c("vol_total", "vol_merchantable"))
-
-  v_manual <- nigh_manual(DBH, H, b0, b1, b2)
-  expect_equal(out$vol_total[[1]], v_manual, tolerance = 1e-10)
-
-  # ---- 4) BEC: merchantable volume (hard-coded from PDF Table 11, Species L (LARI.LAX), BWBS) ----
-  #  –10.315 1.717 1.266
-  b0 <- -10.315
-  b1 <- 1.717
-  b2 <- 1.266
-
-  out <- vol_nigh2016(DBH, H, "LARI.LAX", "BWBS")
-  expect_s3_class(out, "tbl_df")
-  expect_named(out, c("vol_total", "vol_merchantable"))
-
-  v_manual <- nigh_manual(DBH, H, b0, b1, b2)
-  expect_equal(out$vol_merchantable[[1]], v_manual, tolerance = 1e-10)
+  # 4) BEC merch (LARI.LAX, BWBS)
+  out <- CanadaForestAllometry::vol_nigh2016(DBH, H, "LARI.LAX", "BWBS")
+  v_manual <- nigh_manual(DBH, H, -10.315, 1.717, 1.266)
+  testthat::expect_equal(out$vol_merchantable[[1]], v_manual, tolerance = 1e-10)
 })

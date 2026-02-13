@@ -222,3 +222,18 @@ standardize_ecozone <- function(ecozone) {
 
   out
 }
+
+
+# internal
+.get_internal_data <- function(name) {
+  ns <- asNamespace("CanadaForestAllometry")
+  if (!exists(name, envir = ns, inherits = FALSE)) {
+    rlang::abort(paste0(
+      "Internal data object `",
+      name,
+      "` not found in namespace.\n",
+      "Expected it in R/sysdata.rda (created via usethis::use_data(..., internal = TRUE))."
+    ))
+  }
+  get(name, envir = ns, inherits = FALSE)
+}

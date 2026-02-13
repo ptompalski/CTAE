@@ -43,8 +43,6 @@
 #' Full reference implementation:
 #' \url{https://github.com/CWFC-CCFB/CFSForestTools}
 #'
-#' @seealso
-#' \code{\link{parameters_fortin2007}}
 #' @examples
 #' # Single tree
 #' vol_fortin2007(
