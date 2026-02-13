@@ -50,13 +50,13 @@
 #'
 #' @examples
 #' # Province-wide model (default)
-#' vol_NL(20, 20, "PICE.MAR")
+#' vol_nl(20, 20, "PICE.MAR")
 #'
 #' # District-level model (NX-242 used for District 2)
-#' vol_NL(20, 20, "PICE.MAR", subregion = 2)
+#' vol_nl(20, 20, "PICE.MAR", subregion = 2)
 #'
 #' # Return net merchantable volume (if available)
-#' vol_NL(20, 20, "PICE.MAR", subregion = 2, keep_net = TRUE)
+#' vol_nl(20, 20, "PICE.MAR", subregion = 2, keep_net = TRUE)
 #'
 #' # Tidyverse workflow example
 #' trees <- tibble::tibble(
@@ -67,7 +67,7 @@
 #' )
 #'
 #'trees |>
-#'   dplyr::mutate(vol = vol_NL(DBH, height, species, subregion)) |>
+#'   dplyr::mutate(vol = vol_nl(DBH, height, species, subregion)) |>
 #'   tidyr::unnest(vol)
 #'
 #' @references
@@ -82,7 +82,7 @@
 #'
 #' @export
 
-vol_NL <- function(
+vol_nl <- function(
   DBH,
   height,
   species,
@@ -169,7 +169,7 @@ vol_NL <- function(
 
   abort_i <- function(i, msg) {
     rlang::abort(paste0(
-      "vol_NL() failed for row ",
+      "vol_nl() failed for row ",
       i,
       " (species=",
       species_std[i],

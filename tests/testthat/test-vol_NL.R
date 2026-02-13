@@ -1,4 +1,4 @@
-# tests/testthat/test-vol_NL.R
+# tests/testthat/test-vol_nl.R
 
 # ---- helpers ---------------------------------------------------------------
 
@@ -67,9 +67,9 @@
 
 # ---- tests -----------------------------------------------------------------
 
-testthat::test_that("vol_NL validates lengths and subregion inputs", {
+testthat::test_that("vol_nl validates lengths and subregion inputs", {
   testthat::expect_error(
-    CanadaForestAllometry::vol_NL(
+    CanadaForestAllometry::vol_nl(
       DBH = c(10, 20),
       height = 20,
       species = "PICE.MAR"
@@ -79,25 +79,25 @@ testthat::test_that("vol_NL validates lengths and subregion inputs", {
   )
 
   testthat::expect_error(
-    CanadaForestAllometry::vol_NL(20, 20, "PICE.MAR", subregion = 25),
+    CanadaForestAllometry::vol_nl(20, 20, "PICE.MAR", subregion = 25),
     "Invalid NL subregion",
     ignore.case = TRUE
   )
 
   testthat::expect_error(
-    CanadaForestAllometry::vol_NL(20, 20, "PICE.MAR", subregion = "foo"),
+    CanadaForestAllometry::vol_nl(20, 20, "PICE.MAR", subregion = "foo"),
     "Invalid NL subregion",
     ignore.case = TRUE
   )
 
   testthat::expect_error(
-    CanadaForestAllometry::vol_NL(20, 20, "PICE.MAR", subregion = NA),
+    CanadaForestAllometry::vol_nl(20, 20, "PICE.MAR", subregion = NA),
     "Invalid NL subregion",
     ignore.case = TRUE
   )
 })
 
-testthat::test_that("vol_NL returns tibble with expected columns and vectorizes", {
+testthat::test_that("vol_nl returns tibble with expected columns and vectorizes", {
   params <- dplyr::as_tibble(.local_internal("parameters_volNL"))
   testthat::expect_true(all(c("Species", "Subregion") %in% names(params)))
 
@@ -120,7 +120,7 @@ testthat::test_that("vol_NL returns tibble with expected columns and vectorizes"
     length(sp_all) == 1 && is.character(sp_all) && nzchar(sp_all)
   )
 
-  out <- CanadaForestAllometry::vol_NL(
+  out <- CanadaForestAllometry::vol_nl(
     DBH = c(10, 20, 30),
     height = c(12, 18, 24),
     species = rep(sp_all, 3),
@@ -138,7 +138,7 @@ testthat::test_that("vol_NL returns tibble with expected columns and vectorizes"
   testthat::expect_true(all(out$vol_merchantable <= out$vol_total))
 })
 
-testthat::test_that("vol_NL keep_net=TRUE adds net columns and respects constraints", {
+testthat::test_that("vol_nl keep_net=TRUE adds net columns and respects constraints", {
   params <- dplyr::as_tibble(.local_internal("parameters_volNL"))
 
   # Find a NX242 district row (these have district-specific param_set)
@@ -157,7 +157,7 @@ testthat::test_that("vol_NL keep_net=TRUE adds net columns and respects constrai
   sp <- nx242$Species[[1]]
   sr <- nx242$Subregion[[1]]
 
-  out <- CanadaForestAllometry::vol_NL(
+  out <- CanadaForestAllometry::vol_nl(
     DBH = 20,
     height = 20,
     species = sp,
@@ -192,7 +192,7 @@ testthat::test_that("vol_NL keep_net=TRUE adds net columns and respects constrai
     out$vol_merchantable_gross[[1]]
   )
 
-  # net constraints implemented in vol_NL:
+  # net constraints implemented in vol_nl:
   #   net <= gross
   #   net >= 0.95 * gross
   testthat::expect_lte(
@@ -205,7 +205,7 @@ testthat::test_that("vol_NL keep_net=TRUE adds net columns and respects constrai
   )
 })
 
-testthat::test_that("vol_NL applies NL minDBH rule: below -> merch 0, total still computed", {
+testthat::test_that("vol_nl applies NL minDBH rule: below -> merch 0, total still computed", {
   params <- dplyr::as_tibble(.local_internal("parameters_volNL"))
   mc_nl <- .pick_merchcrit_nl()
   mindbh_cm <- mc_nl$mindbh_cm
@@ -231,7 +231,7 @@ testthat::test_that("vol_NL applies NL minDBH rule: below -> merch 0, total stil
   # DBH just below min => merchantable forced 0
   DBH_small <- max(0.1, mindbh_cm - 0.1)
 
-  out <- CanadaForestAllometry::vol_NL(
+  out <- CanadaForestAllometry::vol_nl(
     DBH = DBH_small,
     height = 20,
     species = sp,
@@ -247,7 +247,7 @@ testthat::test_that("vol_NL applies NL minDBH rule: below -> merch 0, total stil
   testthat::expect_equal(out$vol_merchantable_net[[1]], 0)
 })
 
-testthat::test_that("vol_NL works across many Species/Subregion combinations (smoke test)", {
+testthat::test_that("vol_nl works across many Species/Subregion combinations (smoke test)", {
   params <- dplyr::as_tibble(.local_internal("parameters_volNL"))
   testthat::expect_true(all(c("Species", "Subregion") %in% names(params)))
 
@@ -268,7 +268,7 @@ testthat::test_that("vol_NL works across many Species/Subregion combinations (sm
   out <- purrr::pmap_dfr(
     list(cases$Species, cases$subregion),
     function(sp, sr) {
-      CanadaForestAllometry::vol_NL(
+      CanadaForestAllometry::vol_nl(
         DBH = 20,
         height = 20,
         species = sp,

@@ -51,7 +51,7 @@ volume_model_registry <- function() {
       "vol_sharma2021",
       "vol_fortin2007",
       "vol_nigh2016",
-      "vol_NL"
+      "vol_nl"
     ),
 
     requires_ht = c(
