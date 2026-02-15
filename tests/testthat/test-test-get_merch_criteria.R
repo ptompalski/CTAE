@@ -131,6 +131,179 @@ testthat::test_that("get_merch_criteria: BC unknown BEC_zone string falls back t
   testthat::expect_equal(out$species, "PSEU.MEN")
 })
 
+testthat::test_that("get_merch_criteria: BC BEC mapping routes through multiple groups and supports ALL fallback warning", {
+  testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
+
+  # Coast_dry mapping branch (CDF)
+  out_cdf <- CanadaForestAllometry::get_merch_criteria(
+    "BC",
+    species = "ALNU.RUB",
+    BEC_zone = "CDF",
+    verbose = FALSE
+  )
+  testthat::expect_equal(out_cdf$jurisdiction, "BC")
+  testthat::expect_equal(out_cdf$species, "ALNU.RUB")
+
+  # Interior_wet mapping branch (ICH)
+  out_ich <- CanadaForestAllometry::get_merch_criteria(
+    "BC",
+    species = "PICE.SPP",
+    BEC_zone = "ICH",
+    verbose = FALSE
+  )
+  testthat::expect_equal(out_ich$jurisdiction, "BC")
+
+  # High_elevation mapping branch (ESSF)
+  out_essf <- CanadaForestAllometry::get_merch_criteria(
+    "BC",
+    species = "ABIE.LAS",
+    BEC_zone = "ESSF",
+    verbose = FALSE
+  )
+  testthat::expect_equal(out_essf$jurisdiction, "BC")
+
+  # Force ALL fallback warning with a syntactically valid but unsupported species
+  testthat::expect_warning(
+    out_all <- CanadaForestAllometry::get_merch_criteria(
+      "BC",
+      species = "ZYZZ.ABC",
+      BEC_zone = "CDF",
+      verbose = TRUE
+    ),
+    "using BC fallback Species='ALL'",
+    fixed = FALSE
+  )
+  testthat::expect_equal(out_all$jurisdiction, "BC")
+  testthat::expect_equal(out_all$species, "ZYZZ.ABC")
+})
+
+testthat::test_that("get_merch_criteria: BC Interior_dry BEC mapping branch works (e.g., PP)", {
+  testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
+
+  out_pp <- CanadaForestAllometry::get_merch_criteria(
+    "BC",
+    species = "PSEU.MEN",
+    BEC_zone = "PP",
+    verbose = FALSE
+  )
+  testthat::expect_equal(out_pp$jurisdiction, "BC")
+  testthat::expect_equal(out_pp$species, "PSEU.MEN")
+})
+
+testthat::test_that("get_merch_criteria: errors when merchcrit is missing required columns", {
+  bad_merchcrit <- tibble::tibble(
+    Province = "ON",
+    Species = "ALL",
+    BEC_group = "UNKNOWN",
+    StumpHT = 30,
+    TopDBH = 9
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::get_merch_criteria("ON"),
+      "missing required columns",
+      ignore.case = TRUE
+    ),
+    .get_merchcrit_tbl = function() bad_merchcrit,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("get_merch_criteria: non-BC throws if jurisdiction has no rows after legacy fallback", {
+  empty_merchcrit <- tibble::tibble(
+    Province = character(),
+    Species = character(),
+    BEC_group = character(),
+    StumpHT = numeric(),
+    TopDBH = numeric(),
+    MinDBH = numeric()
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::get_merch_criteria("ON"),
+      "No merchantability criteria found for jurisdiction",
+      ignore.case = TRUE
+    ),
+    .get_merchcrit_tbl = function() empty_merchcrit,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("get_merch_criteria: non-BC errors on ambiguous province-only fallback rows", {
+  dup_merchcrit <- tibble::tibble(
+    Province = c("ON", "ON"),
+    Species = c("ABCD.SPP", "EFGH.SPP"),
+    BEC_group = c("UNKNOWN", "UNKNOWN"),
+    StumpHT = c(30, 35),
+    TopDBH = c(9, 9),
+    MinDBH = c(12, 12)
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::get_merch_criteria("ON"),
+      "Multiple merchantability rows found for 'ON'",
+      fixed = TRUE
+    ),
+    .get_merchcrit_tbl = function() dup_merchcrit,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("get_merch_criteria: BC errors when no candidate row exists", {
+  bc_unmatched <- tibble::tibble(
+    Province = "BC",
+    Species = "PICE.SPP",
+    BEC_group = "Coast_wet",
+    StumpHT = 30,
+    TopDBH = 9,
+    MinDBH = 12
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::get_merch_criteria(
+        "BC",
+        species = "ABIE.BAL",
+        BEC_zone = "UNKNOWN_CODE",
+        verbose = FALSE
+      ),
+      "No merchantability criteria found for BC",
+      ignore.case = TRUE
+    ),
+    .get_merchcrit_tbl = function() bc_unmatched,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("get_merch_criteria: BC errors on duplicate match rows", {
+  bc_dups <- tibble::tibble(
+    Province = c("BC", "BC"),
+    Species = c("PSEU.MEN", "PSEU.MEN"),
+    BEC_group = c("Coast_wet", "Coast_wet"),
+    StumpHT = c(30, 30),
+    TopDBH = c(9, 9),
+    MinDBH = c(12, 12)
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::get_merch_criteria(
+        "BC",
+        species = "PSEU.MEN",
+        BEC_zone = "CWH",
+        verbose = FALSE
+      ),
+      "Multiple merchantability rows found for BC",
+      ignore.case = TRUE
+    ),
+    .get_merchcrit_tbl = function() bc_dups,
+    .package = "CanadaForestAllometry"
+  )
+})
+
 # testthat::test_that("get_merch_criteria: BC species falls back to genus-level SPP when available", {
 #   testthat::skip_if_not(exists("merchcrit", inherits = TRUE))
 

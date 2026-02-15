@@ -180,3 +180,92 @@ testthat::test_that("vol_fortin2007 matches manual calculations: hardwood vs con
     )
   }
 })
+
+testthat::test_that("vol_fortin2007: errors when parameter table is empty or missing required columns", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 20, height = 20, species = "PICE.MAR"),
+      get_volume_params = function(...) tibble::tibble(),
+      .package = "CanadaForestAllometry"
+    ),
+    "No parameters returned by get_volume_params",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 20, height = 20, species = "PICE.MAR"),
+      get_volume_params = function(...) tibble::tibble(b1 = 1, b2 = 1),
+      .package = "CanadaForestAllometry"
+    ),
+    "missing required columns",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_fortin2007: errors on duplicated/non-finite parameter rows", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  p_dup <- tibble::tibble(b1 = c(1, 1), b2 = c(1, 1), b3 = c(0, 0))
+  p_bad <- tibble::tibble(b1 = 1, b2 = NA_real_, b3 = 0)
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 20, height = 20, species = "PICE.MAR"),
+      get_volume_params = function(...) p_dup,
+      .package = "CanadaForestAllometry"
+    ),
+    "Multiple Fortin2007 parameter rows returned",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 20, height = 20, species = "PICE.MAR"),
+      get_volume_params = function(...) p_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "Parameter 'b2' is not finite",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_fortin2007: numeric guardrails catch overflow/non-finite and negative predictions", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  p_ok <- tibble::tibble(b1 = 0, b2 = 1, b3 = 0)
+  p_inf <- tibble::tibble(b1 = 0, b2 = 1e308, b3 = 0)
+  p_neg <- tibble::tibble(b1 = 0, b2 = -1, b3 = 0)
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 1e308, height = 2, species = "PICE.MAR"),
+      get_volume_params = function(...) p_ok,
+      .package = "CanadaForestAllometry"
+    ),
+    "cylinder term is non-finite",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 20, height = 20, species = "PICE.MAR"),
+      get_volume_params = function(...) p_inf,
+      .package = "CanadaForestAllometry"
+    ),
+    "Prediction is not finite",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_fortin2007(DBH = 20, height = 20, species = "PICE.MAR"),
+      get_volume_params = function(...) p_neg,
+      .package = "CanadaForestAllometry"
+    ),
+    "Prediction is negative",
+    fixed = FALSE
+  )
+})

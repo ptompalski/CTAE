@@ -239,3 +239,144 @@ test_that("Kozak88 wrappers compute total volume for small trees (below mindbh)"
   # total volume must still be positive (regression target)
   expect_true(out$vol_total[[1]] > 0)
 })
+
+test_that("vol_kozak88_engine errors when merch criteria schema/values are invalid", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  mc_missing <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10)
+  mc_badvals <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10, mindbh_cm = Inf)
+
+  valid_p <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, p = 0.225
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak88_engine(
+        DBH = 20, height = 20, species = "PICE.MAR", subregion = "Province",
+        jurisdiction = "AB", model_id = "regional_huang94"
+      ),
+      get_merch_criteria = function(...) mc_missing,
+      get_volume_params = function(...) valid_p,
+      .package = "CanadaForestAllometry"
+    ),
+    "missing columns",
+    fixed = FALSE
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak88_engine(
+        DBH = 20, height = 20, species = "PICE.MAR", subregion = "Province",
+        jurisdiction = "AB", model_id = "regional_huang94"
+      ),
+      get_merch_criteria = function(...) mc_badvals,
+      get_volume_params = function(...) valid_p,
+      .package = "CanadaForestAllometry"
+    ),
+    "non-finite values",
+    fixed = FALSE
+  )
+})
+
+test_that("vol_kozak88_engine errors when returned parameter row is invalid", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  mc_ok <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10, mindbh_cm = 5)
+  p_bad <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, p = 1
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak88_engine(
+        DBH = 20, height = 20, species = "PICE.MAR", subregion = "Province",
+        jurisdiction = "AB", model_id = "regional_huang94"
+      ),
+      get_merch_criteria = function(...) mc_ok,
+      get_volume_params = function(...) p_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "missing required coefficients|contains NA/Inf",
+    fixed = FALSE
+  )
+})
+
+test_that("vol_kozak88_engine errors when merch criteria are unavailable for species and ALL", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  empty_mc <- tibble::tibble(
+    jurisdiction = character(0),
+    species = character(0),
+    stumpht_m = numeric(0),
+    topdbh_cm = numeric(0),
+    mindbh_cm = numeric(0)
+  )
+
+  valid_p <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, p = 0.225
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak88_engine(
+        DBH = 20, height = 20, species = "PICE.MAR", subregion = "Province",
+        jurisdiction = "AB", model_id = "regional_huang94"
+      ),
+      get_merch_criteria = function(...) empty_mc,
+      get_volume_params = function(...) valid_p,
+      .package = "CanadaForestAllometry"
+    ),
+    "returned no rows",
+    fixed = FALSE
+  )
+})
+
+test_that("vol_kozak88_engine covers height clamp and bad stump DIB path", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  mc_ok <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10, mindbh_cm = 5)
+
+  # p omitted -> default p=0.225 path
+  p_no_p <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0
+  )
+
+  out <- testthat::with_mocked_bindings(
+    ns$vol_kozak88_engine(
+      DBH = 20, height = 1.2, species = "PICE.MAR", subregion = "Province",
+      jurisdiction = "AB", model_id = "regional_huang94"
+    ),
+    get_merch_criteria = function(...) mc_ok,
+    get_volume_params = function(...) p_no_p,
+    .package = "CanadaForestAllometry"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_equal(nrow(out), 1L)
+  expect_true(is.finite(out$vol_total[[1]]))
+
+  # Negative a0 keeps params finite but makes form factor invalid at stump DIB step
+  p_bad_dib <- tibble::tibble(
+    a0 = -1, a1 = 1, a2 = 1.01,
+    b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, p = 0.225
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak88_engine(
+        DBH = 20, height = 20, species = "PICE.MAR", subregion = "Province",
+        jurisdiction = "AB", model_id = "regional_huang94"
+      ),
+      get_merch_criteria = function(...) mc_ok,
+      get_volume_params = function(...) p_bad_dib,
+      .package = "CanadaForestAllometry"
+    ),
+    "Failed computing DIB at stump height",
+    fixed = FALSE
+  )
+})

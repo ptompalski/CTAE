@@ -296,3 +296,228 @@ testthat::test_that("vol_nl works across many Species/Subregion combinations (sm
     out$vol_merchantable_net <= out$vol_merchantable_gross
   ))
 })
+
+
+testthat::test_that("NL model matches NX-242 Appendix I for total + gross merchantable", {
+  ns <- getNamespace("CanadaForestAllometry")
+
+  mock_get_merch_criteria <- function(jurisdiction, verbose = FALSE, ...) {
+    tibble::tibble(
+      jurisdiction = "NL",
+      species = "ALL",
+      stumpht_m = 0.1524,
+      topdbh_cm = 7.62,
+      mindbh_cm = 0
+    )
+  }
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = mock_get_merch_criteria,
+    .env = ns
+  )
+
+  r3 <- function(x) round(x, 3)
+
+  # Note: NX-242 Appendix I net values are ~0.1696 (BF) and ~0.1450 (BS) when unconstrained.
+  # This implementation follows the OSM policy and constrains net to >= 95% of gross.
+
+  # ABIE.BAL (ABBA), District 12, DBH=20, H=15
+  x_abba <- vol_nl(20, 15, "ABIE.BAL", subregion = 12, keep_net = TRUE)
+  testthat::expect_equal(r3(x_abba$vol_total), 0.206) # NX-242 p20
+  testthat::expect_equal(r3(x_abba$vol_merchantable_gross), 0.196) # NX-242 p22
+
+  # PICE.MAR (PIMA), District 12, DBH=20, H=15
+  x_bs <- vol_nl(20, 15, "PICE.MAR", subregion = 12, keep_net = TRUE)
+  testthat::expect_equal(r3(x_bs$vol_total), 0.201) # NX-242 p31
+  testthat::expect_equal(r3(x_bs$vol_merchantable_gross), 0.191) # NX-242 p33
+})
+
+testthat::test_that("NL model constrains net volume to >= 95% of gross (internal policy)", {
+  ns <- getNamespace("CanadaForestAllometry")
+
+  mock_get_merch_criteria <- function(jurisdiction, verbose = FALSE, ...) {
+    tibble::tibble(
+      jurisdiction = "NL",
+      species = "ALL",
+      stumpht_m = 0.1524,
+      topdbh_cm = 7.62,
+      mindbh_cm = 0
+    )
+  }
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = mock_get_merch_criteria,
+    .env = ns
+  )
+
+  x_abba <- vol_nl(20, 15, "ABIE.BAL", subregion = 12, keep_net = TRUE)
+  x_bs <- vol_nl(20, 15, "PICE.MAR", subregion = 12, keep_net = TRUE)
+
+  testthat::expect_equal(
+    x_abba$vol_merchantable_net / x_abba$vol_merchantable_gross,
+    0.95,
+    tolerance = 1e-12
+  )
+
+  testthat::expect_equal(
+    x_bs$vol_merchantable_net / x_bs$vol_merchantable_gross,
+    0.95,
+    tolerance = 1e-12
+  )
+
+  # sanity bounds
+  testthat::expect_true(
+    x_abba$vol_merchantable_net <= x_abba$vol_merchantable_gross
+  )
+  testthat::expect_true(
+    x_bs$vol_merchantable_net <= x_bs$vol_merchantable_gross
+  )
+})
+
+
+testthat::test_that("NL Honer-based model matches reference total volume (confirmed independent calculation)", {
+  ns <- getNamespace("CanadaForestAllometry")
+
+  mock_get_merch_criteria <- function(jurisdiction, verbose = FALSE, ...) {
+    tibble::tibble(
+      jurisdiction = "NL",
+      species = "ALL",
+      stumpht_m = 0.1524,
+      topdbh_cm = 7.62,
+      mindbh_cm = 0
+    )
+  }
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = mock_get_merch_criteria,
+    .env = ns
+  )
+
+  # C# reference (district 2):
+  # tv == 0.30151269542576109
+  #
+  # Use tolerance rather than exact equality to be robust across platforms.
+  x <- CanadaForestAllometry::vol_nl(
+    DBH = 21.91162,
+    height = 17.23452,
+    species = "ABIE.BAL",
+    subregion = 2,
+    keep_net = TRUE
+  )
+
+  testthat::expect_equal(
+    x$vol_total,
+    0.30151269542576109,
+    tolerance = 1e-12
+  )
+})
+
+testthat::test_that("NL Honer-based model random stress test: invariants hold (supported species only)", {
+  ns <- getNamespace("CanadaForestAllometry")
+
+  # deterministic merch criteria + disable min DBH effect
+  mock_get_merch_criteria <- function(jurisdiction, verbose = FALSE, ...) {
+    tibble::tibble(
+      jurisdiction = "NL",
+      species = "ALL",
+      stumpht_m = 0.1524,
+      topdbh_cm = 7.62,
+      mindbh_cm = 0
+    )
+  }
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = mock_get_merch_criteria,
+    .env = ns
+  )
+
+  # ---- get params via internal helper (sysdata.rda aware) ----
+  get_params_tbl <- get("get_params_tbl", envir = ns, inherits = FALSE)
+  params <- get_params_tbl("parameters_volNL")
+
+  testthat::skip_if_not(is.data.frame(params))
+  testthat::skip_if_not(all(c("Species", "Subregion") %in% names(params)))
+
+  frame <- params |>
+    dplyr::transmute(
+      Species = .data$Species,
+      subregion = dplyr::coalesce(as.character(.data$Subregion), "ALL")
+    ) |>
+    dplyr::distinct() |>
+    dplyr::filter(!is.na(.data$Species), .data$Species != "") |>
+    dplyr::filter(!is.na(.data$subregion), .data$subregion != "")
+
+  testthat::skip_if_not(nrow(frame) > 0)
+
+  set.seed(1)
+  n_iter <- 2000L
+
+  idx <- sample(seq_len(nrow(frame)), n_iter, replace = TRUE)
+  sp <- frame$Species[idx]
+  sr <- frame$subregion[idx]
+
+  dbh <- 1 + runif(n_iter) * 60
+  ht <- 1.3 + runif(n_iter) * 35
+
+  out <- vol_nl(
+    DBH = dbh,
+    height = ht,
+    species = sp,
+    subregion = sr,
+    keep_net = TRUE
+  )
+
+  # invariants (C# style)
+  testthat::expect_true(all(out$vol_total >= 0))
+  testthat::expect_true(all(out$vol_merchantable_gross >= 0))
+  testthat::expect_true(all(out$vol_merchantable_net >= 0))
+
+  testthat::expect_true(all(out$vol_merchantable_gross <= out$vol_total))
+  testthat::expect_true(all(
+    out$vol_merchantable_net <= out$vol_merchantable_gross
+  ))
+  testthat::expect_true(all(
+    out$vol_merchantable_net >= out$vol_merchantable_gross * 0.95
+  ))
+})
+
+
+testthat::test_that("District 19 is accepted but falls back to province model (C# behavior)", {
+  ns <- getNamespace("CanadaForestAllometry")
+
+  # Make merch criteria deterministic and remove min DBH effect
+  mock_get_merch_criteria <- function(jurisdiction, verbose = FALSE, ...) {
+    tibble::tibble(
+      jurisdiction = "NL",
+      species = "ALL",
+      stumpht_m = 0.1524,
+      topdbh_cm = 7.62,
+      mindbh_cm = 0
+    )
+  }
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = mock_get_merch_criteria,
+    .env = ns
+  )
+
+  # If the function mimics C#, District 19 uses province-wide parameters (ALL).
+  a <- CanadaForestAllometry::vol_nl(
+    20,
+    20,
+    "PICE.MAR",
+    subregion = "Province",
+    keep_net = TRUE
+  )
+  b <- CanadaForestAllometry::vol_nl(
+    20,
+    20,
+    "PICE.MAR",
+    subregion = 19,
+    keep_net = TRUE
+  )
+
+  testthat::expect_equal(b$vol_total, a$vol_total)
+  testthat::expect_equal(b$vol_merchantable_gross, a$vol_merchantable_gross)
+  testthat::expect_equal(b$vol_merchantable_net, a$vol_merchantable_net)
+})
