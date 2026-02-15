@@ -59,8 +59,7 @@ get_merch_criteria <- function(
   }
 
   # ---- internal data ----
-  merchcrit <- CanadaForestAllometry::merchcrit
-  # stopifnot(exists("merchcrit", inherits = TRUE))
+  merchcrit <- .get_merchcrit_tbl()
 
   required <- c(
     "Province",
@@ -332,4 +331,13 @@ get_merch_criteria <- function(
     topdbh_cm = as.numeric(hit$TopDBH),
     mindbh_cm = as.numeric(hit$MinDBH)
   )
+}
+
+# Internal helper to access merch criteria table from namespace/data.
+.get_merchcrit_tbl <- function() {
+  ns <- asNamespace("CanadaForestAllometry")
+  if (exists("merchcrit", envir = ns, inherits = FALSE)) {
+    return(get("merchcrit", envir = ns, inherits = FALSE))
+  }
+  CanadaForestAllometry::merchcrit
 }

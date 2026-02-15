@@ -301,3 +301,230 @@ testthat::test_that("zakrzewski2013 returns positive total volume below mindbh",
   testthat::expect_gt(out$vol_total, 0)
   testthat::expect_equal(out$vol_merchantable, 0)
 })
+
+testthat::test_that("vol_zakrzewski2013() errors when merch criteria table is missing required columns", {
+  testthat::local_mocked_bindings(
+    standardize_species_code = function(x) x,
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = 0.3,
+        topdbh_cm = 12
+        # mindbh_cm missing
+      )
+    },
+    get_volume_params = function(model_id, species) {
+      tibble::tibble(
+        model_id = model_id,
+        species = species,
+        delta = 0.95,
+        nu = 0.10,
+        rho = 1.20,
+        beta = 0.02,
+        gamma = 0.03,
+        chi = 0
+      )
+    }
+  )
+
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 22, species = "PICE.MAR"),
+    "get_merch_criteria\\(\\) missing columns",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_zakrzewski2013() errors when parameter table is missing required columns", {
+  testthat::local_mocked_bindings(
+    standardize_species_code = function(x) x,
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = 0.3,
+        topdbh_cm = 12,
+        mindbh_cm = 9.1
+      )
+    },
+    get_volume_params = function(model_id, species) {
+      tibble::tibble(
+        model_id = model_id,
+        species = species,
+        delta = 0.95,
+        nu = 0.10,
+        rho = 1.20,
+        beta = 0.02,
+        gamma = 0.03
+        # chi missing
+      )
+    }
+  )
+
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 22, species = "PICE.MAR"),
+    "missing columns for Zakrzewski2013",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_zakrzewski2013() errors on invalid merch criteria values", {
+  base_params <- function(model_id, species) {
+    tibble::tibble(
+      model_id = model_id,
+      species = species,
+      delta = 0.95,
+      nu = 0.10,
+      rho = 1.20,
+      beta = 0.02,
+      gamma = 0.03,
+      chi = 0
+    )
+  }
+
+  testthat::local_mocked_bindings(
+    standardize_species_code = function(x) x,
+    get_volume_params = base_params
+  )
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = -0.1,
+        topdbh_cm = 12,
+        mindbh_cm = 9.1
+      )
+    }
+  )
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 22, species = "PICE.MAR"),
+    "Invalid stumpht_m",
+    fixed = FALSE
+  )
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = 0.3,
+        topdbh_cm = 0,
+        mindbh_cm = 9.1
+      )
+    }
+  )
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 22, species = "PICE.MAR"),
+    "Invalid topdbh_cm",
+    fixed = FALSE
+  )
+
+  testthat::local_mocked_bindings(
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = 0.3,
+        topdbh_cm = 12,
+        mindbh_cm = -1
+      )
+    }
+  )
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 22, species = "PICE.MAR"),
+    "Invalid mindbh_cm",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_zakrzewski2013() errors on non-finite model parameters", {
+  testthat::local_mocked_bindings(
+    standardize_species_code = function(x) x,
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = 0.3,
+        topdbh_cm = 12,
+        mindbh_cm = 9.1
+      )
+    }
+  )
+
+  mk <- function(delta = 0.95, nu = 0.10, rho = 1.20, beta = 0.02, gamma = 0.03, chi = 0) {
+    function(model_id, species) {
+      tibble::tibble(
+        model_id = model_id,
+        species = species,
+        delta = delta,
+        nu = nu,
+        rho = rho,
+        beta = beta,
+        gamma = gamma,
+        chi = chi
+      )
+    }
+  }
+
+  testthat::local_mocked_bindings(get_volume_params = mk(delta = NA_real_))
+  testthat::expect_error(vol_zakrzewski2013(20, 22, "PICE.MAR"), "Parameter 'delta' is not finite")
+
+  testthat::local_mocked_bindings(get_volume_params = mk(nu = NA_real_))
+  testthat::expect_error(vol_zakrzewski2013(20, 22, "PICE.MAR"), "Parameter 'nu' is not finite")
+
+  testthat::local_mocked_bindings(get_volume_params = mk(rho = NA_real_))
+  testthat::expect_error(vol_zakrzewski2013(20, 22, "PICE.MAR"), "Parameter 'rho' is not finite")
+
+  testthat::local_mocked_bindings(get_volume_params = mk(beta = NA_real_))
+  testthat::expect_error(vol_zakrzewski2013(20, 22, "PICE.MAR"), "Parameter 'beta' is not finite")
+
+  testthat::local_mocked_bindings(get_volume_params = mk(gamma = NA_real_))
+  testthat::expect_error(vol_zakrzewski2013(20, 22, "PICE.MAR"), "Parameter 'gamma' is not finite")
+
+  testthat::local_mocked_bindings(get_volume_params = mk(chi = NA_real_))
+  testthat::expect_error(vol_zakrzewski2013(20, 22, "PICE.MAR"), "Parameter 'chi' is not finite")
+})
+
+testthat::test_that("vol_zakrzewski2013() clamps height below BH and can fail on invalid bark fraction", {
+  # Height < 1.3 path is clamped internally; current implementation may still fail
+  # downstream for some combinations. Assert that failure is explicit.
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 1, species = "PICE.MAR"),
+    "Total volume computation produced non-finite/negative value",
+    fixed = FALSE
+  )
+
+  # Force bark fraction <= 0 in conifer path: barkf = delta + nu*(BH/H)
+  testthat::local_mocked_bindings(
+    standardize_species_code = function(x) x,
+    get_merch_criteria = function(jurisdiction, species) {
+      tibble::tibble(
+        jurisdiction = jurisdiction,
+        species = species,
+        stumpht_m = 0.3,
+        topdbh_cm = 12,
+        mindbh_cm = 9.1
+      )
+    },
+    get_volume_params = function(model_id, species) {
+      tibble::tibble(
+        model_id = model_id,
+        species = species,
+        delta = -10,
+        nu = 0,
+        rho = 1.20,
+        beta = 0.02,
+        gamma = 0.03,
+        chi = 0
+      )
+    }
+  )
+
+  testthat::expect_error(
+    vol_zakrzewski2013(DBH = 20, height = 22, species = "PICE.MAR"),
+    "Computed bark fraction is invalid",
+    fixed = FALSE
+  )
+})

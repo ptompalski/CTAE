@@ -235,3 +235,258 @@ testthat::test_that("vol_kozak94: vectorized inputs return same-length output an
     )
   }
 })
+
+testthat::test_that("vol_kozak94: errors when multiple parameter rows are returned", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  mock_mc <- tibble::tibble(
+    stumpht_m = 0.3,
+    topdbh_cm = 10,
+    mindbh_cm = 5
+  )
+
+  mock_p <- tibble::tibble(
+    a0 = c(1, 1),
+    a1 = c(1, 1),
+    a2 = c(1.01, 1.01),
+    b0 = c(0, 0),
+    b1 = c(0, 0),
+    b2 = c(0, 0),
+    b3 = c(0, 0),
+    b4 = c(0, 0),
+    b5 = c(0, 0),
+    b6 = c(0, 0),
+    log_bias_factor = c(1, 1)
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mock_mc,
+      get_volume_params = function(...) mock_p,
+      .package = "CanadaForestAllometry"
+    ),
+    "Multiple Kozak94 parameter rows returned",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_kozak94: errors on missing/non-finite/invalid parameters", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  mock_mc <- tibble::tibble(
+    stumpht_m = 0.3,
+    topdbh_cm = 10,
+    mindbh_cm = 5
+  )
+
+  p_missing <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0,
+    log_bias_factor = 1
+  )
+  p_nonfinite <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = NA_real_, b5 = 0, b6 = 0,
+    log_bias_factor = 1
+  )
+  p_bias_bad <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0,
+    log_bias_factor = 0
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mock_mc,
+      get_volume_params = function(...) p_missing,
+      .package = "CanadaForestAllometry"
+    ),
+    "Missing parameter columns",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mock_mc,
+      get_volume_params = function(...) p_nonfinite,
+      .package = "CanadaForestAllometry"
+    ),
+    "is not finite",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mock_mc,
+      get_volume_params = function(...) p_bias_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "log_bias_factor must be > 0",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_kozak94: errors on missing/invalid merchantability criteria", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  p_ok <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0,
+    log_bias_factor = 1
+  )
+
+  mc_missing_col <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10)
+  mc_empty <- tibble::tibble(
+    jurisdiction = character(0),
+    species = character(0),
+    stumpht_m = numeric(0),
+    topdbh_cm = numeric(0),
+    mindbh_cm = numeric(0)
+  )
+  mc_bad_stump <- tibble::tibble(stumpht_m = -1, topdbh_cm = 10, mindbh_cm = 5)
+  mc_bad_top <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 0, mindbh_cm = 5)
+  mc_bad_mindbh <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10, mindbh_cm = -1)
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_missing_col,
+      get_volume_params = function(...) p_ok,
+      .package = "CanadaForestAllometry"
+    ),
+    "get_merch_criteria\\(\\) missing columns",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_empty,
+      get_volume_params = function(...) p_ok,
+      .package = "CanadaForestAllometry"
+    ),
+    "No merchantability criteria found",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_bad_stump,
+      get_volume_params = function(...) p_ok,
+      .package = "CanadaForestAllometry"
+    ),
+    "Invalid stumpht_m",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_bad_top,
+      get_volume_params = function(...) p_ok,
+      .package = "CanadaForestAllometry"
+    ),
+    "Invalid topdbh_cm",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_bad_mindbh,
+      get_volume_params = function(...) p_ok,
+      .package = "CanadaForestAllometry"
+    ),
+    "Invalid mindbh_cm",
+    fixed = FALSE
+  )
+})
+
+testthat::test_that("vol_kozak94: errors on no params, bad form factor, bad DIB, and solver issues", {
+  ns <- asNamespace("CanadaForestAllometry")
+
+  mc_ok <- tibble::tibble(stumpht_m = 0.3, topdbh_cm = 10, mindbh_cm = 5)
+
+  p_empty <- tibble::tibble(
+    a0 = numeric(0), a1 = numeric(0), a2 = numeric(0),
+    b0 = numeric(0), b1 = numeric(0), b2 = numeric(0), b3 = numeric(0),
+    b4 = numeric(0), b5 = numeric(0), b6 = numeric(0),
+    log_bias_factor = numeric(0)
+  )
+  p_ff_bad <- tibble::tibble(
+    a0 = -1, a1 = 1, a2 = 1.01,
+    b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0,
+    log_bias_factor = 1
+  )
+  p_dib_bad <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b0 = -1e308, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0,
+    log_bias_factor = 1
+  )
+  p_solver_bad <- tibble::tibble(
+    a0 = 1, a1 = 1, a2 = 1.01,
+    b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0,
+    log_bias_factor = 1
+  )
+  mc_hm_bad <- tibble::tibble(stumpht_m = 30, topdbh_cm = 10, mindbh_cm = 5)
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_ok,
+      get_volume_params = function(...) p_empty,
+      .package = "CanadaForestAllometry"
+    ),
+    "No Kozak94 parameters found",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_ok,
+      get_volume_params = function(...) p_ff_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "Form factor is non-finite or <= 0",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_ok,
+      get_volume_params = function(...) p_dib_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "Failed computing DIB at 0.3 m",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_ok,
+      get_volume_params = function(...) p_solver_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "Merchantable height solver failed",
+    fixed = FALSE
+  )
+
+  testthat::expect_error(
+    testthat::with_mocked_bindings(
+      ns$vol_kozak94(DBH = 20, height = 20, species = "PSEU.MEN", BEC_zone = "CWH"),
+      get_merch_criteria = function(...) mc_hm_bad,
+      get_volume_params = function(...) p_dib_bad,
+      .package = "CanadaForestAllometry"
+    ),
+    "Failed computing DIB at 0.3 m|merchantable height is invalid",
+    fixed = FALSE
+  )
+})

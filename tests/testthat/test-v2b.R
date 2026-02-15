@@ -161,6 +161,33 @@ testthat::test_that("v2b_component_keys returns expected join keys", {
     v2b_component_keys("B5"),
     c("juris_id", "ecozone", "genus")
   )
+  testthat::expect_equal(
+    v2b_component_keys("B14"),
+    c("juris_id", "ecozone", "genus")
+  )
+  testthat::expect_error(
+    v2b_component_keys("NOPE"),
+    class = "ctae_v2b_unknown_component"
+  )
+})
+
+testthat::test_that("v2b_match_marker picks expected marker and errors when unavailable", {
+  out1 <- tibble::tibble(.row_id = 1L, source_table = "B3", a = 1)
+  p1 <- tibble::tibble(juris_id = "AB", ecozone = 4, genus = "PICE", species = "MAR", variety = NA_character_, a = 1)
+  join1 <- c("juris_id", "ecozone", "genus", "species", "variety")
+  testthat::expect_identical(v2b_match_marker(out1, p1, join1), "source_table")
+
+  out2 <- tibble::tibble(.row_id = 1L, a = 1)
+  p2 <- tibble::tibble(juris_id = "AB", ecozone = 4, genus = "PICE", a = 1)
+  join2 <- c("juris_id", "ecozone", "genus")
+  testthat::expect_identical(v2b_match_marker(out2, p2, join2), "a")
+
+  out3 <- tibble::tibble(.row_id = 1L, juris_id = "AB", ecozone = 4, genus = "PICE")
+  p3 <- tibble::tibble(juris_id = "AB", ecozone = 4, genus = "PICE")
+  testthat::expect_error(
+    v2b_match_marker(out3, p3, join2),
+    class = "ctae_v2b_bad_param_table"
+  )
 })
 
 testthat::test_that("v2b_fetch_params matches and preserves input order", {
@@ -204,6 +231,57 @@ testthat::test_that("v2b_fetch_params errors when missing params", {
     v2b_fetch_params("B3", keys, params_list = params),
     class = "ctae_v2b_missing_params"
   )
+})
+
+testthat::test_that("v2b_fetch_params validates component/keys/param-table schema", {
+  params <- make_mock_params_v2b()
+  keys <- make_mock_keys(species = c("PICE.MAR"))
+
+  testthat::expect_error(
+    v2b_fetch_params("NOPE", keys, params_list = params),
+    class = "ctae_v2b_missing_component"
+  )
+
+  bad_keys <- dplyr::select(keys, -variety)
+  testthat::expect_error(
+    v2b_fetch_params("B3", bad_keys, params_list = params),
+    class = "ctae_v2b_bad_keys"
+  )
+
+  params_bad <- params
+  params_bad$B3 <- dplyr::select(params_bad$B3, -species)
+  testthat::expect_error(
+    v2b_fetch_params("B3", keys, params_list = params_bad),
+    class = "ctae_v2b_bad_param_table"
+  )
+})
+
+testthat::test_that("v2b_fetch_params species->SPP fallback works when enabled", {
+  params <- make_mock_params_v2b()
+  params$B3 <- tibble::tibble(
+    juris_id = "AB",
+    ecozone = 4,
+    genus = "PICE",
+    species = "SPP",
+    variety = NA_character_,
+    a = 3,
+    b = 0.8,
+    source_table = "B3"
+  )
+
+  keys <- make_mock_keys(species = c("PICE.GLA"))
+
+  out <- v2b_fetch_params(
+    "B3",
+    keys,
+    params_list = params,
+    allow_variety_fallback = TRUE,
+    allow_species_spp_fallback = TRUE
+  )
+
+  testthat::expect_equal(out$.row_id, 1L)
+  testthat::expect_equal(out$species, "SPP")
+  testthat::expect_equal(out$a, 3)
 })
 
 testthat::test_that("math helpers behave and handle caps", {
@@ -263,6 +341,13 @@ testthat::test_that("v2b_apply_caps_table7 clamps to low/high and optional renor
   out_yes <- v2b_apply_caps_table7(props, caps, renormalize = TRUE)
   s <- out_yes$p_sw + out_yes$p_sb + out_yes$p_br + out_yes$p_fl
   testthat::expect_equal(as.numeric(s), 1, tolerance = 1e-12)
+})
+
+testthat::test_that("v2b_clamp_x_table7 clamps x into row-wise [x_min, x_max]", {
+  caps <- tibble::tibble(x_min = c(10, 20, 30), x_max = c(15, 25, 35))
+  x <- c(1, 22, 100)
+  out <- v2b_clamp_x_table7(x, caps)
+  testthat::expect_equal(out, c(10, 22, 35))
 })
 
 testthat::test_that("v2b_biomass_components: warning when outside x-range and clamp_x affects volume_used", {
@@ -498,6 +583,50 @@ testthat::test_that("v2b output columns respect include_props/include_intermedia
     ) %in%
       names(with_int)
   ))
+
+  with_int_clamped <- v2b(
+    vol_merchantable = 400,
+    species = "PSEU.MEN",
+    jurisdiction = "BC",
+    ecozone = 13,
+    include_intermediates = TRUE,
+    clamp_x = TRUE
+  )
+  testthat::expect_true("volume_used" %in% names(with_int_clamped))
+})
+
+testthat::test_that("agb_component_proportions and v2b_biomass_components expose clamp outputs", {
+  props <- agb_component_proportions(
+    x = 1e6,
+    value_type = "vol",
+    species = "PSEU.MEN",
+    jurisdiction = "BC",
+    ecozone = 13,
+    clamp_x = TRUE
+  )
+  testthat::expect_true("x_used" %in% names(props))
+  testthat::expect_true(all(is.finite(props$x_used)))
+
+  comps <- v2b_biomass_components(
+    vol_merchantable = 1e6,
+    species = "PSEU.MEN",
+    jurisdiction = "BC",
+    ecozone = 13,
+    clamp_x = TRUE
+  )
+  testthat::expect_true("volume_used" %in% names(comps))
+  testthat::expect_true(all(is.finite(comps$volume_used)))
+})
+
+testthat::test_that("v2b_build_keys rejects invalid ecozone code", {
+  testthat::expect_error(
+    v2b_build_keys(
+      species = "PICE.MAR",
+      jurisdiction = "AB",
+      ecozone = 99
+    ),
+    class = "ctae_invalid_ecozone"
+  )
 })
 
 testthat::test_that("v2b() matches manual calculation for one case (manually pasted params)", {

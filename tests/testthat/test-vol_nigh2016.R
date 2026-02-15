@@ -317,3 +317,164 @@ testthat::test_that("vol_nigh2016 matches manual calculations for 4 reference ro
   v_manual <- nigh_manual(DBH, H, -10.315, 1.717, 1.266)
   testthat::expect_equal(out$vol_merchantable[[1]], v_manual, tolerance = 1e-10)
 })
+
+testthat::test_that("vol_nigh2016 errors when parameter table misses required columns", {
+  bad_params <- tibble::tibble(
+    volume_type = c("total", "merchantable"),
+    b0 = c(-10, -10),
+    b1 = c(2, 2)
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::vol_nigh2016(
+        DBH = 20,
+        height = 20,
+        species = "PICE.MAR",
+        subregion = "Interior"
+      ),
+      "missing required columns",
+      ignore.case = TRUE
+    ),
+    get_volume_params = function(...) bad_params,
+    standardize_species_code = function(x, ...) x,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("vol_nigh2016 errors when no row matches species+subregion within loop", {
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::vol_nigh2016(
+        DBH = c(20, 20),
+        height = c(20, 20),
+        species = c("PICE.MAR", "ABIE.BAL"),
+        subregion = c("Interior", "Interior")
+      ),
+      "No Nigh2016 parameters found for this species \\+ subregion",
+      ignore.case = TRUE
+    ),
+    get_volume_params = function(model_id, species, subregion, ...) {
+      if (identical(species, "PICE.MAR") && identical(subregion, "Interior")) {
+        return(tibble::tibble(
+          volume_type = c("total", "merchantable"),
+          b0 = c(-10, -10),
+          b1 = c(2, 2),
+          b2 = c(1, 1)
+        ))
+      }
+      tibble::tibble(
+        volume_type = character(),
+        b0 = numeric(),
+        b1 = numeric(),
+        b2 = numeric()
+      )
+    },
+    standardize_species_code = function(x, ...) x,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("vol_nigh2016 errors when total or merchantable row cardinality is invalid", {
+  dup_total <- tibble::tibble(
+    volume_type = c("total", "total", "merchantable"),
+    b0 = c(-10, -10.1, -10.2),
+    b1 = c(2, 2, 2),
+    b2 = c(1, 1, 1),
+    Species = c("PICE.MAR", "PICE.MAR", "PICE.MAR"),
+    Subregion = c("Interior", "Interior", "Interior")
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::vol_nigh2016(
+        DBH = 20,
+        height = 20,
+        species = "PICE.MAR",
+        subregion = "Interior"
+      ),
+      "Expected exactly one 'total' parameter row",
+      ignore.case = TRUE
+    ),
+    get_volume_params = function(...) dup_total,
+    standardize_species_code = function(x, ...) x,
+    .package = "CanadaForestAllometry"
+  )
+
+  no_merch <- tibble::tibble(
+    volume_type = c("total"),
+    b0 = c(-10),
+    b1 = c(2),
+    b2 = c(1),
+    Species = c("PICE.MAR"),
+    Subregion = c("Interior")
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::vol_nigh2016(
+        DBH = 20,
+        height = 20,
+        species = "PICE.MAR",
+        subregion = "Interior"
+      ),
+      "Expected exactly one 'merchantable' parameter row",
+      ignore.case = TRUE
+    ),
+    get_volume_params = function(...) no_merch,
+    standardize_species_code = function(x, ...) x,
+    .package = "CanadaForestAllometry"
+  )
+})
+
+testthat::test_that("vol_nigh2016 catches non-finite parameters and non-finite predictions", {
+  non_finite_param <- tibble::tibble(
+    volume_type = c("total", "merchantable"),
+    b0 = c(NA_real_, -10),
+    b1 = c(2, 2),
+    b2 = c(1, 1),
+    Species = c("PICE.MAR", "PICE.MAR"),
+    Subregion = c("Interior", "Interior")
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::vol_nigh2016(
+        DBH = 20,
+        height = 20,
+        species = "PICE.MAR",
+        subregion = "Interior"
+      ),
+      "not finite",
+      ignore.case = TRUE
+    ),
+    get_volume_params = function(...) non_finite_param,
+    standardize_species_code = function(x, ...) x,
+    .package = "CanadaForestAllometry"
+  )
+
+  inf_prediction <- tibble::tibble(
+    volume_type = c("total", "merchantable"),
+    b0 = c(1000, -10),
+    b1 = c(2, 2),
+    b2 = c(1, 1),
+    Species = c("PICE.MAR", "PICE.MAR"),
+    Subregion = c("Interior", "Interior")
+  )
+
+  testthat::with_mocked_bindings(
+    testthat::expect_error(
+      CanadaForestAllometry::vol_nigh2016(
+        DBH = 20,
+        height = 20,
+        species = "PICE.MAR",
+        subregion = "Interior"
+      ),
+      "Prediction is not finite",
+      ignore.case = TRUE
+    ),
+    get_volume_params = function(...) inf_prediction,
+    standardize_species_code = function(x, ...) x,
+    .package = "CanadaForestAllometry"
+  )
+})
