@@ -111,15 +111,40 @@ test_that("height increases monotonically with age (fixed si)", {
 })
 
 # --- TIER 1 fidelity: published site-index tables --------------------------
+# Values transcribed from Chen & Klinka (2000) published tables (SI50 = 16 m;
+# pp. 3-4). The comparison-value generator under tmp/ regenerates these, but
+# tmp/ is .Rbuildignore'd and absent from installed-package check runs, so the
+# reference grid is inlined here to keep the test portable.
 test_that("si_chenklinka2000 matches published table values (Chen & Klinka 2000)", {
-  ref <- readr::read_csv(
-    testthat::test_path(
-      "..",
-      "..",
-      "tmp",
-      "si_chenklinka2000_published_table_values.csv"
+  ref <- data.frame(
+    species = c(
+      rep("ABIE.LAS", 6),
+      rep("PICE.ENG", 6),
+      rep("PINU.CON", 6)
     ),
-    show_col_types = FALSE
+    si_m = 16,
+    age_years = rep(c(10, 25, 50, 75, 100, 130), 3),
+    height_m = c(
+      4.0,
+      9.0,
+      16.0,
+      21.0,
+      24.4,
+      27.0,
+      3.6,
+      8.5,
+      16.0,
+      21.6,
+      25.6,
+      28.6,
+      4.5,
+      9.5,
+      16.0,
+      20.5,
+      23.5,
+      25.7
+    ),
+    stringsAsFactors = FALSE
   )
   pred <- si_chenklinka2000(
     age = ref$age_years,

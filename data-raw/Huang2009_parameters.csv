@@ -1,0 +1,5 @@
+Species,source_label,index_age,age_basis,model_form,age_squared,lnS_power,b1,b2,b3,b4,page
+POPU.TRE,AW,50,total,1,FALSE,2,9.908888,-3.92451,-0.32778,0.134376,Table 1 p.5 / Appendix 1 p.21-22
+PICE.MAR,SB,50,total,2,FALSE,1,14.56236,-6.04705,-1.53715,0.240174,Table 1 p.5 / Appendix 1 p.21-22
+PINU.CON,PL,50,total,2,FALSE,1,12.84571,-5.73936,-0.91312,0.150668,Table 1 p.5 / Appendix 1 p.21-22
+PICE.GLA,SW,50,total,3,TRUE,2,12.14943,-3.77051,-0.28534,0.165483,Table 1 p.5 / Appendix 1 p.21-22

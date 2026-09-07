@@ -57,7 +57,9 @@ si_model_registry <- function() {
       "nigh1998_gi",
       "alemdag1991",
       "brisco2002",
-      "chenklinka2000"
+      "chenklinka2000",
+      "huang2009_bh_age",
+      "huang2009_total_age"
     ),
     reference = c(
       "@Buckman2006",
@@ -106,7 +108,9 @@ si_model_registry <- function() {
       "@Nigh1998",
       "@Alemdag1991",
       "@Brisco2002",
-      "@ChenKlinka2000"
+      "@ChenKlinka2000",
+      "@Huang2009gypsy",
+      "@Huang2009gypsy"
     ),
     engine = c(
       "si_buckman2006",
@@ -155,7 +159,9 @@ si_model_registry <- function() {
       "si_nigh1998_gi",
       "si_alemdag1991",
       "si_brisco2002",
-      "si_chenklinka2000"
+      "si_chenklinka2000",
+      "si_huang2009",
+      "si_huang2009"
     ),
     fixed_args = list(
       list(),
@@ -204,7 +210,9 @@ si_model_registry <- function() {
       list(), # nigh1998_gi
       list(), # alemdag1991
       list(), # brisco2002
-      list() # chenklinka2000
+      list(), # chenklinka2000
+      list(index_age = "breast_height"), # huang2009_bh_age
+      list(index_age = "total") # huang2009_total_age
     ),
     plot_si_values = list(
       NULL,
@@ -253,7 +261,9 @@ si_model_registry <- function() {
       NULL, # nigh1998_gi
       c(5, 10, 15, 20, 25), # alemdag1991
       c(12, 16, 20, 24), # brisco2002
-      c(8, 12, 16, 20, 24) # chenklinka2000
+      c(8, 12, 16, 20, 24), # chenklinka2000
+      NULL, # huang2009_bh_age
+      NULL # huang2009_total_age
     ),
     age_basis = c(
       "total_age", # buckman2006
@@ -302,7 +312,9 @@ si_model_registry <- function() {
       "breast_height_age", # nigh1998_gi
       "breast_height_age", # alemdag1991
       "breast_height_age", # brisco2002
-      "breast_height_age" # chenklinka2000
+      "breast_height_age", # chenklinka2000
+      "total_age", # huang2009_bh_age (age input is total age)
+      "total_age" # huang2009_total_age
     ),
     age_domain_max = c(
       NA_real_,
@@ -351,7 +363,9 @@ si_model_registry <- function() {
       50, # nigh1998_gi (coefficients tabulated to BHA 50)
       150, # alemdag1991 (BH age range 10-150)
       134, # brisco2002 (BH age range 45-134)
-      150 # chenklinka2000 (tables published to BH age 150)
+      150, # chenklinka2000 (tables published to BH age 150)
+      NA_real_, # huang2009_bh_age
+      NA_real_ # huang2009_total_age
     ),
     requires_species = c(
       FALSE, # buckman2006
@@ -400,7 +414,9 @@ si_model_registry <- function() {
       FALSE, # nigh1998_gi (single species, no species arg)
       FALSE, # alemdag1991 (single species, no species arg)
       FALSE, # brisco2002 (single species, no species arg)
-      TRUE # chenklinka2000 (species arg selects fir/spruce/pine)
+      TRUE, # chenklinka2000 (species arg selects fir/spruce/pine)
+      TRUE, # huang2009_bh_age
+      TRUE # huang2009_total_age
     ),
     requires_gi = c(
       FALSE,
@@ -449,7 +465,9 @@ si_model_registry <- function() {
       TRUE, # nigh1998_gi (growth-intercept model requires gi)
       FALSE, # alemdag1991
       FALSE, # brisco2002
-      FALSE # chenklinka2000
+      FALSE, # chenklinka2000
+      FALSE, # huang2009_bh_age
+      FALSE # huang2009_total_age
     ),
     supports_predict_si = c(
       rep(TRUE, 25),
@@ -474,10 +492,12 @@ si_model_registry <- function() {
       TRUE, # nigh1998_gi
       TRUE, # alemdag1991
       TRUE, # brisco2002
-      TRUE # chenklinka2000
+      TRUE, # chenklinka2000
+      TRUE, # huang2009_bh_age
+      TRUE # huang2009_total_age
     ),
     supports_predict_height = c(
-      TRUE,
+      TRUE, # buckman2006 (supports_predict_height start)
       TRUE,
       TRUE,
       TRUE,
@@ -523,9 +543,18 @@ si_model_registry <- function() {
       FALSE, # nigh1998_gi (growth-intercept model predicts si only)
       TRUE, # alemdag1991
       TRUE, # brisco2002
-      TRUE # chenklinka2000
+      TRUE, # chenklinka2000
+      TRUE, # huang2009_bh_age
+      TRUE # huang2009_total_age
     ),
-    scope = c(rep("regional", 44), "national", "regional", "regional"),
+    scope = c(
+      rep("regional", 44),
+      "national",
+      "regional",
+      "regional",
+      "regional",
+      "regional"
+    ),
     province_scope = list(
       c("ON"),
       c("ON", "QC", "NB", "NS", "PE", "NL"),
@@ -573,7 +602,9 @@ si_model_registry <- function() {
       c("BC"), # nigh1998_gi
       c("ALL"), # alemdag1991 (national)
       c("BC"), # brisco2002
-      c("BC") # chenklinka2000
+      c("BC"), # chenklinka2000
+      c("AB"), # huang2009_bh_age
+      c("AB") # huang2009_total_age
     ),
     subregion_type = c(
       "none",
@@ -622,9 +653,11 @@ si_model_registry <- function() {
       "none", # nigh1998_gi
       "none", # alemdag1991
       "none", # brisco2002
-      "none" # chenklinka2000
+      "none", # chenklinka2000
+      "none", # huang2009_bh_age
+      "none" # huang2009_total_age
     ),
-    subregion_required = rep(FALSE, 47),
+    subregion_required = rep(FALSE, 49),
     subregion_arg = c(
       NA_character_,
       NA_character_,
@@ -672,7 +705,9 @@ si_model_registry <- function() {
       NA_character_, # nigh1998_gi
       NA_character_, # alemdag1991
       NA_character_, # brisco2002
-      NA_character_ # chenklinka2000
+      NA_character_, # chenklinka2000
+      NA_character_, # huang2009_bh_age
+      NA_character_ # huang2009_total_age
     ),
     subregion_scope = list(
       NA_character_,
@@ -721,7 +756,9 @@ si_model_registry <- function() {
       NA_character_, # nigh1998_gi
       NA_character_, # alemdag1991
       NA_character_, # brisco2002
-      NA_character_ # chenklinka2000
+      NA_character_, # chenklinka2000
+      NA_character_, # huang2009_bh_age
+      NA_character_ # huang2009_total_age
     ),
     subregion_desc = c(
       "none",
@@ -770,7 +807,9 @@ si_model_registry <- function() {
       "none", # nigh1998_gi
       "none", # alemdag1991
       "none", # brisco2002
-      "none" # chenklinka2000
+      "none", # chenklinka2000
+      "none", # huang2009_bh_age
+      "none" # huang2009_total_age
     ),
     description = c(
       "Buckman et al. (2006) piecewise red pine site-index model",
@@ -819,7 +858,9 @@ si_model_registry <- function() {
       "Nigh (1998) growth-intercept site-index model for western hemlock in the interior of British Columbia",
       "Alemdag (1991) national (Canada-wide) modified Chapman-Richards site-index and height-growth model for white spruce in natural stands",
       "Brisco, Klinka and Nigh (2002) Chapman-Richards height-age (site index) model for western larch in British Columbia",
-      "Chen and Klinka (2000) conditioned Chapman-Richards height-age (site index) model for subalpine fir, Engelmann spruce, and lodgepole pine in the ESSF zone of British Columbia"
+      "Chen and Klinka (2000) conditioned Chapman-Richards height-age (site index) model for subalpine fir, Engelmann spruce, and lodgepole pine in the ESSF zone of British Columbia",
+      "Huang, Meng and Yang (2009) GYPSY top-height / site-index model for four Alberta tree species (site index at 50 years breast-height age)",
+      "Huang, Meng and Yang (2009) GYPSY top-height / site-index model for four Alberta tree species (site index at 50 years total age)"
     ),
     rank = c(
       72,
@@ -867,6 +908,8 @@ si_model_registry <- function() {
       88,
       85,
       60,
+      88,
+      88,
       88,
       88
     ),
@@ -917,7 +960,9 @@ si_model_registry <- function() {
       "parameters_Nigh1998_gi",
       "parameters_Alemdag1991",
       "parameters_Brisco2002",
-      "parameters_ChenKlinka1998"
+      "parameters_ChenKlinka1998",
+      "parameters_Huang2009",
+      "parameters_Huang2009"
     ),
     species_manual = list(
       c("PINU.RES"),
@@ -1002,7 +1047,9 @@ si_model_registry <- function() {
       c("TSUG.HET"), # nigh1998_gi
       c("PICE.GLA"), # alemdag1991
       c("LARI.OCC"), # brisco2002
-      c("ABIE.LAS", "PICE.ENG", "PINU.CON") # chenklinka2000
+      c("ABIE.LAS", "PICE.ENG", "PINU.CON"), # chenklinka2000
+      c("POPU.TRE", "PICE.MAR", "PINU.CON", "PICE.GLA"), # huang2009_bh_age
+      c("POPU.TRE", "PICE.MAR", "PINU.CON", "PICE.GLA") # huang2009_total_age
     )
   )
 }

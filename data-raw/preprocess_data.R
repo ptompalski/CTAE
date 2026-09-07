@@ -909,6 +909,11 @@ parameters_Thrower1994 <- read.csv("data-raw/Thrower1994_parameters.csv")
 parameters_Thrower1994 <- parameters_Thrower1994 %>%
   select(Species = nfi_species, model_form:source_short)
 
+## Huang, Meng & Yang 2009 (GYPSY Alberta top-height / site index) ####
+parameters_Huang2009 <- read.csv("data-raw/Huang2009_parameters.csv")
+parameters_Huang2009 <- parameters_Huang2009 %>%
+  select(Species, source_label, model_form, age_squared, lnS_power, b1:b4)
+
 ## Chen & Klinka 2000 (ESSF height growth / site index) ####
 parameters_ChenKlinka1998 <- read.csv("data-raw/ChenKlinka1998_parameters.csv")
 parameters_ChenKlinka1998 <- parameters_ChenKlinka1998 %>%
@@ -1393,6 +1398,7 @@ internal_objs <- c(
   "parameters_Thrower1994",
   "parameters_ChenKlinka1998",
   "parameters_HuGarcia2009",
+  "parameters_Huang2009",
   "parameters_Alemdag1991",
   "parameters_Nigh1997",
   "parameters_Nigh2002",
