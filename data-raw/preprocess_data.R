@@ -1073,6 +1073,22 @@ parameters_Nigh2017 <- parameters_Nigh2017 %>%
     source_short
   )
 
+## Brisco, Klinka & Nigh 2002 (western larch height-age / site index, BC) ####
+# Recommended final model (eq. 6): the unconstrained Chapman-Richards form (eq. 3)
+# refit to the complete data set.
+parameters_Brisco2002 <- read.csv("data-raw/Brisco2002_parameters.csv")
+parameters_Brisco2002 <- parameters_Brisco2002 %>%
+  transmute(
+    Species = nfi_species,
+    source_species,
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2),
+    b3 = as.numeric(b3),
+    b4 = as.numeric(b4),
+    b5 = as.numeric(b5),
+    source_short
+  )
+
 ## Goudie 1984 (lodgepole pine / white spruce height-age, BC) ####
 # Coefficients follow the SAS reference implementation
 # (SK_SiteIndex_SAS_macros_with_BHAge_20220409.sas); pine uses the dry-site set.
@@ -1377,6 +1393,7 @@ internal_objs <- c(
   "parameters_Nigh2004",
   "parameters_Nigh2009",
   "parameters_Nigh2017",
+  "parameters_Brisco2002",
   "parameters_Goudie1984",
   "parameters_Cieszewski1993",
   "parameters_Huang1994_si",
