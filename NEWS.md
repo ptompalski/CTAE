@@ -12,6 +12,7 @@
 
 ## Site index updates
 
+- Added `si_chenklinka2000()` for subalpine fir (`ABIE.LAS`), Engelmann spruce (`PICE.ENG`), and lodgepole pine (`PINU.CON`) in the ESSF zone of British Columbia, implementing the conditioned Chapman--Richards height-age (site index) model of Chen and Klinka (2000).
 - Added `si_brisco2002()` for western larch (`LARI.OCC`) in British Columbia, implementing the recommended Chapman--Richards height-age (site index) model of Brisco, Klinka and Nigh (2002) (no source benchmark).
 - Added `si_alemdag1991()` for white spruce (`PICE.GLA`), implementing the Alemdag (1991) national (Canada-wide) modified Chapman--Richards site-index and height-growth model for natural stands (no source benchmark).
 - Added `si_nigh1998()` and `si_nigh1998_gi()` for western hemlock (`TSUG.HET`) in the interior of British Columbia, implementing the Nigh (1998) log-logistic height-age and growth-intercept site-index models.
