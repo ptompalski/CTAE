@@ -150,7 +150,7 @@ Prefer **pak** for installing dependencies.
 - [`devtools::check()`](https://rdrr.io/pkg/devtools/man/check.html)
 - [`covr::package_coverage()`](https://rdrr.io/pkg/covr/man/package_coverage.html)
 - [`urlchecker::url_check()`](https://rdrr.io/pkg/urlchecker/man/url_check.html)
-- [`spelling::spell_check_package()`](https://rdrr.io/pkg/spelling/man/spell_check_package.html)
+- [`spelling::spell_check_package()`](https://docs.ropensci.org/spelling//reference/spell_check_package.html)
 - Update `NEWS.md`
 
 ## Guardrails specific to this package

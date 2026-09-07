@@ -15,7 +15,7 @@ si_nigh1998_gi(age, gi)
 \value{
 A tibble with one column:
 \describe{
-  \item{si}{Predicted site index (m, base age 50 years at breast height).}
+\item{si}{Predicted site index (m, base age 50 years at breast height).}
 }
 }
 \description{
@@ -27,13 +27,13 @@ separate parameter pair for each breast-height age.
 \details{
 The model form (eq. 4) is age-specific:
 \deqn{SI = 1.3 + e^{b_1(A)} \times GI^{b_2(A)}}
-where `A` is breast-height age and `GI` is the growth intercept (cm/year).
+where \code{A} is breast-height age and \code{GI} is the growth intercept (cm/year).
 Following the source, parameter \eqn{b_1} was fitted on the log scale and
 enters the model as \eqn{e^{b_1}} (Ratkowsky transformation); the tabulated
-\eqn{b_1} values (stored as `b1_log`) are therefore exponentiated internally.
+\eqn{b_1} values (stored as \code{b1_log}) are therefore exponentiated internally.
 
 Coefficients are tabulated (Table 3) for breast-height ages 5, 10, 20, 30,
-40, and 50; `age` must be one of these values.
+40, and 50; \code{age} must be one of these values.
 }
 \examples{
 si_nigh1998_gi(

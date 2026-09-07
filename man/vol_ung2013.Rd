@@ -9,7 +9,7 @@ vol_ung2013(DBH, height = NULL, species, jurisdiction)
 \arguments{
 \item{DBH}{Numeric vector of diameter at breast height (cm).}
 
-\item{height}{Optional numeric vector of total height (m). If `NULL` (default) or all `NA`,
+\item{height}{Optional numeric vector of total height (m). If \code{NULL} (default) or all \code{NA},
 the DBH-only model is used.}
 
 \item{species}{Character vector of species codes (e.g., "PICE.GLA").}
@@ -17,12 +17,12 @@ the DBH-only model is used.}
 \item{jurisdiction}{Character vector of jurisdiction codes (e.g., "BC", "ON"). Required to assign jurisdiction-specific merchantability criteria}
 }
 \value{
-A tibble with columns `vol_merchantable` and `vol_total` (m^3).
+A tibble with columns \code{vol_merchantable} and \code{vol_total} (m^3).
 }
 \description{
 Uses the national Ung et al. (2013) taper model to estimate total and merchantable
-volume. If `height` is not provided (or is all `NA`), the DBH-only variant is used.
-If `height` is provided, the DBH+height variant is used.
+volume. If \code{height} is not provided (or is all \code{NA}), the DBH-only variant is used.
+If \code{height} is provided, the DBH+height variant is used.
 }
 \examples{
 # --- DBH-only model (height not provided) ---

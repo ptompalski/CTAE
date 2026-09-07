@@ -286,10 +286,7 @@ for (i in seq_len(nrow(reg_fun))) {
     x$age_basis[[1]]
   )
 
-  description_text <- paste(
-    sub("\\.*\\s*$", "", x$description[[1]]),
-    x$reference[[1]]
-  )
+  description_text <- x$description[[1]]
 
   ref_fun_link <- paste0("[`", x$engine, "()`](../reference/", x$engine, ".html)")
 

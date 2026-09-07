@@ -17,49 +17,49 @@ vol(
 \arguments{
 \item{DBH}{Numeric vector. Diameter at breast height (cm).}
 
-\item{height}{Numeric vector. Total height (m). Can be `NA` to use the DBH-only models (currently only `vol_ung2013()`).}
+\item{height}{Numeric vector. Total height (m). Can be \code{NA} to use the DBH-only models (currently only \code{vol_ung2013()}).}
 
 \item{species}{Character vector. Species codes (e.g., "PICE.GLA").}
 
 \item{jurisdiction}{Character scalar or vector. Province/territory code (e.g., "BC", "QC").}
 
-\item{subregion}{Optional character vector. Subregion identifier (e.g., BEC zone for `vol_kozak94()`).}
+\item{subregion}{Optional character vector. Subregion identifier (e.g., BEC zone for \code{vol_kozak94()}).}
 
-\item{pick_best}{Logical. If `TRUE` (default), pick the single best model per tree using `rank`.
-If `FALSE`, compute all candidate model outputs per tree and return a list-column
+\item{pick_best}{Logical. If \code{TRUE} (default), pick the single best model per tree using \code{rank}.
+If \code{FALSE}, compute all candidate model outputs per tree and return a list-column
 (one tibble per tree) that can be unnested for comparison.}
 
-\item{keep_model_id}{Logical. If `TRUE`, include a `vol_model` column with the engine function name used.}
+\item{keep_model_id}{Logical. If \code{TRUE}, include a \code{vol_model} column with the engine function name used.}
 }
 \value{
-If `pick_best = TRUE`, a tibble with one row per tree and columns:
-`vol_total`, `vol_merchantable`, and optionally `vol_model`.
+If \code{pick_best = TRUE}, a tibble with one row per tree and columns:
+\code{vol_total}, \code{vol_merchantable}, and optionally \code{vol_model}.
 
-If `pick_best = FALSE`, a list (suitable for use as a list-column in `dplyr::mutate()`)
+If \code{pick_best = FALSE}, a list (suitable for use as a list-column in \code{dplyr::mutate()})
 with one element per tree. Each element is a tibble of candidate model outputs
-(`vol_total`, `vol_merchantable`, and optionally `vol_model`).
+(\code{vol_total}, \code{vol_merchantable}, and optionally \code{vol_model}).
 }
 \description{
-`vol()` is the main convenience wrapper for estimating total and
+\code{vol()} is the main convenience wrapper for estimating total and
 merchantable stem volume from diameter and height. It automatically
 selects and runs one (or more) of the volume models implemented in CanadaForestAllometry,
-based on the model registry returned by [volume_model_registry()].
+based on the model registry returned by \code{\link[=volume_model_registry]{volume_model_registry()}}.
 }
 \section{Model selection logic}{
 
 Model selection is driven by the model registry and occurs per input tree:
 \enumerate{
-  \item Geographic applicability: models are filtered to those whose
-    `province_scope` includes the provided `jurisdiction` (or `"ALL"`).
-  \item Species coverage: models are filtered to those that include the
-    provided `species` in their parameter tables. Some models may include
-    genus/group codes (e.g., `"PICE.SPP"`); these are treated
-    as covering all matching species within that genus/group.
-  \item Required inputs: models that require total height are excluded
-    when `height` is missing. Models that require a subregion (e.g., BEC zone
-    for certain provincial models) are excluded when `subregion` is missing.
-  \item Model ranking: if multiple eligible models remain, `pick_best = TRUE`
-    selects the highest-ranked model (`rank`) for each tree.
+\item Geographic applicability: models are filtered to those whose
+\code{province_scope} includes the provided \code{jurisdiction} (or \code{"ALL"}).
+\item Species coverage: models are filtered to those that include the
+provided \code{species} in their parameter tables. Some models may include
+genus/group codes (e.g., \code{"PICE.SPP"}); these are treated
+as covering all matching species within that genus/group.
+\item Required inputs: models that require total height are excluded
+when \code{height} is missing. Models that require a subregion (e.g., BEC zone
+for certain provincial models) are excluded when \code{subregion} is missing.
+\item Model ranking: if multiple eligible models remain, \code{pick_best = TRUE}
+selects the highest-ranked model (\code{rank}) for each tree.
 }
 }
 
@@ -67,33 +67,33 @@ Model selection is driven by the model registry and occurs per input tree:
 
 Availability is evaluated at the species level, not only by jurisdiction.
 This means a regional/provincial model may exist for a jurisdiction but may
-not include coefficients for the provided species. In such cases, `vol()`
+not include coefficients for the provided species. In such cases, \code{vol()}
 automatically falls back to another eligible model (e.g., a multi-province
-regional model or a national model) that *does* cover the species and required
+regional model or a national model) that \emph{does} cover the species and required
 inputs.
 }
 
 \section{Important limitations and recommended use}{
 
 \itemize{
-  \item This is an automatic wrapper. Because selection is registry-driven,
-    `vol()` may use a model that is not the one you intended (e.g., a national
-    model instead of a regional model, or a different regional model than you
-    expected), especially when the preferred model is not available for the
-    input species or missing required inputs.
-  \item Model outputs differ. Different models will generally return
-    slightly different volume estimates for the same DBH/height/species due to
-    differences in model form, fitted data, geographic scope, and
-    merchantability assumptions. These differences are expected.
-  \item If you require a specific model, do not use `vol()`. Instead, call
-    the relevant model function directly (e.g., `vol_huang94()`, `vol_kozak94()`,
-    `vol_ung2013()`, etc.) to ensure full control and reproducibility.
-  \item Investigate before operational use. It is strongly recommended to
-    run `vol()` with `pick_best = FALSE` during exploratory analyses to inspect
-    which models are eligible and how sensitive results are to model choice.
-    When `pick_best = FALSE`, `vol()` returns a list-column (one element per
-    tree) containing a tibble of candidate model outputs; this can be unnested
-    to compare models.
+\item This is an automatic wrapper. Because selection is registry-driven,
+\code{vol()} may use a model that is not the one you intended (e.g., a national
+model instead of a regional model, or a different regional model than you
+expected), especially when the preferred model is not available for the
+input species or missing required inputs.
+\item Model outputs differ. Different models will generally return
+slightly different volume estimates for the same DBH/height/species due to
+differences in model form, fitted data, geographic scope, and
+merchantability assumptions. These differences are expected.
+\item If you require a specific model, do not use \code{vol()}. Instead, call
+the relevant model function directly (e.g., \code{vol_huang94()}, \code{vol_kozak94()},
+\code{vol_ung2013()}, etc.) to ensure full control and reproducibility.
+\item Investigate before operational use. It is strongly recommended to
+run \code{vol()} with \code{pick_best = FALSE} during exploratory analyses to inspect
+which models are eligible and how sensitive results are to model choice.
+When \code{pick_best = FALSE}, \code{vol()} returns a list-column (one element per
+tree) containing a tibble of candidate model outputs; this can be unnested
+to compare models.
 }
 }
 

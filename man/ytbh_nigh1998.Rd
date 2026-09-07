@@ -8,17 +8,17 @@ ytbh_nigh1998(si = NULL, ytbh = NULL)
 }
 \arguments{
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `ytbh` is predicted.}
+height). If provided, \code{ytbh} is predicted.}
 
 \item{ytbh}{Optional numeric vector. Years to breast height (years). If
-provided, `si` is predicted.}
+provided, \code{si} is predicted.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{ytbh}{Predicted years to breast height (years), returned when `si`
-    is provided.}
-  \item{si}{Predicted site index (m), returned when `ytbh` is provided.}
+\item{ytbh}{Predicted years to breast height (years), returned when \code{si}
+is provided.}
+\item{si}{Predicted site index (m), returned when \code{ytbh} is provided.}
 }
 }
 \description{
@@ -32,11 +32,11 @@ age to total age (and vice versa).
 The source equation (eq. 5) is:
 \deqn{YTBH = 446.6 \times SI^{-1.432}}
 
-Provide exactly one of `si` or `ytbh`:
+Provide exactly one of \code{si} or \code{ytbh}:
 \itemize{
-  \item If `si` is provided, the function predicts `ytbh`.
-  \item If `ytbh` is provided, the function predicts `si` by inverting the
-    equation: \eqn{SI = (YTBH / 446.6)^{1 / -1.432}}.
+\item If \code{si} is provided, the function predicts \code{ytbh}.
+\item If \code{ytbh} is provided, the function predicts \code{si} by inverting the
+equation: \eqn{SI = (YTBH / 446.6)^{1 / -1.432}}.
 }
 }
 \examples{

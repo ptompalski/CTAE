@@ -9,12 +9,12 @@ ytbh_carmean1989(si, species)
 \arguments{
 \item{si}{Numeric vector. Site index (m, base age 50 years at total age).}
 
-\item{species}{Character vector of species codes (e.g., `"ACER.SAH"`).}
+\item{species}{Character vector of species codes (e.g., \code{"ACER.SAH"}).}
 }
 \value{
 A tibble with one column:
 \describe{
-  \item{ytbh}{Predicted years to breast height (years).}
+\item{ytbh}{Predicted years to breast height (years).}
 }
 }
 \description{

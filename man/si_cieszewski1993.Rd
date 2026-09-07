@@ -9,19 +9,19 @@ si_cieszewski1993(age, height = NULL, si = NULL, species)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 
 \item{species}{Character vector of NFI species codes (see scope above).}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -40,7 +40,7 @@ codes \code{ABIE.BAL} (balsam fir), \code{POPU.BAL} (balsam poplar),
 \code{BETU.PAP} (white birch), \code{ULMU.AME} (white elm), and
 \code{PICE.GLA} (white spruce).
 
-\strong{Age definition note:} `age` is breast-height age (years). Curves pass
+\strong{Age definition note:} \code{age} is breast-height age (years). Curves pass
 through breast height (1.3 m) at age 0; the model is defined only for
 post-breast-height growth.
 
@@ -56,10 +56,10 @@ age equals the base age (50), both directions are closed form: at \eqn{t = 50}
 the curve returns \eqn{H = SI} exactly, and site index is recovered
 analytically from an observed (age, height) pair.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height`.
-  \item If `height` is provided, the function predicts `si`.
+\item If \code{si} is provided, the function predicts \code{height}.
+\item If \code{height} is provided, the function predicts \code{si}.
 }
 }
 \examples{

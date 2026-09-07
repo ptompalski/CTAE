@@ -7,27 +7,27 @@
 si_augerward2021(age, height = NULL, si = NULL, species, base_age = 25)
 }
 \arguments{
-\item{age}{Numeric vector. Plantation age (years), with `age > 0`. A warning
-is emitted when `age > 100`, because that exceeds the recommended range in
+\item{age}{Numeric vector. Plantation age (years), with \code{age > 0}. A warning
+is emitted when \code{age > 100}, because that exceeds the recommended range in
 the source document.}
 
 \item{height}{Optional numeric vector. Dominant height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
-\item{si}{Optional numeric vector. Site index (m) at `base_age` years. If
-provided, `height` is predicted.}
+\item{si}{Optional numeric vector. Site index (m) at \code{base_age} years. If
+provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"PINU.BAN"` or
-`"PICE.MAR"`).}
+\item{species}{Character vector of species codes (e.g., \code{"PINU.BAN"} or
+\code{"PICE.MAR"}).}
 
 \item{base_age}{Positive numeric scalar. Site-index base age (years since
-planting). Defaults to `25`.}
+planting). Defaults to \code{25}.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted dominant height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted dominant height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -40,24 +40,24 @@ spruce plantations (\code{PICE.MAR}) in Quebec.
 
 \strong{Geographic use:} Quebec plantations.
 
-\strong{Age definition note:} `age` is plantation age (years since planting),
+\strong{Age definition note:} \code{age} is plantation age (years since planting),
 not breast-height age.
 
 \strong{Height definition note:} the model uses dominant height (m) based on
 the mean height of the 100 tallest planted trees per hectare.
 
-\strong{Base-age note:} the source document defines `IQS` at plantation age
+\strong{Base-age note:} the source document defines \code{IQS} at plantation age
 25 years. The equations are written as difference equations, so other
-positive `base_age` values can also be used.
+positive \code{base_age} values can also be used.
 
 \strong{Domain note:} the source recommends limiting use to plantation ages
-up to 100 years. This implementation warns when `age > 100` and returns
+up to 100 years. This implementation warns when \code{age > 100} and returns
 extrapolated values.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs and outputs are metric and follow the source model scale directly.

@@ -9,17 +9,17 @@ si_brisco2002(age, height = NULL, si = NULL)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -31,7 +31,7 @@ index) model in Brisco, Klinka and Nigh (2002) for western larch
 \strong{Model scope (species coverage):} western larch, NFI code
 \code{LARI.OCC}.
 
-\strong{Age definition note:} `age` is breast-height age (BHA, years).
+\strong{Age definition note:} \code{age} is breast-height age (BHA, years).
 
 \strong{Base-age note:} site index is site height at breast-height age 50.
 
@@ -45,14 +45,14 @@ with \eqn{b_1 = 3.875}, \eqn{b_2 = 0.7850}, \eqn{b_3 = -0.01497},
 \eqn{A} is breast-height age (years), and \eqn{S} is site index (m). At
 \eqn{A = 50} the equation returns \eqn{H = S}.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height` directly from
-    eq. 6.
-  \item If `height` is provided, the function predicts `si`. Because \eqn{S}
-    appears in the base, the leading power, and the outer exponent of eq. 6,
-    it cannot be isolated in closed form and is obtained by numerically
-    inverting eq. 6 for each (age, height) pair.
+\item If \code{si} is provided, the function predicts \code{height} directly from
+eq. 6.
+\item If \code{height} is provided, the function predicts \code{si}. Because \eqn{S}
+appears in the base, the leading power, and the outer exponent of eq. 6,
+it cannot be isolated in closed form and is obtained by numerically
+inverting eq. 6 for each (age, height) pair.
 }
 }
 \examples{

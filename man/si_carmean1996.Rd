@@ -7,21 +7,21 @@
 si_carmean1996(age, height = NULL, si = NULL, species)
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), with `age > 0`.}
+\item{age}{Numeric vector. Breast-height age (years), with \code{age > 0}.}
 
 \item{height}{Optional numeric vector. Total tree height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at
-breast-height age). If provided, `height` is predicted.}
+breast-height age). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"PINU.BAN"`).}
+\item{species}{Character vector of species codes (e.g., \code{"PINU.BAN"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted total tree height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted total tree height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -35,22 +35,22 @@ Carmean (1996) and the appendix equations transcribed from that report.
 
 \strong{Geographic use:} northwest Ontario.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Base-age note:} site index is defined as total height (m) at
 50 years breast-height age.
 
 \strong{Forward/inverse consistency note:} for \code{PICE.MAR},
 \code{ABIE.BAL}, and \code{BETU.PAP}, the published site-index prediction
-equations used for `height -> si` are separate fitted equations from
+equations used for \code{height -> si} are separate fitted equations from
 Appendix IV rather than exact algebraic inverses of the forward height-curve
-equations. As a result, predictions from `height -> si` may differ slightly
-from the input height even when `age = 50`.
+equations. As a result, predictions from \code{height -> si} may differ slightly
+from the input height even when \code{age = 50}.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs and outputs are metric (m). Some source equations were published in

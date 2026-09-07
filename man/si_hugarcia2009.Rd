@@ -9,20 +9,20 @@ si_hugarcia2009(age, height = NULL, si = NULL, species)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Top height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Top height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of NFI species codes (`"PICE.GLA"` or
-`"PICE.ENG"`).}
+\item{species}{Character vector of NFI species codes (\code{"PICE.GLA"} or
+\code{"PICE.ENG"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted top height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted top height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -36,7 +36,7 @@ codes \code{PICE.GLA} (white spruce) and \code{PICE.ENG} (Engelmann spruce).
 The source treats the white x Engelmann interior-spruce complex as a single
 entity; both codes use the same fitted coefficients.
 
-\strong{Age definition note:} `age` is breast-height age (years). The height
+\strong{Age definition note:} \code{age} is breast-height age (years). The height
 curve passes through the origin \eqn{(t_0, H_0) = (0.5\,\mathrm{yr},
 1.3\,\mathrm{m})}; the model is defined only for post-breast-height growth.
 
@@ -51,10 +51,10 @@ with a site-dependent asymptote \eqn{a = 283.9\,q^{0.5137}}, rate
 \eqn{b = q}, and global shape constant \eqn{c = 0.5829}. The site parameter
 \eqn{q} has no closed form and is solved numerically.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 }
 \examples{

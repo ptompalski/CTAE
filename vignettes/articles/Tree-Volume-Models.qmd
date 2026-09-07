@@ -75,16 +75,14 @@ fmt_model_bullet_oneline <- function(
   coverage,
   # inputs,
   n_species,
-  description,
-  reference
+  description
 ) {
   parts <- c(
     paste0("`", engine, "()`"),
     paste0(description),
     paste0("Coverage: ", coverage),
     # paste0("Inputs: ", inputs),
-    paste0(n_species, " species"),
-    paste0("", reference)
+    paste0(n_species, " species")
   )
 
   paste0("- ", paste(parts, collapse = ". "))
@@ -103,8 +101,7 @@ bullets <- reg_collapsed |>
       Coverage,
       # Inputs,
       n_species,
-      description,
-      reference
+      description
     )
   ) |>
   dplyr::ungroup()

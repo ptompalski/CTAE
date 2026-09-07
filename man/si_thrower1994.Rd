@@ -9,18 +9,18 @@ si_thrower1994(age, height = NULL, si = NULL, species)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Top height (m). If provided, `si` is predicted.}
+\item{height}{Optional numeric vector. Top height (m). If provided, \code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast height).
-If provided, `height` is predicted.}
+If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of NFI species codes (e.g., `"PINU.CON"`).}
+\item{species}{Character vector of NFI species codes (e.g., \code{"PINU.CON"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted top height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted top height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -33,15 +33,15 @@ parameter sets for 11 species:
 \code{PINU.CON, PICE.GLA, PSEU.MEN, ABIE.LAS, TSUG.HET, THUJ.PLI,
 PINU.MON, PINU.PON, LARI.OCC, POPU.TRE, BETU.PAP}.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Base-age note:} site index in this model family is referenced to
 height at 50 years breast-height age.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 }
 \examples{

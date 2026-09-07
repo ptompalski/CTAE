@@ -9,24 +9,24 @@ si_nigh2009(age, height = NULL, si = NULL, model = 1, bec_zone = NULL)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 
-\item{model}{Model variant: `1` (base, default), `2` (operational), or `3`
+\item{model}{Model variant: \code{1} (base, default), \code{2} (operational), or \code{3}
 (zonal). See Details.}
 
-\item{bec_zone}{Optional character vector selecting the zonal (`model = 3`)
-coefficients. One of `"ICH"`, `"IDF"`, `"SBS"`. Required when `model = 3`
+\item{bec_zone}{Optional character vector selecting the zonal (\code{model = 3})
+coefficients. One of \code{"ICH"}, \code{"IDF"}, \code{"SBS"}. Required when \code{model = 3}
 and ignored otherwise.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -38,8 +38,8 @@ index) model in Nigh, Thomas, Yearsley and Wang (2009) for paper birch
 \strong{Model scope (species coverage):} paper birch, NFI code
 \code{BETU.PAP}.
 
-\strong{Age definition note:} `age` is breast-height age (BHA, years). The
-model is conditioned to return `height = si` exactly at BHA 50.
+\strong{Age definition note:} \code{age} is breast-height age (BHA, years). The
+model is conditioned to return \code{height = si} exactly at BHA 50.
 
 \strong{Base-age note:} site index is site height at breast-height age 50.
 
@@ -50,22 +50,22 @@ form (eq. 1)
        {1 + e^{a_0 + a_1 \ln(BHA - 0.5) + a_2 \ln(SI - 1.3)}}}
 differing only in their coefficients:
 \describe{
-  \item{`model = 1`}{Base log-logistic fit (Table 2). Default.}
-  \item{`model = 2`}{Operational form of the mixed model. Recommended by the
-    authors when the biogeoclimatic zone is unknown or is not ICH/IDF/SBS.}
-  \item{`model = 3`}{Zonal indicator-variable model. Only \eqn{a_1} carries a
-    significant zone effect (SBS vs. ICH/IDF). Supply `bec_zone` (one of
-    `"ICH"`, `"IDF"`, `"SBS"`); recommended for those zones.}
+\item{\code{model = 1}}{Base log-logistic fit (Table 2). Default.}
+\item{\code{model = 2}}{Operational form of the mixed model. Recommended by the
+authors when the biogeoclimatic zone is unknown or is not ICH/IDF/SBS.}
+\item{\code{model = 3}}{Zonal indicator-variable model. Only \eqn{a_1} carries a
+significant zone effect (SBS vs. ICH/IDF). Supply \code{bec_zone} (one of
+\code{"ICH"}, \code{"IDF"}, \code{"SBS"}); recommended for those zones.}
 }
 
 Because \eqn{SI} appears both as a multiplier and inside a logarithm, eq. 1
 has no closed-form inverse in \eqn{SI}; when predicting site index the
 equation is solved numerically.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height`.
-  \item If `height` is provided, the function predicts `si`.
+\item If \code{si} is provided, the function predicts \code{height}.
+\item If \code{height} is provided, the function predicts \code{si}.
 }
 }
 \examples{

@@ -7,26 +7,26 @@
 si_buckman2006(age, height = NULL, si = NULL)
 }
 \arguments{
-\item{age}{Numeric vector. Stand age from seed (years), with `age > 0`.}
+\item{age}{Numeric vector. Stand age from seed (years), with \code{age > 0}.}
 
 \item{height}{Optional numeric vector. Total stand height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years from
-seed). If provided, `height` is predicted.}
+seed). If provided, \code{height} is predicted.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted total stand height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m at total age 50), returned when input `height` is provided.}
+\item{height}{Predicted total stand height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m at total age 50), returned when input \code{height} is provided.}
 }
 }
 \description{
 Implementation of the Appendix III site-index equations from
 Buckman et al. (2006) for red pine (\code{PINU.RES}) in the Lake States.
 Appendix III presents this model as an improved version of the Lundgren and
-Dolid red-pine height function implemented in [si_lundgrendolid1970()].
+Dolid red-pine height function implemented in \code{\link[=si_lundgrendolid1970]{si_lundgrendolid1970()}}.
 Buckman et al. note two imperfections in the earlier Lundgren-Dolid form:
 height predicted at age 50 was slightly below site index rather than equal
 to it exactly, and the curve overpredicted heights for young stands below
@@ -40,27 +40,27 @@ older-age curve at age 20.
 
 \strong{Geographic use:} Ontario
 
-\strong{Age definition note:} `age` is stand age from seed (years)
+\strong{Age definition note:} \code{age} is stand age from seed (years)
 
-\strong{Height definition note:} `height` is total stand height (m).
+\strong{Height definition note:} \code{height} is total stand height (m).
 
 \strong{Base-age note:} site index is total height at 50 years.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 The source model is piecewise:
 \itemize{
-  \item for `age < 20`: \eqn{H = SI (k t^2 - m t^4)}
-  \item for `age >= 20`: \eqn{H = A SI (1 - e^{-Bt})^C}
+\item for \code{age < 20}: \eqn{H = SI (k t^2 - m t^4)}
+\item for \code{age >= 20}: \eqn{H = A SI (1 - e^{-Bt})^C}
 }
 
-The constrained Buckman refit uses `A = 1.8604`, `B = 0.020928`, and
-`C = 1.4349`. The younger-age correction uses `k = 1.41876e-3` and
-`m = 1.05304e-6`, chosen so the two segments join smoothly at age 20.
+The constrained Buckman refit uses \code{A = 1.8604}, \code{B = 0.020928}, and
+\code{C = 1.4349}. The younger-age correction uses \code{k = 1.41876e-3} and
+\code{m = 1.05304e-6}, chosen so the two segments join smoothly at age 20.
 
 Inputs and outputs are metric; the original equations are in imperial units,
 so the function converts internally.

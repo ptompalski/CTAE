@@ -12,40 +12,46 @@ get_merch_criteria(
 )
 }
 \arguments{
-\item{jurisdiction}{Province/Territory code (e.g., `"BC"`, `"AB"`).}
+\item{jurisdiction}{Province/Territory code (e.g., \code{"BC"}, \code{"AB"}).}
 
-\item{species}{Species code. Optional for `"BC"`; if missing, falls back to `"ALL"` with a warning.}
+\item{species}{Species code. Optional for \code{"BC"}; if missing, falls back to \code{"ALL"} with a warning.}
 
-\item{BEC_zone}{Optional BEC zone code (e.g., `"CWH"`, `"ICH"`). If missing for `"BC"`,
-conservative criteria are taken from `BEC_group == "UNKNOWN"`.}
+\item{BEC_zone}{Optional BEC zone code (e.g., \code{"CWH"}, \code{"ICH"}). If missing for \code{"BC"},
+conservative criteria are taken from \code{BEC_group == "UNKNOWN"}.}
 
 \item{verbose}{If TRUE, warns when BC falls back to genus-level, UNKNOWN BEC, or ALL.}
 }
 \value{
 A one-row tibble with columns:
-  `jurisdiction`, `species`, `stumpht_m`, `topdbh_cm`, `mindbh_cm`.
+\code{jurisdiction}, \code{species}, \code{stumpht_m}, \code{topdbh_cm}, \code{mindbh_cm}.
 }
 \description{
 Convenience helper to fetch CBM-style merchantability criteria (stump height,
-top diameter, and minimum DBH) from the internal `merchcrit` lookup table.
+top diameter, and minimum DBH) from the internal \code{merchcrit} lookup table.
 }
 \details{
 Before lookup, inputs are standardized using internal helpers:
-* `standardize_jurisdiction_code()` for `jurisdiction`
-* `standardize_species_code()` for `species` (keeps `"ALL"` as-is)
+\itemize{
+\item \code{standardize_jurisdiction_code()} for \code{jurisdiction}
+\item \code{standardize_species_code()} for \code{species} (keeps \code{"ALL"} as-is)
+}
 
 Rules:
-* For British Columbia (`"BC"`), `species` is OPTIONAL:
-  - If `species` is missing, the function falls back to `Species == "ALL"` and warns.
-  - If `BEC_zone` is provided and can be mapped, criteria are looked up using
-    (Province + Species + BEC_group).
-  - If `BEC_zone` is missing/unknown, criteria fall back to a conservative BC
-    BEC-independent layer using `BEC_group == "UNKNOWN"` (species-specific if present,
-    otherwise `Species == "ALL"`).
-  - If no exact species match is found, the function falls back to genus-level rules
-    (e.g., `PICE.GLA` -> `PICE.SPP`) and then to `Species == "ALL"`.
-* For other jurisdictions, criteria are jurisdiction-level (Province) only and
-  species/BEC are ignored.
+\itemize{
+\item For British Columbia (\code{"BC"}), \code{species} is OPTIONAL:
+\itemize{
+\item If \code{species} is missing, the function falls back to \code{Species == "ALL"} and warns.
+\item If \code{BEC_zone} is provided and can be mapped, criteria are looked up using
+(Province + Species + BEC_group).
+\item If \code{BEC_zone} is missing/unknown, criteria fall back to a conservative BC
+BEC-independent layer using \code{BEC_group == "UNKNOWN"} (species-specific if present,
+otherwise \code{Species == "ALL"}).
+\item If no exact species match is found, the function falls back to genus-level rules
+(e.g., \code{PICE.GLA} -> \code{PICE.SPP}) and then to \code{Species == "ALL"}.
+}
+\item For other jurisdictions, criteria are jurisdiction-level (Province) only and
+species/BEC are ignored.
+}
 
 Stump height is returned in metres (converted from centimetres).
 }

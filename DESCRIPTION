@@ -45,6 +45,7 @@ Imports:
     stats,
     stringi,
     glue
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Suggests: 
     quarto,

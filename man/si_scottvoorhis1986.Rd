@@ -16,23 +16,23 @@ si_scottvoorhis1986(
 \item{age}{Numeric vector. Breast-height age (years).}
 
 \item{height}{Optional numeric vector. Total tree height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at
-breast height). If provided, `height` is predicted.}
+breast height). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"ABIE.BAL"`).}
+\item{species}{Character vector of species codes (e.g., \code{"ABIE.BAL"}).}
 
-\item{convert_to_total_age}{Logical scalar. If `TRUE`, converts
+\item{convert_to_total_age}{Logical scalar. If \code{TRUE}, converts
 breast-height age to total age internally using the Scott and Voorhis
-age-to-breast-height relation (source-consistent behavior). If `FALSE`
-(default), uses `age` directly in the height equation.}
+age-to-breast-height relation (source-consistent behavior). If \code{FALSE}
+(default), uses \code{age} directly in the height equation.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -51,7 +51,7 @@ forest conditions. In Canada, it is most defensible for species/populations
 in eastern regions (notably Atlantic Canada and adjacent central Canada where
 these species occur). Use caution outside that domain.
 
-\strong{Age definition note:} `age` is breast-height age (years). The model
+\strong{Age definition note:} \code{age} is breast-height age (years). The model
 internally computes age-to-breast-height and uses total age in the height
 equation.
 
@@ -59,15 +59,15 @@ equation.
 50 years, but the fitted equations were not constrained to pass exactly
 through SI at base age for every species.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 In this model, total age is the sum of breast-height age and age-to-breast-height.
-Age-to-breast-height is itself a function of site index, so predicting `si` from
-`height` is implicit and solved numerically with `stats::uniroot()`.
+Age-to-breast-height is itself a function of site index, so predicting \code{si} from
+\code{height} is implicit and solved numerically with \code{stats::uniroot()}.
 
 Inputs/outputs are metric; the original equations are in imperial units, so
 the function converts internally.

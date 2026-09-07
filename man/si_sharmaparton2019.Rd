@@ -13,27 +13,27 @@ si_sharmaparton2019(
 )
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), with `age > 0`.}
+\item{age}{Numeric vector. Breast-height age (years), with \code{age > 0}.}
 
 \item{height}{Optional numeric vector. Stand height (m). If
-`total_height = TRUE` (default), this is total height; otherwise it is
-height above breast height. If provided, `si` is predicted.}
+\code{total_height = TRUE} (default), this is total height; otherwise it is
+height above breast height. If provided, \code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m above breast height) at
-`base_age` years breast-height age. If provided, `height` is predicted.}
+\code{base_age} years breast-height age. If provided, \code{height} is predicted.}
 
 \item{base_age}{Positive numeric scalar. Site-index base age (years at
-breast height). Defaults to `50`.}
+breast height). Defaults to \code{50}.}
 
-\item{total_height}{Logical scalar. If `TRUE` (default), interpret input
-`height` as total height and return predicted `height` as total height. If
-`FALSE`, use the source-paper scale of height above breast height.}
+\item{total_height}{Logical scalar. If \code{TRUE} (default), interpret input
+\code{height} as total height and return predicted \code{height} as total height. If
+\code{FALSE}, use the source-paper scale of height above breast height.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted stand height (m), returned when input `si` is provided. This is total height when `total_height = TRUE`, otherwise height above breast height.}
-  \item{si}{Predicted site index (m above breast height), returned when input `height` is provided.}
+\item{height}{Predicted stand height (m), returned when input \code{si} is provided. This is total height when \code{total_height = TRUE}, otherwise height above breast height.}
+\item{si}{Predicted site index (m above breast height), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -46,25 +46,25 @@ white pine (\code{PINU.STR}) in Ontario.
 
 \strong{Geographic use:} Ontario white pine plantations.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Height definition note:} the source model uses heights above breast
 height (m), not total height. For consistency with other site-index
 functions in this package, this implementation defaults to using total
-height in the public API (`total_height = TRUE`) and converts internally by
-subtracting or adding 1.3 m as needed. Set `total_height = FALSE` to work on
+height in the public API (\code{total_height = TRUE}) and converts internally by
+subtracting or adding 1.3 m as needed. Set \code{total_height = FALSE} to work on
 the original source scale directly.
 
 \strong{Base-age note:} the underlying dynamic equation is base-age
 invariant. The source paper illustrates site-index curves using a base age
 of 25 years breast-height age. For consistency with other site-index
 functions in this package, this implementation instead defaults to a base
-age of 50 years breast-height age. Any positive `base_age` can be supplied.
+age of 50 years breast-height age. Any positive \code{base_age} can be supplied.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs and outputs are metric and match the source model scale.

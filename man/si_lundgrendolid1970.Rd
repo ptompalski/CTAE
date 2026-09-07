@@ -15,19 +15,19 @@ si_lundgrendolid1970(
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Total tree height (m). If provided, `si` is predicted.}
+\item{height}{Optional numeric vector. Total tree height (m). If provided, \code{si} is predicted.}
 
-\item{si}{Optional numeric vector. Site index (m, base age 50 years at breast height). If provided, `height` is predicted.}
+\item{si}{Optional numeric vector. Site index (m, base age 50 years at breast height). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"PICE.MAR"`).}
+\item{species}{Character vector of species codes (e.g., \code{"PICE.MAR"}).}
 
-\item{model}{Character scalar. One of `"exponential_monomolecular"` or `"monomolecular"`.}
+\item{model}{Character scalar. One of \code{"exponential_monomolecular"} or \code{"monomolecular"}.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -37,14 +37,14 @@ index equations for Lake States species.
 \details{
 Two model forms are available:
 \itemize{
-  \item \code{"exponential_monomolecular"} (default; preferred in the paper)
-  \item \code{"monomolecular"}
+\item \code{"exponential_monomolecular"} (default; preferred in the paper)
+\item \code{"monomolecular"}
 }
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs/outputs are metric; the original equations are in imperial units, so

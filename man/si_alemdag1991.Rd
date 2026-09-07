@@ -10,17 +10,17 @@ si_alemdag1991(age, height = NULL, si = NULL)
 \item{age}{Numeric vector. Breast-height age (years).}
 
 \item{height}{Optional numeric vector. Total tree height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted total tree height (m), returned when `si` is
-    provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted total tree height (m), returned when \code{si} is
+provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -34,7 +34,7 @@ or Nova Scotia), from the Yukon to Newfoundland.
 \strong{Model scope (species coverage):} white spruce, NFI code
 \code{PICE.GLA}. This is a single national model with no species argument.
 
-\strong{Age definition note:} `age` is breast-height age (years), i.e. rings
+\strong{Age definition note:} \code{age} is breast-height age (years), i.e. rings
 counted at 1.30 m. Both equations use height and site index measured above
 breast height (\eqn{H - 1.30}, \eqn{S - 1.30}).
 
@@ -42,17 +42,17 @@ breast height (\eqn{H - 1.30}, \eqn{S - 1.30}).
 \eqn{A_1 = 50} years breast-height age. Both equations are conditioned so that
 the predicted value equals the input at \eqn{A = 50} (\eqn{S = H} there).
 
-The site-index equation (Alemdag 1991, model [9], \eqn{c} coefficients) is
+The site-index equation (Alemdag 1991, model \link{9}, \eqn{c} coefficients) is
 \deqn{S = 1.30 + \frac{1}{c_1 (H - 1.30)^{c_2}
   \left(1 - m^{A/A_1}\right)^{c_4 (H - 1.30)^{c_5}}},}
-with (model [8])
+with (model \link{8})
 \deqn{m = 1 - \left[\frac{1}{c_1 (H - 1.30)^{1 + c_2}}\right]
   ^{1 / (c_4 (H - 1.30)^{c_5})}.}
 
-The height-growth equation (Alemdag 1991, model [4], \eqn{b} coefficients) is
+The height-growth equation (Alemdag 1991, model \link{4}, \eqn{b} coefficients) is
 \deqn{H = 1.30 + b_1 (S - 1.30)^{b_2}
   \left(1 - k^{A/A_1}\right)^{b_4 (S - 1.30)^{b_5}},}
-with (model [5])
+with (model \link{5})
 \deqn{k = 1 - \left[\frac{S - 1.30}{b_1 (S - 1.30)^{b_2}}\right]
   ^{1 / (b_4 (S - 1.30)^{b_5})}.}
 
@@ -60,10 +60,10 @@ The two equations were fitted independently (they are not exact inverses of
 one another), each on the combined national data. Both directions are
 closed-form.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height` (model [4]).
-  \item If `height` is provided, the function predicts `si` (model [9]).
+\item If \code{si} is provided, the function predicts \code{height} (model \link{4}).
+\item If \code{height} is provided, the function predicts \code{si} (model \link{9}).
 }
 }
 \examples{

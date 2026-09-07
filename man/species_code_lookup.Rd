@@ -7,10 +7,10 @@
 \format{
 A tibble with the following columns:
 \describe{
-  \item{code_system}{Code system name: \code{"canfi"} or \code{"jurisdiction"}.}
-  \item{jurisdiction}{Jurisdiction identifier for provincial/territorial codes; \code{NA} for CANFI codes.}
-  \item{code}{The code value in the specified code system.}
-  \item{NFI_code}{Canonical NFI species code for the linked entry.}
+\item{code_system}{Code system name: \code{"canfi"} or \code{"jurisdiction"}.}
+\item{jurisdiction}{Jurisdiction identifier for provincial/territorial codes; \code{NA} for CANFI codes.}
+\item{code}{The code value in the specified code system.}
+\item{NFI_code}{Canonical NFI species code for the linked entry.}
 }
 }
 \usage{

@@ -29,15 +29,15 @@ when value_type = "agb".}
 
 \item{renormalize}{Logical. Renormalize after capping to sum to 1.}
 
-\item{clamp_x}{Logical. Clamp x to [x_min, x_max] from Table 7 before evaluating.}
+\item{clamp_x}{Logical. Clamp x to \link{x_min, x_max} from Table 7 before evaluating.}
 }
 \value{
 Tibble with p_sw, p_sb, p_br, p_fl and optional x_used.
 \describe{
-  \item{p_sw}{Proportion of total biomass in stem wood.}
-  \item{p_sb}{Proportion of total biomass in bark.}
-  \item{p_br}{Proportion of total biomass in branches.}
-  \item{p_fl}{Proportion of total biomass in foliage.}
+\item{p_sw}{Proportion of total biomass in stem wood.}
+\item{p_sb}{Proportion of total biomass in bark.}
+\item{p_br}{Proportion of total biomass in branches.}
+\item{p_fl}{Proportion of total biomass in foliage.}
 }
 }
 \description{

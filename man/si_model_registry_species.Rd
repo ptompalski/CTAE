@@ -7,10 +7,12 @@
 si_model_registry_species()
 }
 \value{
-A tibble like `si_model_registry()` plus:
-  - `species` (list-column of character vectors)
-  - `n_species` (integer)
-  - `species_text` (collapsed string for printing)
+A tibble like \code{si_model_registry()} plus:
+\itemize{
+\item \code{species} (list-column of character vectors)
+\item \code{n_species} (integer)
+\item \code{species_text} (collapsed string for printing)
+}
 }
 \description{
 Site-index model registry with species coverage

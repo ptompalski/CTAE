@@ -9,18 +9,18 @@ si_nigh2017(age, height = NULL, si = NULL)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted. The paper's SI-to-parameter
+height). If provided, \code{height} is predicted. The paper's SI-to-parameter
 conversion is intended for site index in the range 5--30 m.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -33,7 +33,7 @@ Columbia.
 \strong{Model scope (species coverage):} lodgepole pine, NFI code
 \code{PINU.CON}.
 
-\strong{Age definition note:} `age` is breast-height age (BHA, years).
+\strong{Age definition note:} \code{age} is breast-height age (BHA, years).
 
 \strong{Base-age note:} site index is site height at breast-height age 50.
 
@@ -48,19 +48,19 @@ The g-GADA localizes on the asymptote-like parameter \eqn{\beta_0}, not
 directly on site index. This implementation follows the paper's recommended
 base-age-50 workflow:
 \itemize{
-  \item When `si` is supplied, \eqn{\beta_0} is obtained from the paper's
-    cubic SI-to-\eqn{\beta_0} conversion (Discussion, p. 18), then height is
-    evaluated with eq. 4. The cubic is valid for site index 5--30 m and has a
-    stated maximum \eqn{\beta_0} error of 16 cm, so `height` equals `si` at
-    BHA 50 only to within that tolerance (not exactly).
-  \item When `height` is supplied, \eqn{\beta_0} is calibrated numerically to
-    the (BHA, height) pair, then site index is the height predicted at BHA 50.
+\item When \code{si} is supplied, \eqn{\beta_0} is obtained from the paper's
+cubic SI-to-\eqn{\beta_0} conversion (Discussion, p. 18), then height is
+evaluated with eq. 4. The cubic is valid for site index 5--30 m and has a
+stated maximum \eqn{\beta_0} error of 16 cm, so \code{height} equals \code{si} at
+BHA 50 only to within that tolerance (not exactly).
+\item When \code{height} is supplied, \eqn{\beta_0} is calibrated numerically to
+the (BHA, height) pair, then site index is the height predicted at BHA 50.
 }
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height`.
-  \item If `height` is provided, the function predicts `si`.
+\item If \code{si} is provided, the function predicts \code{height}.
+\item If \code{height} is provided, the function predicts \code{si}.
 }
 }
 \examples{

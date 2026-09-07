@@ -9,17 +9,17 @@ si_nigh1997(age, height = NULL, si = NULL)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -33,8 +33,8 @@ of its improved extrapolation to old ages.
 \strong{Model scope (species coverage):} Sitka spruce, NFI code
 \code{PICE.SIT}.
 
-\strong{Age definition note:} `age` is breast-height age (BHA, years). The
-model is conditioned to return `height = si` exactly at BHA 50.
+\strong{Age definition note:} \code{age} is breast-height age (BHA, years). The
+model is conditioned to return \code{height = si} exactly at BHA 50.
 
 \strong{Base-age note:} site index is site height at breast-height age 50.
 
@@ -43,16 +43,16 @@ The recommended model (Nigh 1997, eq. 8) is the integral logistic form
   \frac{1 + e^{a_0 + a_1 \ln(49.5) + a_2 \ln(SI - 1.3)}}
        {1 + e^{a_0 + a_1 \ln(BHA - 0.5) + a_2 \ln(SI - 1.3)}}}
 with \eqn{a_0 = 8.947}, \eqn{a_1 = -1.357}, \eqn{a_2 = -1.013} (Table 3, model
-[7]).
+\link{7}).
 
 Because \eqn{SI} appears both as a multiplier and inside a logarithm, the
 equation has no closed-form inverse in \eqn{SI}; when predicting site index the
 equation is solved numerically.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height`.
-  \item If `height` is provided, the function predicts `si`.
+\item If \code{si} is provided, the function predicts \code{height}.
+\item If \code{height} is provided, the function predicts \code{si}.
 }
 }
 \examples{

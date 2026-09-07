@@ -7,22 +7,22 @@
 si_parresolvissage1998(age, height = NULL, si = NULL, base_age = 50)
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), with `age >= 10`.}
+\item{age}{Numeric vector. Breast-height age (years), with \code{age >= 10}.}
 
 \item{height}{Optional numeric vector. Dominant/codominant height (m). If
-provided, `si` is predicted.}
+provided, \code{si} is predicted.}
 
-\item{si}{Optional numeric vector. Site index (m) at `base_age` years
-breast-height age. If provided, `height` is predicted.}
+\item{si}{Optional numeric vector. Site index (m) at \code{base_age} years
+breast-height age. If provided, \code{height} is predicted.}
 
 \item{base_age}{Positive numeric scalar. Site-index base age (years at breast
-height), with `base_age >= 10`. Defaults to `50`.}
+height), with \code{base_age >= 10}. Defaults to \code{50}.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted dominant/codominant height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted dominant/codominant height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -38,21 +38,21 @@ southern U.S. forest survey. In Canada, use is most defensible for eastern
 white pine in eastern regions, and should be treated cautiously outside that
 domain.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Base-age note:} the source paper derives a base-age invariant system.
-This implementation accepts any positive `base_age`; the default is 50 years
+This implementation accepts any positive \code{base_age}; the default is 50 years
 at breast height.
 
 \strong{Domain note:} although the algebraic form can be evaluated below age
 10, the source data and paper discussion indicate reliable behavior for ages
-10 years and greater. This implementation therefore enforces `age >= 10` and
-`base_age >= 10`.
+10 years and greater. This implementation therefore enforces \code{age >= 10} and
+\code{base_age >= 10}.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs/outputs are metric; the original equations are in imperial units, so

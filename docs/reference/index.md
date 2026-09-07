@@ -65,6 +65,9 @@ Functions for site index modeling.
 - [`si_batho2014()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_batho2014.md)
   : Batho and García (2014) height-growth and site-index model for
   lodgepole pine
+- [`si_brisco2002()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_brisco2002.md)
+  : Brisco, Klinka and Nigh (2002) western larch height-age (site index)
+  model
 - [`si_buckman2006()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_buckman2006.md)
   : Buckman et al. (2006) site index model for red pine
 - [`si_carmean1989()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean1989.md)
@@ -79,6 +82,9 @@ Functions for site index modeling.
   models for northwest Ontario
 - [`si_carmeanhahn1981()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmeanhahn1981.md)
   : Carmean and Hahn (1981) site index model
+- [`si_chenklinka2000()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_chenklinka2000.md)
+  : Chen and Klinka (2000) height-growth / site-index model for ESSF
+  species
 - [`si_cieszewski1993()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_cieszewski1993.md)
   : Cieszewski, Bella and Yeung (1993) variable-age site-index model for
   Saskatchewan
@@ -93,6 +99,9 @@ Functions for site index modeling.
   index) model
 - [`si_huang1994()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_huang1994.md)
   : Huang et al. (1994) site index model for major Alberta tree species
+- [`si_huang2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_huang2009.md)
+  : Huang, Meng and Yang (2009) GYPSY site index models for Alberta
+  species
 - [`si_hugarcia2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_hugarcia2009.md)
   : Hu and García (2009) height-growth and site-index model for interior
   spruce

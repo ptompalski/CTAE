@@ -41,6 +41,19 @@
 
 ![](Site-Index-Models_files/figure-html//si-curves-si_batho2014.png)
 
+### `si_brisco2002()`
+
+- Function reference:
+  [`si_brisco2002()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_brisco2002.md)
+- Description: Brisco, Klinka and Nigh (2002) Chapman-Richards
+  height-age (site index) model for western larch in British Columbia
+  Brisco et al. ([2002](#ref-Brisco2002))
+- Age type: Breast-height age
+- Coverage: BC
+- Species coverage: LARI.OCC
+
+![](Site-Index-Models_files/figure-html//si-curves-si_brisco2002.png)
+
 ### `si_buckman2006()`
 
 - Function reference:
@@ -117,6 +130,20 @@
 
 ![](Site-Index-Models_files/figure-html//si-curves-si_carmeanhahn1981.png)
 
+### `si_chenklinka2000()`
+
+- Function reference:
+  [`si_chenklinka2000()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_chenklinka2000.md)
+- Description: Chen and Klinka (2000) conditioned Chapman-Richards
+  height-age (site index) model for subalpine fir, Engelmann spruce, and
+  lodgepole pine in the ESSF zone of British Columbia Chen and Klinka
+  ([2000](#ref-ChenKlinka2000))
+- Age type: Breast-height age
+- Coverage: BC
+- Species coverage: ABIE.LAS, PICE.ENG, PINU.CON
+
+![](Site-Index-Models_files/figure-html//si-curves-si_chenklinka2000.png)
+
 ### `si_cieszewski1993()`
 
 - Function reference:
@@ -183,6 +210,19 @@
   POPU.BAL, POPU.TRE, PSEU.MEN
 
 ![](Site-Index-Models_files/figure-html//si-curves-si_huang1994.png)
+
+### `si_huang2009()`
+
+- Function reference:
+  [`si_huang2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_huang2009.md)
+- Description: Huang, Meng and Yang (2009) GYPSY top-height / site-index
+  model for four Alberta tree species (site index at 50 years
+  breast-height age) Huang et al. ([2009](#ref-Huang2009gypsy))
+- Age type: Total age
+- Coverage: AB
+- Species coverage: PICE.GLA, PICE.MAR, PINU.CON, POPU.TRE
+
+![](Site-Index-Models_files/figure-html//si-curves-si_huang2009.png)
 
 ### `si_hugarcia2009()`
 
@@ -540,6 +580,10 @@ Batho, A., García, O., 2014. A site index model for lodgepole pine in
 British Columbia. Forest Science 60, 982–987.
 <https://doi.org/10.5849/forsci.13-509>
 
+Brisco, D., Klinka, K., Nigh, G., 2002. Height growth models for western
+larch in British Columbia. Western Journal of Applied Forestry 17,
+66–74. <https://doi.org/10.1093/wjaf/17.2.66>
+
 Buckmann, R.E., Bishaw, B., Hanson, T.J., Benford, F.A., 2006. Growth
 and yield of red pine in the lake states (No. NC-271), General technical
 report. U.S. Department of Agriculture, Forest Service.
@@ -567,6 +611,10 @@ Carmean, W.H., Niznowski, G.P., Hazenberg, G., 2001. Polymorphic site
 index curves for jack pine in northern Ontario. The Forestry Chronicle
 77, 141–150. <https://doi.org/10.5558/tfc77141-1>
 
+Chen, H.Y.H., Klinka, K., 2000. Height growth models for high-elevation
+subalpine fir, engelmann spruce, and lodgepole pine in british columbia.
+Western Journal of Applied Forestry 15, 62–69.
+
 Cieszewski, C.J., Bella, I.E., 1991. Polymorphic height and site index
 curves for the major tree species in alberta (No. 51), Forest management
 note. Forestry Canada, Northwest Region, Northern Forestry Centre,
@@ -590,6 +638,11 @@ Hu, Z., García, O., 2010. A height-growth and site-index model for
 interior spruce in the Sub-Boreal Spruce biogeoclimatic zone of British
 Columbia. Canadian Journal of Forest Research 40, 1175–1183.
 <https://doi.org/10.1139/X10-076>
+
+Huang, S., Meng, S.X., Yang, Y., 2009. A growth and yield projection
+system (GYPSY) for natural and post-harvest stands in Alberta (No. Tech.
+Rep. Pub. No. T/216). Forest Management Branch, Alberta Sustainable
+Resource Development, Edmonton, Alberta.
 
 Huang, S., Titus, S.J., Lakusta, T.W., 1994. Ecologically based site
 index curves and tables for major Alberta tree species. Tech. Report No.

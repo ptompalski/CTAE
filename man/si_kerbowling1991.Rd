@@ -10,18 +10,18 @@ si_kerbowling1991(age, height = NULL, si = NULL, species)
 \item{age}{Numeric vector. Breast-height age (years).}
 
 \item{height}{Optional numeric vector. Total tree height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at
-breast height). If provided, `height` is predicted.}
+breast height). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"ABIE.BAL"`).}
+\item{species}{Character vector of species codes (e.g., \code{"ABIE.BAL"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -30,19 +30,19 @@ polymorphic site-index equation (model 1, conditioned form; eq. 9) for New
 Brunswick softwoods.
 }
 \details{
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 This implementation uses the conditioned equation at index age 50 years
-(breast-height age), so predicted height equals site index at `age = 50`.
+(breast-height age), so predicted height equals site index at \code{age = 50}.
 
-Predicting `height` from `si` is direct. Predicting `si` from `height` is
+Predicting \code{height} from \code{si} is direct. Predicting \code{si} from \code{height} is
 implicit (site index also appears in the exponent term), so there is no
 closed-form algebraic inverse. For that mode, this implementation solves for
-`si` numerically with `stats::uniroot()`.
+\code{si} numerically with \code{stats::uniroot()}.
 
 Inputs/outputs are metric (m), matching the source model.
 }

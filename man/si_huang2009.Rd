@@ -16,22 +16,22 @@ si_huang2009(
 \item{age}{Numeric vector. Total age (years from germination).}
 
 \item{height}{Optional numeric vector. Top height (m), i.e. average height of
-the 100 largest-DBH trees per hectare. If provided, `si` is predicted.}
+the 100 largest-DBH trees per hectare. If provided, \code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years on the
-`index_age` scale). If provided, `height` is predicted.}
+\code{index_age} scale). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of NFI species codes (e.g., `"PINU.CON"`).}
+\item{species}{Character vector of NFI species codes (e.g., \code{"PINU.CON"}).}
 
-\item{index_age}{Character scalar, `"breast_height"` (default) or `"total"`.
+\item{index_age}{Character scalar, \code{"breast_height"} (default) or \code{"total"}.
 Selects whether site index is expressed at 50 years breast-height age
 (\eqn{SI_{bh}}) or 50 years total age (\eqn{SI_t}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted top height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted top height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -43,33 +43,33 @@ models in Huang, Meng, and Yang (2009) for four main Alberta tree species.
 \code{POPU.TRE} (aspen), \code{PICE.MAR} (black spruce),
 \code{PINU.CON} (lodgepole pine), \code{PICE.GLA} (white spruce).
 
-\strong{Age definition note:} `age` is \emph{total} age (years from the point
+\strong{Age definition note:} \code{age} is \emph{total} age (years from the point
 of germination). This is the age basis on which the GYPSY top-height models
 are fitted and inverted.
 
 \strong{Base-age note:} site index is referenced to height at 50 years. The
-`index_age` argument selects which 50-year index is used:
+\code{index_age} argument selects which 50-year index is used:
 \itemize{
-  \item `"breast_height"` (default): \eqn{SI_{bh}}, top height at 50 years
-    breast-height age (the index currently used in Alberta).
-  \item `"total"`: \eqn{SI_t}, top height at 50 years total age (the quantity
-    the model form uses directly).
+\item \code{"breast_height"} (default): \eqn{SI_{bh}}, top height at 50 years
+breast-height age (the index currently used in Alberta).
+\item \code{"total"}: \eqn{SI_t}, top height at 50 years total age (the quantity
+the model form uses directly).
 }
 The conversion between the two uses the years-to-breast-height (Y2BH) relation
 embedded in the source SAS program (Appendix 1).
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si` (on the
-    `index_age` scale).
-  \item If `si` is provided (on the `index_age` scale), the function predicts
-    top height.
+\item If \code{height} is provided, the function predicts \code{si} (on the
+\code{index_age} scale).
+\item If \code{si} is provided (on the \code{index_age} scale), the function predicts
+top height.
 }
 
 The top-height model is not closed-form invertible in site index; predicting
-`si` from `height` is solved by the damped fixed-point iteration used in the
-source SAS program. When `index_age = "breast_height"`, recovering \eqn{SI_t}
-from a supplied \eqn{SI_{bh}} is solved numerically with `stats::uniroot()`.
+\code{si} from \code{height} is solved by the damped fixed-point iteration used in the
+source SAS program. When \code{index_age = "breast_height"}, recovering \eqn{SI_t}
+from a supplied \eqn{SI_{bh}} is solved numerically with \code{stats::uniroot()}.
 }
 \examples{
 # Predict site index (SIbh) from total age + top height

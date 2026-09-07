@@ -9,21 +9,21 @@ si_goudie1984(age, height = NULL, si = NULL, species)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes. One of `"PINU.CON"`
-(lodgepole pine) or `"PICE.GLA"` (white spruce); compact and jurisdiction
+\item{species}{Character vector of species codes. One of \code{"PINU.CON"}
+(lodgepole pine) or \code{"PICE.GLA"} (white spruce); compact and jurisdiction
 codes are standardized.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -35,8 +35,8 @@ spruce (\emph{Picea glauca}) in British Columbia.
 \strong{Model scope (species coverage):} lodgepole pine, NFI code
 \code{PINU.CON}; white spruce, NFI code \code{PICE.GLA}.
 
-\strong{Age definition note:} `age` is breast-height age (BHA, years). The
-curve is conditioned so that `height = si` at BHA 50.
+\strong{Age definition note:} \code{age} is breast-height age (BHA, years). The
+curve is conditioned so that \code{height = si} at BHA 50.
 
 \strong{Base-age note:} site index is site height at breast-height age 50.
 
@@ -44,16 +44,16 @@ curve is conditioned so that `height = si` at BHA 50.
 coefficients and functional form here incorporate two later modifications,
 not the equations as originally printed in Goudie (1984):
 \itemize{
-  \item \strong{Half-year age shift.} A 2004 modification subtracts 0.5 year
-    from both the age and the base age inside the logistic (using
-    \eqn{\ln(\mathrm{BHA} - 0.5)} and \eqn{\ln(49.5)}), so that height equals
-    1.3 m at BHA 0.5 years. The original paper uses \eqn{\ln(\mathrm{BHA})}
-    and \eqn{\ln(50)}.
-  \item \strong{Lodgepole pine: dry-site coefficients only.} Goudie (1984)
-    eq. 7 gives habitat-specific pine coefficients (dry vs. wet site). This
-    implementation uses only the \emph{dry-site} coefficients, which the
-    author recommends when no ecological information is available. There is
-    no habitat argument; white spruce is unaffected.
+\item \strong{Half-year age shift.} A 2004 modification subtracts 0.5 year
+from both the age and the base age inside the logistic (using
+\eqn{\ln(\mathrm{BHA} - 0.5)} and \eqn{\ln(49.5)}), so that height equals
+1.3 m at BHA 0.5 years. The original paper uses \eqn{\ln(\mathrm{BHA})}
+and \eqn{\ln(50)}.
+\item \strong{Lodgepole pine: dry-site coefficients only.} Goudie (1984)
+eq. 7 gives habitat-specific pine coefficients (dry vs. wet site). This
+implementation uses only the \emph{dry-site} coefficients, which the
+author recommends when no ecological information is available. There is
+no habitat argument; white spruce is unaffected.
 }
 
 The height-age curve is
@@ -65,10 +65,10 @@ both as a multiplier and inside a logarithm, the curve has no closed-form
 inverse in \eqn{SI}; when predicting site index the equation is solved
 numerically.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height`.
-  \item If `height` is provided, the function predicts `si`.
+\item If \code{si} is provided, the function predicts \code{height}.
+\item If \code{height} is provided, the function predicts \code{si}.
 }
 }
 \examples{

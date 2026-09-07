@@ -43,10 +43,10 @@ Disabled by default.}
 \value{
 A tibble with one row per input observation. By default includes:
 \describe{
-  \item{b_total}{Total aboveground tree biomass (t/ha).}
-  \item{b_bark}{Bark biomass (t/ha).}
-  \item{b_branches}{Branch biomass (t/ha).}
-  \item{b_foliage}{Foliage biomass (t/ha).}
+\item{b_total}{Total aboveground tree biomass (t/ha).}
+\item{b_bark}{Bark biomass (t/ha).}
+\item{b_branches}{Branch biomass (t/ha).}
+\item{b_foliage}{Foliage biomass (t/ha).}
 }
 Additional columns are included when \code{include_props} and/or
 \code{include_intermediates} are TRUE.
@@ -56,18 +56,17 @@ High-level wrapper for the Boudewyn et al. (2007) model-based volume-to-biomass
 conversion for live trees. Given gross merchantable volume per hectare, the
 function:
 \enumerate{
-  \item converts volume to stem wood biomass components (Tables 3--5; Eqs. 1--3),
-  \item computes biomass proportions using the volume-based multinomial-logit
-        models (Table 6; Eqs. 4--7),
-  \item applies the Table 7 proportion bounds (caps) to prevent unrealistic
-        proportions when extrapolating,
-  \item returns total aboveground biomass and components (bark, branches, foliage).
+\item converts volume to stem wood biomass components (Tables 3--5; Eqs. 1--3),
+\item computes biomass proportions using the volume-based multinomial-logit
+models (Table 6; Eqs. 4--7),
+\item applies the Table 7 proportion bounds (caps) to prevent unrealistic
+proportions when extrapolating,
+\item returns total aboveground biomass and components (bark, branches, foliage).
 }
 }
 \details{
 The function is vectorized over all inputs and is designed to work naturally
 inside \code{dplyr::mutate()} (typically followed by \code{tidyr::unnest()}).
-
 
 Proportion caps (Table 7).
 The Table 6 proportion models can yield extreme values when extrapolated beyond

@@ -9,25 +9,25 @@ si_nigh2004(age, species, height = NULL, si = NULL, bec_zone = NULL)
 \arguments{
 \item{age}{Numeric vector. Total age (years).}
 
-\item{species}{Character vector of NFI species codes: `"PINU.CON"`
-(lodgepole pine) or `"PICE.GLA"` (interior spruce). Recycled to a common
+\item{species}{Character vector of NFI species codes: \code{"PINU.CON"}
+(lodgepole pine) or \code{"PICE.GLA"} (interior spruce). Recycled to a common
 length with the other inputs.}
 
-\item{height}{Optional numeric vector. Site height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Site height (m). If provided, \code{si} is
 predicted.}
 
-\item{si}{Optional numeric vector. Site index (m). If provided, `height` is
+\item{si}{Optional numeric vector. Site index (m). If provided, \code{height} is
 predicted.}
 
 \item{bec_zone}{Optional character vector selecting zone-specific
-coefficients. One of `"BWBS"`, `"ESSF"`, `"ICH"`, `"IDF"`, `"MS"`, `"SBS"`,
-`"SBPS"`. When `NULL` (default), the province-wide parameters are used.}
+coefficients. One of \code{"BWBS"}, \code{"ESSF"}, \code{"ICH"}, \code{"IDF"}, \code{"MS"}, \code{"SBS"},
+\code{"SBPS"}. When \code{NULL} (default), the province-wide parameters are used.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -41,7 +41,7 @@ engelmannii}, and their hybrid) in British Columbia.
 \code{PINU.CON}) and interior spruce, modelled as white spruce (NFI code
 \code{PICE.GLA}), following the source publication.
 
-\strong{Age definition note:} `age` is \emph{total} age (years), not
+\strong{Age definition note:} \code{age} is \emph{total} age (years), not
 breast-height age. The model is conditioned to predict a height of zero at
 total age zero.
 
@@ -53,9 +53,9 @@ were fitted province-wide (Table 2) and then allowed to vary by biogeoclimatic
 zone via additive indicator terms (eqs. 4-6, Table 3). This implementation
 stores the resolved per-zone \eqn{a_1, a_2, a_3, a_4} plus a province-wide set.
 
-\strong{Zone selection:} supply `bec_zone` to use a zone-specific parameter
-set (one of `"BWBS"`, `"ESSF"`, `"ICH"`, `"IDF"`, `"MS"`, `"SBS"`, `"SBPS"`).
-When `bec_zone` is `NULL` (the default), the province-wide average parameters
+\strong{Zone selection:} supply \code{bec_zone} to use a zone-specific parameter
+set (one of \code{"BWBS"}, \code{"ESSF"}, \code{"ICH"}, \code{"IDF"}, \code{"MS"}, \code{"SBS"}, \code{"SBPS"}).
+When \code{bec_zone} is \code{NULL} (the default), the province-wide average parameters
 are used, as recommended by the author when the zone is unknown or was not
 sampled.
 
@@ -63,10 +63,10 @@ Because \eqn{SI} appears both as a multiplier and inside the exponent of
 \eqn{A}, eq. 3 has no closed-form inverse in \eqn{SI}; when predicting site
 index the equation is solved numerically.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height`.
-  \item If `height` is provided, the function predicts `si`.
+\item If \code{si} is provided, the function predicts \code{height}.
+\item If \code{height} is provided, the function predicts \code{si}.
 }
 }
 \examples{

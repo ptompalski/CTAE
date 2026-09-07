@@ -7,25 +7,25 @@
 si_sharma2022(age, height = NULL, si = NULL, species, base_age = 50)
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), with `age > 0`.}
+\item{age}{Numeric vector. Breast-height age (years), with \code{age > 0}.}
 
-\item{height}{Optional numeric vector. Stand height (m). If provided, `si`
+\item{height}{Optional numeric vector. Stand height (m). If provided, \code{si}
 is predicted.}
 
-\item{si}{Optional numeric vector. Site index (m) at `base_age` years
-breast-height age. If provided, `height` is predicted.}
+\item{si}{Optional numeric vector. Site index (m) at \code{base_age} years
+breast-height age. If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"PICE.MAR"` or
-`"POPU.TRE"`).}
+\item{species}{Character vector of species codes (e.g., \code{"PICE.MAR"} or
+\code{"POPU.TRE"}).}
 
 \item{base_age}{Positive numeric scalar. Site-index base age (years at
-breast height). Defaults to `50`.}
+breast height). Defaults to \code{50}.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted stand height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted stand height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -39,20 +39,20 @@ growing in natural-origin mixed stands in Ontario.
 
 \strong{Geographic use:} Ontario natural-origin mixed stands.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Height definition note:} the source model uses stand height
 (top height) in metres.
 
 \strong{Base-age note:} the paper defines site index as stand height at
 50 years breast-height age. The underlying dynamic equation is base-age
-invariant, so any positive `base_age` can be supplied; the default remains
+invariant, so any positive \code{base_age} can be supplied; the default remains
 50 to match the source definition.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 This implementation uses the fixed-effects component of Sharma's

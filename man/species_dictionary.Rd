@@ -8,13 +8,13 @@
 A tibble with one row per canonical NFI species code and the
 following columns:
 \describe{
-  \item{NFI_code}{Canonical NFI species code.}
-  \item{CommonNameEnglish}{English common name, when available.}
-  \item{CommonNameFrench}{French common name, when available.}
-  \item{ScientificName}{Scientific name, when available.}
-  \item{Genus}{Four-letter NFI genus code.}
-  \item{Species}{Three-letter NFI species code or \code{"SPP"}.}
-  \item{Var}{Optional three-letter variety or subspecies code.}
+\item{NFI_code}{Canonical NFI species code.}
+\item{CommonNameEnglish}{English common name, when available.}
+\item{CommonNameFrench}{French common name, when available.}
+\item{ScientificName}{Scientific name, when available.}
+\item{Genus}{Four-letter NFI genus code.}
+\item{Species}{Three-letter NFI species code or \code{"SPP"}.}
+\item{Var}{Optional three-letter variety or subspecies code.}
 }
 }
 \usage{

@@ -7,19 +7,19 @@
 si_goelz1992(age, height = NULL, si = NULL)
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), with `age > 0`.}
+\item{age}{Numeric vector. Breast-height age (years), with \code{age > 0}.}
 
-\item{height}{Optional numeric vector. Site height (m), with `height > 1.3`.
-If provided, `si` is predicted.}
+\item{height}{Optional numeric vector. Site height (m), with \code{height > 1.3}.
+If provided, \code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height), with `si > 1.3`. If provided, `height` is predicted.}
+height), with \code{si > 1.3}. If provided, \code{height} is predicted.}
 }
 \value{
 A tibble with a single column:
 \describe{
-  \item{height}{Predicted site height (m), returned when `si` is provided.}
-  \item{si}{Predicted site index (m), returned when `height` is provided.}
+\item{height}{Predicted site height (m), returned when \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when \code{height} is provided.}
 }
 }
 \description{
@@ -30,7 +30,7 @@ Chapman-Richards difference equation (eq. 16) published in Goelz and Burk
 \details{
 \strong{Model scope (species coverage):} jack pine (\code{PINU.BAN}).
 
-\strong{Age definition note:} `age` is breast-height age (years). Heights are
+\strong{Age definition note:} \code{age} is breast-height age (years). Heights are
 referenced to a breast height of 1.3 m.
 
 \strong{Base-age note:} the equation is base-age invariant. Site index is
@@ -57,15 +57,15 @@ therefore need not recover the original value exactly; the round-trip
 discrepancy is small (the source reports curve differences across base ages of
 less than 0.5 m).
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `si` is provided, the function predicts `height` at `age`.
-  \item If `height` is provided, the function predicts `si` (height at base
-    age 50) from the observed (`age`, `height`) pair.
+\item If \code{si} is provided, the function predicts \code{height} at \code{age}.
+\item If \code{height} is provided, the function predicts \code{si} (height at base
+age 50) from the observed (\code{age}, \code{height}) pair.
 }
 
-This model is specific to jack pine (`PINU.BAN`); the species is fixed and
-there is no `species` argument.
+This model is specific to jack pine (\code{PINU.BAN}); the species is fixed and
+there is no \code{species} argument.
 }
 \examples{
 # Predict height from age + site index

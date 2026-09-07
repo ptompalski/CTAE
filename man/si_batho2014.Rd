@@ -9,19 +9,19 @@ si_batho2014(age, height = NULL, si = NULL, species)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Top height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Top height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at breast
-height). If provided, `height` is predicted.}
+height). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of NFI species codes (`"PINU.CON"`).}
+\item{species}{Character vector of NFI species codes (\code{"PINU.CON"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted top height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted top height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -34,7 +34,7 @@ biogeoclimatic zone of British Columbia.
 \strong{Model scope (species coverage):} lodgepole pine, NFI code
 \code{PINU.CON}.
 
-\strong{Age definition note:} `age` is breast-height age (years). The height
+\strong{Age definition note:} \code{age} is breast-height age (years). The height
 curve passes through \eqn{(t_0, H_0) = (0.5\,\mathrm{yr}, 1.3\,\mathrm{m})};
 the model is defined only for post-breast-height growth.
 
@@ -50,10 +50,10 @@ constant \eqn{c = 0.8297} (Batho and García 2014, Eqs. 3--4). The site
 parameter \eqn{q} has no closed form and is solved numerically from an
 observed (age, height) pair (Eq. 6).
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 }
 \examples{
