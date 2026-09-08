@@ -45,7 +45,7 @@ vol_total_to_merchantable(
 
 - clamp_prop:
 
-  Logical. If TRUE (default), clamp predicted proportion to \[0, 1\].
+  Logical. If TRUE (default), clamp predicted proportion to `[0, 1]`.
 
 - warn_outside:
 

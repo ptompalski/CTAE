@@ -18,17 +18,17 @@ si_kerbowling1991(age, height = NULL, si = NULL, species)
 
 - height:
 
-  Optional numeric vector. Total tree height (m). If provided, \`si\` is
+  Optional numeric vector. Total tree height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at breast
-  height). If provided, \`height\` is predicted.
+  height). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"ABIE.BAL"\`).
+  Character vector of species codes (e.g., `"ABIE.BAL"`).
 
 ## Value
 
@@ -36,28 +36,29 @@ A tibble with columns:
 
 - height:
 
-  Predicted height (m), returned when input \`si\` is provided.
+  Predicted height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 This implementation uses the conditioned equation at index age 50 years
-(breast-height age), so predicted height equals site index at \`age =
-50\`.
+(breast-height age), so predicted height equals site index at
+`age = 50`.
 
-Predicting \`height\` from \`si\` is direct. Predicting \`si\` from
-\`height\` is implicit (site index also appears in the exponent term),
-so there is no closed-form algebraic inverse. For that mode, this
-implementation solves for \`si\` numerically with \`stats::uniroot()\`.
+Predicting `height` from `si` is direct. Predicting `si` from `height`
+is implicit (site index also appears in the exponent term), so there is
+no closed-form algebraic inverse. For that mode, this implementation
+solves for `si` numerically with
+[`stats::uniroot()`](https://rdrr.io/r/stats/uniroot.html).
 
 Inputs/outputs are metric (m), matching the source model.
 

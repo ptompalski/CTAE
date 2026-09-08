@@ -33,7 +33,7 @@ Full reference implementation:
 - species:
 
   Character vector of species codes (standardized with
-  \`standardize_species_code()\`).
+  [`standardize_species_code()`](https://ptompalski.github.io/CanadaForestAllometry/reference/standardize_species_code.md)).
 
 ## Value
 

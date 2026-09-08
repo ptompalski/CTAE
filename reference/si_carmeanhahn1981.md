@@ -17,17 +17,17 @@ si_carmeanhahn1981(age, height = NULL, si = NULL, species)
 
 - height:
 
-  Optional numeric vector. Total tree height (m). If provided, \`si\` is
+  Optional numeric vector. Total tree height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at total
-  age). If provided, \`height\` is predicted.
+  age). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"ABIE.BAL"\`).
+  Character vector of species codes (e.g., `"ABIE.BAL"`).
 
 ## Value
 
@@ -35,11 +35,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted height (m), returned when input \`si\` is provided.
+  Predicted height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -49,17 +49,17 @@ parameter sets for 2 species: `ABIE.BAL, PICE.GLA`.
 **Geographic use:** this model was fit to revised Lake States harmonized
 curves and should be used with caution outside that domain.
 
-**Age definition note:** \`age\` is *total age* (years), not
-breast-height age.
+**Age definition note:** `age` is *total age* (years), not breast-height
+age.
 
 **Base-age note:** site index in this model is total height at 50 years
 total age.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 Inputs/outputs are metric; the original equations are in imperial units,
 so the function converts internally.

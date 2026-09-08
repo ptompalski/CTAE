@@ -17,17 +17,17 @@ si_carmean1989(age, height = NULL, si = NULL, species)
 
 - height:
 
-  Optional numeric vector. Total tree height (m). If provided, \`si\` is
+  Optional numeric vector. Total tree height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at total
-  age). If provided, \`height\` is predicted.
+  age). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"ACER.SAH"\`).
+  Character vector of species codes (e.g., `"ACER.SAH"`).
 
 ## Value
 
@@ -35,11 +35,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted height (m), returned when input \`si\` is provided.
+  Predicted height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -50,7 +50,7 @@ selected Carmean et al. (1989) species that occur in Canada:
 **Geographic use:** use for eastern species only, and with caution
 outside the source curve domains.
 
-**Age definition note:** \`age\` is total age (years). For users working
+**Age definition note:** `age` is total age (years). For users working
 with breast-height age, years-to-breast-height can be obtained
 separately with
 [`ytbh_carmean1989`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_carmean1989.md).
@@ -58,11 +58,11 @@ separately with
 **Base-age note:** site index in this model is total height at 50 years
 total age.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 Inputs/outputs are metric; the original equations are in imperial units,
 so the function converts internally.

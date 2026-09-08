@@ -130,21 +130,54 @@ Functions for volume estimation.
 
 Functions for site index modeling.
 
+- [`si_alemdag1991()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_alemdag1991.md)
+  : Alemdag (1991) national site-index and height-growth model for white
+  spruce
 - [`si_augerward2021()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_augerward2021.md)
   : Auger and Ward (2021) site index model for Quebec plantations
+- [`si_batho2014()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_batho2014.md)
+  : Batho and García (2014) height-growth and site-index model for
+  lodgepole pine
+- [`si_brisco2002()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_brisco2002.md)
+  : Brisco, Klinka and Nigh (2002) western larch height-age (site index)
+  model
 - [`si_buckman2006()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_buckman2006.md)
   : Buckman et al. (2006) site index model for red pine
 - [`si_carmean1989()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean1989.md)
   : Carmean et al. (1989) site index model
 - [`si_carmean1996()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean1996.md)
   : Carmean (1996) site index models for northwest Ontario
+- [`si_carmean2001()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean2001.md)
+  : Carmean, Niznowski and Hazenberg (2001) polymorphic site index model
+  for northern Ontario
+- [`si_carmean2006()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean2006.md)
+  : Carmean, Hazenberg and Deschamps (2006) polymorphic site index
+  models for northwest Ontario
 - [`si_carmeanhahn1981()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmeanhahn1981.md)
   : Carmean and Hahn (1981) site index model
+- [`si_chenklinka2000()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_chenklinka2000.md)
+  : Chen and Klinka (2000) height-growth / site-index model for ESSF
+  species
+- [`si_cieszewski1993()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_cieszewski1993.md)
+  : Cieszewski, Bella and Yeung (1993) variable-age site-index model for
+  Saskatchewan
 - [`si_cieszewskibella1991()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_cieszewskibella1991.md)
   : Cieszewski and Bella (1991) site-index model for major Alberta tree
   species
+- [`si_goelz1992()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_goelz1992.md)
+  : Goelz and Burk (1992) base-age invariant site index model for jack
+  pine in north central Ontario
+- [`si_goudie1984()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_goudie1984.md)
+  : Goudie (1984) lodgepole pine and white spruce height-age (site
+  index) model
 - [`si_huang1994()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_huang1994.md)
   : Huang et al. (1994) site index model for major Alberta tree species
+- [`si_huang2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_huang2009.md)
+  : Huang, Meng and Yang (2009) GYPSY site index models for Alberta
+  species
+- [`si_hugarcia2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_hugarcia2009.md)
+  : Hu and García (2009) height-growth and site-index model for interior
+  spruce
 - [`si_kerbowling1991()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_kerbowling1991.md)
   : Ker and Bowling (1991) site index model
 - [`si_lafleche2013()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_lafleche2013.md)
@@ -154,11 +187,32 @@ Functions for site index modeling.
   : Lundgren and Dolid (1970) site index model
 - [`si_model_registry()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_model_registry.md)
   : Site-index model registry
+- [`si_nigh1997()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1997.md)
+  : Nigh (1997) Sitka spruce height-age (site index) model for coastal
+  British Columbia
+- [`si_nigh1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1998.md)
+  : Nigh (1998) height-age (site index) model for interior western
+  hemlock
+- [`si_nigh1998_gi()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1998_gi.md)
+  : Nigh (1998) growth-intercept site index model for interior western
+  hemlock
 - [`si_nigh2000()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2000.md)
   : Nigh (2000) site index model for interior western redcedar (BC)
 - [`si_nigh2000_gi()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2000_gi.md)
   : Nigh (2000) growth-intercept site index model for interior western
   redcedar
+- [`si_nigh2002()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2002.md)
+  : Nigh, Krestov and Klinka (2002) trembling aspen height-age (site
+  index) model for British Columbia
+- [`si_nigh2004()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2004.md)
+  : Nigh (2004) juvenile height-age (site index) model for British
+  Columbia
+- [`si_nigh2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2009.md)
+  : Nigh, Thomas, Yearsley and Wang (2009) paper birch height-age (site
+  index) model for British Columbia
+- [`si_nigh2017()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2017.md)
+  : Nigh (2017) lodgepole pine height-age (site index) model for British
+  Columbia
 - [`si_nighcourtin1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nighcourtin1998.md)
   : Nigh and Courtin (1998) site index model for red alder (BC coast)
 - [`si_parresolvissage1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_parresolvissage1998.md)
@@ -193,9 +247,14 @@ Functions for site index modeling.
   : Thrower et al. (1994) site index models for BC interior species
 - [`ytbh_carmean1989()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_carmean1989.md)
   : Carmean et al. (1989) years-to-breast-height model
+- [`ytbh_nigh1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_nigh1998.md)
+  : Nigh (1998) years-to-breast-height model for interior western
+  hemlock
 - [`ytbh_nigh2000()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_nigh2000.md)
   : Nigh (2000) years-to-breast-height model for interior western
   redcedar
+- [`ytbh_nigh2015()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_nigh2015.md)
+  : Nigh (2015) years-to-breast-height model for Engelmann spruce
 - [`ytbh_nighcourtin1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_nighcourtin1998.md)
   : Nigh and Courtin (1998) years-to-breast-height model for red alder
 - [`ytbh_thrower1994()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_thrower1994.md)

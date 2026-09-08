@@ -17,7 +17,7 @@ ytbh_carmean1989(si, species)
 
 - species:
 
-  Character vector of species codes (e.g., \`"ACER.SAH"\`).
+  Character vector of species codes (e.g., `"ACER.SAH"`).
 
 ## Value
 

@@ -3,7 +3,8 @@
 Implementation of the Appendix III site-index equations from Buckman et
 al. (2006) for red pine (`PINU.RES`) in the Lake States. Appendix III
 presents this model as an improved version of the Lundgren and Dolid
-red-pine height function implemented in \[si_lundgrendolid1970()\].
+red-pine height function implemented in
+[`si_lundgrendolid1970()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_lundgrendolid1970.md).
 Buckman et al. note two imperfections in the earlier Lundgren-Dolid
 form: height predicted at age 50 was slightly below site index rather
 than equal to it exactly, and the curve overpredicted heights for young
@@ -22,17 +23,17 @@ si_buckman2006(age, height = NULL, si = NULL)
 
 - age:
 
-  Numeric vector. Stand age from seed (years), with \`age \> 0\`.
+  Numeric vector. Stand age from seed (years), with `age > 0`.
 
 - height:
 
-  Optional numeric vector. Total stand height (m). If provided, \`si\`
-  is predicted.
+  Optional numeric vector. Total stand height (m). If provided, `si` is
+  predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years from seed).
-  If provided, \`height\` is predicted.
+  If provided, `height` is predicted.
 
 ## Value
 
@@ -40,13 +41,13 @@ A tibble with columns:
 
 - height:
 
-  Predicted total stand height (m), returned when input \`si\` is
+  Predicted total stand height (m), returned when input `si` is
   provided.
 
 - si:
 
-  Predicted site index (m at total age 50), returned when input
-  \`height\` is provided.
+  Predicted site index (m at total age 50), returned when input `height`
+  is provided.
 
 ## Details
 
@@ -54,27 +55,27 @@ A tibble with columns:
 
 **Geographic use:** Ontario
 
-**Age definition note:** \`age\` is stand age from seed (years)
+**Age definition note:** `age` is stand age from seed (years)
 
-**Height definition note:** \`height\` is total stand height (m).
+**Height definition note:** `height` is total stand height (m).
 
 **Base-age note:** site index is total height at 50 years.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 The source model is piecewise:
 
-- for \`age \< 20\`: \\H = SI (k t^2 - m t^4)\\
+- for `age < 20`: \\H = SI (k t^2 - m t^4)\\
 
-- for \`age \>= 20\`: \\H = A SI (1 - e^{-Bt})^C\\
+- for `age >= 20`: \\H = A SI (1 - e^{-Bt})^C\\
 
-The constrained Buckman refit uses \`A = 1.8604\`, \`B = 0.020928\`, and
-\`C = 1.4349\`. The younger-age correction uses \`k = 1.41876e-3\` and
-\`m = 1.05304e-6\`, chosen so the two segments join smoothly at age 20.
+The constrained Buckman refit uses `A = 1.8604`, `B = 0.020928`, and
+`C = 1.4349`. The younger-age correction uses `k = 1.41876e-3` and
+`m = 1.05304e-6`, chosen so the two segments join smoothly at age 20.
 
 Inputs and outputs are metric; the original equations are in imperial
 units, so the function converts internally.

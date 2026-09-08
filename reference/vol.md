@@ -1,10 +1,10 @@
 # Calculate tree volume: choose best available model or run all candidate models
 
-\`vol()\` is the main convenience wrapper for estimating total and
+`vol()` is the main convenience wrapper for estimating total and
 merchantable stem volume from diameter and height. It automatically
 selects and runs one (or more) of the volume models implemented in
 CanadaForestAllometry, based on the model registry returned by
-\[volume_model_registry()\].
+[`volume_model_registry()`](https://ptompalski.github.io/CanadaForestAllometry/reference/volume_model_registry.md).
 
 ## Usage
 
@@ -28,8 +28,9 @@ vol(
 
 - height:
 
-  Numeric vector. Total height (m). Can be \`NA\` to use the DBH-only
-  models (currently only \`vol_ung2013()\`).
+  Numeric vector. Total height (m). Can be `NA` to use the DBH-only
+  models (currently only
+  [`vol_ung2013()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_ung2013.md)).
 
 - species:
 
@@ -43,29 +44,29 @@ vol(
 - subregion:
 
   Optional character vector. Subregion identifier (e.g., BEC zone for
-  \`vol_kozak94()\`).
+  [`vol_kozak94()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_kozak94.md)).
 
 - pick_best:
 
-  Logical. If \`TRUE\` (default), pick the single best model per tree
-  using \`rank\`. If \`FALSE\`, compute all candidate model outputs per
-  tree and return a list-column (one tibble per tree) that can be
-  unnested for comparison.
+  Logical. If `TRUE` (default), pick the single best model per tree
+  using `rank`. If `FALSE`, compute all candidate model outputs per tree
+  and return a list-column (one tibble per tree) that can be unnested
+  for comparison.
 
 - keep_model_id:
 
-  Logical. If \`TRUE\`, include a \`vol_model\` column with the engine
+  Logical. If `TRUE`, include a `vol_model` column with the engine
   function name used.
 
 ## Value
 
-If \`pick_best = TRUE\`, a tibble with one row per tree and columns:
-\`vol_total\`, \`vol_merchantable\`, and optionally \`vol_model\`.
+If `pick_best = TRUE`, a tibble with one row per tree and columns:
+`vol_total`, `vol_merchantable`, and optionally `vol_model`.
 
-If \`pick_best = FALSE\`, a list (suitable for use as a list-column in
-\`dplyr::mutate()\`) with one element per tree. Each element is a tibble
-of candidate model outputs (\`vol_total\`, \`vol_merchantable\`, and
-optionally \`vol_model\`).
+If `pick_best = FALSE`, a list (suitable for use as a list-column in
+[`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html))
+with one element per tree. Each element is a tibble of candidate model
+outputs (`vol_total`, `vol_merchantable`, and optionally `vol_model`).
 
 ## Model selection logic
 
@@ -73,35 +74,35 @@ Model selection is driven by the model registry and occurs per input
 tree:
 
 1.  Geographic applicability: models are filtered to those whose
-    \`province_scope\` includes the provided \`jurisdiction\` (or
-    \`"ALL"\`).
+    `province_scope` includes the provided `jurisdiction` (or `"ALL"`).
 
 2.  Species coverage: models are filtered to those that include the
-    provided \`species\` in their parameter tables. Some models may
-    include genus/group codes (e.g., \`"PICE.SPP"\`); these are treated
-    as covering all matching species within that genus/group.
+    provided `species` in their parameter tables. Some models may
+    include genus/group codes (e.g., `"PICE.SPP"`); these are treated as
+    covering all matching species within that genus/group.
 
 3.  Required inputs: models that require total height are excluded when
-    \`height\` is missing. Models that require a subregion (e.g., BEC
-    zone for certain provincial models) are excluded when \`subregion\`
-    is missing.
+    `height` is missing. Models that require a subregion (e.g., BEC zone
+    for certain provincial models) are excluded when `subregion` is
+    missing.
 
-4.  Model ranking: if multiple eligible models remain, \`pick_best =
-    TRUE\` selects the highest-ranked model (\`rank\`) for each tree.
+4.  Model ranking: if multiple eligible models remain,
+    `pick_best = TRUE` selects the highest-ranked model (`rank`) for
+    each tree.
 
 ## Fallback behavior
 
 Availability is evaluated at the species level, not only by
 jurisdiction. This means a regional/provincial model may exist for a
 jurisdiction but may not include coefficients for the provided species.
-In such cases, \`vol()\` automatically falls back to another eligible
+In such cases, `vol()` automatically falls back to another eligible
 model (e.g., a multi-province regional model or a national model) that
-\*does\* cover the species and required inputs.
+*does* cover the species and required inputs.
 
 ## Important limitations and recommended use
 
 - This is an automatic wrapper. Because selection is registry-driven,
-  \`vol()\` may use a model that is not the one you intended (e.g., a
+  `vol()` may use a model that is not the one you intended (e.g., a
   national model instead of a regional model, or a different regional
   model than you expected), especially when the preferred model is not
   available for the input species or missing required inputs.
@@ -111,17 +112,19 @@ model (e.g., a multi-province regional model or a national model) that
   differences in model form, fitted data, geographic scope, and
   merchantability assumptions. These differences are expected.
 
-- If you require a specific model, do not use \`vol()\`. Instead, call
-  the relevant model function directly (e.g., \`vol_huang94()\`,
-  \`vol_kozak94()\`, \`vol_ung2013()\`, etc.) to ensure full control and
-  reproducibility.
+- If you require a specific model, do not use `vol()`. Instead, call the
+  relevant model function directly (e.g.,
+  [`vol_huang94()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_huang94.md),
+  [`vol_kozak94()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_kozak94.md),
+  [`vol_ung2013()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_ung2013.md),
+  etc.) to ensure full control and reproducibility.
 
 - Investigate before operational use. It is strongly recommended to run
-  \`vol()\` with \`pick_best = FALSE\` during exploratory analyses to
+  `vol()` with `pick_best = FALSE` during exploratory analyses to
   inspect which models are eligible and how sensitive results are to
-  model choice. When \`pick_best = FALSE\`, \`vol()\` returns a
-  list-column (one element per tree) containing a tibble of candidate
-  model outputs; this can be unnested to compare models.
+  model choice. When `pick_best = FALSE`, `vol()` returns a list-column
+  (one element per tree) containing a tibble of candidate model outputs;
+  this can be unnested to compare models.
 
 ## Examples
 

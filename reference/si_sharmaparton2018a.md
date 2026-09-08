@@ -20,30 +20,30 @@ si_sharmaparton2018a(
 
 - age:
 
-  Numeric vector. Breast-height age (years), with \`age \> 0\`.
+  Numeric vector. Breast-height age (years), with `age > 0`.
 
 - height:
 
-  Optional numeric vector. Stand height (m). If \`total_height = TRUE\`
+  Optional numeric vector. Stand height (m). If `total_height = TRUE`
   (default), this is total height; otherwise it is height above breast
-  height. If provided, \`si\` is predicted.
+  height. If provided, `si` is predicted.
 
 - si:
 
   Optional numeric vector. Site index (m above breast height) at
-  \`base_age\` years breast-height age. If provided, \`height\` is
+  `base_age` years breast-height age. If provided, `height` is
   predicted.
 
 - base_age:
 
   Positive numeric scalar. Site-index base age (years at breast height).
-  Defaults to \`50\`.
+  Defaults to `50`.
 
 - total_height:
 
-  Logical scalar. If \`TRUE\` (default), interpret input \`height\` as
-  total height and return predicted \`height\` as total height. If
-  \`FALSE\`, use the source-paper scale of height above breast height.
+  Logical scalar. If `TRUE` (default), interpret input `height` as total
+  height and return predicted `height` as total height. If `FALSE`, use
+  the source-paper scale of height above breast height.
 
 ## Value
 
@@ -51,14 +51,14 @@ A tibble with columns:
 
 - height:
 
-  Predicted stand height (m), returned when input \`si\` is provided.
-  This is total height when \`total_height = TRUE\`, otherwise height
-  above breast height.
+  Predicted stand height (m), returned when input `si` is provided. This
+  is total height when `total_height = TRUE`, otherwise height above
+  breast height.
 
 - si:
 
   Predicted site index (m above breast height), returned when input
-  \`height\` is provided.
+  `height` is provided.
 
 ## Details
 
@@ -66,26 +66,26 @@ A tibble with columns:
 
 **Geographic use:** Ontario white spruce plantations.
 
-**Age definition note:** \`age\` is breast-height age (years).
+**Age definition note:** `age` is breast-height age (years).
 
 **Height definition note:** this implementation assumes the source model
 uses heights above breast height (m), not total height. For consistency
 with other site-index functions in this package, it defaults to using
-total height in the public API (\`total_height = TRUE\`) and converts
-internally by subtracting or adding 1.3 m as needed. Set \`total_height
-= FALSE\` to work on the source scale directly.
+total height in the public API (`total_height = TRUE`) and converts
+internally by subtracting or adding 1.3 m as needed. Set
+`total_height = FALSE` to work on the source scale directly.
 
 **Base-age note:** the underlying dynamic equation is written in a
 base-age invariant paired-age form. For consistency with other
 site-index functions in this package, this implementation defaults to a
 base age of 50 years breast-height age, while still allowing users to
-supply any positive \`base_age\`.
+supply any positive `base_age`.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 Inputs and outputs are metric and match the source model scale.
 

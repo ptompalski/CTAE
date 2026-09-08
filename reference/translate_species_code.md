@@ -29,55 +29,54 @@ translate_species_code(
 
 - from:
 
-  Source code system or name field: one of \`"auto"\`, \`"nfi"\`,
-  \`"canfi"\`, \`"jurisdiction"\`, \`"scientificname"\`,
-  \`"englishname"\`, or \`"frenchname"\`.
+  Source code system or name field: one of `"auto"`, `"nfi"`, `"canfi"`,
+  `"jurisdiction"`, `"scientificname"`, `"englishname"`, or
+  `"frenchname"`.
 
 - jurisdiction:
 
-  Jurisdiction for provincial or territorial codes. Required when \`from
-  = "jurisdiction"\` and also when \`to = "jurisdiction"\` unless \`from
-  = "auto"\` successfully infers a single shared jurisdiction. May be
-  length 1 or the same length as \`code\`.
+  Jurisdiction for provincial or territorial codes. Required when
+  `from = "jurisdiction"` and also when `to = "jurisdiction"` unless
+  `from = "auto"` successfully infers a single shared jurisdiction. May
+  be length 1 or the same length as `code`.
 
 - to:
 
-  Target field to return: one of \`"nfi"\`, \`"canfi"\`,
-  \`"jurisdiction"\`, \`"scientificname"\`, \`"englishname"\`, or
-  \`"frenchname"\`. Defaults to \`"nfi"\`.
+  Target field to return: one of `"nfi"`, `"canfi"`, `"jurisdiction"`,
+  `"scientificname"`, `"englishname"`, or `"frenchname"`. Defaults to
+  `"nfi"`.
 
 - multiple:
 
-  How to handle ambiguous matches: \`"error"\`, \`"all"\`, or
-  \`"first"\`.
+  How to handle ambiguous matches: `"error"`, `"all"`, or `"first"`.
 
 - unmatched:
 
-  How to handle unmatched inputs: \`"error"\` or \`"NA"\`.
+  How to handle unmatched inputs: `"error"` or `"NA"`.
 
 - verbose:
 
-  Logical. If \`TRUE\` and \`from = "auto"\`, report the inferred input
-  type once per function call. Defaults to \`TRUE\`.
+  Logical. If `TRUE` and `from = "auto"`, report the inferred input type
+  once per function call. Defaults to `TRUE`.
 
 ## Value
 
-A character vector when \`multiple\` is \`"error"\` or \`"first"\`. A
-list of character vectors when \`multiple = "all"\`.
+A character vector when `multiple` is `"error"` or `"first"`. A list of
+character vectors when `multiple = "all"`.
 
 ## Details
 
-By default, translations return NFI codes, but the \`to\` argument can
-be used to return CANFI codes, jurisdiction-specific codes, English
-common names, French common names, or scientific names.
+By default, translations return NFI codes, but the `to` argument can be
+used to return CANFI codes, jurisdiction-specific codes, English common
+names, French common names, or scientific names.
 
-When \`from = "auto"\`, the function tries to infer the input type from
+When `from = "auto"`, the function tries to infer the input type from
 the supplied values. Numeric inputs are treated as CANFI codes,
 NFI-formatted values are treated as NFI codes, and other code-like
 inputs are treated as jurisdiction codes. For jurisdiction-style inputs,
 the full input vector is used to infer a single shared jurisdiction when
 possible. If the lookup does not support a unique interpretation, the
-function errors and asks the user to supply \`from\` or \`jurisdiction\`
+function errors and asks the user to supply `from` or `jurisdiction`
 explicitly.
 
 ## Examples

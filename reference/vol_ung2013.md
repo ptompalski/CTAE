@@ -1,8 +1,8 @@
 # Canadian national taper volume model (Ung et al. 2013)
 
 Uses the national Ung et al. (2013) taper model to estimate total and
-merchantable volume. If \`height\` is not provided (or is all \`NA\`),
-the DBH-only variant is used. If \`height\` is provided, the DBH+height
+merchantable volume. If `height` is not provided (or is all `NA`), the
+DBH-only variant is used. If `height` is provided, the DBH+height
 variant is used.
 
 ## Usage
@@ -19,8 +19,8 @@ vol_ung2013(DBH, height = NULL, species, jurisdiction)
 
 - height:
 
-  Optional numeric vector of total height (m). If \`NULL\` (default) or
-  all \`NA\`, the DBH-only model is used.
+  Optional numeric vector of total height (m). If `NULL` (default) or
+  all `NA`, the DBH-only model is used.
 
 - species:
 
@@ -33,7 +33,7 @@ vol_ung2013(DBH, height = NULL, species, jurisdiction)
 
 ## Value
 
-A tibble with columns \`vol_merchantable\` and \`vol_total\` (m^3).
+A tibble with columns `vol_merchantable` and `vol_total` (m^3).
 
 ## References
 

@@ -13,7 +13,7 @@ si_nigh2000_gi(age, gi)
 
 - age:
 
-  Numeric vector. Breast-height age (years), expected in \[1, 50\].
+  Numeric vector. Breast-height age (years), expected in `[1, 50]`.
 
 - gi:
 
@@ -30,7 +30,7 @@ A tibble with one column:
 ## Details
 
 The model form is age-specific: \$\$SI = 1.3 + b_0(A)\times
-GI^{b_1(A)}\$\$ where \`A\` is breast-height age (1 to 50) and \`GI\` is
+GI^{b_1(A)}\$\$ where `A` is breast-height age (1 to 50) and `GI` is
 growth intercept (cm/year).
 
 ## References

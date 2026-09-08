@@ -2,7 +2,7 @@
 
 Implementation of the fixed ecological-site height curves published by
 Lafleche et al. (2013) for major commercial tree species in southern
-Quebec. Unlike the polymorphic \`si\_\*\` models in this package, these
+Quebec. Unlike the polymorphic `si_*` models in this package, these
 curves are selected by ecological key and use fixed coefficients for
 each species-region-(subregion)-type combination.
 
@@ -25,42 +25,42 @@ si_lafleche2013(
 
 - age:
 
-  Numeric vector. Corrected age above 1 m (years), with \`age \> 0\`.
+  Numeric vector. Corrected age above 1 m (years), with `age > 0`.
 
 - species:
 
-  Character vector of NFI species codes (for example \`"PICE.GLA"\`).
+  Character vector of NFI species codes (for example `"PICE.GLA"`).
 
 - ecological_region:
 
   Character vector of Quebec ecological-region codes (French source
-  term: \`region_ecologique\`; for example \`"4f"\`).
+  term: `region_ecologique`; for example `"4f"`).
 
 - ecological_type:
 
   Character vector of ecological-type codes (French source term:
-  \`type_ecologique\`; for example \`"MS22"\`).
+  `type_ecologique`; for example `"MS22"`).
 
 - ecological_subregion:
 
   Optional character vector of ecological-subregion codes (French source
-  term: \`subregion_ecologique\`) when needed, for example \`"5eS"\`.
-  Defaults to \`NULL\`, which is treated as missing.
+  term: `subregion_ecologique`) when needed, for example `"5eS"`.
+  Defaults to `NULL`, which is treated as missing.
 
 - curve_set:
 
-  Character scalar. One of \`"potential"\` or \`"observed"\`. Defaults
-  to \`"potential"\`. These map internally to the source-table curve
-  sets \`IQSstation\` and \`IQSobserved\`, respectively.
+  Character scalar. One of `"potential"` or `"observed"`. Defaults to
+  `"potential"`. These map internally to the source-table curve sets
+  `IQSstation` and `IQSobserved`, respectively.
 
 - base_age:
 
   Positive numeric scalar. IQS reference age (years above 1 m). Defaults
-  to \`50\`.
+  to `50`.
 
 - include_metadata:
 
-  Logical scalar. If \`TRUE\`, append lookup metadata and fitted-curve
+  Logical scalar. If `TRUE`, append lookup metadata and fitted-curve
   metadata to the returned tibble.
 
 ## Value
@@ -69,46 +69,45 @@ A tibble with columns:
 
 - height:
 
-  Predicted height (m) at \`age\`.
+  Predicted height (m) at `age`.
 
 - si:
 
-  Fixed-curve IQS value (m) at \`base_age\`.
+  Fixed-curve IQS value (m) at `base_age`.
 
-When \`include_metadata = TRUE\`, additional columns describing the
+When `include_metadata = TRUE`, additional columns describing the
 matched ecological key and parameter row are included.
 
 ## Details
 
-**Species coverage:** \`ABIE.BAL\`, \`BETU.PAP\`, \`PICE.GLA\`,
-\`PICE.MAR\`, \`PICE.RUB\`, \`PINU.BAN\`, \`PINU.STR\`, \`POPU.GRA\`,
-\`POPU.TRE\`, \`THUJ.OCC\`.
+**Species coverage:** `ABIE.BAL`, `BETU.PAP`, `PICE.GLA`, `PICE.MAR`,
+`PICE.RUB`, `PINU.BAN`, `PINU.STR`, `POPU.GRA`, `POPU.TRE`, `THUJ.OCC`.
 
 **Geographic use:** ecological types in southern Quebec.
 
-**Age definition note:** \`age\` is corrected age above 1 m height
+**Age definition note:** `age` is corrected age above 1 m height
 (years).
 
 **Height definition note:** the source curves predict stand height in
-metres, constrained to pass through \`(age = 0, height = 1)\`.
+metres, constrained to pass through `(age = 0, height = 1)`.
 
 **Base-age note:** IQS is defined as predicted height at 50 years above
-1 m. \`base_age\` defaults to \`50\`, but any positive scalar can be
+1 m. `base_age` defaults to `50`, but any positive scalar can be
 supplied.
 
-This function always predicts height from \`age\`; it also returns the
-corresponding fixed-curve IQS value evaluated at \`base_age\`.
+This function always predicts height from `age`; it also returns the
+corresponding fixed-curve IQS value evaluated at `base_age`.
 
-\`curve_set\` chooses between the two curve families reported in the
-source: \`"potential"\` corresponds to the fitted potential-height
-curves used to derive \`IQSstation\` in the report, whereas
-\`"observed"\` corresponds to the separate curves fitted to observed
-height growth (\`IQSobserved\`). In the source tables these appear as
-\`IQSstation\` and \`IQSobserved\`, respectively.
+`curve_set` chooses between the two curve families reported in the
+source: `"potential"` corresponds to the fitted potential-height curves
+used to derive `IQSstation` in the report, whereas `"observed"`
+corresponds to the separate curves fitted to observed height growth
+(`IQSobserved`). In the source tables these appear as `IQSstation` and
+`IQSobserved`, respectively.
 
-At present, \`CR\`, \`WE\`, and \`LIN\` equation forms are implemented
+At present, `CR`, `WE`, and `LIN` equation forms are implemented
 directly from the publication and validated against the published
-\`IQSstation\` summaries. The single \`LOGIST3\` row is kept in the
+`IQSstation` summaries. The single `LOGIST3` row is kept in the
 parameter data but raises an error here because its printed
 equation/coefficients have not yet been reconciled with the published
 table values.

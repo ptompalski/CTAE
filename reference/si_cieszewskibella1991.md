@@ -18,13 +18,13 @@ si_cieszewskibella1991(age, height = NULL, si = NULL, species)
 
 - height:
 
-  Optional numeric vector. Top height (m). If provided, \`si\` is
+  Optional numeric vector. Top height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at breast
-  height). If provided, \`height\` is predicted.
+  height). If provided, `height` is predicted.
 
 - species:
 
@@ -36,27 +36,27 @@ A tibble with columns:
 
 - height:
 
-  Predicted top height (m), returned when input \`si\` is provided.
+  Predicted top height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
 **Model scope (species coverage):**
 `PINU.CON, PICE.GLA, PICE.MAR, POPU.TRE`.
 
-**Age definition note:** \`age\` is breast-height age (years).
+**Age definition note:** `age` is breast-height age (years).
 
 **Base-age note:** site index is referenced to 50 years breast-height
 age for all species in this implementation.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 ## References
 

@@ -23,22 +23,22 @@ si_lundgrendolid1970(
 
 - height:
 
-  Optional numeric vector. Total tree height (m). If provided, \`si\` is
+  Optional numeric vector. Total tree height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at breast
-  height). If provided, \`height\` is predicted.
+  height). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"PICE.MAR"\`).
+  Character vector of species codes (e.g., `"PICE.MAR"`).
 
 - model:
 
-  Character scalar. One of \`"exponential_monomolecular"\` or
-  \`"monomolecular"\`.
+  Character scalar. One of `"exponential_monomolecular"` or
+  `"monomolecular"`.
 
 ## Value
 
@@ -46,11 +46,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted height (m), returned when input \`si\` is provided.
+  Predicted height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -60,11 +60,11 @@ Two model forms are available:
 
 - `"monomolecular"`
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 Inputs/outputs are metric; the original equations are in imperial units,
 so the function converts internally.

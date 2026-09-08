@@ -17,7 +17,7 @@ ytbh_thrower1994(si, species)
 
 - species:
 
-  Character vector of NFI species codes (e.g., \`"PINU.CON"\`).
+  Character vector of NFI species codes (e.g., `"PINU.CON"`).
 
 ## Value
 

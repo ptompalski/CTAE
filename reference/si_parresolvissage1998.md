@@ -14,22 +14,22 @@ si_parresolvissage1998(age, height = NULL, si = NULL, base_age = 50)
 
 - age:
 
-  Numeric vector. Breast-height age (years), with \`age \>= 10\`.
+  Numeric vector. Breast-height age (years), with `age >= 10`.
 
 - height:
 
   Optional numeric vector. Dominant/codominant height (m). If provided,
-  \`si\` is predicted.
+  `si` is predicted.
 
 - si:
 
-  Optional numeric vector. Site index (m) at \`base_age\` years
-  breast-height age. If provided, \`height\` is predicted.
+  Optional numeric vector. Site index (m) at `base_age` years
+  breast-height age. If provided, `height` is predicted.
 
 - base_age:
 
   Positive numeric scalar. Site-index base age (years at breast height),
-  with \`base_age \>= 10\`. Defaults to \`50\`.
+  with `base_age >= 10`. Defaults to `50`.
 
 ## Value
 
@@ -37,12 +37,12 @@ A tibble with columns:
 
 - height:
 
-  Predicted dominant/codominant height (m), returned when input \`si\`
-  is provided.
+  Predicted dominant/codominant height (m), returned when input `si` is
+  provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -53,22 +53,22 @@ southern U.S. forest survey. In Canada, use is most defensible for
 eastern white pine in eastern regions, and should be treated cautiously
 outside that domain.
 
-**Age definition note:** \`age\` is breast-height age (years).
+**Age definition note:** `age` is breast-height age (years).
 
 **Base-age note:** the source paper derives a base-age invariant system.
-This implementation accepts any positive \`base_age\`; the default is 50
+This implementation accepts any positive `base_age`; the default is 50
 years at breast height.
 
 **Domain note:** although the algebraic form can be evaluated below age
 10, the source data and paper discussion indicate reliable behavior for
-ages 10 years and greater. This implementation therefore enforces \`age
-\>= 10\` and \`base_age \>= 10\`.
+ages 10 years and greater. This implementation therefore enforces
+`age >= 10` and `base_age >= 10`.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 Inputs/outputs are metric; the original equations are in imperial units,
 so the function converts internally.

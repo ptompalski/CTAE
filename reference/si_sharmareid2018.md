@@ -14,27 +14,27 @@ si_sharmareid2018(age, height = NULL, si = NULL, species, base_age = 50)
 
 - age:
 
-  Numeric vector. Breast-height age (years), with \`age \> 0\`.
+  Numeric vector. Breast-height age (years), with `age > 0`.
 
 - height:
 
-  Optional numeric vector. Stand height (m). If provided, \`si\` is
+  Optional numeric vector. Stand height (m). If provided, `si` is
   predicted.
 
 - si:
 
-  Optional numeric vector. Site index (m) at \`base_age\` years
-  breast-height age. If provided, \`height\` is predicted.
+  Optional numeric vector. Site index (m) at `base_age` years
+  breast-height age. If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"PINU.BAN"\` or
-  \`"PICE.MAR"\`).
+  Character vector of species codes (e.g., `"PINU.BAN"` or
+  `"PICE.MAR"`).
 
 - base_age:
 
   Positive numeric scalar. Site-index base age (years at breast height).
-  Defaults to \`50\`.
+  Defaults to `50`.
 
 ## Value
 
@@ -42,11 +42,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted stand height (m), returned when input \`si\` is provided.
+  Predicted stand height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -54,7 +54,7 @@ A tibble with columns:
 
 **Geographic use:** northern Ontario natural stands.
 
-**Age definition note:** \`age\` is breast-height age (years).
+**Age definition note:** `age` is breast-height age (years).
 
 **Height definition note:** the source model uses stand height (top
 height) in metres measured from breast height.
@@ -62,13 +62,13 @@ height) in metres measured from breast height.
 **Base-age note:** the source paper recommends breast-height age 50
 years as the operational base age for both species in Ontario. The
 underlying dynamic equation is base-age invariant, so any positive
-\`base_age\` can be supplied.
+`base_age` can be supplied.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 This implementation uses Equation 1 from Sharma and Reid (2018), i.e.
 the fixed-effects form without random effects or autocorrelation. The

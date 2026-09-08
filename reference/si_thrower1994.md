@@ -18,17 +18,17 @@ si_thrower1994(age, height = NULL, si = NULL, species)
 
 - height:
 
-  Optional numeric vector. Top height (m). If provided, \`si\` is
+  Optional numeric vector. Top height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at breast
-  height). If provided, \`height\` is predicted.
+  height). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of NFI species codes (e.g., \`"PINU.CON"\`).
+  Character vector of NFI species codes (e.g., `"PINU.CON"`).
 
 ## Value
 
@@ -36,11 +36,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted top height (m), returned when input \`si\` is provided.
+  Predicted top height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -48,16 +48,16 @@ A tibble with columns:
 parameter sets for 11 species:
 `PINU.CON, PICE.GLA, PSEU.MEN, ABIE.LAS, TSUG.HET, THUJ.PLI, PINU.MON, PINU.PON, LARI.OCC, POPU.TRE, BETU.PAP`.
 
-**Age definition note:** \`age\` is breast-height age (years).
+**Age definition note:** `age` is breast-height age (years).
 
 **Base-age note:** site index in this model family is referenced to
 height at 50 years breast-height age.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 ## References
 

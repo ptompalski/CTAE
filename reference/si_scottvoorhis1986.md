@@ -23,23 +23,23 @@ si_scottvoorhis1986(
 
 - height:
 
-  Optional numeric vector. Total tree height (m). If provided, \`si\` is
+  Optional numeric vector. Total tree height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at breast
-  height). If provided, \`height\` is predicted.
+  height). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"ABIE.BAL"\`).
+  Character vector of species codes (e.g., `"ABIE.BAL"`).
 
 - convert_to_total_age:
 
-  Logical scalar. If \`TRUE\`, converts breast-height age to total age
+  Logical scalar. If `TRUE`, converts breast-height age to total age
   internally using the Scott and Voorhis age-to-breast-height relation
-  (source-consistent behavior). If \`FALSE\` (default), uses \`age\`
+  (source-consistent behavior). If `FALSE` (default), uses `age`
   directly in the height equation.
 
 ## Value
@@ -48,11 +48,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted height (m), returned when input \`si\` is provided.
+  Predicted height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -66,7 +66,7 @@ species/populations in eastern regions (notably Atlantic Canada and
 adjacent central Canada where these species occur). Use caution outside
 that domain.
 
-**Age definition note:** \`age\` is breast-height age (years). The model
+**Age definition note:** `age` is breast-height age (years). The model
 internally computes age-to-breast-height and uses total age in the
 height equation.
 
@@ -74,16 +74,17 @@ height equation.
 years, but the fitted equations were not constrained to pass exactly
 through SI at base age for every species.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 In this model, total age is the sum of breast-height age and
 age-to-breast-height. Age-to-breast-height is itself a function of site
-index, so predicting \`si\` from \`height\` is implicit and solved
-numerically with \`stats::uniroot()\`.
+index, so predicting `si` from `height` is implicit and solved
+numerically with
+[`stats::uniroot()`](https://rdrr.io/r/stats/uniroot.html).
 
 Inputs/outputs are metric; the original equations are in imperial units,
 so the function converts internally.

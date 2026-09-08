@@ -51,12 +51,12 @@ same columns as the underlying parameter table.
 
 ## Details
 
-The function then applies \*\*context filters\*\* (when relevant /
-available in the parameter table), typically by `species`, and for
-regional models also by `province` and `subregion`.
+The function then applies **context filters** (when relevant / available
+in the parameter table), typically by `species`, and for regional models
+also by `province` and `subregion`.
 
-This function does \*\*not\*\* refactor or run any volume engines; it
-only returns the parameter rows needed for a given model/context.
+This function does **not** refactor or run any volume engines; it only
+returns the parameter rows needed for a given model/context.
 
 ## Examples
 

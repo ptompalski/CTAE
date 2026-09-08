@@ -50,7 +50,7 @@ agb_component_proportions(
 
 - clamp_x:
 
-  Logical. Clamp x to \[x_min, x_max\] from Table 7 before evaluating.
+  Logical. Clamp x to `[x_min, x_max]` from Table 7 before evaluating.
 
 ## Value
 

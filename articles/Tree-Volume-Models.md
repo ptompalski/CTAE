@@ -10,46 +10,40 @@ The package currently includes:
 
 - [`vol_fortin2007()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_fortin2007.md).
   Provincial merchantable volume model for Quebec. Coverage: QC. 26
-  species. Fortin et al. ([2007](#ref-Fortin2007))
+  species
 - [`vol_galbella94()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_galbella94.md).
   Provincial taper model for Saskatchewan based on the Kozak
-  variable-exponent form. Coverage: SK. 12 species. Gál and Bella
-  ([1994](#ref-Gal1994))
+  variable-exponent form. Coverage: SK. 12 species
 - [`vol_honer83()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_honer83.md).
   Regional volume models for central and eastern Canada, applicable
   across multiple provinces. Coverage: NB, NL, NS, ON, PE, QC. 21
-  species. Honer et al. ([1983](#ref-Honer1983))
+  species
 - [`vol_huang94()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_huang94.md).
   Provincial taper model for Alberta based on the Kozak
   variable-exponent form; applicable at the province level or by Alberta
-  subregions. Coverage: AB. 13 species. Huang et al.
-  ([1994](#ref-Huang1994))
+  subregions. Coverage: AB. 13 species
 - [`vol_klos2007()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_klos2007.md).
   Provincial taper model for Manitoba based on the Kozak
   variable-exponent form; applicable at the province level or by
-  ecozone. Coverage: MB. 5 species. Klos et al. ([2007](#ref-Klos2007))
+  ecozone. Coverage: MB. 5 species
 - [`vol_kozak94()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_kozak94.md).
   Provincial taper model for British Columbia; requires BEC zone as a
-  subregion input. Coverage: BC. 16 species. Kozak
-  ([1994](#ref-Kozak1994))
+  subregion input. Coverage: BC. 16 species
 - [`vol_nigh2016()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_nigh2016.md).
   Total and merchantable volume equations for BC. Coverage: BC. 18
-  species. Nigh ([2016](#ref-Nigh2016))
+  species
 - [`vol_nl()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_NL.md).
   Total and merchantable volume for Newfoundland and Labrador. Coverage:
-  NL. 12 species. Honer ([1967](#ref-Honer1967)); Ker
-  ([1974](#ref-Ker1974)); Warren and Meades ([1986](#ref-Warren1986))
+  NL. 12 species
 - [`vol_sharma2021()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_sharma2021.md).
   Regional volume models for central and eastern Canada, applicable
   across multiple provinces. Coverage: NB, NL, NS, ON, PE, QC. 25
-  species. Sharma ([2021](#ref-Sharma2021))
+  species
 - [`vol_ung2013()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_ung2013.md).
   National taper model for Canada, available in two variants: DBH-only
-  and DBH with total height. Coverage: Canada (national). 34 species.
-  Ung et al. ([2013](#ref-Ung2013))
+  and DBH with total height. Coverage: Canada (national). 34 species
 - [`vol_zakrzewski2013()`](https://ptompalski.github.io/CanadaForestAllometry/reference/vol_zakrzewski2013.md).
-  Provincial taper model for Ontario. Coverage: ON. 24 species.
-  Zakrzewski and Penner ([2013](#ref-Zakrzewski2013))
+  Provincial taper model for Ontario. Coverage: ON. 24 species
 
 ## `vol()`: automatic tree volume estimation across multiple models
 
@@ -150,39 +144,12 @@ height held constant for every calculation.
 
 ## References
 
-Fortin, M., DeBlois, J., Bernier, S., Blais, G., 2007. Mise au point
-d’un tarif de cubage général pour les forêts québécoises : Une approche
-pour mieux Évaluer l’incertitude associée aux prévisions. The Forestry
-Chronicle 83, 754–765. <https://doi.org/10.5558/tfc83754-5>
-
-Gál, J., Bella, I.E., 1994. New stem taper functions for 12 Saskatchewan
-timber species.
-
-Honer, T.G., 1967. Standard volume tables and merchantable conversion
-factors (Information Report No. Information Report N-X-67). Canadian
-Forest Service, St. John’s, Newfoundland.
-
-Honer, T.G., Ker, M.F., Alemdag, I.S., 1983. Metric timber tables for
-the commercial tree species of central and eastern Canada.
-
 Huang, S., Titus, S., Lakusta, S., Held, R., 1994. Ecologically Based
 Individual Tree Volume Estimation for Major Alberta Tree Species, … to
 Alberta Environmental Protection, Land ….
 
-Ker, M.F., 1974. Metric Tree Volume Tables for Newfoundland. Canadian
-Forest Service Information Report N-X-122.
-
-Klos, R.J., Wang, G.G., Dang, Q.-L., East, E.W., 2007. Taper Equations
-for Five Major Commercial Tree Species in Manitoba, Canada. Western
-Journal of Applied Forestry 22, 163–170.
-<https://doi.org/10.1093/wjaf/22.3.163>
-
 Kozak, A., 1994. Development of Taper Equations by BEC Zones and
 Species. Province of British Columbia, Ministry of Forests.
-
-Nigh, G.D., 2016. Total and merchantable volume equations for common
-tree species in British Columbia: By region and biogeoclimactic zone
-(No. Prov. B.C., Victoria, B.C. Tech. Rep. 106.).
 
 Sharma, M., 2021. Total and Merchantable Volume Equations for 25
 Commercial Tree Species Grown in Canada and the Northeastern United
@@ -190,11 +157,6 @@ States. Forests 12. <https://doi.org/10.3390/f12091270>
 
 Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models.
 Forestry Chronicle 89, 211–224. <https://doi.org/10.5558/tfc2013-040>
-
-Warren, G.R., Meades, J.P., 1986. Wood defect and density studies II:
-Total and net volume equations for newfoundland’s forest management
-units (Information Report No. Information Report N-X-242). Canadian
-Forest Service, St. John’s, Newfoundland.
 
 Zakrzewski, W.T., Penner, M., 2013. A comparison of tree stem taper
 models for use in Ontario.

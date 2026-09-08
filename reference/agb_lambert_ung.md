@@ -2,9 +2,9 @@
 
 Unified interface for the Lambert et al. (2005) and Ung et al. (2008)
 Canadian national tree aboveground biomass equations. Two equation sets
-are available: dbh-only and dbh+height. By default (\`equation_set =
-"auto"\`), the dbh+height set is used when valid \`height\` is provided,
-otherwise the dbh-only set is used.
+are available: dbh-only and dbh+height. By default
+(`equation_set = "auto"`), the dbh+height set is used when valid
+`height` is provided, otherwise the dbh-only set is used.
 
 ## Usage
 
@@ -31,25 +31,25 @@ agb_lambert_ung(
 
 - species:
 
-  Tree species code in the NFI standard (e.g. \`"POPU.TRE"\`). Can be a
-  scalar (recycled) or a vector matching \`DBH\`.
+  Tree species code in the NFI standard (e.g. `"POPU.TRE"`). Can be a
+  scalar (recycled) or a vector matching `DBH`.
 
 - equation_set:
 
-  Which Lambert & Ung equation set to use. One of \`"auto"\`, \`"dbh"\`,
-  \`"dbh_height"\`. \`"auto"\` makes a per-tree choice based on whether
-  \`height\` is valid.
+  Which Lambert & Ung equation set to use. One of `"auto"`, `"dbh"`,
+  `"dbh_height"`. `"auto"` makes a per-tree choice based on whether
+  `height` is valid.
 
 - keep_model_id:
 
-  Logical. If \`TRUE\`, include a \`model_id\` column indicating which
-  equation set was used (\`"DBH"\` or \`"DBHHT"\`).
+  Logical. If `TRUE`, include a `model_id` column indicating which
+  equation set was used (`"DBH"` or `"DBHHT"`).
 
 ## Value
 
-A tibble with AGB components: \`Bwood\`, \`Bbark\`, \`Bstem\`,
-\`Bfoliage\`, \`Bbranches\`, \`Bcrown\`, \`Btotal\`. If \`keep_model_id
-= TRUE\`, includes \`model_id\`.
+A tibble with AGB components: `Bwood`, `Bbark`, `Bstem`, `Bfoliage`,
+`Bbranches`, `Bcrown`, `Btotal`. If `keep_model_id = TRUE`, includes
+`model_id`.
 
 ## Examples
 

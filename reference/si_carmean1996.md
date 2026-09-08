@@ -14,21 +14,21 @@ si_carmean1996(age, height = NULL, si = NULL, species)
 
 - age:
 
-  Numeric vector. Breast-height age (years), with \`age \> 0\`.
+  Numeric vector. Breast-height age (years), with `age > 0`.
 
 - height:
 
-  Optional numeric vector. Total tree height (m). If provided, \`si\` is
+  Optional numeric vector. Total tree height (m). If provided, `si` is
   predicted.
 
 - si:
 
   Optional numeric vector. Site index (m, base age 50 years at
-  breast-height age). If provided, \`height\` is predicted.
+  breast-height age). If provided, `height` is predicted.
 
 - species:
 
-  Character vector of species codes (e.g., \`"PINU.BAN"\`).
+  Character vector of species codes (e.g., `"PINU.BAN"`).
 
 ## Value
 
@@ -36,12 +36,11 @@ A tibble with columns:
 
 - height:
 
-  Predicted total tree height (m), returned when input \`si\` is
-  provided.
+  Predicted total tree height (m), returned when input `si` is provided.
 
 - si:
 
-  Predicted site index (m), returned when input \`height\` is provided.
+  Predicted site index (m), returned when input `height` is provided.
 
 ## Details
 
@@ -50,23 +49,23 @@ A tibble with columns:
 
 **Geographic use:** northwest Ontario.
 
-**Age definition note:** \`age\` is breast-height age (years).
+**Age definition note:** `age` is breast-height age (years).
 
 **Base-age note:** site index is defined as total height (m) at 50 years
 breast-height age.
 
 **Forward/inverse consistency note:** for `PICE.MAR`, `ABIE.BAL`, and
 `BETU.PAP`, the published site-index prediction equations used for
-\`height -\> si\` are separate fitted equations from Appendix IV rather
+`height -> si` are separate fitted equations from Appendix IV rather
 than exact algebraic inverses of the forward height-curve equations. As
-a result, predictions from \`height -\> si\` may differ slightly from
-the input height even when \`age = 50\`.
+a result, predictions from `height -> si` may differ slightly from the
+input height even when `age = 50`.
 
-Provide exactly one of \`height\` or \`si\`:
+Provide exactly one of `height` or `si`:
 
-- If \`height\` is provided, the function predicts \`si\`.
+- If `height` is provided, the function predicts `si`.
 
-- If \`si\` is provided, the function predicts \`height\`.
+- If `si` is provided, the function predicts `height`.
 
 Inputs and outputs are metric (m). Some source equations were published
 in mixed unit form and are converted internally using the
