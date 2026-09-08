@@ -1,15 +1,5 @@
 # CanadaForestAllometry 0.8.6
 
-## Internal changes
-
-- Moved the `si_carmeanhahn1981()`, `si_augerward2021()`, `si_sharma2022()`, `si_nigh1998()`, `si_buckman2006()`, and `si_batho2014()` model coefficients from inline tibbles/constant lists into the compiled internal parameter data, for consistency with the rest of the site-index family.
-- Consolidated the shared Carmean constrained-polymorphic (Newnham) height and site-index solver used by `si_carmean2001()` and `si_carmean2006()` into common internal helpers; model outputs are unchanged.
-
-## Years-to-breast-height updates
-
-- Added `ytbh_nigh1998()` for western hemlock (`TSUG.HET`) in the interior of British Columbia, implementing the Nigh (1998) years-to-breast-height model (invertible for site index).
-- Added `ytbh_nigh2015()` for Engelmann spruce (`PICE.ENG`) in the ESSF biogeoclimatic zone of British Columbia, implementing the Nigh (2015) years-to-breast-height model (no source benchmark).
-
 ## Site index updates
 
 - Added `si_huang2009()` for aspen (`POPU.TRE`), black spruce (`PICE.MAR`), lodgepole pine (`PINU.CON`), and white spruce (`PICE.GLA`) in Alberta, implementing the Huang, Meng & Yang (2009) GYPSY top-height / site-index models (total-age based, with breast-height-age site index via `index_age`).
@@ -30,6 +20,17 @@
 - Added `si_hugarcia2009()` for interior spruce (`PICE.GLA`, `PICE.ENG`) in the Sub-Boreal Spruce zone of British Columbia, implementing the polymorphic Bertalanffy--Richards model of Hu and García (2009).
 - Added `si_nigh1997()` for Sitka spruce (`PICE.SIT`) in coastal British Columbia, implementing the Nigh (1997) logistic height-age / site-index model (no source benchmark).
 - Added `si_nigh2002()` for trembling aspen (`POPU.TRE`) in British Columbia, implementing the logistic height-age / site-index model of Nigh, Krestov and Klinka (2002), with base and biogeoclimatic-zone-calibrated variants via `bec_zone`.
+
+## Years-to-breast-height updates
+
+- Added `ytbh_nigh1998()` for western hemlock (`TSUG.HET`) in the interior of British Columbia, implementing the Nigh (1998) years-to-breast-height model (invertible for site index).
+- Added `ytbh_nigh2015()` for Engelmann spruce (`PICE.ENG`) in the ESSF biogeoclimatic zone of British Columbia, implementing the Nigh (2015) years-to-breast-height model (no source benchmark).
+
+## Internal changes
+
+- Moved the `si_carmeanhahn1981()`, `si_augerward2021()`, `si_sharma2022()`, `si_nigh1998()`, `si_buckman2006()`, and `si_batho2014()` model coefficients from inline tibbles/constant lists into the compiled internal parameter data, for consistency with the rest of the site-index family.
+- Consolidated the shared Carmean constrained-polymorphic (Newnham) height and site-index solver used by `si_carmean2001()` and `si_carmean2006()` into common internal helpers; model outputs are unchanged.
+
 
 
 # CanadaForestAllometry 0.8.5

@@ -17,17 +17,17 @@
 #' \eqn{A_1 = 50} years breast-height age. Both equations are conditioned so that
 #' the predicted value equals the input at \eqn{A = 50} (\eqn{S = H} there).
 #'
-#' The site-index equation (Alemdag 1991, model [9], \eqn{c} coefficients) is
+#' The site-index equation (Alemdag 1991, model \[9\], \eqn{c} coefficients) is
 #' \deqn{S = 1.30 + \frac{1}{c_1 (H - 1.30)^{c_2}
 #'   \left(1 - m^{A/A_1}\right)^{c_4 (H - 1.30)^{c_5}}},}
-#' with (model [8])
+#' with (model \[8\])
 #' \deqn{m = 1 - \left[\frac{1}{c_1 (H - 1.30)^{1 + c_2}}\right]
 #'   ^{1 / (c_4 (H - 1.30)^{c_5})}.}
 #'
-#' The height-growth equation (Alemdag 1991, model [4], \eqn{b} coefficients) is
+#' The height-growth equation (Alemdag 1991, model \[4\], \eqn{b} coefficients) is
 #' \deqn{H = 1.30 + b_1 (S - 1.30)^{b_2}
 #'   \left(1 - k^{A/A_1}\right)^{b_4 (S - 1.30)^{b_5}},}
-#' with (model [5])
+#' with (model \[5\])
 #' \deqn{k = 1 - \left[\frac{S - 1.30}{b_1 (S - 1.30)^{b_2}}\right]
 #'   ^{1 / (b_4 (S - 1.30)^{b_5})}.}
 #'
@@ -37,8 +37,8 @@
 #'
 #' Provide exactly one of `height` or `si`:
 #' \itemize{
-#'   \item If `si` is provided, the function predicts `height` (model [4]).
-#'   \item If `height` is provided, the function predicts `si` (model [9]).
+#'   \item If `si` is provided, the function predicts `height` (model \[4\]).
+#'   \item If `height` is provided, the function predicts `si` (model \[9\]).
 #' }
 #'
 #' @param age Numeric vector. Breast-height age (years).

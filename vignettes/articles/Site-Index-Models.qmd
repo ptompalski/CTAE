@@ -1,7 +1,7 @@
 ---
 title: "Site Index Models"
 bibliography: ../../REFERENCES.bib
-csl: ../../isprs-journal-of-photogrammetry-and-remote-sensing.csl
+csl: ../../elsevier-harvard.csl
 knitr:
   opts_chunk:
     collapse: true

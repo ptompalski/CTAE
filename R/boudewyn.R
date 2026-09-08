@@ -434,7 +434,7 @@ v2b_clamp_x_table7 <- function(x, caps) {
 #' @param jurisdiction Character vector. Jurisdiction code (e.g., "AB").
 #' @param ecozone Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).
 #' @param renormalize Logical. Renormalize after capping to sum to 1.
-#' @param clamp_x Logical. Clamp x to [x_min, x_max] from Table 7 before evaluating.
+#' @param clamp_x Logical. Clamp x to \code{[x_min, x_max]} from Table 7 before evaluating.
 #'
 #' @return Tibble with p_sw, p_sb, p_br, p_fl and optional x_used.
 #' \describe{

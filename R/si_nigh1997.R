@@ -19,7 +19,7 @@
 #'   \frac{1 + e^{a_0 + a_1 \ln(49.5) + a_2 \ln(SI - 1.3)}}
 #'        {1 + e^{a_0 + a_1 \ln(BHA - 0.5) + a_2 \ln(SI - 1.3)}}}
 #' with \eqn{a_0 = 8.947}, \eqn{a_1 = -1.357}, \eqn{a_2 = -1.013} (Table 3, model
-#' [7]).
+#' \[7\]).
 #'
 #' Because \eqn{SI} appears both as a multiplier and inside a logarithm, the
 #' equation has no closed-form inverse in \eqn{SI}; when predicting site index the

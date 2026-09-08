@@ -7,7 +7,7 @@
 si_nigh2000_gi(age, gi)
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), expected in \link{1, 50}.}
+\item{age}{Numeric vector. Breast-height age (years), expected in \code{[1, 50]}.}
 
 \item{gi}{Numeric vector. Growth intercept (cm/year).}
 }

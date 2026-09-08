@@ -26,7 +26,7 @@ vol_total_to_merchantable(
 
 \item{include_prop}{Logical. If TRUE, return the predicted merchantable proportion.}
 
-\item{clamp_prop}{Logical. If TRUE (default), clamp predicted proportion to \link{0, 1}.}
+\item{clamp_prop}{Logical. If TRUE (default), clamp predicted proportion to \code{[0, 1]}.}
 
 \item{warn_outside}{Logical. If TRUE (default), warn when \code{vol_total < volmin}.}
 

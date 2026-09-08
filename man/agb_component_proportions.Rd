@@ -29,7 +29,7 @@ when value_type = "agb".}
 
 \item{renormalize}{Logical. Renormalize after capping to sum to 1.}
 
-\item{clamp_x}{Logical. Clamp x to \link{x_min, x_max} from Table 7 before evaluating.}
+\item{clamp_x}{Logical. Clamp x to \code{[x_min, x_max]} from Table 7 before evaluating.}
 }
 \value{
 Tibble with p_sw, p_sb, p_br, p_fl and optional x_used.
