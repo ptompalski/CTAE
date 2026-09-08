@@ -26,8 +26,8 @@ same length as \code{DBH}.}
 \value{
 A tibble with volumes (m\eqn{^3}):
 \describe{
-  \item{vol_total}{Numeric. Total stem volume (m\eqn{^3}), under bark.}
-  \item{vol_merchantable}{Numeric. Merchantable stem volume (m\eqn{^3}), under bark.}
+\item{vol_total}{Numeric. Total stem volume (m\eqn{^3}), under bark.}
+\item{vol_merchantable}{Numeric. Merchantable stem volume (m\eqn{^3}), under bark.}
 }
 }
 \description{
@@ -47,7 +47,6 @@ where \eqn{V} is volume (m\eqn{^3}), \eqn{DBH} is in cm, and \eqn{H} is in m.
 Merchantable volume in Nigh (2016) is defined as total volume minus stump
 (0.3 m) and top volume above a 4 cm inside-bark diameter threshold (fixed
 definition in the original report).
-
 
 Nigh (2016) function parameters are available for the following species and
 \code{subregion} combinations:

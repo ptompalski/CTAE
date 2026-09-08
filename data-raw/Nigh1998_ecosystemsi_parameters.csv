@@ -1,0 +1,15 @@
+nfi_species,source_species,model,term,coefficient,source_eq,page
+TSUG.HET,western hemlock,eco_si_localized,intercept,13.55,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,mc1,-6.41,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,mc1a,-7.11,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,mc2,-0.28,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,mw2,3.49,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,mw3,2.69,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,wk1,0.00,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,F,4.21,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,M,4.12,eq 7,591
+TSUG.HET,western hemlock,eco_si_localized,SD,0.00,eq 7,591
+TSUG.HET,western hemlock,eco_si_general,intercept,20.00,eq 8,591
+TSUG.HET,western hemlock,eco_si_general,B,-5.27,eq 8,591
+TSUG.HET,western hemlock,eco_si_general,C,-3.01,eq 8,591
+TSUG.HET,western hemlock,eco_si_general,D,0.00,eq 8,591

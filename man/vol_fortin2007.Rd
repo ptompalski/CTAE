@@ -21,16 +21,16 @@ vol_fortin2007(DBH, height, species)
 \item{height}{Numeric vector of total tree height (m).}
 
 \item{species}{Character vector of species codes (standardized with
-`standardize_species_code()`).}
+\code{standardize_species_code()}).}
 }
 \value{
 A tibble with volumes (m^3):
 \describe{
-  \item{vol_total}{Numeric. Total volume (m\eqn{^3}). Currently returned as
-    \code{NA} as a placeholder; total volume will be handled later via
-    expansion factors.}
-  \item{vol_merchantable}{Numeric. Merchantable stem volume (m\eqn{^3},
-    under bark).}
+\item{vol_total}{Numeric. Total volume (m\eqn{^3}). Currently returned as
+\code{NA} as a placeholder; total volume will be handled later via
+expansion factors.}
+\item{vol_merchantable}{Numeric. Merchantable stem volume (m\eqn{^3},
+under bark).}
 }
 }
 \description{

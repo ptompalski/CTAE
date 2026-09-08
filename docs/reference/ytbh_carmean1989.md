@@ -51,5 +51,10 @@ ytbh_carmean1989(
   si = c(18, 20, 22),
   species = c("ACER.SAH", "CHAM.THY", "TSUG.CAN")
 )
-#> Error in ytbh_carmean1989(si = c(18, 20, 22), species = c("ACER.SAH",     "CHAM.THY", "TSUG.CAN")): No Carmean1989 YTBH parameters found for species: ACER.SAH.
+#> # A tibble: 3 × 1
+#>    ytbh
+#>   <dbl>
+#> 1  4   
+#> 2  6.44
+#> 3  6   
 ```

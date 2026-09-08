@@ -8,7 +8,7 @@ si_model_registry()
 }
 \value{
 A tibble with one row per site-index model variant and metadata
-  fields used for model selection.
+fields used for model selection.
 }
 \description{
 Returns a registry (metadata table) describing site-index models available in

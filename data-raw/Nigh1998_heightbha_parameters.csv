@@ -1,0 +1,2 @@
+nfi_species,source_species,model,b0,b1,b2,rmse,source_table,page
+TSUG.HET,western hemlock,height_bha,8.998,-1.434,-1.051,0.9404,Table 2,592

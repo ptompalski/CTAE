@@ -1,0 +1,6 @@
+nfi_species,source_species,model,bec_zone,a0,a1,a2,page,source_short
+BETU.PAP,paper birch,model1,,8.842,-1.124,-1.561,256,"Table 2 Model 1 (base); SAS b1/b2/b3"
+BETU.PAP,paper birch,model2,,9.604,-1.113,-1.849,256,"Table 2 Model 2; eq. [2] p.259"
+BETU.PAP,paper birch,model3,ICH,9.732,-1.077,-1.888,256,"Table 2 Model 3 a00/a10/a20; eq. [3]"
+BETU.PAP,paper birch,model3,IDF,9.732,-1.077,-1.888,256,"Table 2 Model 3 a00/a10/a20 (SBS=0)"
+BETU.PAP,paper birch,model3,SBS,9.732,-1.16412,-1.888,256,"a10=-1.077, a12=-0.08712; a1=-(1.077+0.08712)"

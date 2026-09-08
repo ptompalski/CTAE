@@ -7,14 +7,14 @@
 si_nigh2000_gi(age, gi)
 }
 \arguments{
-\item{age}{Numeric vector. Breast-height age (years), expected in [1, 50].}
+\item{age}{Numeric vector. Breast-height age (years), expected in \code{[1, 50]}.}
 
 \item{gi}{Numeric vector. Growth intercept (cm/year).}
 }
 \value{
 A tibble with one column:
 \describe{
-  \item{si}{Predicted site index (m, base age 50 years at breast height).}
+\item{si}{Predicted site index (m, base age 50 years at breast height).}
 }
 }
 \description{
@@ -24,7 +24,7 @@ interior western redcedar (\code{THUJ.PLI}).
 \details{
 The model form is age-specific:
 \deqn{SI = 1.3 + b_0(A)\times GI^{b_1(A)}}
-where `A` is breast-height age (1 to 50) and `GI` is growth intercept
+where \code{A} is breast-height age (1 to 50) and \code{GI} is growth intercept
 (cm/year).
 }
 \examples{

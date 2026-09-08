@@ -193,17 +193,23 @@ si_carmeanhahn1981 <- function(age, height = NULL, si = NULL, species) {
 
 # internal
 .carmeanhahn1981_parameters <- function() {
-  dplyr::tibble(
-    Species = c("ABIE.BAL", "PICE.GLA"),
-    height_b1 = c(2.0901, 10.8738),
-    height_b2 = c(0.9296, 0.5529),
-    height_b3 = c(-0.0280, -0.0343),
-    height_b4 = c(2.8280, 34.6880),
-    height_b5 = c(-0.1403, -0.6139),
-    si_b1 = c(0.2198, 0.0833),
-    si_b2 = c(1.1644, 1.3965),
-    si_b3 = c(-0.0110, -0.0196),
-    si_b4 = c(-2.0364, -8.0895),
-    si_b5 = c(-0.1775, -0.3659)
+  pars <- .get_internal_data("parameters_CarmeanHahn1981") |>
+    dplyr::as_tibble()
+
+  req <- c(
+    "Species",
+    "height_b1",
+    "height_b2",
+    "height_b3",
+    "height_b4",
+    "height_b5",
+    "si_b1",
+    "si_b2",
+    "si_b3",
+    "si_b4",
+    "si_b5"
   )
+  assert_required_cols(pars, req, object = "parameters_CarmeanHahn1981")
+
+  pars
 }

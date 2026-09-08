@@ -8,7 +8,7 @@
 #' where `A` is breast-height age (1 to 50) and `GI` is growth intercept
 #' (cm/year).
 #'
-#' @param age Numeric vector. Breast-height age (years), expected in [1, 50].
+#' @param age Numeric vector. Breast-height age (years), expected in \code{[1, 50]}.
 #' @param gi Numeric vector. Growth intercept (cm/year).
 #'
 #' @return A tibble with one column:

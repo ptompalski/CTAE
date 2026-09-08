@@ -1,0 +1,7 @@
+nfi_species,source_species,model,bha,b1_log,b2,rmse,source_table,page
+TSUG.HET,western hemlock,growth_intercept,5,1.213,0.4708,3.673,Table 3,591
+TSUG.HET,western hemlock,growth_intercept,10,1.072,0.5088,3.274,Table 3,591
+TSUG.HET,western hemlock,growth_intercept,20,0.1969,0.7540,2.001,Table 3,591
+TSUG.HET,western hemlock,growth_intercept,30,-0.2943,0.8860,1.243,Table 3,592
+TSUG.HET,western hemlock,growth_intercept,40,-0.4341,0.9218,0.5632,Table 3,592
+TSUG.HET,western hemlock,growth_intercept,50,-0.7061,1.002,0.04202,Table 3,592

@@ -9,14 +9,14 @@ si_nighcourtin1998(age, height = NULL, si = NULL, si50 = FALSE)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Dominant height (m). If provided, `si`
+\item{height}{Optional numeric vector. Dominant height (m). If provided, \code{si}
 is predicted.}
 
 \item{si}{Optional numeric vector. Site index SI25 (m at breast-height age 25).
-If provided, `height` is predicted.}
+If provided, \code{height} is predicted.}
 
-\item{si50}{Logical scalar. Default `FALSE`. If `TRUE`, interpret input `si`
-(when provided) as SI50 and return predicted `si` (when `height` is
+\item{si50}{Logical scalar. Default \code{FALSE}. If \code{TRUE}, interpret input \code{si}
+(when provided) as SI50 and return predicted \code{si} (when \code{height} is
 provided) as SI50 using:
 \deqn{SI50 = -0.4063 + 1.313 \times SI25}
 and its inverse.}
@@ -24,8 +24,8 @@ and its inverse.}
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted dominant height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index SI25 (m), returned when input `height` is provided.}
+\item{height}{Predicted dominant height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index SI25 (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -36,15 +36,15 @@ coastal British Columbia.
 \details{
 \strong{Species coverage:} \code{ALNU.RUB}.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Base-age note:} site index in this model is SI25 (m at breast-height
 age 25 years), not SI50.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Both directions are explicit closed forms from the source publication.

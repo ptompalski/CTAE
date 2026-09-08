@@ -15,34 +15,34 @@ Ung2009(species, age, GDD, PREC, model = c("both", "Nat1", "Nat2"))
 
 \item{PREC}{Numeric. Precipitation.}
 
-\item{model}{Character. Which model(s) to use. One of \code{"Nat1"}, \code{"Nat2"}, or 
+\item{model}{Character. Which model(s) to use. One of \code{"Nat1"}, \code{"Nat2"}, or
 \code{"both"}. Defaults to \code{"both"}.}
 }
 \value{
 A tibble containing:
 \itemize{
-  \item{\code{age}} 
-  \item{\code{H}} (if \code{Nat1} is used): Predicted tree height (m).
-  \item{\code{BA}} (if \code{Nat1} is used): Predicted basal area (m²/ha).
-  \item{\code{V}} (if \code{Nat1} is used): Predicted volume (m³/ha).
-  \item{\code{V2}} (if \code{Nat2} is used): Predicted volume (m³/ha) based on the Nat2 model.
+\item{\code{age}}
+\item{\code{H}} (if \code{Nat1} is used): Predicted tree height (m).
+\item{\code{BA}} (if \code{Nat1} is used): Predicted basal area (m²/ha).
+\item{\code{V}} (if \code{Nat1} is used): Predicted volume (m³/ha).
+\item{\code{V2}} (if \code{Nat2} is used): Predicted volume (m³/ha) based on the Nat2 model.
 }
 }
 \description{
-This function implements the models described in Ung et al. (2009).  
+This function implements the models described in Ung et al. (2009).
 Two models (Nat1 and Nat2) are available:
-  \itemize{
-    \item{\strong{Nat1:} A multi-equation system predicting tree height (H), basal area (BA), 
-          and volume (V) based on stand age, growth degree days (GDD), precipitation (PREC), 
-          and species-specific parameters.}
-    \item{\strong{Nat2:} A single equation that focuses on predicting stand volume (V) 
-          using age, GDD, and PREC.}
-  }
+\itemize{
+\item{\strong{Nat1:} A multi-equation system predicting tree height (H), basal area (BA),
+and volume (V) based on stand age, growth degree days (GDD), precipitation (PREC),
+and species-specific parameters.}
+\item{\strong{Nat2:} A single equation that focuses on predicting stand volume (V)
+using age, GDD, and PREC.}
+}
 }
 \details{
-In the Nat1 model, height and basal area are each modeled using age, GDD, and PREC in a 
-Chapman-Richards formulation, and volume is derived via an allometric equation. In contrast, 
-Nat2 is more streamlined, modeling volume directly as a function of these same variables 
+In the Nat1 model, height and basal area are each modeled using age, GDD, and PREC in a
+Chapman-Richards formulation, and volume is derived via an allometric equation. In contrast,
+Nat2 is more streamlined, modeling volume directly as a function of these same variables
 but without explicit height and basal area components.
 }
 \examples{
@@ -77,7 +77,7 @@ res_nat2
 
 }
 \references{
-Ung, C.-H., Bernier, P.Y., Guo, X.J., Lambert, M.-C. (2009). 
-"A simple growth and yield model for assessing changes in standing volume across Canada’s forests." 
+Ung, C.-H., Bernier, P.Y., Guo, X.J., Lambert, M.-C. (2009).
+"A simple growth and yield model for assessing changes in standing volume across Canada’s forests."
 The Forestry Chronicle, 85, 57–64. \doi{10.5558/tfc85057-1}.
 }

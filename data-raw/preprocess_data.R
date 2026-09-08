@@ -909,6 +909,220 @@ parameters_Thrower1994 <- read.csv("data-raw/Thrower1994_parameters.csv")
 parameters_Thrower1994 <- parameters_Thrower1994 %>%
   select(Species = nfi_species, model_form:source_short)
 
+## Huang, Meng & Yang 2009 (GYPSY Alberta top-height / site index) ####
+parameters_Huang2009 <- read.csv("data-raw/Huang2009_parameters.csv")
+parameters_Huang2009 <- parameters_Huang2009 %>%
+  select(Species, source_label, model_form, age_squared, lnS_power, b1:b4)
+
+## Chen & Klinka 2000 (ESSF height growth / site index) ####
+parameters_ChenKlinka1998 <- read.csv("data-raw/ChenKlinka1998_parameters.csv")
+parameters_ChenKlinka1998 <- parameters_ChenKlinka1998 %>%
+  select(Species = nfi_species, b1, b2, b3)
+
+## Hu & Garcia 2009 (interior spruce site index) ####
+parameters_HuGarcia2009 <- read.csv("data-raw/HuGarcia2009_parameters.csv")
+parameters_HuGarcia2009 <- parameters_HuGarcia2009 %>%
+  select(
+    Species = nfi_species,
+    a_coef,
+    a_exp,
+    c,
+    h0,
+    t0,
+    base_age,
+    source_short
+  )
+
+## Alemdag 1991 (national white spruce site index / height growth) ####
+parameters_Alemdag1991 <- read.csv("data-raw/Alemdag1991_parameters.csv")
+parameters_Alemdag1991 <- parameters_Alemdag1991 %>%
+  select(
+    Species = nfi_species,
+    c1,
+    c2,
+    c4,
+    c5,
+    b1,
+    b2,
+    b4,
+    b5,
+    base_age,
+    source_short
+  )
+
+## Nigh et al. 2002 (trembling aspen height-age / site index, BC) ####
+parameters_Nigh2002 <- read.csv("data-raw/Nigh2002_parameters.csv")
+parameters_Nigh2002 <- parameters_Nigh2002 %>%
+  transmute(
+    Species = nfi_species,
+    model,
+    bec_zone = dplyr::na_if(as.character(bec_zone), ""),
+    a0 = as.numeric(a0),
+    a1 = as.numeric(a1),
+    a2 = as.numeric(a2),
+    source_short
+  )
+
+## Nigh 1997 (Sitka spruce height-age / site index, coastal BC) ####
+parameters_Nigh1997 <- read.csv("data-raw/Nigh1997_parameters.csv")
+parameters_Nigh1997 <- parameters_Nigh1997 %>%
+  transmute(
+    Species = nfi_species,
+    model,
+    a0 = as.numeric(a0),
+    a1 = as.numeric(a1),
+    a2 = as.numeric(a2),
+    source_short
+  )
+
+## Nigh 1998 growth intercept (interior western hemlock, single species) ####
+# eq. 4: SI = 1.3 + exp(b1_log) * GI^b2, with per-BHA coefficients (Table 3).
+# b1 was fitted on the log scale (Ratkowsky transformation) and stored as b1_log.
+parameters_Nigh1998_gi <- read.csv(
+  "data-raw/Nigh1998_growthintercept_parameters.csv"
+)
+parameters_Nigh1998_gi <- parameters_Nigh1998_gi %>%
+  transmute(
+    bha = as.integer(bha),
+    b1_log = as.numeric(b1_log),
+    b2 = as.numeric(b2)
+  )
+
+## Carmean et al. 2006 (black spruce & trembling aspen, NW Ontario) ####
+# Newnham (1988) constrained polymorphic SI model. Aspen coefficients confirmed
+# against an independent SAS implementation; black spruce b2 is a best reading
+# of a degraded exponent in the published PDF (no independent implementation).
+parameters_Carmean2006 <- read.csv("data-raw/Carmean2006_parameters.csv")
+parameters_Carmean2006 <- parameters_Carmean2006 %>%
+  transmute(
+    Species = nfi_species,
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2),
+    b3 = as.numeric(b3),
+    b4 = as.numeric(b4),
+    base_age = as.numeric(base_age),
+    source_short
+  )
+
+# Carmean, Niznowski & Hazenberg (2001) jack pine SI model, northern Ontario.
+# Newnham (1988) constrained polymorphic form; the recommended all-region
+# equation (<=100 yr BH age, 383 plots) matches the NRCan SAS macro
+# %SI/HT_Carmean_2001 digit-for-digit.
+parameters_Carmean2001 <- read.csv("data-raw/Carmean2001_parameters.csv")
+parameters_Carmean2001 <- parameters_Carmean2001 %>%
+  transmute(
+    Species = nfi_species,
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2),
+    b3 = as.numeric(b3),
+    b4 = as.numeric(b4),
+    base_age = as.numeric(base_age),
+    source_short
+  )
+
+## Goelz & Burk 1992 (base-age invariant jack pine SI, north central Ontario) ####
+# Chapman-Richards difference equation (eq. 16); parameters b1-b4 from Table 2.
+parameters_Goelz1992 <- read.csv("data-raw/Goelz1992_parameters.csv")
+parameters_Goelz1992 <- parameters_Goelz1992 %>%
+  transmute(
+    Species = nfi_species,
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2),
+    b3 = as.numeric(b3),
+    b4 = as.numeric(b4),
+    base_age = as.numeric(base_age),
+    source_short
+  )
+
+## Nigh et al. 2009 (paper birch height-age / site index, BC) ####
+# Model 1 (base) reproduces the SAS reference (SI_Nigh_2009 / HT_Nigh_2009);
+# Models 2 (operational) and 3 (zonal) are additional published variants.
+parameters_Nigh2009 <- read.csv("data-raw/Nigh2009_parameters.csv")
+parameters_Nigh2009 <- parameters_Nigh2009 %>%
+  transmute(
+    Species = nfi_species,
+    model,
+    bec_zone = dplyr::na_if(as.character(bec_zone), ""),
+    a0 = as.numeric(a0),
+    a1 = as.numeric(a1),
+    a2 = as.numeric(a2),
+    source_short
+  )
+
+## Nigh 2004 (juvenile height-age / site index, BC lodgepole pine + interior spruce) ####
+# Two species (lodgepole pine PINU.CON, interior spruce modelled as white spruce
+# PICE.GLA). Province-wide row (bec_zone = "PROV", model 3, Table 2) plus seven
+# BC biogeoclimatic zones whose a1-a4 are resolved from eqs. 5/6 (Table 3).
+parameters_Nigh2004 <- read.csv("data-raw/Nigh2004_parameters.csv")
+parameters_Nigh2004 <- parameters_Nigh2004 %>%
+  transmute(
+    Species = nfi_species,
+    bec_zone = as.character(bec_zone),
+    a1 = as.numeric(a1),
+    a2 = as.numeric(a2),
+    a3 = as.numeric(a3),
+    a4 = as.numeric(a4),
+    source_short
+  )
+
+## Nigh 2017 (lodgepole pine g-GADA height-age / site index, BC) ####
+# Single species (lodgepole pine, PINU.CON). One global parameter set (Table 2,
+# g-GADA block) plus the SI->beta0 cubic (Discussion, p. 18) for base age 50.
+parameters_Nigh2017 <- read.csv("data-raw/Nigh2017_parameters.csv")
+parameters_Nigh2017 <- parameters_Nigh2017 %>%
+  transmute(
+    Species = nfi_species,
+    b10 = as.numeric(b10),
+    b11 = as.numeric(b11),
+    b20 = as.numeric(b20),
+    b21 = as.numeric(b21),
+    si_b0_c0 = as.numeric(si_b0_c0),
+    si_b0_c1 = as.numeric(si_b0_c1),
+    si_b0_c2 = as.numeric(si_b0_c2),
+    si_b0_c3 = as.numeric(si_b0_c3),
+    source_short
+  )
+
+## Brisco, Klinka & Nigh 2002 (western larch height-age / site index, BC) ####
+# Recommended final model (eq. 6): the unconstrained Chapman-Richards form (eq. 3)
+# refit to the complete data set.
+parameters_Brisco2002 <- read.csv("data-raw/Brisco2002_parameters.csv")
+parameters_Brisco2002 <- parameters_Brisco2002 %>%
+  transmute(
+    Species = nfi_species,
+    source_species,
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2),
+    b3 = as.numeric(b3),
+    b4 = as.numeric(b4),
+    b5 = as.numeric(b5),
+    source_short
+  )
+
+## Goudie 1984 (lodgepole pine / white spruce height-age, BC) ####
+# Coefficients follow the SAS reference implementation
+# (SK_SiteIndex_SAS_macros_with_BHAge_20220409.sas); pine uses the dry-site set.
+parameters_Goudie1984 <- read.csv("data-raw/Goudie1984_parameters.csv")
+parameters_Goudie1984 <- parameters_Goudie1984 %>%
+  transmute(
+    Species,
+    index_age = as.numeric(index_age),
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2),
+    b3 = as.numeric(b3)
+  )
+
+## Cieszewski, Bella & Yeung 1993 (Saskatchewan variable-age site index) ####
+parameters_Cieszewski1993 <- read.csv("data-raw/Cieszewski1993_parameters.csv")
+parameters_Cieszewski1993 <- parameters_Cieszewski1993 %>%
+  transmute(
+    Species = nfi_species,
+    a = as.numeric(a),
+    b = as.numeric(b),
+    base_age = 50,
+    source_short
+  )
+
 ## Huang et al 1994 (site index) ####
 parameters_Huang1994_si <- read.csv("data-raw/Huang1994_parameters.csv")
 
@@ -1080,6 +1294,81 @@ parameters_Huang1994_si <- parameters_Huang1994_si %>%
     )
   )
 
+## Carmean & Hahn 1981 (balsam fir & white spruce, Lake States) ####
+parameters_CarmeanHahn1981 <- read.csv(
+  "data-raw/CarmeanHahn1981_parameters.csv"
+)
+parameters_CarmeanHahn1981 <- parameters_CarmeanHahn1981 %>%
+  transmute(
+    Species = nfi_species,
+    height_b1 = as.numeric(height_b1),
+    height_b2 = as.numeric(height_b2),
+    height_b3 = as.numeric(height_b3),
+    height_b4 = as.numeric(height_b4),
+    height_b5 = as.numeric(height_b5),
+    si_b1 = as.numeric(si_b1),
+    si_b2 = as.numeric(si_b2),
+    si_b3 = as.numeric(si_b3),
+    si_b4 = as.numeric(si_b4),
+    si_b5 = as.numeric(si_b5)
+  )
+
+## Auger & Ward 2021 (QC black spruce & jack pine plantations) ####
+parameters_AugerWard2021 <- read.csv("data-raw/AugerWard2021_parameters.csv")
+parameters_AugerWard2021 <- parameters_AugerWard2021 %>%
+  transmute(
+    Species = nfi_species,
+    beta0 = as.numeric(beta0),
+    beta2 = as.numeric(beta2),
+    form = as.character(form)
+  )
+
+## Sharma 2022 (ON black spruce & trembling aspen, McDill-Amateis) ####
+parameters_Sharma2022 <- read.csv("data-raw/Sharma2022_parameters.csv")
+parameters_Sharma2022 <- parameters_Sharma2022 %>%
+  transmute(
+    Species = nfi_species,
+    a0 = as.numeric(a0),
+    a1 = as.numeric(a1)
+  )
+
+## Nigh 1998 (interior western hemlock height-bha, single global coef set) ####
+# eq. 6 log-logistic height-age model; one coefficient row (Table 2).
+parameters_Nigh1998_ht <- read.csv(
+  "data-raw/Nigh1998_heightbha_parameters.csv"
+)
+parameters_Nigh1998_ht <- parameters_Nigh1998_ht %>%
+  transmute(
+    b0 = as.numeric(b0),
+    b1 = as.numeric(b1),
+    b2 = as.numeric(b2)
+  )
+
+## Buckman et al 2006 (red pine, single global constant set) ####
+# Constrained Buckman refit (A,B,C) plus younger-age polynomial (k,m).
+parameters_Buckman2006 <- read.csv("data-raw/Buckman2006_parameters.csv")
+parameters_Buckman2006 <- parameters_Buckman2006 %>%
+  transmute(
+    k = as.numeric(k),
+    m = as.numeric(m),
+    A = as.numeric(A),
+    B = as.numeric(B),
+    C = as.numeric(C)
+  )
+
+## Batho & Garcia 2014 (lodgepole pine, single global constant set) ####
+# Bertalanffy-Richards "Power combined" fit constants (Eqs. 3-6).
+parameters_Batho2014 <- read.csv("data-raw/Batho2014_parameters.csv")
+parameters_Batho2014 <- parameters_Batho2014 %>%
+  transmute(
+    a_coef = as.numeric(a_coef),
+    a_exp = as.numeric(a_exp),
+    c = as.numeric(c),
+    h0 = as.numeric(h0),
+    t0 = as.numeric(t0),
+    base_age = as.numeric(base_age)
+  )
+
 # combine all into one ####
 
 internal_objs <- c(
@@ -1105,12 +1394,34 @@ internal_objs <- c(
   "parameters_CieszewskiBella1991",
   "parameters_ScottVoorhis1986",
   "parameters_Nigh2000_gi",
+  "parameters_Nigh1998_gi",
   "parameters_Thrower1994",
+  "parameters_ChenKlinka1998",
+  "parameters_HuGarcia2009",
+  "parameters_Huang2009",
+  "parameters_Alemdag1991",
+  "parameters_Nigh1997",
+  "parameters_Nigh2002",
+  "parameters_Nigh2004",
+  "parameters_Nigh2009",
+  "parameters_Nigh2017",
+  "parameters_Brisco2002",
+  "parameters_Goudie1984",
+  "parameters_Cieszewski1993",
   "parameters_Huang1994_si",
   "parameters_Carmean1989",
   "parameters_Carmean1996",
+  "parameters_Carmean2006",
+  "parameters_Carmean2001",
+  "parameters_Goelz1992",
   "parameters_QC_IQS2013",
-  "qc_iqs_ecological_keys_2013"
+  "qc_iqs_ecological_keys_2013",
+  "parameters_CarmeanHahn1981",
+  "parameters_AugerWard2021",
+  "parameters_Sharma2022",
+  "parameters_Nigh1998_ht",
+  "parameters_Buckman2006",
+  "parameters_Batho2014"
 )
 
 # sanity check: make sure they exist before saving

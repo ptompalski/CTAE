@@ -67,11 +67,23 @@
 #' )
 #'
 #' @export
-si_augerward2021 <- function(age, height = NULL, si = NULL, species, base_age = 25) {
+si_augerward2021 <- function(
+  age,
+  height = NULL,
+  si = NULL,
+  species,
+  base_age = 25
+) {
   if (xor(is.null(height), is.null(si)) == FALSE) {
     cli::cli_abort("Provide exactly one of {.arg height} or {.arg si}.")
   }
-  if (!is.numeric(base_age) || length(base_age) != 1L || is.na(base_age) || !is.finite(base_age) || base_age <= 0) {
+  if (
+    !is.numeric(base_age) ||
+      length(base_age) != 1L ||
+      is.na(base_age) ||
+      !is.finite(base_age) ||
+      base_age <= 0
+  ) {
     cli::cli_abort("{.arg base_age} must be a single finite numeric value > 0.")
   }
 
@@ -176,7 +188,9 @@ si_augerward2021 <- function(age, height = NULL, si = NULL, species, base_age = 
     dplyr::left_join(pars, by = "Species")
 
   if (anyNA(out$beta0) || anyNA(out$beta2) || anyNA(out$form)) {
-    bad <- unique(out$Species[is.na(out$beta0) | is.na(out$beta2) | is.na(out$form)])
+    bad <- unique(out$Species[
+      is.na(out$beta0) | is.na(out$beta2) | is.na(out$form)
+    ])
     cli::cli_abort(
       "No AugerWard2021 parameters found for species: {paste(bad, collapse = ', ')}."
     )
@@ -206,12 +220,13 @@ si_augerward2021 <- function(age, height = NULL, si = NULL, species, base_age = 
 
 # internal
 .augerward2021_parameters <- function() {
-  dplyr::tibble(
-    Species = c("PICE.MAR", "PINU.BAN"),
-    beta0 = c(24.6300, 26.5930),
-    beta2 = c(1.5481, 1.2178),
-    form = c("black_spruce", "jack_pine")
-  )
+  pars <- .get_internal_data("parameters_AugerWard2021") |>
+    dplyr::as_tibble()
+
+  req <- c("Species", "beta0", "beta2", "form")
+  assert_required_cols(pars, req, object = "parameters_AugerWard2021")
+
+  pars
 }
 
 
@@ -229,9 +244,13 @@ si_augerward2021 <- function(age, height = NULL, si = NULL, species, base_age = 
     dplyr::mutate(
       height = dplyr::case_when(
         .data$form == "black_spruce" ~ .data$beta0 /
-          (1 - (1 - .data$beta0 / .data$si) * (.data$base_age / .data$age)^.data$beta2),
+          (1 -
+            (1 - .data$beta0 / .data$si) *
+              (.data$base_age / .data$age)^.data$beta2),
         .data$form == "jack_pine" ~ .data$beta0 -
-          .data$beta0 * (1 - .data$si / .data$beta0)^((.data$age / .data$base_age)^.data$beta2),
+          .data$beta0 *
+            (1 - .data$si / .data$beta0)^((.data$age /
+              .data$base_age)^.data$beta2),
         TRUE ~ NA_real_
       )
     ) |>
@@ -253,9 +272,13 @@ si_augerward2021 <- function(age, height = NULL, si = NULL, species, base_age = 
     dplyr::mutate(
       si = dplyr::case_when(
         .data$form == "black_spruce" ~ .data$beta0 /
-          (1 - (1 - .data$beta0 / .data$height) * (.data$age / .data$base_age)^.data$beta2),
+          (1 -
+            (1 - .data$beta0 / .data$height) *
+              (.data$age / .data$base_age)^.data$beta2),
         .data$form == "jack_pine" ~ .data$beta0 -
-          .data$beta0 * (1 - .data$height / .data$beta0)^((.data$base_age / .data$age)^.data$beta2),
+          .data$beta0 *
+            (1 - .data$height / .data$beta0)^((.data$base_age /
+              .data$age)^.data$beta2),
         TRUE ~ NA_real_
       )
     ) |>

@@ -1,0 +1,8 @@
+nfi_species,source_species,model,bec_zone,a0,a1,a2,page,source_short
+POPU.TRE,trembling aspen,base,,7.423,-1.150,-0.9614,205,"Table 3 (base model)"
+POPU.TRE,trembling aspen,extended,BWBS,7.314,-1.074,-1.011,206,"p.206 prose (extended per-zone)"
+POPU.TRE,trembling aspen,extended,ICH,8.363,-1.446,-1.011,206,"p.206 prose (extended per-zone)"
+POPU.TRE,trembling aspen,extended,IDF,7.314,-1.074,-1.011,206,"p.206 prose (extended per-zone)"
+POPU.TRE,trembling aspen,extended,MS,7.314,-1.243,-0.9080,206,"p.206 prose (extended per-zone)"
+POPU.TRE,trembling aspen,extended,SBPS,7.314,-1.243,-0.9080,206,"p.206 prose (extended per-zone)"
+POPU.TRE,trembling aspen,extended,SBS,8.363,-1.074,-1.267,206,"p.206 prose (extended per-zone)"

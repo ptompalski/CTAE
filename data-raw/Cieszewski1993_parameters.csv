@@ -1,0 +1,12 @@
+source_code,source_species,nfi_species,a,b,n_trees,mean_error,std_error,page,source_short
+BF,balsam fir,ABIE.BAL,1.521895,7439.124,34,0.02766,0.33610,7,"Cieszewski et al. (1993), balsam fir figure"
+BP,balsam poplar,POPU.BAL,1.102700,1350.794,38,0.00291,0.44774,8,"Cieszewski et al. (1993), balsam poplar figure"
+BS,black spruce,PICE.MAR,1.219256,2301.082,55,0.00122,0.26100,9,"Cieszewski et al. (1993), black spruce figure"
+JP,jack pine,PINU.BAN,1.1872291,1358.819,116,0.01601,0.36420,10,"Cieszewski et al. (1993), jack pine figure"
+LP,lodgepole pine,PINU.CON,1.181603,1293.847,71,0.01494,0.32012,11,"Cieszewski et al. (1993), lodgepole pine figure"
+MM,manitoba maple,ACER.NEG,1.212285,2079.223,9,0.00227,0.25537,12,"Cieszewski et al. (1993), manitoba maple figure"
+TA,trembling aspen,POPU.TRE,1.185685,1360.651,64,-0.0193,0.42564,13,"Cieszewski et al. (1993), trembling aspen figure"
+TL,tamarack,LARI.LAR,1.391959,1974.462,8,0.03399,0.37712,14,"Cieszewski et al. (1993), tamarack figure"
+WB,white birch,BETU.PAP,1.244998,1697.311,37,0.03224,0.38247,15,"Cieszewski et al. (1993), white birch figure; a confirmed from SAS macro (scan digit ambiguous)"
+WE,white elm,ULMU.AME,1.211183,1450.524,17,0.03912,0.35603,16,"Cieszewski et al. (1993), white elm figure"
+WS,white spruce,PICE.GLA,1.379241,4915.689,132,0.01772,0.47229,17,"Cieszewski et al. (1993), white spruce figure"

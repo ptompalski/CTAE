@@ -7,23 +7,23 @@
 si_pregent2016(age, height = NULL, si = NULL, base_age = 25)
 }
 \arguments{
-\item{age}{Numeric vector. Plantation age (years), with `age > 0`. A warning
-is emitted when `age > 70`, because that exceeds the published range.}
+\item{age}{Numeric vector. Plantation age (years), with \code{age > 0}. A warning
+is emitted when \code{age > 70}, because that exceeds the published range.}
 
 \item{height}{Optional numeric vector. Dominant height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
-\item{si}{Optional numeric vector. Site index (m) at `base_age` years. If
-provided, `height` is predicted.}
+\item{si}{Optional numeric vector. Site index (m) at \code{base_age} years. If
+provided, \code{height} is predicted.}
 
 \item{base_age}{Positive numeric scalar. Site-index base age (years since
-planting). Defaults to `25`.}
+planting). Defaults to \code{25}.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted dominant height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted dominant height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -36,7 +36,7 @@ Quebec.
 
 \strong{Geographic use:} Quebec Norway spruce plantations.
 
-\strong{Age definition note:} `age` is plantation age (years since planting),
+\strong{Age definition note:} \code{age} is plantation age (years since planting),
 not breast-height age.
 
 \strong{Height definition note:} the model uses dominant height (m) based on
@@ -44,18 +44,18 @@ the mean height of the 100 tallest trees per hectare.
 
 \strong{Base-age note:} site index is dominant height at plantation age
 25 years by default, matching the source study. The underlying difference
-equation is base-age invariant, so other positive `base_age` values can also
-be used. The package article plots this model with `base_age = 50` for
+equation is base-age invariant, so other positive \code{base_age} values can also
+be used. The package article plots this model with \code{base_age = 50} for
 visual comparison with other curves.
 
 \strong{Domain note:} the source tables and curves are presented for
-plantation ages up to 70 years. This implementation warns when `age > 70`
+plantation ages up to 70 years. This implementation warns when \code{age > 70}
 and returns extrapolated values.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs and outputs are metric and follow the source model scale directly.

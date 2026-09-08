@@ -105,7 +105,7 @@ total_to_merch_prop <- function(vol_total, k, a, b, c) {
 #' @param jurisdiction Character vector. Jurisdiction code (e.g. \code{"AB"}).
 #' @param ecozone Ecozone identifier. Either: numeric ecozone code (1–15) or official ecozone name (English or French; case-insensitive).
 #' @param include_prop Logical. If TRUE, return the predicted merchantable proportion.
-#' @param clamp_prop Logical. If TRUE (default), clamp predicted proportion to [0, 1].
+#' @param clamp_prop Logical. If TRUE (default), clamp predicted proportion to \code{[0, 1]}.
 #' @param warn_outside Logical. If TRUE (default), warn when \code{vol_total < volmin}.
 #' @param clamp_x Logical. If TRUE, replace \code{vol_total} with \code{pmax(vol_total, volmin)}
 #'   before computing the proportion model. Disabled by default.

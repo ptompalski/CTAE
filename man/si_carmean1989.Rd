@@ -10,18 +10,18 @@ si_carmean1989(age, height = NULL, si = NULL, species)
 \item{age}{Numeric vector. Total age (years).}
 
 \item{height}{Optional numeric vector. Total tree height (m). If provided,
-`si` is predicted.}
+\code{si} is predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at total
-age). If provided, `height` is predicted.}
+age). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"ACER.SAH"`).}
+\item{species}{Character vector of species codes (e.g., \code{"ACER.SAH"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -37,17 +37,17 @@ QUER.RUB, TILI.AME, ULMU.AME, CHAM.THY, TSUG.CAN}.
 \strong{Geographic use:} use for eastern species only, and with caution
 outside the source curve domains.
 
-\strong{Age definition note:} `age` is total age (years). For users working
+\strong{Age definition note:} \code{age} is total age (years). For users working
 with breast-height age, years-to-breast-height can be obtained separately
 with \code{\link{ytbh_carmean1989}}.
 
 \strong{Base-age note:} site index in this model is total height at
 50 years total age.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs/outputs are metric; the original equations are in imperial units, so

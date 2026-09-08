@@ -82,7 +82,12 @@ si_carmean1989(
   height = c(12, 18, 20),
   species = c("ACER.SAH", "BETU.ALL", "QUER.RUB")
 )
-#> Error in .carmean1989_prepare(age = age, x = x, species = species, x_name = x_name): No Carmean1989 parameters found for species: ACER.SAH.
+#> # A tibble: 3 × 1
+#>      si
+#>   <dbl>
+#> 1  17.8
+#> 2  17.9
+#> 3  18.0
 
 # Predict height from age + site index
 si_carmean1989(
@@ -90,5 +95,10 @@ si_carmean1989(
   si = c(18, 20, 22),
   species = c("ACER.SAH", "BETU.ALL", "QUER.RUB")
 )
-#> Error in .carmean1989_prepare(age = age, x = x, species = species, x_name = x_name): No Carmean1989 parameters found for species: ACER.SAH.
+#> # A tibble: 3 × 1
+#>   height
+#>    <dbl>
+#> 1   12.2
+#> 2   20.1
+#> 3   24.1
 ```

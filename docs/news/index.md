@@ -1,5 +1,153 @@
 # Changelog
 
+## CanadaForestAllometry 0.8.6
+
+### Internal changes
+
+- Moved the
+  [`si_carmeanhahn1981()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmeanhahn1981.md),
+  [`si_augerward2021()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_augerward2021.md),
+  [`si_sharma2022()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_sharma2022.md),
+  [`si_nigh1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1998.md),
+  [`si_buckman2006()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_buckman2006.md),
+  and
+  [`si_batho2014()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_batho2014.md)
+  model coefficients from inline tibbles/constant lists into the
+  compiled internal parameter data, for consistency with the rest of the
+  site-index family.
+- Consolidated the shared Carmean constrained-polymorphic (Newnham)
+  height and site-index solver used by
+  [`si_carmean2001()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean2001.md)
+  and
+  [`si_carmean2006()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean2006.md)
+  into common internal helpers; model outputs are unchanged.
+
+### Years-to-breast-height updates
+
+- Added
+  [`ytbh_nigh1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_nigh1998.md)
+  for western hemlock (`TSUG.HET`) in the interior of British Columbia,
+  implementing the Nigh (1998) years-to-breast-height model (invertible
+  for site index).
+- Added
+  [`ytbh_nigh2015()`](https://ptompalski.github.io/CanadaForestAllometry/reference/ytbh_nigh2015.md)
+  for Engelmann spruce (`PICE.ENG`) in the ESSF biogeoclimatic zone of
+  British Columbia, implementing the Nigh (2015) years-to-breast-height
+  model (no source benchmark).
+
+### Site index updates
+
+- Added
+  [`si_huang2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_huang2009.md)
+  for aspen (`POPU.TRE`), black spruce (`PICE.MAR`), lodgepole pine
+  (`PINU.CON`), and white spruce (`PICE.GLA`) in Alberta, implementing
+  the Huang, Meng & Yang (2009) GYPSY top-height / site-index models
+  (total-age based, with breast-height-age site index via `index_age`).
+
+- Added
+  [`si_chenklinka2000()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_chenklinka2000.md)
+  for subalpine fir (`ABIE.LAS`), Engelmann spruce (`PICE.ENG`), and
+  lodgepole pine (`PINU.CON`) in the ESSF zone of British Columbia,
+  implementing the conditioned Chapman–Richards height-age (site index)
+  model of Chen and Klinka (2000).
+
+- Added
+  [`si_brisco2002()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_brisco2002.md)
+  for western larch (`LARI.OCC`) in British Columbia, implementing the
+  recommended Chapman–Richards height-age (site index) model of Brisco,
+  Klinka and Nigh (2002) (no source benchmark).
+
+- Added
+  [`si_alemdag1991()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_alemdag1991.md)
+  for white spruce (`PICE.GLA`), implementing the Alemdag (1991)
+  national (Canada-wide) modified Chapman–Richards site-index and
+  height-growth model for natural stands (no source benchmark).
+
+- Added
+  [`si_nigh1998()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1998.md)
+  and
+  [`si_nigh1998_gi()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1998_gi.md)
+  for western hemlock (`TSUG.HET`) in the interior of British Columbia,
+  implementing the Nigh (1998) log-logistic height-age and
+  growth-intercept site-index models.
+
+- Added
+  [`si_batho2014()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_batho2014.md)
+  for lodgepole pine (`PINU.CON`) in the Sub-Boreal Spruce zone of
+  British Columbia, implementing the Batho and García (2014) polymorphic
+  Bertalanffy–Richards height-age / site-index model (no source
+  benchmark).
+
+- Added
+  [`si_nigh2017()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2017.md)
+  for lodgepole pine (`PINU.CON`) in British Columbia, implementing the
+  Nigh (2017) grounded-GADA (Chapman-Richards) height-age / site-index
+  model.
+
+- Added
+  [`si_carmean2001()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean2001.md)
+  for jack pine (`PINU.BAN`) in northern Ontario, implementing the
+  Carmean, Niznowski & Hazenberg (2001) constrained polymorphic
+  (Newnham) height-age / site-index model.
+
+- Added
+  [`si_goelz1992()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_goelz1992.md)
+  for jack pine (`PINU.BAN`) in north central Ontario, implementing the
+  Goelz & Burk (1992) base-age invariant Chapman–Richards height-age /
+  site-index model.
+
+- Added
+  [`si_carmean2006()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_carmean2006.md)
+  for black spruce (`PICE.MAR`) and trembling aspen (`POPU.TRE`) in
+  northwest Ontario, implementing the Carmean, Hazenberg &
+  Deschamps (2006) constrained polymorphic height-age / site-index
+  model.
+
+- Added
+  [`si_nigh2004()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2004.md)
+  for lodgepole pine (`PINU.CON`) and interior spruce (`PICE.GLA`) in
+  British Columbia, implementing the Nigh (2004) juvenile height-age /
+  site-index model, with province-wide and biogeoclimatic-zone parameter
+  sets selectable via `bec_zone`.
+
+- Added
+  [`si_nigh2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2009.md)
+  for paper birch (`BETU.PAP`) in British Columbia, implementing the
+  Nigh, Thomas, Yearsley & Wang (2009) log-logistic height-age /
+  site-index model, with base, operational, and zonal variants
+  selectable via `model`.
+
+- Added
+  [`si_goudie1984()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_goudie1984.md)
+  for lodgepole pine (`PINU.CON`) and white spruce (`PICE.GLA`) in
+  British Columbia, implementing the Goudie (1984) logistic height-age /
+  site-index curves.
+
+- Added
+  [`si_cieszewski1993()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_cieszewski1993.md)
+  for eleven Saskatchewan timber species, implementing the preliminary
+  variable-age height-growth / site-index model of Cieszewski, Bella and
+  Yeung (1993).
+
+- Added
+  [`si_hugarcia2009()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_hugarcia2009.md)
+  for interior spruce (`PICE.GLA`, `PICE.ENG`) in the Sub-Boreal Spruce
+  zone of British Columbia, implementing the polymorphic
+  Bertalanffy–Richards model of Hu and García (2009).
+
+- Added
+  [`si_nigh1997()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh1997.md)
+  for Sitka spruce (`PICE.SIT`) in coastal British Columbia,
+  implementing the Nigh (1997) logistic height-age / site-index model
+  (no source benchmark).
+
+- Added
+  [`si_nigh2002()`](https://ptompalski.github.io/CanadaForestAllometry/reference/si_nigh2002.md)
+  for trembling aspen (`POPU.TRE`) in British Columbia, implementing the
+  logistic height-age / site-index model of Nigh, Krestov and Klinka
+  (2002), with base and biogeoclimatic-zone-calibrated variants via
+  `bec_zone`.
+
 ## CanadaForestAllometry 0.8.5
 
 ### Bug fixes
@@ -7,6 +155,8 @@
 - Corrected sugar maple species-code mappings from `ACER.SAC` to
   `ACER.SAH` in Fortin et al. (2007), Scott and Voorhis (1986), and
   Carmean et al. (1989) parameter data.
+- Corrected Sharma (2021) sugar maple volume parameter mappings from
+  `ACER.SAC` to `ACER.SAH`.
 - Added regression tests to ensure sugar maple (`ACER.SAH`) and silver
   maple (`ACER.SAC`) remain distinct in affected model parameter tables.
 

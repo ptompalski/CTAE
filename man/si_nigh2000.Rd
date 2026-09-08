@@ -9,17 +9,17 @@ si_nigh2000(age, height = NULL, si = NULL)
 \arguments{
 \item{age}{Numeric vector. Breast-height age (years).}
 
-\item{height}{Optional numeric vector. Top height (m). If provided, `si` is
+\item{height}{Optional numeric vector. Top height (m). If provided, \code{si} is
 predicted.}
 
 \item{si}{Optional numeric vector. Site index (m, base age 50 years at
-breast height). If provided, `height` is predicted.}
+breast height). If provided, \code{height} is predicted.}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted top height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted top height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -31,21 +31,21 @@ site-index equation for interior western redcedar (\code{THUJ.PLI}).
 
 \strong{Geographic use:} interior British Columbia.
 
-\strong{Age definition note:} `age` is breast-height age (years).
+\strong{Age definition note:} \code{age} is breast-height age (years).
 
 \strong{Base-age note:} site index in this model is referenced to base age
 50 years at breast height.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs/outputs are metric (m), matching the source model.
 
-Predicting `height` from `si` is direct. Predicting `si` from `height` is
-implicit and solved numerically with `stats::uniroot()`.
+Predicting \code{height} from \code{si} is direct. Predicting \code{si} from \code{height} is
+implicit and solved numerically with \code{stats::uniroot()}.
 }
 \examples{
 # Predict site index from age + height

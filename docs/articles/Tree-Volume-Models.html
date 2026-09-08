@@ -6,7 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Tree Volume Models • CanadaForestAllometry</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -22,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CanadaForestAllometry</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,38 +80,27 @@
 <p>The package currently includes:</p>
 <ul>
 <li>
-<code><a href="../reference/vol_fortin2007.html">vol_fortin2007()</a></code>. Provincial merchantable volume model for Quebec. Coverage: QC. 26 species. <span class="citation" data-cites="Fortin2007">Fortin et al. (<a href="#ref-Fortin2007" role="doc-biblioref">2007</a>)</span>
-</li>
+<code><a href="../reference/vol_fortin2007.html">vol_fortin2007()</a></code>. Provincial merchantable volume model for Quebec. Coverage: QC. 26 species</li>
 <li>
-<code><a href="../reference/vol_galbella94.html">vol_galbella94()</a></code>. Provincial taper model for Saskatchewan based on the Kozak variable-exponent form. Coverage: SK. 12 species. <span class="citation" data-cites="Gal1994">Gál and Bella (<a href="#ref-Gal1994" role="doc-biblioref">1994</a>)</span>
-</li>
+<code><a href="../reference/vol_galbella94.html">vol_galbella94()</a></code>. Provincial taper model for Saskatchewan based on the Kozak variable-exponent form. Coverage: SK. 12 species</li>
 <li>
-<code><a href="../reference/vol_honer83.html">vol_honer83()</a></code>. Regional volume models for central and eastern Canada, applicable across multiple provinces. Coverage: NB, NL, NS, ON, PE, QC. 21 species. <span class="citation" data-cites="Honer1983">Honer et al. (<a href="#ref-Honer1983" role="doc-biblioref">1983</a>)</span>
-</li>
+<code><a href="../reference/vol_honer83.html">vol_honer83()</a></code>. Regional volume models for central and eastern Canada, applicable across multiple provinces. Coverage: NB, NL, NS, ON, PE, QC. 21 species</li>
 <li>
-<code><a href="../reference/vol_huang94.html">vol_huang94()</a></code>. Provincial taper model for Alberta based on the Kozak variable-exponent form; applicable at the province level or by Alberta subregions. Coverage: AB. 13 species. <span class="citation" data-cites="Huang1994">Huang et al. (<a href="#ref-Huang1994" role="doc-biblioref">1994</a>)</span>
-</li>
+<code><a href="../reference/vol_huang94.html">vol_huang94()</a></code>. Provincial taper model for Alberta based on the Kozak variable-exponent form; applicable at the province level or by Alberta subregions. Coverage: AB. 13 species</li>
 <li>
-<code><a href="../reference/vol_klos2007.html">vol_klos2007()</a></code>. Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone. Coverage: MB. 5 species. <span class="citation" data-cites="Klos2007">Klos et al. (<a href="#ref-Klos2007" role="doc-biblioref">2007</a>)</span>
-</li>
+<code><a href="../reference/vol_klos2007.html">vol_klos2007()</a></code>. Provincial taper model for Manitoba based on the Kozak variable-exponent form; applicable at the province level or by ecozone. Coverage: MB. 5 species</li>
 <li>
-<code><a href="../reference/vol_kozak94.html">vol_kozak94()</a></code>. Provincial taper model for British Columbia; requires BEC zone as a subregion input. Coverage: BC. 16 species. <span class="citation" data-cites="Kozak1994">Kozak (<a href="#ref-Kozak1994" role="doc-biblioref">1994</a>)</span>
-</li>
+<code><a href="../reference/vol_kozak94.html">vol_kozak94()</a></code>. Provincial taper model for British Columbia; requires BEC zone as a subregion input. Coverage: BC. 16 species</li>
 <li>
-<code><a href="../reference/vol_nigh2016.html">vol_nigh2016()</a></code>. Total and merchantable volume equations for BC. Coverage: BC. 18 species. <span class="citation" data-cites="Nigh2016">Nigh (<a href="#ref-Nigh2016" role="doc-biblioref">2016</a>)</span>
-</li>
+<code><a href="../reference/vol_nigh2016.html">vol_nigh2016()</a></code>. Total and merchantable volume equations for BC. Coverage: BC. 18 species</li>
 <li>
-<code><a href="../reference/vol_nl.html">vol_nl()</a></code>. Total and merchantable volume for Newfoundland and Labrador. Coverage: NL. 12 species. <span class="citation" data-cites="Honer1967">Honer (<a href="#ref-Honer1967" role="doc-biblioref">1967</a>)</span>; <span class="citation" data-cites="Ker1974">Ker (<a href="#ref-Ker1974" role="doc-biblioref">1974</a>)</span>; <span class="citation" data-cites="Warren1986">Warren and Meades (<a href="#ref-Warren1986" role="doc-biblioref">1986</a>)</span>
-</li>
+<code><a href="../reference/vol_nl.html">vol_nl()</a></code>. Total and merchantable volume for Newfoundland and Labrador. Coverage: NL. 12 species</li>
 <li>
-<code><a href="../reference/vol_sharma2021.html">vol_sharma2021()</a></code>. Regional volume models for central and eastern Canada, applicable across multiple provinces. Coverage: NB, NL, NS, ON, PE, QC. 25 species. <span class="citation" data-cites="Sharma2021">Sharma (<a href="#ref-Sharma2021" role="doc-biblioref">2021</a>)</span>
-</li>
+<code><a href="../reference/vol_sharma2021.html">vol_sharma2021()</a></code>. Regional volume models for central and eastern Canada, applicable across multiple provinces. Coverage: NB, NL, NS, ON, PE, QC. 25 species</li>
 <li>
-<code><a href="../reference/vol_ung2013.html">vol_ung2013()</a></code>. National taper model for Canada, available in two variants: DBH-only and DBH with total height. Coverage: Canada (national). 34 species. <span class="citation" data-cites="Ung2013">Ung et al. (<a href="#ref-Ung2013" role="doc-biblioref">2013</a>)</span>
-</li>
+<code><a href="../reference/vol_ung2013.html">vol_ung2013()</a></code>. National taper model for Canada, available in two variants: DBH-only and DBH with total height. Coverage: Canada (national). 34 species</li>
 <li>
-<code><a href="../reference/vol_zakrzewski2013.html">vol_zakrzewski2013()</a></code>. Provincial taper model for Ontario. Coverage: ON. 24 species. <span class="citation" data-cites="Zakrzewski2013">Zakrzewski and Penner (<a href="#ref-Zakrzewski2013" role="doc-biblioref">2013</a>)</span>
-</li>
+<code><a href="../reference/vol_zakrzewski2013.html">vol_zakrzewski2013()</a></code>. Provincial taper model for Ontario. Coverage: ON. 24 species</li>
 </ul></section><section class="section level2"><h2 id="vol-automatic-tree-volume-estimation-across-multiple-models">
 <code>vol()</code>: automatic tree volume estimation across multiple models<a class="anchor" aria-label="anchor" href="#vol-automatic-tree-volume-estimation-across-multiple-models"></a>
 </h2>
@@ -169,41 +164,17 @@
 </section><section class="section level2"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Fortin2007" class="csl-entry" role="listitem">
-Fortin, M., DeBlois, J., Bernier, S., Blais, G., 2007. Mise au point d’un tarif de cubage g<span>é</span>n<span>é</span>ral pour les for<span>ê</span>ts qu<span>é</span>b<span>é</span>coises : Une approche pour mieux <span>É</span>valuer l’incertitude associ<span>é</span>e aux pr<span>é</span>visions. The Forestry Chronicle 83, 754–765. <a href="https://doi.org/10.5558/tfc83754-5" class="external-link">https://doi.org/10.5558/tfc83754-5</a>
-</div>
-<div id="ref-Gal1994" class="csl-entry" role="listitem">
-Gál, J., Bella, I.E., 1994. New stem taper functions for 12 <span>Saskatchewan</span> timber species.
-</div>
-<div id="ref-Honer1967" class="csl-entry" role="listitem">
-Honer, T.G., 1967. Standard volume tables and merchantable conversion factors (Information Report No. Information Report N-X-67). Canadian Forest Service, St. John’s, Newfoundland.
-</div>
-<div id="ref-Honer1983" class="csl-entry" role="listitem">
-Honer, T.G., Ker, M.F., Alemdag, I.S., 1983. Metric timber tables for the commercial tree species of central and eastern <span>Canada</span>.
-</div>
 <div id="ref-Huang1994" class="csl-entry" role="listitem">
 Huang, S., Titus, S., Lakusta, S., Held, R., 1994. Ecologically <span>Based Individual Tree Volume Estimation</span> for <span>Major Alberta Tree Species</span>, <span>…</span> to Alberta Environmental Protection, Land <span>…</span>.
 </div>
-<div id="ref-Ker1974" class="csl-entry" role="listitem">
-Ker, M.F., 1974. Metric <span>Tree Volume Tables</span> for <span>Newfoundland</span>. Canadian Forest Service Information Report N-X-122.
-</div>
-<div id="ref-Klos2007" class="csl-entry" role="listitem">
-Klos, R.J., Wang, G.G., Dang, Q.-L., East, E.W., 2007. Taper <span>Equations</span> for <span>Five Major Commercial Tree Species</span> in <span>Manitoba</span>, <span>Canada</span>. Western Journal of Applied Forestry 22, 163–170. <a href="https://doi.org/10.1093/wjaf/22.3.163" class="external-link">https://doi.org/10.1093/wjaf/22.3.163</a>
-</div>
 <div id="ref-Kozak1994" class="csl-entry" role="listitem">
 Kozak, A., 1994. Development of <span>Taper Equations</span> by <span>BEC Zones</span> and <span>Species</span>. Province of British Columbia, Ministry of Forests.
-</div>
-<div id="ref-Nigh2016" class="csl-entry" role="listitem">
-Nigh, G.D., 2016. Total and merchantable volume equations for common tree species in <span>British Columbia</span>: By region and biogeoclimactic zone (No. Prov. B.C., Victoria, B.C. Tech. Rep. 106.).
 </div>
 <div id="ref-Sharma2021" class="csl-entry" role="listitem">
 Sharma, M., 2021. Total and <span>Merchantable Volume Equations</span> for 25 <span>Commercial Tree Species Grown</span> in <span>Canada</span> and the <span>Northeastern United States</span>. Forests 12. <a href="https://doi.org/10.3390/f12091270" class="external-link">https://doi.org/10.3390/f12091270</a>
 </div>
 <div id="ref-Ung2013" class="csl-entry" role="listitem">
 Ung, C.H., Guo, X.J., Fortin, M., 2013. Canadian national taper models. Forestry Chronicle 89, 211–224. <a href="https://doi.org/10.5558/tfc2013-040" class="external-link">https://doi.org/10.5558/tfc2013-040</a>
-</div>
-<div id="ref-Warren1986" class="csl-entry" role="listitem">
-Warren, G.R., Meades, J.P., 1986. Wood defect and density studies II: Total and net volume equations for newfoundland’s forest management units (Information Report No. Information Report N-X-242). Canadian Forest Service, St. John’s, Newfoundland.
 </div>
 <div id="ref-Zakrzewski2013" class="csl-entry" role="listitem">
 Zakrzewski, W.T., Penner, M., 2013. A comparison of tree stem taper models for use in <span>Ontario</span>.

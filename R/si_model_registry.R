@@ -40,7 +40,26 @@ si_model_registry <- function() {
       "lafleche2013_observed",
       "scottvoorhis1986_bh_age",
       "scottvoorhis1986_total_age",
-      "thrower1994"
+      "thrower1994",
+      "hugarcia2009",
+      "nigh1997",
+      "nigh2002",
+      "cieszewski1993",
+      "goudie1984",
+      "nigh2004",
+      "nigh2009",
+      "carmean2006",
+      "carmean2001",
+      "goelz1992",
+      "nigh2017",
+      "batho2014",
+      "nigh1998",
+      "nigh1998_gi",
+      "alemdag1991",
+      "brisco2002",
+      "chenklinka2000",
+      "huang2009_bh_age",
+      "huang2009_total_age"
     ),
     reference = c(
       "@Buckman2006",
@@ -72,7 +91,26 @@ si_model_registry <- function() {
       "@LaflecheEtAl2013",
       "@ScottVoorhis1986",
       "@ScottVoorhis1986",
-      "@Thrower1994"
+      "@Thrower1994",
+      "@HuGarcia2009",
+      "@Nigh1997",
+      "@Nigh2002",
+      "@Cieszewski1993",
+      "@Goudie1984",
+      "@Nigh2004",
+      "@Nigh2009",
+      "@Carmean2006",
+      "@Carmean2001",
+      "@Goelz1992",
+      "@Nigh2017",
+      "@Batho2014",
+      "@Nigh1998",
+      "@Nigh1998",
+      "@Alemdag1991",
+      "@Brisco2002",
+      "@ChenKlinka2000",
+      "@Huang2009gypsy",
+      "@Huang2009gypsy"
     ),
     engine = c(
       "si_buckman2006",
@@ -104,7 +142,26 @@ si_model_registry <- function() {
       "si_lafleche2013",
       "si_scottvoorhis1986",
       "si_scottvoorhis1986",
-      "si_thrower1994"
+      "si_thrower1994",
+      "si_hugarcia2009",
+      "si_nigh1997",
+      "si_nigh2002",
+      "si_cieszewski1993",
+      "si_goudie1984",
+      "si_nigh2004",
+      "si_nigh2009",
+      "si_carmean2006",
+      "si_carmean2001",
+      "si_goelz1992",
+      "si_nigh2017",
+      "si_batho2014",
+      "si_nigh1998",
+      "si_nigh1998_gi",
+      "si_alemdag1991",
+      "si_brisco2002",
+      "si_chenklinka2000",
+      "si_huang2009",
+      "si_huang2009"
     ),
     fixed_args = list(
       list(),
@@ -136,7 +193,26 @@ si_model_registry <- function() {
       list(curve_set = "observed"),
       list(convert_to_total_age = FALSE),
       list(convert_to_total_age = TRUE),
-      list()
+      list(),
+      list(), # hugarcia2009
+      list(), # nigh1997
+      list(), # nigh2002 fixed_args
+      list(), # cieszewski1993
+      list(), # goudie1984
+      list(), # nigh2004
+      list(), # nigh2009
+      list(), # carmean2006
+      list(), # carmean2001
+      list(), # goelz1992
+      list(), # nigh2017
+      list(), # batho2014
+      list(), # nigh1998
+      list(), # nigh1998_gi
+      list(), # alemdag1991
+      list(), # brisco2002
+      list(), # chenklinka2000
+      list(index_age = "breast_height"), # huang2009_bh_age
+      list(index_age = "total") # huang2009_total_age
     ),
     plot_si_values = list(
       NULL,
@@ -168,39 +244,77 @@ si_model_registry <- function() {
       NULL,
       NULL,
       NULL,
-      NULL
+      NULL,
+      NULL,
+      NULL, # nigh1997
+      NULL, # nigh2002
+      NULL, # cieszewski1993
+      NULL, # goudie1984
+      NULL, # nigh2004
+      NULL, # nigh2009
+      NULL, # carmean2006
+      NULL, # carmean2001
+      NULL, # goelz1992
+      NULL, # nigh2017
+      NULL, # batho2014
+      c(5, 10, 15, 20, 25), # nigh1998
+      NULL, # nigh1998_gi
+      c(5, 10, 15, 20, 25), # alemdag1991
+      c(12, 16, 20, 24), # brisco2002
+      c(8, 12, 16, 20, 24), # chenklinka2000
+      NULL, # huang2009_bh_age
+      NULL # huang2009_total_age
     ),
     age_basis = c(
-      "total_age",          # buckman2006
-      "total_age",          # carmean1989
-      "breast_height_age",  # carmean1996
-      "total_age",          # carmeanhahn1981
-      "breast_height_age",  # cieszewskibella1991
-      "breast_height_age",  # kerbowling1991
-      "breast_height_age",  # lundgrendolid1970_exponential_monomolecular
-      "breast_height_age",  # lundgrendolid1970_monomolecular
-      "breast_height_age",  # nigh2000
-      "breast_height_age",  # nigh2000_gi
-      "breast_height_age",  # nighcourtin1998_si25
-      "breast_height_age",  # nighcourtin1998_si50
-      "breast_height_age",  # huang1994
-      "total_age",          # augerward2021
-      "breast_height_age",  # pregent2010
-      "breast_height_age",  # pregent2016
-      "breast_height_age",  # sharma2021
-      "breast_height_age",  # sharmaparton2018a
-      "breast_height_age",  # sharmaparton2018b
-      "breast_height_age",  # sharmaparton2019
-      "breast_height_age",  # sharma2015
-      "breast_height_age",  # parresolvissage1998
-      "breast_height_age",  # payandeh1974
-      "breast_height_age",  # sharmareid2018
-      "breast_height_age",  # sharma2022
-      "breast_height_age",  # lafleche2013_potential
-      "breast_height_age",  # lafleche2013_observed
-      "breast_height_age",  # scottvoorhis1986_bh_age
-      "total_age",          # scottvoorhis1986_total_age
-      "breast_height_age"   # thrower1994
+      "total_age", # buckman2006
+      "total_age", # carmean1989
+      "breast_height_age", # carmean1996
+      "total_age", # carmeanhahn1981
+      "breast_height_age", # cieszewskibella1991
+      "breast_height_age", # kerbowling1991
+      "breast_height_age", # lundgrendolid1970_exponential_monomolecular
+      "breast_height_age", # lundgrendolid1970_monomolecular
+      "breast_height_age", # nigh2000
+      "breast_height_age", # nigh2000_gi
+      "breast_height_age", # nighcourtin1998_si25
+      "breast_height_age", # nighcourtin1998_si50
+      "breast_height_age", # huang1994
+      "total_age", # augerward2021
+      "breast_height_age", # pregent2010
+      "breast_height_age", # pregent2016
+      "breast_height_age", # sharma2021
+      "breast_height_age", # sharmaparton2018a
+      "breast_height_age", # sharmaparton2018b
+      "breast_height_age", # sharmaparton2019
+      "breast_height_age", # sharma2015
+      "breast_height_age", # parresolvissage1998
+      "breast_height_age", # payandeh1974
+      "breast_height_age", # sharmareid2018
+      "breast_height_age", # sharma2022
+      "breast_height_age", # lafleche2013_potential
+      "breast_height_age", # lafleche2013_observed
+      "breast_height_age", # scottvoorhis1986_bh_age
+      "total_age", # scottvoorhis1986_total_age
+      "breast_height_age", # thrower1994
+      "breast_height_age", # hugarcia2009
+      "breast_height_age", # nigh1997
+      "breast_height_age", # nigh2002
+      "breast_height_age", # cieszewski1993
+      "breast_height_age", # goudie1984
+      "total_age", # nigh2004
+      "breast_height_age", # nigh2009
+      "breast_height_age", # carmean2006
+      "breast_height_age", # carmean2001
+      "breast_height_age", # goelz1992
+      "breast_height_age", # nigh2017
+      "breast_height_age", # batho2014
+      "breast_height_age", # nigh1998
+      "breast_height_age", # nigh1998_gi
+      "breast_height_age", # alemdag1991
+      "breast_height_age", # brisco2002
+      "breast_height_age", # chenklinka2000
+      "total_age", # huang2009_bh_age (age input is total age)
+      "total_age" # huang2009_total_age
     ),
     age_domain_max = c(
       NA_real_,
@@ -232,39 +346,77 @@ si_model_registry <- function() {
       NA_real_,
       NA_real_,
       NA_real_,
-      NA_real_
+      NA_real_,
+      NA_real_,
+      NA_real_,
+      NA_real_, # nigh1997
+      NA_real_,
+      140, # goudie1984
+      20, # nigh2004 (juvenile model)
+      NA_real_, # nigh2009
+      100, # carmean2006
+      100, # carmean2001
+      NA_real_, # goelz1992 (base-age invariant; ~20-80 yr application range)
+      NA_real_, # nigh2017
+      NA_real_, # batho2014
+      NA_real_, # nigh1998
+      50, # nigh1998_gi (coefficients tabulated to BHA 50)
+      150, # alemdag1991 (BH age range 10-150)
+      134, # brisco2002 (BH age range 45-134)
+      150, # chenklinka2000 (tables published to BH age 150)
+      NA_real_, # huang2009_bh_age
+      NA_real_ # huang2009_total_age
     ),
     requires_species = c(
       FALSE, # buckman2006
-      TRUE,  # carmean1989
-      TRUE,  # carmean1996
-      TRUE,  # carmeanhahn1981
-      TRUE,  # cieszewskibella1991
-      TRUE,  # kerbowling1991
-      TRUE,  # lundgrendolid1970_exponential_monomolecular
-      TRUE,  # lundgrendolid1970_monomolecular
+      TRUE, # carmean1989
+      TRUE, # carmean1996
+      TRUE, # carmeanhahn1981
+      TRUE, # cieszewskibella1991
+      TRUE, # kerbowling1991
+      TRUE, # lundgrendolid1970_exponential_monomolecular
+      TRUE, # lundgrendolid1970_monomolecular
       FALSE, # nigh2000
       FALSE, # nigh2000_gi
       FALSE, # nighcourtin1998_si25
       FALSE, # nighcourtin1998_si50
       FALSE, # huang1994
-      TRUE,  # augerward2021
+      TRUE, # augerward2021
       FALSE, # pregent2010
       FALSE, # pregent2016
-      TRUE,  # sharma2021
+      TRUE, # sharma2021
       FALSE, # sharmaparton2018a
       FALSE, # sharmaparton2018b
       FALSE, # sharmaparton2019
-      TRUE,  # sharma2015
+      TRUE, # sharma2015
       FALSE, # parresolvissage1998
-      TRUE,  # payandeh1974
-      TRUE,  # sharmareid2018
-      TRUE,  # sharma2022
-      TRUE,  # lafleche2013_potential
-      TRUE,  # lafleche2013_observed
-      TRUE,  # scottvoorhis1986_bh_age
-      TRUE,  # scottvoorhis1986_total_age
-      TRUE   # thrower1994
+      TRUE, # payandeh1974
+      TRUE, # sharmareid2018
+      TRUE, # sharma2022
+      TRUE, # lafleche2013_potential
+      TRUE, # lafleche2013_observed
+      TRUE, # scottvoorhis1986_bh_age
+      TRUE, # scottvoorhis1986_total_age
+      TRUE, # thrower1994
+      TRUE, # hugarcia2009
+      FALSE, # nigh1997 (single species, no species arg)
+      FALSE, # nigh2002 (single species, no species arg)
+      TRUE, # cieszewski1993
+      TRUE, # goudie1984
+      TRUE, # nigh2004 (species arg selects pine vs spruce)
+      FALSE, # nigh2009 (single species, no species arg)
+      TRUE, # carmean2006
+      FALSE, # carmean2001 (single species, no species arg)
+      FALSE, # goelz1992 (single species, no species arg)
+      FALSE, # nigh2017 (single species, no species arg)
+      FALSE, # batho2014 (single species, no species arg)
+      FALSE, # nigh1998 (single species, no species arg)
+      FALSE, # nigh1998_gi (single species, no species arg)
+      FALSE, # alemdag1991 (single species, no species arg)
+      FALSE, # brisco2002 (single species, no species arg)
+      TRUE, # chenklinka2000 (species arg selects fir/spruce/pine)
+      TRUE, # huang2009_bh_age
+      TRUE # huang2009_total_age
     ),
     requires_gi = c(
       FALSE,
@@ -296,7 +448,26 @@ si_model_registry <- function() {
       FALSE,
       FALSE,
       FALSE,
-      FALSE
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE, # nigh1997 (added; extends list to 41)
+      FALSE, # goelz1992
+      FALSE, # nigh1998
+      TRUE, # nigh1998_gi (growth-intercept model requires gi)
+      FALSE, # alemdag1991
+      FALSE, # brisco2002
+      FALSE, # chenklinka2000
+      FALSE, # huang2009_bh_age
+      FALSE # huang2009_total_age
     ),
     supports_predict_si = c(
       rep(TRUE, 25),
@@ -304,9 +475,29 @@ si_model_registry <- function() {
       FALSE,
       TRUE,
       TRUE,
-      TRUE
+      TRUE,
+      TRUE,
+      TRUE, # nigh1997
+      TRUE, # nigh2002
+      TRUE, # cieszewski1993
+      TRUE, # goudie1984
+      TRUE, # nigh2004
+      TRUE, # nigh2009
+      TRUE, # carmean2006
+      TRUE, # carmean2001
+      TRUE, # goelz1992
+      TRUE, # nigh2017
+      TRUE, # batho2014
+      TRUE, # nigh1998
+      TRUE, # nigh1998_gi
+      TRUE, # alemdag1991
+      TRUE, # brisco2002
+      TRUE, # chenklinka2000
+      TRUE, # huang2009_bh_age
+      TRUE # huang2009_total_age
     ),
     supports_predict_height = c(
+      TRUE, # buckman2006 (supports_predict_height start)
       TRUE,
       TRUE,
       TRUE,
@@ -336,9 +527,34 @@ si_model_registry <- function() {
       TRUE,
       TRUE,
       TRUE,
-      TRUE
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE, # cieszewski1993 (+ goudie1984)
+      TRUE, # nigh2004
+      TRUE, # nigh2009
+      TRUE, # carmean2006
+      TRUE, # carmean2001
+      TRUE, # goelz1992
+      TRUE, # nigh2017
+      TRUE, # batho2014
+      TRUE, # nigh1998
+      FALSE, # nigh1998_gi (growth-intercept model predicts si only)
+      TRUE, # alemdag1991
+      TRUE, # brisco2002
+      TRUE, # chenklinka2000
+      TRUE, # huang2009_bh_age
+      TRUE # huang2009_total_age
     ),
-    scope = rep("regional", 30),
+    scope = c(
+      rep("regional", 44),
+      "national",
+      "regional",
+      "regional",
+      "regional",
+      "regional"
+    ),
     province_scope = list(
       c("ON"),
       c("ON", "QC", "NB", "NS", "PE", "NL"),
@@ -369,7 +585,26 @@ si_model_registry <- function() {
       c("QC"),
       c("NB", "NS", "PE", "NL", "QC", "ON"),
       c("NB", "NS", "PE", "NL", "QC", "ON"),
-      c("BC")
+      c("BC"),
+      c("BC"),
+      c("BC"), # nigh1997
+      c("BC"),
+      c("SK"),
+      c("BC"),
+      c("BC"),
+      c("BC"),
+      c("ON"),
+      c("ON"),
+      c("ON"),
+      c("BC"),
+      c("BC"),
+      c("BC"), # nigh1998
+      c("BC"), # nigh1998_gi
+      c("ALL"), # alemdag1991 (national)
+      c("BC"), # brisco2002
+      c("BC"), # chenklinka2000
+      c("AB"), # huang2009_bh_age
+      c("AB") # huang2009_total_age
     ),
     subregion_type = c(
       "none",
@@ -401,9 +636,28 @@ si_model_registry <- function() {
       "qc_ecological_subregion",
       "none",
       "none",
-      "bec_region"
+      "bec_region", # thrower1994
+      "bec_region", # hugarcia2009
+      "none", # nigh1997
+      "bec_region", # nigh2002
+      "none", # cieszewski1993
+      "none", # goudie1984
+      "bec_region", # nigh2004 (optional zonal parameters)
+      "bec_region", # nigh2009 (zonal model 3)
+      "none", # carmean2006
+      "none", # carmean2001
+      "none", # goelz1992
+      "none", # nigh2017
+      "none", # batho2014
+      "none", # nigh1998
+      "none", # nigh1998_gi
+      "none", # alemdag1991
+      "none", # brisco2002
+      "none", # chenklinka2000
+      "none", # huang2009_bh_age
+      "none" # huang2009_total_age
     ),
-    subregion_required = rep(FALSE, 30),
+    subregion_required = rep(FALSE, 49),
     subregion_arg = c(
       NA_character_,
       NA_character_,
@@ -434,7 +688,26 @@ si_model_registry <- function() {
       "ecological_subregion",
       NA_character_,
       NA_character_,
-      NA_character_
+      NA_character_,
+      NA_character_, # hugarcia2009
+      NA_character_, # nigh1997
+      "bec_zone",
+      NA_character_,
+      NA_character_,
+      "bec_zone", # nigh2004
+      "bec_zone", # nigh2009
+      NA_character_, # carmean2006
+      NA_character_, # carmean2001
+      NA_character_, # goelz1992
+      NA_character_, # nigh2017
+      NA_character_, # batho2014
+      NA_character_, # nigh1998
+      NA_character_, # nigh1998_gi
+      NA_character_, # alemdag1991
+      NA_character_, # brisco2002
+      NA_character_, # chenklinka2000
+      NA_character_, # huang2009_bh_age
+      NA_character_ # huang2009_total_age
     ),
     subregion_scope = list(
       NA_character_,
@@ -466,7 +739,26 @@ si_model_registry <- function() {
       c("QC"),
       NA_character_,
       NA_character_,
-      c("BC_INTERIOR")
+      c("BC_INTERIOR"),
+      c("BC_INTERIOR"),
+      NA_character_, # nigh1997
+      c("BWBS", "ICH", "IDF", "MS", "SBPS", "SBS"),
+      NA_character_,
+      NA_character_,
+      c("BWBS", "ESSF", "ICH", "IDF", "MS", "SBS", "SBPS"),
+      c("ICH", "IDF", "SBS"),
+      NA_character_, # carmean2006
+      NA_character_, # carmean2001
+      NA_character_, # goelz1992
+      NA_character_, # nigh2017
+      NA_character_, # batho2014
+      NA_character_, # nigh1998
+      NA_character_, # nigh1998_gi
+      NA_character_, # alemdag1991
+      NA_character_, # brisco2002
+      NA_character_, # chenklinka2000
+      NA_character_, # huang2009_bh_age
+      NA_character_ # huang2009_total_age
     ),
     subregion_desc = c(
       "none",
@@ -498,7 +790,26 @@ si_model_registry <- function() {
       "Quebec ecological subregion",
       "none",
       "none",
-      "BC interior"
+      "BC interior", # thrower1994
+      "BC interior", # hugarcia2009
+      "none", # nigh1997
+      "BC biogeoclimatic zone (extended model)", # nigh2002
+      "none", # cieszewski1993
+      "none", # goudie1984
+      "BC biogeoclimatic zone (optional; province-wide otherwise)", # nigh2004
+      "BC biogeoclimatic zone (zonal model 3)", # nigh2009
+      "none", # carmean2006
+      "none", # carmean2001
+      "none", # goelz1992
+      "none", # nigh2017
+      "none", # batho2014
+      "none", # nigh1998
+      "none", # nigh1998_gi
+      "none", # alemdag1991
+      "none", # brisco2002
+      "none", # chenklinka2000
+      "none", # huang2009_bh_age
+      "none" # huang2009_total_age
     ),
     description = c(
       "Buckman et al. (2006) piecewise red pine site-index model",
@@ -530,9 +841,78 @@ si_model_registry <- function() {
       "Lafleche et al. (2013) Quebec ecological-site observed-height IQS curves",
       "Scott and Voorhis (1986) model using breast-height age directly",
       "Scott and Voorhis (1986) model with internal conversion to total age",
-      "Thrower et al. (1994) BC interior species model set"
+      "Thrower et al. (1994) BC interior species model set",
+      "Hu and Garcia (2009) interior spruce height-growth and site-index model (BC SBS zone)",
+      "Nigh (1997) logistic height-age (site index) model for Sitka spruce in coastal British Columbia",
+      "Nigh et al. (2002) trembling aspen height-age (site index) model for British Columbia",
+      "Cieszewski, Bella and Yeung (1993) preliminary variable-age site-index model for eleven Saskatchewan species",
+      "Goudie (1984) logistic height-age (site-index) model for lodgepole pine and white spruce in British Columbia (SAS-reference implementation; pine dry-site coefficients)",
+      "Nigh (2004) juvenile height-age (site index) model for lodgepole pine and interior spruce in British Columbia (province-wide and biogeoclimatic-zone parameter sets)",
+      "Nigh et al. (2009) paper birch log-logistic height-age (site index) model for British Columbia (base, operational, and zonal variants)",
+      "Carmean, Hazenberg and Deschamps (2006) polymorphic (Newnham) site-index model for black spruce and trembling aspen in northwest Ontario",
+      "Carmean, Niznowski and Hazenberg (2001) polymorphic (Newnham) site-index model for jack pine in northern Ontario",
+      "Goelz and Burk (1992) base-age invariant Chapman-Richards site-index model for jack pine in north central Ontario",
+      "Nigh (2017) grounded-GADA (Chapman-Richards) height-age (site index) model for lodgepole pine in British Columbia",
+      "Batho and Garcia (2014) polymorphic Bertalanffy-Richards height-age (site index) model for lodgepole pine in the Sub-Boreal Spruce zone of British Columbia",
+      "Nigh (1998) log-logistic height-age (site index) model for western hemlock in the interior of British Columbia",
+      "Nigh (1998) growth-intercept site-index model for western hemlock in the interior of British Columbia",
+      "Alemdag (1991) national (Canada-wide) modified Chapman-Richards site-index and height-growth model for white spruce in natural stands",
+      "Brisco, Klinka and Nigh (2002) Chapman-Richards height-age (site index) model for western larch in British Columbia",
+      "Chen and Klinka (2000) conditioned Chapman-Richards height-age (site index) model for subalpine fir, Engelmann spruce, and lodgepole pine in the ESSF zone of British Columbia",
+      "Huang, Meng and Yang (2009) GYPSY top-height / site-index model for four Alberta tree species (site index at 50 years breast-height age)",
+      "Huang, Meng and Yang (2009) GYPSY top-height / site-index model for four Alberta tree species (site index at 50 years total age)"
     ),
-    rank = c(72, 67, 89, 70, 87, 80, 60, 55, 90, 85, 85, 84, 88, 88, 88, 88, 89, 86, 86, 86, 88, 68, 50, 89, 89, 87, 72, 65, 66, 90),
+    rank = c(
+      72,
+      67,
+      89,
+      70,
+      87,
+      80,
+      60,
+      55,
+      90,
+      85,
+      85,
+      84,
+      88,
+      88,
+      88,
+      88,
+      89,
+      86,
+      86,
+      86,
+      88,
+      68,
+      50,
+      89,
+      89,
+      87,
+      72,
+      65,
+      66,
+      90,
+      88,
+      88,
+      86,
+      64,
+      66,
+      86,
+      86,
+      85,
+      66,
+      66,
+      90,
+      88,
+      88,
+      85,
+      60,
+      88,
+      88,
+      88,
+      88
+    ),
     params_key = c(
       NA_character_,
       "parameters_Carmean1989",
@@ -563,7 +943,26 @@ si_model_registry <- function() {
       "parameters_QC_IQS2013",
       "parameters_ScottVoorhis1986",
       "parameters_ScottVoorhis1986",
-      "parameters_Thrower1994"
+      "parameters_Thrower1994",
+      "parameters_HuGarcia2009",
+      "parameters_Nigh1997",
+      "parameters_Nigh2002",
+      "parameters_Cieszewski1993",
+      "parameters_Goudie1984",
+      "parameters_Nigh2004",
+      "parameters_Nigh2009",
+      "parameters_Carmean2006",
+      "parameters_Carmean2001",
+      "parameters_Goelz1992",
+      "parameters_Nigh2017",
+      NA_character_,
+      NA_character_, # nigh1998 (coefficients hardcoded in si_nigh1998)
+      "parameters_Nigh1998_gi",
+      "parameters_Alemdag1991",
+      "parameters_Brisco2002",
+      "parameters_ChenKlinka1998",
+      "parameters_Huang2009",
+      "parameters_Huang2009"
     ),
     species_manual = list(
       c("PINU.RES"),
@@ -619,7 +1018,38 @@ si_model_registry <- function() {
         "LARI.OCC",
         "POPU.TRE",
         "BETU.PAP"
-      )
+      ),
+      c("PICE.GLA", "PICE.ENG"),
+      c("PICE.SIT"),
+      c("POPU.TRE"),
+      c(
+        "ABIE.BAL",
+        "POPU.BAL",
+        "PICE.MAR",
+        "PINU.BAN",
+        "PINU.CON",
+        "ACER.NEG",
+        "POPU.TRE",
+        "LARI.LAR",
+        "BETU.PAP",
+        "ULMU.AME",
+        "PICE.GLA"
+      ),
+      c("PINU.CON", "PICE.GLA"),
+      c("PINU.CON", "PICE.GLA"),
+      c("BETU.PAP"),
+      c("PICE.MAR", "POPU.TRE"),
+      c("PINU.BAN"),
+      c("PINU.BAN"), # goelz1992
+      c("PINU.CON"),
+      c("PINU.CON"),
+      c("TSUG.HET"), # nigh1998
+      c("TSUG.HET"), # nigh1998_gi
+      c("PICE.GLA"), # alemdag1991
+      c("LARI.OCC"), # brisco2002
+      c("ABIE.LAS", "PICE.ENG", "PINU.CON"), # chenklinka2000
+      c("POPU.TRE", "PICE.MAR", "PINU.CON", "PICE.GLA"), # huang2009_bh_age
+      c("POPU.TRE", "PICE.MAR", "PINU.CON", "PICE.GLA") # huang2009_total_age
     )
   )
 }

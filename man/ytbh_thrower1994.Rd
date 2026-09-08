@@ -9,12 +9,12 @@ ytbh_thrower1994(si, species)
 \arguments{
 \item{si}{Numeric vector. Site index (m, base age 50 years at breast height).}
 
-\item{species}{Character vector of NFI species codes (e.g., `"PINU.CON"`).}
+\item{species}{Character vector of NFI species codes (e.g., \code{"PINU.CON"}).}
 }
 \value{
 A tibble with one column:
 \describe{
-  \item{ytbh}{Predicted years to breast height (years).}
+\item{ytbh}{Predicted years to breast height (years).}
 }
 }
 \description{

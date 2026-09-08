@@ -9,17 +9,17 @@ si_carmeanhahn1981(age, height = NULL, si = NULL, species)
 \arguments{
 \item{age}{Numeric vector. Total age (years).}
 
-\item{height}{Optional numeric vector. Total tree height (m). If provided, `si` is predicted.}
+\item{height}{Optional numeric vector. Total tree height (m). If provided, \code{si} is predicted.}
 
-\item{si}{Optional numeric vector. Site index (m, base age 50 years at total age). If provided, `height` is predicted.}
+\item{si}{Optional numeric vector. Site index (m, base age 50 years at total age). If provided, \code{height} is predicted.}
 
-\item{species}{Character vector of species codes (e.g., `"ABIE.BAL"`).}
+\item{species}{Character vector of species codes (e.g., \code{"ABIE.BAL"}).}
 }
 \value{
 A tibble with columns:
 \describe{
-  \item{height}{Predicted height (m), returned when input `si` is provided.}
-  \item{si}{Predicted site index (m), returned when input `height` is provided.}
+\item{height}{Predicted height (m), returned when input \code{si} is provided.}
+\item{si}{Predicted site index (m), returned when input \code{height} is provided.}
 }
 }
 \description{
@@ -33,16 +33,16 @@ parameter sets for 2 species: \code{ABIE.BAL, PICE.GLA}.
 \strong{Geographic use:} this model was fit to revised Lake States
 harmonized curves and should be used with caution outside that domain.
 
-\strong{Age definition note:} `age` is \emph{total age} (years), not
+\strong{Age definition note:} \code{age} is \emph{total age} (years), not
 breast-height age.
 
 \strong{Base-age note:} site index in this model is total height at
 50 years total age.
 
-Provide exactly one of `height` or `si`:
+Provide exactly one of \code{height} or \code{si}:
 \itemize{
-  \item If `height` is provided, the function predicts `si`.
-  \item If `si` is provided, the function predicts `height`.
+\item If \code{height} is provided, the function predicts \code{si}.
+\item If \code{si} is provided, the function predicts \code{height}.
 }
 
 Inputs/outputs are metric; the original equations are in imperial units, so

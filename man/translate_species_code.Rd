@@ -18,30 +18,30 @@ translate_species_code(
 \arguments{
 \item{code}{A character vector of species codes or names to translate.}
 
-\item{from}{Source code system or name field: one of `"auto"`, `"nfi"`,
-`"canfi"`, `"jurisdiction"`, `"scientificname"`, `"englishname"`, or
-`"frenchname"`.}
+\item{from}{Source code system or name field: one of \code{"auto"}, \code{"nfi"},
+\code{"canfi"}, \code{"jurisdiction"}, \code{"scientificname"}, \code{"englishname"}, or
+\code{"frenchname"}.}
 
 \item{jurisdiction}{Jurisdiction for provincial or territorial codes. Required
-when `from = "jurisdiction"` and also when `to = "jurisdiction"` unless
-`from = "auto"` successfully infers a single shared jurisdiction. May be
-length 1 or the same length as `code`.}
+when \code{from = "jurisdiction"} and also when \code{to = "jurisdiction"} unless
+\code{from = "auto"} successfully infers a single shared jurisdiction. May be
+length 1 or the same length as \code{code}.}
 
-\item{to}{Target field to return: one of `"nfi"`, `"canfi"`,
-`"jurisdiction"`, `"scientificname"`, `"englishname"`, or `"frenchname"`.
-Defaults to `"nfi"`.}
+\item{to}{Target field to return: one of \code{"nfi"}, \code{"canfi"},
+\code{"jurisdiction"}, \code{"scientificname"}, \code{"englishname"}, or \code{"frenchname"}.
+Defaults to \code{"nfi"}.}
 
-\item{multiple}{How to handle ambiguous matches: `"error"`, `"all"`, or
-`"first"`.}
+\item{multiple}{How to handle ambiguous matches: \code{"error"}, \code{"all"}, or
+\code{"first"}.}
 
-\item{unmatched}{How to handle unmatched inputs: `"error"` or `"NA"`.}
+\item{unmatched}{How to handle unmatched inputs: \code{"error"} or \code{"NA"}.}
 
-\item{verbose}{Logical. If `TRUE` and `from = "auto"`, report the inferred
-input type once per function call. Defaults to `TRUE`.}
+\item{verbose}{Logical. If \code{TRUE} and \code{from = "auto"}, report the inferred
+input type once per function call. Defaults to \code{TRUE}.}
 }
 \value{
-A character vector when `multiple` is `"error"` or `"first"`. A list of
-character vectors when `multiple = "all"`.
+A character vector when \code{multiple} is \code{"error"} or \code{"first"}. A list of
+character vectors when \code{multiple = "all"}.
 }
 \description{
 Translate species identifiers across supported code systems and name fields.
@@ -51,17 +51,17 @@ and French common names to NFI codes, CANFI codes, jurisdiction-specific
 codes, or supported name fields.
 }
 \details{
-By default, translations return NFI codes, but the `to` argument can be used
+By default, translations return NFI codes, but the \code{to} argument can be used
 to return CANFI codes, jurisdiction-specific codes, English common names,
 French common names, or scientific names.
 
-When `from = "auto"`, the function tries to infer the input type from the
+When \code{from = "auto"}, the function tries to infer the input type from the
 supplied values. Numeric inputs are treated as CANFI codes, NFI-formatted
 values are treated as NFI codes, and other code-like inputs are treated as
 jurisdiction codes. For jurisdiction-style inputs, the full input vector is
 used to infer a single shared jurisdiction when possible. If the lookup does
 not support a unique interpretation, the function errors and asks the user
-to supply `from` or `jurisdiction` explicitly.
+to supply \code{from} or \code{jurisdiction} explicitly.
 }
 \examples{
 # Translate NFI codes to English or French common names

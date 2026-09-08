@@ -26,7 +26,7 @@ vol_total_to_merchantable(
 
 \item{include_prop}{Logical. If TRUE, return the predicted merchantable proportion.}
 
-\item{clamp_prop}{Logical. If TRUE (default), clamp predicted proportion to [0, 1].}
+\item{clamp_prop}{Logical. If TRUE (default), clamp predicted proportion to \code{[0, 1]}.}
 
 \item{warn_outside}{Logical. If TRUE (default), warn when \code{vol_total < volmin}.}
 
@@ -35,7 +35,7 @@ before computing the proportion model. Disabled by default.}
 }
 \value{
 A tibble with one row per input and column \code{merchantable_volume}.
-  Optionally includes \code{prop_merch} and \code{vol_total_used}.
+Optionally includes \code{prop_merch} and \code{vol_total_used}.
 }
 \description{
 Uses Boudewyn et al. (2007) Appendix 6 (Table 14) parameters

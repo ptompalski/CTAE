@@ -12,7 +12,7 @@ ytbh_nigh2000(si)
 \value{
 A tibble with one column:
 \describe{
-  \item{ytbh}{Predicted years to breast height (years).}
+\item{ytbh}{Predicted years to breast height (years).}
 }
 }
 \description{

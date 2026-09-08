@@ -1,0 +1,7 @@
+{
+  "permission": {
+    "read": {
+      "*/.codex_instructions": "allow"
+    }
+  }
+}

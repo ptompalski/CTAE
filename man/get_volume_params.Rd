@@ -29,8 +29,8 @@ are found. If \code{FALSE} (default), returns an empty tibble.}
 }
 \value{
 A tibble containing the filtered parameter rows for the requested model.
-  If no rows match and \code{strict = FALSE}, returns an empty tibble with the
-  same columns as the underlying parameter table.
+If no rows match and \code{strict = FALSE}, returns an empty tibble with the
+same columns as the underlying parameter table.
 }
 \description{
 Retrieves the parameter table for a given volume model using
@@ -38,11 +38,11 @@ Retrieves the parameter table for a given volume model using
 CanadaForestAllometry package (e.g., \code{parameters_NationalTaperModelsDBH}).
 }
 \details{
-The function then applies **context filters** (when relevant / available in the
+The function then applies \strong{context filters} (when relevant / available in the
 parameter table), typically by \code{species}, and for regional models also by
 \code{province} and \code{subregion}.
 
-This function does **not** refactor or run any volume engines; it only returns
+This function does \strong{not} refactor or run any volume engines; it only returns
 the parameter rows needed for a given model/context.
 }
 \examples{

@@ -66,11 +66,23 @@
 #' )
 #'
 #' @export
-si_sharma2022 <- function(age, height = NULL, si = NULL, species, base_age = 50) {
+si_sharma2022 <- function(
+  age,
+  height = NULL,
+  si = NULL,
+  species,
+  base_age = 50
+) {
   if (xor(is.null(height), is.null(si)) == FALSE) {
     cli::cli_abort("Provide exactly one of {.arg height} or {.arg si}.")
   }
-  if (!is.numeric(base_age) || length(base_age) != 1L || is.na(base_age) || !is.finite(base_age) || base_age <= 0) {
+  if (
+    !is.numeric(base_age) ||
+      length(base_age) != 1L ||
+      is.na(base_age) ||
+      !is.finite(base_age) ||
+      base_age <= 0
+  ) {
     cli::cli_abort("{.arg base_age} must be a single finite numeric value > 0.")
   }
 
@@ -158,11 +170,7 @@ si_sharma2022 <- function(age, height = NULL, si = NULL, species, base_age = 50)
   assert_numeric_vec(x, x_name, finite = TRUE, gt = 0, allow_na = FALSE)
   species_std <- standardize_species_code(species)
 
-  pars <- tibble::tibble(
-    Species = c("PICE.MAR", "POPU.TRE"),
-    a0 = c(48.2867, 36.7879),
-    a1 = c(1.1390, 1.0700)
-  )
+  pars <- .sharma2022_parameters()
 
   out <- dplyr::tibble(
     age = as.numeric(age),
@@ -190,4 +198,16 @@ si_sharma2022 <- function(age, height = NULL, si = NULL, species, base_age = 50)
   }
 
   out
+}
+
+
+# internal
+.sharma2022_parameters <- function() {
+  pars <- .get_internal_data("parameters_Sharma2022") |>
+    dplyr::as_tibble()
+
+  req <- c("Species", "a0", "a1")
+  assert_required_cols(pars, req, object = "parameters_Sharma2022")
+
+  pars
 }

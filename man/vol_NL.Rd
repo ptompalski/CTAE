@@ -11,26 +11,32 @@ vol_nl(DBH, height, species, subregion = "Province", keep_net = FALSE)
 
 \item{height}{Numeric vector. Total tree height (m).}
 
-\item{species}{Character vector of NFI species codes (e.g., `"PICE.MAR"`).}
+\item{species}{Character vector of NFI species codes (e.g., \code{"PICE.MAR"}).}
 
 \item{subregion}{Character or numeric vector. Either:
-- `"Province"` (default; uses province-wide equations), or
-- District IDs `1-24`.
-Only District `2` and `4-18` use district-level equations;
-all others fall back to province-wide equations.}
+\itemize{
+\item \code{"Province"} (default; uses province-wide equations), or
+\item District IDs \code{1-24}.
+Only District \code{2} and \code{4-18} use district-level equations;
+all others fall back to province-wide equations.
+}}
 
-\item{keep_net}{Logical. If `TRUE`, additional columns
-`vol_merchantable_gross` and `vol_merchantable_net`
+\item{keep_net}{Logical. If \code{TRUE}, additional columns
+\code{vol_merchantable_gross} and \code{vol_merchantable_net}
 are returned.}
 }
 \value{
 A tibble with:
-  - `vol_total`: Total stem volume inside bark (m³).
-  - `vol_merchantable`: Gross merchantable volume inside bark (m³).
+\itemize{
+\item \code{vol_total}: Total stem volume inside bark (m³).
+\item \code{vol_merchantable}: Gross merchantable volume inside bark (m³).
+}
 
-  If `keep_net = TRUE`, also returns:
-  - `vol_merchantable_gross`
-  - `vol_merchantable_net`
+If \code{keep_net = TRUE}, also returns:
+\itemize{
+\item \code{vol_merchantable_gross}
+\item \code{vol_merchantable_net}
+}
 }
 \description{
 Implements the Newfoundland individual-tree volume equations used in the
@@ -38,25 +44,28 @@ Open Stand Model (OSM) API, based on Honer’s refitted formulations.
 }
 \details{
 Model structure:
-- District-level equations (NX-242) are used only for District 2 and 4–18
-  and only for balsam fir (`ABIE.BAL`) and black spruce (`PICE.MAR`).
-- All other districts (including District 19 and 1–24 outside 2, 4–18)
-  fall back to province-wide species equations (NX-122 total + NX-67 merchantable).
+\itemize{
+\item District-level equations (NX-242) are used only for District 2 and 4–18
+and only for balsam fir (\code{ABIE.BAL}) and black spruce (\code{PICE.MAR}).
+\item All other districts (including District 19 and 1–24 outside 2, 4–18)
+fall back to province-wide species equations (NX-122 total + NX-67 merchantable).
+}
 
 The original OSM implementation excluded District 19
 because it produced unstable or unrealistic results. This function reproduces
 that behavior for consistency.
 
 Net merchantable volume:
-- Net merchantable volume equations are available only for NX-242 district models.
-- When available, net merchantable volume volume is constrained to be between
-  95% and 100% of gross merchantable volume, matching the original OSM implementation
-- By default, the function returns gross merchantable volume to remain
-  consistent with other volume models in the package.
-
+\itemize{
+\item Net merchantable volume equations are available only for NX-242 district models.
+\item When available, net merchantable volume volume is constrained to be between
+95\% and 100\% of gross merchantable volume, matching the original OSM implementation
+\item By default, the function returns gross merchantable volume to remain
+consistent with other volume models in the package.
+}
 
 Merchantable volume is computed between jurisdictional stump height
-and top diameter limits obtained from `get_merch_criteria("NL")`.
+and top diameter limits obtained from \code{get_merch_criteria("NL")}.
 Trees below the minimum DBH threshold return zero merchantable volume,
 but total volume is still computed.
 }

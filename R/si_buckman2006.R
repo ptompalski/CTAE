@@ -153,15 +153,37 @@ si_buckman2006 <- function(age, height = NULL, si = NULL) {
 
 
 # internal
+# Constrained Buckman refit constants (A, B, C) plus younger-age polynomial
+# constants (k, m); Appendix III. Verified against the source publication.
+.buckman2006_constants <- function() {
+  pars <- .get_internal_data("parameters_Buckman2006") |>
+    dplyr::as_tibble()
+  assert_required_cols(
+    pars,
+    c("k", "m", "A", "B", "C"),
+    object = "parameters_Buckman2006"
+  )
+  list(
+    k = pars$k[[1]],
+    m = pars$m[[1]],
+    A = pars$A[[1]],
+    B = pars$B[[1]],
+    C = pars$C[[1]]
+  )
+}
+
+
+# internal
 .buckman2006_relative_height <- function(age) {
   young <- age < 20
   rel <- numeric(length(age))
 
-  k <- 1.41876e-3
-  m <- 1.05304e-6
-  A <- 1.8604
-  B <- 0.020928
-  C <- 1.4349
+  cf <- .buckman2006_constants()
+  k <- cf$k
+  m <- cf$m
+  A <- cf$A
+  B <- cf$B
+  C <- cf$C
 
   rel[young] <- k * age[young]^2 - m * age[young]^4
   rel[!young] <- A * (1 - exp(-B * age[!young]))^C
@@ -172,8 +194,9 @@ si_buckman2006 <- function(age, height = NULL, si = NULL) {
 
 # internal
 .buckman2006_bh_age <- function(si_ft) {
-  k <- 1.41876e-3
-  m <- 1.05304e-6
+  cf <- .buckman2006_constants()
+  k <- cf$k
+  m <- cf$m
 
   disc <- k^2 - 18 * m / si_ft
   out <- sqrt((k - sqrt(disc)) / (2 * m))
