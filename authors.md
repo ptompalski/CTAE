@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/ptompalski/CanadaForestAllometry/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/ptompalski/CanadaForestAllometry/blob/v0.8.6/inst/CITATION)
 
 Tompalski P (2026). *CanadaForestAllometry*. R package version 0.8.6,
 <https://ptompalski.github.io/CanadaForestAllometry/>.
